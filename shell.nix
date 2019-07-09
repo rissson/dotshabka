@@ -1,7 +1,13 @@
 { pkgs ? import <nixpkgs> {} }:
 
-pkgs.mkShell {
+with pkgs;
+
+mkShell {
   buildInputs = with pkgs; [
     gnumake
   ];
+
+  # Export the location of the SSL CA bundle
+  SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
+  NIX_SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 }
