@@ -39,6 +39,7 @@ in {
   shabka.keyboard.enableAtBoot = false;
 
   shabka.workstation = {
+    autorandr.enable = true;
     bluetooth.enable = true;
     fonts.enable = true;
     networking.enable = true;

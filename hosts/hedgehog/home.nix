@@ -33,6 +33,7 @@
     shabka.neovim.keyboardLayout = "qwerty";
     shabka.workstation = {
       enable = true;
+      autorandr.enable = true;
       alacritty.enable = mkForce false;
       dunst.enable = mkForce false;
       greenclip.enable = mkForce false;
