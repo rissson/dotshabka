@@ -34,9 +34,8 @@ let
     ${pkgs.i3}/bin/i3-msg "workspace ${ws1}"
     # TODO: try to restore layout using append_layout
     ${pkgs.i3}/bin/i3-msg "layout tabbed"
-    ${urxvt}/bin/urxvt -T cli_is_love &
     ${urxvt}/bin/urxvt -T htop -e ${pkgs.htop}/bin/htop &
-    ${urxvt}/bin/urxvt -T glances -e ${pkgs.python37Packages.glances}/bin/glances &
+    ${urxvt}/bin/urxvt -T cli_is_love &
     ${pkgs.coreutils}/bin/sleep 1
     # Workspace T
     ${pkgs.i3}/bin/i3-msg "workspace ${wst}"
