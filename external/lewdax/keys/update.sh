@@ -5,4 +5,4 @@ set -euo pipefail
 readonly here="$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)"
 readonly shabka_path="$(cd "${here}"/../../../ && pwd)"
 
-exec "${shabka_path}/scripts/update-external.sh" kalbasit nur-packages master "${here}/version.json"
+echo "{\"url\":\"https://github.com/animaxwell.keys\",\"sha256\":\"$(nix-prefetch-url https://github.com/animaxwell.keys)\"}" > "${here}/version.json"

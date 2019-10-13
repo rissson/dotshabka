@@ -99,6 +99,13 @@
       hashedPassword = "$6$2YnxY3Tl$kRj7YZypnB2Od41GgpwYRcn4kCcCE6OksZlKLws0rEi//T/emKWEsUZZ2ZG40eph1bpmjznztav4iKc8scmqc1";
       sshKeys = singleton dotshabka.external.risson.keys;
     };
+    lewdax = {
+      uid = 2100;
+      isAdmin = false;
+      home ="/home/lewdax";
+      #hashedPassword = "";
+      sshKeys = singleton dotshabka.external.lewdax.keys;
+    };
   };
 
 
