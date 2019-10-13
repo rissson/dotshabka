@@ -110,7 +110,7 @@ in {
       uid = 2100;
       isAdmin = false;
       home ="/home/lewdax";
-      #hashedPassword = "";
+      hashedPassword = "$6$wfQaeKIxVpw/M$muMFIEm8jtjh6D1cBpax2FRQ5ocs/yjUMxZuZCMJcw55uhkuHg4oFBuJ114ELCC9q38T2NDRPxItVcRv6YSxU/";
       sshKeys = singleton dotshabka.external.lewdax.keys;
     };
   };
