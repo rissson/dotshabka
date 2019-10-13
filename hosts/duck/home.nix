@@ -19,6 +19,7 @@
     shabka.htop.enable = true;
     shabka.ssh.enable = true;
     shabka.tmux.enable = true;
+    shabka.weechat.enable = true;
     shabka.neovim.enable = true;
     shabka.neovim.keyboardLayout = "qwerty";
   };

@@ -10,7 +10,6 @@
       ./hardware-configuration.nix
 
       ./services/web.nix
-      ./services/weechat.nix
 
       ./home.nix
     ];
