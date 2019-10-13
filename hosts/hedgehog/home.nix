@@ -124,7 +124,7 @@
           eDP-1 = {
             enable = true;
             primary = true;
-            postition = "0x0";
+            position = "0x0";
             mode = "1920x1080";
             gamma = "1.0:0.909:0.909";
             rate = "59.98";
@@ -143,23 +143,23 @@
           eDP-1 = {
             enable = true;
             primary = true;
-            postition = "1920x0";
+            position = "1920x0";
             mode = "1920x1080";
             gamma = "1.0:0.909:0.909";
             rate = "59.98";
           };
           HDMI-1 = {
             enable = true;
-            primary = true;
-            postition = "0x0";
+            primary = false;
+            position = "0x0";
             mode = "1920x1080";
             gamma = "1.0:0.909:0.909";
             rate = "60.00";
           };
           DP-1 = {
             enable = true;
-            primary = true;
-            postition = "3840x0";
+            primary = false;
+            position = "3840x0";
             mode = "1440x900";
             gamma = "1.0:0.909:0.909";
             rate = "59.89";

@@ -5,6 +5,8 @@ with lib;
 let
   shabka = import <shabka> { };
 
+  dotshabka = import ../../.. { };
+
 in {
   imports = [
     ./hardware-configuration.nix
@@ -55,6 +57,17 @@ in {
   services.logind.extraConfig = ''
     HandlePowerKey=suspend
   '';
+
+  users.users.root.openssh.authorizedKeys.keys = singleton dotshabka.external.risson.keys;
+  shabka.users.users = {
+    risson = {
+      uid = 2000;
+      isAdmin = true;
+      home ="/home/risson";
+      hashedPassword = "$6$2YnxY3Tl$kRj7YZypnB2Od41GgpwYRcn4kCcCE6OksZlKLws0rEi//T/emKWEsUZZ2ZG40eph1bpmjznztav4iKc8scmqc1";
+      sshKeys = singleton dotshabka.external.risson.keys;
+    };
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
