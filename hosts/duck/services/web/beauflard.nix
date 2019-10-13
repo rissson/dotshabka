@@ -31,10 +31,10 @@
 
   services.phpfpm.pools."beauflard" = {
     listen = "/var/run/phpfpm-beauflard.sock";
+    user = "nginx";
+    group = "nginx";
     #if needed phpOptions = "";
     extraConfig = ''
-      user = nginx
-      group = nginx
       pm = dynamic
       pm.max_children = 8
       pm.max_requests = 500

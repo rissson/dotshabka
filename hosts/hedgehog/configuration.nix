@@ -5,7 +5,7 @@ with lib;
 let
   shabka = import <shabka> { };
 
-  dotshabka = import ../../.. { };
+  dotshabka = import ../.. { };
 
 in {
   imports = [

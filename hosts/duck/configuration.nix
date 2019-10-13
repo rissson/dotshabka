@@ -1,6 +1,13 @@
 { pkgs, lib, ... }:
 
-{
+with lib;
+
+let
+  shabka = import <shabka> { };
+
+  dotshabka = import ../.. { };
+
+in {
   imports =
     [
       <shabka/modules/nixos>
