@@ -61,10 +61,12 @@ in {
     enable = true;
     allowPing = true;
 
-    allowedTCPPorts = [ 22 80 443 8001 ];
+    allowedTCPPorts = [ 22 80 443 ];
     allowedUDPPorts = [ ];
 
-    allowedTCPPortRanges = [ ];
+    allowedTCPPortRanges = [
+      { from = 8001; to = 8002; } # weechat
+    ];
     allowedUDPPortRanges = [
       { from = 60000; to = 61000; } # mosh
     ];
