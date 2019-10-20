@@ -92,7 +92,7 @@
 
   swapDevices = [
     # On crypt-swap
-    { device = "/dev/disk/by-uuid/7a92c9e9-5e6b-445c-8969-4d438675156d"; }
+    { device = "/dev/disk/by-uuid/7ff1f98f-0cb2-41d4-85de-feea6fa9a4ad"; }
   ];
 
   # Snapshots configuration
