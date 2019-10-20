@@ -43,15 +43,15 @@ in {
       ipv4 = {
         addresses = [
           { address = "116.203.140.35"; prefixLength = 32; }
-          { address = "116.203.7.71"; prefixLength = 32; }
-          { address = "116.203.8.117"; prefixLength = 32; }
+          #{ address = "116.203.7.71"; prefixLength = 32; } # Used by VM ynh-lama-corp
+          #{ address = "116.203.8.117"; prefixLength = 32; } # Used by VM ynh-risson
         ];
       };
       ipv6 = {
         addresses = [
           { address = "2a01:4f8:c2c:5530::1"; prefixLength = 64; }
-          { address = "2a01:4f8:c2c:5530::2"; prefixLength = 64; }
-          { address = "2a01:4f8:c2c:5530::3"; prefixLength = 64; }
+          #{ address = "2a01:4f8:c2c:5530::2"; prefixLength = 64; } # Used by VM ynh-lama-corp
+          #{ address = "2a01:4f8:c2c:5530::3"; prefixLength = 64; } # Used by VM ynh-risson
         ];
       };
     }
