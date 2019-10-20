@@ -18,12 +18,8 @@
       device = "/dev/disk/by-uuid/70c26d5e-667f-4f42-8866-b88b65c8e4c3";
     }
     {
-      name = "crypt-vm-data";
-      device = "/dev/disk/by-uuid/17cdef66-6c42-4247-ad95-f589dec7b129";
-    }
-    {
-      name = "crypt-swap";
-      device = "/dev/disk/by-uuid/2c834f6a-64e3-405f-962d-9d860b3dfd66";
+       name = "crypt-swap";
+       device = "/dev/disk/by-uuid/2c834f6a-64e3-405f-962d-9d860b3dfd66";
     }
   ];
 
@@ -33,97 +29,69 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/7f6c17eb-bf83-4766-af93-599c0eb37315";
       fsType = "btrfs";
-      options = [ "subvol=root" ];
+      options = [ "subvol=@root" ];
     };
 
   # On crypt-system-data
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=nix" ];
+      options = [ "subvol=@nix" ];
     };
 
   # On crypt-system-data
   fileSystems."/var" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=var" ];
+      options = [ "subvol=@var" ];
     };
 
   # On crypt-system-data
   fileSystems."/opt" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=opt" ];
+      options = [ "subvol=@opt" ];
     };
 
   # On crypt-system-data
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=home" ];
+      options = [ "subvol=@home" ];
     };
 
   # On crypt-system-data
   fileSystems."/root" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=root" ];
+      options = [ "subvol=@homeroot" ];
     };
 
   # On crypt-system-data
   fileSystems."/srv" =
     { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
       fsType = "btrfs";
-      options = [ "subvol=srv" ];
-    };
-
-  # On crypt-vm-data
-  fileSystems."/vm" =
-    { device = "/dev/disk/by-uuid/00088e2c-b882-4057-976f-ba48cff3202e";
-      fsType = "btrfs";
-      options = [ "subvol=vm" ];
-    };
-
-  # On crypt-vm-data
-  fileSystems."/vm/ynh-lamacorp" =
-    { device = "/dev/disk/by-uuid/00088e2c-b882-4057-976f-ba48cff3202e";
-      fsType = "btrfs";
-      options = [ "subvol=ynh-lamacorp" ];
-    };
-
-  # On crypt-vm-data
-  fileSystems."/vm/ynh-risson" =
-    { device = "/dev/disk/by-uuid/00088e2c-b882-4057-976f-ba48cff3202e";
-      fsType = "btrfs";
-      options = [ "subvol=ynh-risson" ];
+      options = [ "subvol=@srv" ];
     };
 
   # Management mounts
 
   # On crypt-system-root
-  fileSystems."/btrfs/system-root" =                                            
+  fileSystems."/mnt/system-root" =
     {
       device = "/dev/disk/by-uuid/7f6c17eb-bf83-4766-af93-599c0eb37315";        
       fsType = "btrfs";                                                         
     };                                                                          
 
   # On crypt-system-data
-  fileSystems."/btrfs/system-data" =                                            
+  fileSystems."/mnt/system-data" =
     {
       device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";        
       fsType = "btrfs";                                                         
     };                                                                          
 
-  # On crypt-vm-data
-  fileSystems."/btrfs/vm-data" =                                                
-    {
-      device = "/dev/disk/by-uuid/00088e2c-b882-4057-976f-ba48cff3202e";                                                            
-      fsType = "btrfs";                                                         
-    }; 
-
   swapDevices = [
-    # On crypt-system-data
+    # On crypt-swap
     { device = "/dev/disk/by-uuid/7a92c9e9-5e6b-445c-8969-4d438675156d"; }
   ];
 
@@ -134,7 +102,7 @@
     configs = {
       root = {
         fstype = "btrfs";
-        subvolume = "/";
+        subvolume = "/mnt/system-root/@root";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -149,7 +117,7 @@
       };
       nix = {
         fstype = "btrfs";
-        subvolume = "/nix";
+        subvolume = "/mnt/system-data/@nix";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -164,7 +132,7 @@
       };
       var = {
         fstype = "btrfs";
-        subvolume = "/var";
+        subvolume = "/mnt/system-data/@var";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -179,7 +147,7 @@
       };
       opt = {
         fstype = "btrfs";
-        subvolume = "/opt";
+        subvolume = "/mnt/system-data/@opt";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -194,7 +162,7 @@
       };
       home = {
         fstype = "btrfs";
-        subvolume = "/home";
+        subvolume = "/mnt/system-data/@home";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -209,7 +177,7 @@
       };
       homeroot = {
         fstype = "btrfs";
-        subvolume = "/root";
+        subvolume = "/mnt/system-data/@homeroot";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
@@ -224,37 +192,7 @@
       };
       srv = {
         fstype = "btrfs";
-        subvolume = "/srv";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      vm-ynh-lamacorp = {
-        fstype = "btrfs";
-        subvolume = "/vm/ynh-lamacorp";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      vm-ynh-risson = {
-        fstype = "btrfs";
-        subvolume = "/vm/ynh-risson";
+        subvolume = "/mnt/system-data/@srv";
         extraConfig = ''
           SPACE_LIMIT=0.5
           FREE_LIMIT=0.2
