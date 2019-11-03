@@ -118,6 +118,11 @@ with lib;
       fsType = "zfs";
     };
 
+  fileSystems."/var/lib/libvirt" =
+    { device = "tank/var/lib/libvirt";
+      fsType = "zfs";
+    };
+
   fileSystems."/boot-1" =
     { device = "/dev/disk/by-uuid/a24554b8-fe66-49a3-8a8b-db570e052066";
       fsType = "ext4";
