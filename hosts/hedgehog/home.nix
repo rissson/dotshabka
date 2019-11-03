@@ -73,7 +73,7 @@
       };
       rofi.enable = true;
       urxvt.enable = true;
-      bluetooth.enable = true;
+      bluetooth.enable = mkForce false;
       gtk.enable = true;
       locker.enable = true;
     };

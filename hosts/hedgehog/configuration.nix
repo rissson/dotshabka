@@ -23,6 +23,10 @@ in {
 
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
 
+  boot.extraModprobeConfig = ''
+    options iwlwifi power_save=0
+  '';
+
   # set the default locale and the timeZone
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
@@ -42,7 +46,7 @@ in {
 
   shabka.workstation = {
     autorandr.enable = true;
-    bluetooth.enable = true;
+    bluetooth.enable = mkForce false;
     fonts.enable = true;
     networking.enable = true;
     power.enable = true;

@@ -16,61 +16,14 @@ in {
 
       ./hardware-configuration.nix
 
+      ./networking.nix
+
       ./services/web.nix
 
       ./home.nix
     ];
 
-  shabka.hardware.machine = "hetzner_cloud";
-
-  networking.hostName = "duck";
-  networking.nameservers = [
-    "1.1.1.1" "1.0.0.1" "208.67.222.222"
-    "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
-  ];
-
-  networking.defaultGateway = {
-    address = "172.31.1.1";
-    interface = "ens3";
-  };
-  networking.defaultGateway6 = {
-    address = "fe80::1";
-    interface = "ens3";
-  };
-  networking.interfaces = [
-    {
-      name = "ens3";
-      ipv4 = {
-        addresses = [
-          { address = "116.203.140.35"; prefixLength = 32; }
-          #{ address = "116.203.7.71"; prefixLength = 32; } # Used by VM ynh-lama-corp
-          #{ address = "116.203.8.117"; prefixLength = 32; } # Used by VM ynh-risson
-        ];
-      };
-      ipv6 = {
-        addresses = [
-          { address = "2a01:4f8:c2c:5530::1"; prefixLength = 64; }
-          #{ address = "2a01:4f8:c2c:5530::2"; prefixLength = 64; } # Used by VM ynh-lama-corp
-          #{ address = "2a01:4f8:c2c:5530::3"; prefixLength = 64; } # Used by VM ynh-risson
-        ];
-      };
-    }
-  ];
-
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-
-    allowedTCPPorts = [ 22 80 443 ];
-    allowedUDPPorts = [ ];
-
-    allowedTCPPortRanges = [
-      { from = 8001; to = 8002; } # weechat
-    ];
-    allowedUDPPortRanges = [
-      { from = 60000; to = 61000; } # mosh
-    ];
-  };
+  shabka.hardware.machine = "hetzner-sb";
 
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
@@ -109,14 +62,13 @@ in {
       sshKeys = singleton dotshabka.external.risson.keys;
     };
     lewdax = {
-      uid = 2100;
+      uid = 2010;
       isAdmin = false;
       home ="/home/lewdax";
       hashedPassword = "$6$wfQaeKIxVpw/M$muMFIEm8jtjh6D1cBpax2FRQ5ocs/yjUMxZuZCMJcw55uhkuHg4oFBuJ114ELCC9q38T2NDRPxItVcRv6YSxU/";
       sshKeys = singleton dotshabka.external.lewdax.keys;
     };
   };
-
 
   shabka.users.enable = true;
   shabka.virtualisation = {
@@ -130,5 +82,4 @@ in {
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "19.09"; # Did you read the comment?
-
 }

@@ -4,207 +4,149 @@
 { ... }:
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  imports = [
+    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+  ];
+
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.requestEncryptionCredentials = true;
+
+  boot.loader.grub = {
+    copyKernels = true;
+    mirroredBoots = [
+      {
+        devices = [ "/dev/disk/by-id/ata-ST33000650NS_Z293WSP6" ];
+        path = "/boot-1";
+      }
+      {
+        devices = [ "/dev/disk/by-id/ata-ST33000650NS_Z297P5M5" ];
+        path = "/boot-2";
+      }
+    ];
+  };
+
+  boot.initrd.network = {
+    enable = true;
+    ssh = {
+      enable = true;
+      port = 2222;
+      hostECDSAKey = /run/keys/initrd-ssh-key;
+      authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
+    };
+    postCommands = ''
+      zpool import -f tank
+      echo "zfs load-key -a; killall zfs" >> /root.profile
+    '';
+  };
+
+  fileSystems."/" =
+    { device = "tank/root/nixos";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    { device = "tank/home";
+      fsType = "zfs";
+    };
+
+  fileSystems."/opt" =
+    { device = "tank/opt";
+      fsType = "zfs";
+    };
+
+  fileSystems."/nix" =
+    { device = "tank/root/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/tmp" =
+    { device = "tank/root/tmp";
+      fsType = "zfs";
+    };
+
+  fileSystems."/srv" =
+    { device = "tank/srv";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var" =
+    { device = "tank/var";
+      fsType = "zfs";
+    };
+
+  fileSystems."/root" =
+    { device = "tank/home/root";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home/risson" =
+    { device = "tank/home/risson";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home/lewdax" =
+    { device = "tank/home/lewdax";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/cache" =
+    { device = "tank/var/cache";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib" =
+    { device = "tank/var/lib";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/log" =
+    { device = "tank/var/log";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/spool" =
+    { device = "tank/var/spool";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/tmp" =
+    { device = "tank/var/tmp";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/docker" =
+    { device = "tank/var/lib/docker";
+      fsType = "zfs";
+    };
+
+  fileSystems."/boot-1" =
+    { device = "/dev/disk/by-uuid/a24554b8-fe66-49a3-8a8b-db570e052066";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot-2" =
+    { device = "/dev/disk/by-uuid/b6b3dd50-60cc-4df2-b955-72cc78086c19";
+      fsType = "ext4";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/0d96b773-1f2d-4191-a981-9e183ebe75c2"; }
+      { device = "/dev/disk/by-uuid/0cb529e9-c3ff-47a7-a833-4355e77c7132"; }
     ];
 
-  boot.initrd.luks.devices = [
-    {
-      name = "crypt-system-root";
-      device = "/dev/disk/by-uuid/e3f5beef-60d4-4c51-9f66-bf3a366f7da7";
-    }
-    {
-      name = "crypt-system-data";
-      device = "/dev/disk/by-uuid/70c26d5e-667f-4f42-8866-b88b65c8e4c3";
-    }
-    {
-       name = "crypt-swap";
-       device = "/dev/disk/by-uuid/2c834f6a-64e3-405f-962d-9d860b3dfd66";
-    }
-  ];
-
-  #TODO(low): refractor this, or not?
-
-  # On crypt-system-root
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/7f6c17eb-bf83-4766-af93-599c0eb37315";
-      fsType = "btrfs";
-      options = [ "subvol=@root" ];
+  services.zfs = {
+    autoScrub = {
+      enable = true;
+      interval = "Sun, 03:23";
     };
-
-  # On crypt-system-data
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ];
-    };
-
-  # On crypt-system-data
-  fileSystems."/var" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@var" ];
-    };
-
-  # On crypt-system-data
-  fileSystems."/opt" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@opt" ];
-    };
-
-  # On crypt-system-data
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
-
-  # On crypt-system-data
-  fileSystems."/root" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@homeroot" ];
-    };
-
-  # On crypt-system-data
-  fileSystems."/srv" =
-    { device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";
-      fsType = "btrfs";
-      options = [ "subvol=@srv" ];
-    };
-
-  # Management mounts
-
-  # On crypt-system-root
-  fileSystems."/mnt/system-root" =
-    {
-      device = "/dev/disk/by-uuid/7f6c17eb-bf83-4766-af93-599c0eb37315";        
-      fsType = "btrfs";                                                         
-    };                                                                          
-
-  # On crypt-system-data
-  fileSystems."/mnt/system-data" =
-    {
-      device = "/dev/disk/by-uuid/fe50880d-cd8a-4d68-86bf-423c53e2f515";        
-      fsType = "btrfs";                                                         
-    };                                                                          
-
-  swapDevices = [
-    # On crypt-swap
-    { device = "/dev/disk/by-uuid/7ff1f98f-0cb2-41d4-85de-feea6fa9a4ad"; }
-  ];
-
-  # Snapshots configuration
-  services.snapper = {
-    snapshotInterval = "hourly";
-    cleanupInterval = "daily";
-    configs = {
-      root = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-root/@root";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      nix = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@nix";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      var = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@var";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      opt = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@opt";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      home = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@home";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      homeroot = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@homeroot";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
-      srv = {
-        fstype = "btrfs";
-        subvolume = "/mnt/system-data/@srv";
-        extraConfig = ''
-          SPACE_LIMIT=0.5
-          FREE_LIMIT=0.2
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-          TIMELINE_LIMIT_HOURLY=24
-          TIMELINE_LIMIT_DAILY=7
-          TIMELINE_LIMIT_WEEKLY=5
-          TIMELINE_LIMIT_MONTHLY=6
-          TIMELINE_LIMIT_YEARLY=10
-        '';
-      };
+    autoSnapshot = {
+      enable = true;
+      frequent = 8; # Every 15 minutes
+      hourly = 24;
+      daily = 7;
+      weekly = 5;
+      monthly = 12;
+      flags = "-k -p -u"; # Do empty snapshots, in parallel, use UTC time for naming
     };
   };
 }
