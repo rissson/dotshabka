@@ -11,7 +11,9 @@ let
   ext4Netmask = "255.255.255.224";
   ext4PrefixLength = 27;
 
-  ext6Gateway = "";
+  ext6IP = "2a01:4f8:a0:7441::1";
+  ext6Gateway = "fe80::1";
+  ext6PrefixLength = 64;
 in {
   networking.hostName = "duck";
   networking.hostId = "bc7c6bda";
@@ -32,8 +34,12 @@ in {
     ipv4.addresses = [
       { address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
+    ipv6.addresses = [
+      { address = ext6IP; prefixLength = ext6PrefixLength; }
+    ];
   };
   networking.defaultGateway = ext4Gateway;
+  networking.defaultGateway6 = ext6Gateway;
 
   networking.firewall = {
     enable = true;
