@@ -38,8 +38,14 @@ in {
       { address = ext6IP; prefixLength = ext6PrefixLength; }
     ];
   };
-  networking.defaultGateway = ext4Gateway;
-  networking.defaultGateway6 = ext6Gateway;
+  networking.defaultGateway = {
+    address = ext4Gateway;
+    interface = extInterface;
+  };
+  networking.defaultGateway6 ={
+    address = ext6Gateway;
+    interface = extInterface;
+  };
 
   networking.firewall = {
     enable = true;
