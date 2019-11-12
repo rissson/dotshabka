@@ -29,7 +29,7 @@ with lib;
     ssh = {
       enable = true;
       port = 2222;
-      hostECDSAKey = /run/keys/initrd-ssh-key;
+      hostECDSAKey = /srv/keys/initrd-ssh-key;
       authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
     };
     postCommands = ''
