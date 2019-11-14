@@ -33,6 +33,47 @@ with pkgs;
       grep = "grep --color=auto";
     };
 
+    initExtra = ''
+      function upload () # This should be cleaned, but later... TODO
+      {
+        # Main variables
+        SSH_USER="risson"
+        SSH_HOST="duck.lama-corp.space"
+        SSH="$SSH_USER@$SSH_HOST"
+        HTTP_SERVER_PATH="/home/risson/upload"
+        BASE_URL="https://upload.risson.space"
+
+        # Parse arguments
+        if [ $# -lt 2 ]; then
+          echo "At least two arguments are needed"
+          return -1
+        fi
+        FILES=$*[0,-2]
+        ADD_PATH=$*[-1]
+
+        # Upload files
+        echo "Uploading $FILES..."
+        rsync --partial --progress --archive $FILES $SSH:$HTTP_SERVER_PATH/$ADD_PATH
+        err=$?
+        if [ $err -ne 0 ]; then
+          echo "Error while uploading, aborting!"
+          return $err
+        fi
+        unset err
+
+        # Correct file permission on the server
+        echo "Fixing permissions..."
+        for file in $FILES; do
+          ssh -q -t $SSH chmod -R +r "$HTTP_SERVER_PATH/$ADD_PATH/`basename $file`"
+        done
+
+        # Prompt links to uploaded files
+        for file in $FILES; do
+          echo $BASE_URL/$ADD_PATH/`basename $file`
+        done
+      }
+    '';
+
     history = {
       expireDuplicatesFirst = true;
       save = 100000000;
