@@ -6,6 +6,7 @@
     ./web/jdmi.nix
     ./web/lama-corp.space.nix
     ./web/risson.space.nix
+    ./web/upload.nix
   ];
 
   security.dhparams = {
