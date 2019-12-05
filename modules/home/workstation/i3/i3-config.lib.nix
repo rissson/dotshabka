@@ -13,17 +13,18 @@ let
   urxvt = pkgs.rxvt_unicode;
 
   mode_resize = "resize";
-  mode_system = "(l)ock, (e)xit, (s)uspend, h(y)brid sleep, (h)ibernate, (r)eboot, (Shift+s)hutdown"; # TODO: update those shortcuts
 
-  ws1 = "1:🔥";
+  ws1 = "1";
   ws2 = "2";
   ws3 = "3";
-  ws4 = "4:🦊";
+  ws4 = "4";
   ws5 = "5";
   ws6 = "6";
-  ws7 = "7:✉️";
-  ws8 = "8:🌐";
-  wst = "10:💻";
+  ws7 = "7";
+  ws8 = "8";
+  ws9 = "9";
+  ws10 = "10";
+  ws11 = "11";
 
   autoStart = pkgs.writeScript "i3-autostart.sh" ''
     #! /usr/bin/env bash
@@ -37,17 +38,19 @@ let
     ${urxvt}/bin/urxvt -T htop -e ${pkgs.htop}/bin/htop &
     ${urxvt}/bin/urxvt -T cli_is_love &
     ${pkgs.coreutils}/bin/sleep 1
-    # Workspace T
-    ${pkgs.i3}/bin/i3-msg "workspace ${wst}"
+    # Workspace 10
+    ${pkgs.i3}/bin/i3-msg "workspace ${ws10}"
     ${pkgs.i3}/bin/i3-msg "layout tabbed"
     ${urxvt}/bin/urxvt -T duck -e mosh risson@duck.risson.space -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux' &
     ${pkgs.coreutils}/bin/sleep 2
     # Workspace 8
     ${pkgs.i3}/bin/i3-msg "workspace ${ws8}"
+    ${getBin pkgs.thunderbird}/bin/thunderbird &
+    # Workspace 9
+    ${pkgs.i3}/bin/i3-msg "workspace ${ws9}"
     ${pkgs.i3}/bin/i3-msg "layout tabbed"
     ${urxvt}/bin/urxvt -T weechat -e mosh risson@irc.risson.space -- /bin/sh -c 'screen -x weechat-risson' &
     ${pkgs.yubioath-desktop}/bin/yubiaoth-desktop &
-    ${pkgs.blueman}/bin/blueman-manager &
   '';
 
 in {
@@ -92,8 +95,6 @@ in {
     workspaceLayout = "default";
 
     startup = [
-      { command = "${getBin pkgs.thunderbird}/bin/thunderbird"; always = false; notification = false; }
-      { command = "${getBin pkgs.firefox}/bin/firefox"; always = false; notification = false; }
       { command = "${autoStart}"; always = false; notification = false; }
     ];
 
@@ -107,19 +108,6 @@ in {
         "Down" = "resize grow height 10 px or 10 ppt";
         "Up" = "resize shrink height 10 px or 10 ppt";
         "Right" = "resize grow width 10 px or 10 ppt";
-
-        "Return" = "mode default";
-        "Escape" = "mode default";
-      };
-
-      "${mode_system}" = {
-        "r" = "exec ${nosid} ${locker}, mode default";
-        "u" = "exec ${nosid} ${locker} && systemctl suspend, mode default";
-        "^" = "exec ${nosid} ${locker} && systemctl hybrid-sleep, mode default";
-        "p" = "exit";
-        "c" = "exec ${nosid} ${locker} && systemctl hibernate, mode default";
-        "o" = "exec ${nosid} systemctl reboot";
-        "Shift+U" = "exec ${nosid} systemctl poweroff -i";
 
         "Return" = "mode default";
         "Escape" = "mode default";
@@ -183,7 +171,9 @@ in {
       "${defaultModifier}+at" = "workspace ${ws6}";
       "${defaultModifier}+plus" = "workspace ${ws7}";
       "${defaultModifier}+minus" = "workspace ${ws8}";
-      "${defaultModifier}+equal" = "workspace ${wst}";
+      "${defaultModifier}+slash" = "workspace ${ws9}";
+      "${defaultModifier}+asterisk" = "workspace ${ws10}";
+      "${defaultModifier}+equal" = "workspace ${ws11}";
       # move focused container to workspace
       "${defaultModifier}+Ctrl+quotedbl" = "move container to workspace ${ws1}";
       "${defaultModifier}+Ctrl+guillemotleft" = "move container to workspace ${ws2}";
@@ -193,7 +183,9 @@ in {
       "${defaultModifier}+Ctrl+at" = "move container to workspace ${ws6}";
       "${defaultModifier}+Ctrl+plus" = "move container to workspace ${ws7}";
       "${defaultModifier}+Ctrl+minus" = "move container to workspace ${ws8}";
-      "${defaultModifier}+Ctrl+equal" = "move container to workspace ${wst}";
+      "${defaultModifier}+Ctrl+slash" = "move container to workspace ${ws9}";
+      "${defaultModifier}+Ctrl+asterisk" = "move container to workspace ${ws10}";
+      "${defaultModifier}+Ctrl+equal" = "move container to workspace ${ws11}";
       # move to workspace with focused container
       "${defaultModifier}+${secondModifier}+quotedbl" = "move container to workspace ${ws1}; workspace ${ws1}";
       "${defaultModifier}+${secondModifier}+guillemotleft" = "move container to workspace ${ws2}; workspace ${ws2}";
@@ -203,7 +195,9 @@ in {
       "${defaultModifier}+${secondModifier}+at" = "move container to workspace ${ws6}; workspace ${ws6}";
       "${defaultModifier}+${secondModifier}+plus" = "move container to workspace ${ws7}; workspace ${ws7}";
       "${defaultModifier}+${secondModifier}+minus" = "move container to workspace ${ws8}; workspace ${ws8}";
-      "${defaultModifier}+${secondModifier}+equal" = "move container to workspace ${wst}; workspace ${wst}";
+      "${defaultModifier}+${secondModifier}+slash" = "move container to workspace ${ws9}; workspace ${ws9}";
+      "${defaultModifier}+${secondModifier}+asterisk" = "move container to workspace ${ws10}; workspace ${ws10}";
+      "${defaultModifier}+${secondModifier}+equal" = "move container to workspace ${ws11}; workspace ${ws11}";
       # reload the configuration file
       "${defaultModifier}+${secondModifier}+X" = "reload";
       # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -213,9 +207,7 @@ in {
       # exit i3 (logs you out of your X session)
       "${defaultModifier}+Shift+P" = "exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'\"";
       # lock screen
-      "${defaultModifier}+slash" = "exec ${nosid} ${locker}";
-      # switch to mode_system
-      "${defaultModifier}+asterisk" = "mode ${mode_system}";
+      "${defaultModifier}+percent" = "exec ${nosid} ${locker}";
       # hide/unhide polybar
       "${defaultModifier}+q" = "exec ${nosid} polybar-msg cmd toggle";
       # custom shortcuts for applications
