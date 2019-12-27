@@ -51,7 +51,7 @@ in {
     enable = true;
     allowPing = true;
 
-    allowedTCPPorts = [ 22 80 443 ];
+    allowedTCPPorts = [ 22 25 80 443 587 993 ];
     allowedUDPPorts = [ ];
 
     allowedTCPPortRanges = [

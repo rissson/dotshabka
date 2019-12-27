@@ -6,8 +6,7 @@
     ];
     default = true;
     forceSSL = true;
-    sslCertificate = /srv/certs/default.pem;
-    sslCertificateKey = /srv/certs/default.key;
+    enableACME = true;
     root = "/srv/http/lama-corp.space";
     locations = {
       "/" = {

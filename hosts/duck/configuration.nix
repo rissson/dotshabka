@@ -19,7 +19,6 @@ in {
       ./networking.nix
 
       ./services/web.nix
-      ./services/lamacorp-ynh.nix
 
       ./home.nix
     ];

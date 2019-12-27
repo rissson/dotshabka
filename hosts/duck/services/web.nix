@@ -11,9 +11,9 @@
 
   security.dhparams = {
     enable = true;
-    defaultBitSize = 4096;
+    defaultBitSize = 2048;
     stateful = false;
-    params."nginx".bits = 4096;
+    params."nginx".bits = 2048;
   };
 
   services.nginx = {

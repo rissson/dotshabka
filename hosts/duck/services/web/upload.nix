@@ -8,8 +8,7 @@
       "upload.risson.tech"
     ];
     forceSSL = true;
-    sslCertificate = /srv/certs/default.pem;
-    sslCertificateKey = /srv/certs/default.key;
+    enableACME = true;
     root = "/home/risson/upload";
     locations = {
       "/" = {

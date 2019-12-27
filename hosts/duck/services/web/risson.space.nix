@@ -4,6 +4,8 @@
     serverAliases = [
       "www.risson.space"
       "risson.me"
+      "www.risson.me"
+      "marcerisson.space"
       "www.marcerisson.space"
       "risson.rocks"
       "www.risson.rocks"
@@ -11,8 +13,7 @@
       "www.risson.tech"
     ];
     forceSSL = true;
-    sslCertificate = /srv/certs/default.pem;
-    sslCertificateKey = /srv/certs/default.key;
+    enableACME = true;
     root = "/srv/http/risson.space/public";
     locations = {
       "/" = {
