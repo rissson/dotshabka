@@ -83,6 +83,11 @@ with lib;
       fsType = "zfs";
     };
 
+  fileSystems."/home/diego" =
+    { device = "tank/home/diego";
+      fsType = "zfs";
+    };
+
   fileSystems."/home/lewdax" =
     { device = "tank/home/lewdax";
       fsType = "zfs";
