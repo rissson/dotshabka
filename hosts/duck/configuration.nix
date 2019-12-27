@@ -34,6 +34,7 @@ in {
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
+    permitRootLogin = "no";
     hostKeys = [
       {
         type = "rsa";
