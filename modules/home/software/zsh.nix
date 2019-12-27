@@ -26,6 +26,15 @@ with pkgs;
       vi = "nvim";
       vim = "nvim";
 
+      execsw1 = "sudo ip netns exec sw1";
+      execsw2 = "sudo ip netns exec sw2";
+      exechost1 = "sudo ip netns exec host1";
+      exechost2 = "sudo ip netns exec host2";
+      exechost3 = "sudo ip netns exec host3";
+      exechost11 = "sudo ip netns exec host11";
+      exechost12 = "sudo ip netns exec host12";
+      exechost13 = "sudo ip netns exec host13";
+
       # Always enable colored `grep` output
       # Note: `GREP_OPTIONS = "--color = auto"` is deprecated, hence the alias usage.
       egrep = "egrep --color=auto";
