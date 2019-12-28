@@ -83,7 +83,9 @@ in {
   users.extraUsers = {
     nixBuild = {
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = [  ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGO5Ci5XecAiuS4ZN+BD3lxdRVNLqyGi/yvZcMrYU3Vy hedgehog-nixBuild"
+      ];
     };
   };
   nix.trustedUsers = [ "nixBuild" ];
