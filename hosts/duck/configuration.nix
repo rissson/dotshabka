@@ -54,7 +54,8 @@ in {
   };
 
   users.users.root.openssh.authorizedKeys.keys = (singleton dotshabka.external.risson.keys)
-	++ (singleton dotshabka.external.diego.keys);
+    ++ (singleton dotshabka.external.diego.keys);
+  shabka.users.enable = true;
   shabka.users.users = {
     risson = {
       uid = 2000;
@@ -63,13 +64,13 @@ in {
       hashedPassword = "$6$2YnxY3Tl$kRj7YZypnB2Od41GgpwYRcn4kCcCE6OksZlKLws0rEi//T/emKWEsUZZ2ZG40eph1bpmjznztav4iKc8scmqc1";
       sshKeys = singleton dotshabka.external.risson.keys;
     };
-		diego = {
-		  uid = 2005;
-			isAdmin = true;
-			home = "/home/diego";
+    diego = {
+      uid = 2005;
+      isAdmin = true;
+      home = "/home/diego";
       hashedPassword = "$6$QMhH.GTGHaI3FgjF$DFKr7yQujSyv2bPjgVdWGmqwgP5ArGmoBcAR9E9P/f9JTD2PRUtRGhOKymyWswB.Dh4JW9Vd4JZ.wz0iOOIPS/";
       sshKeys = singleton dotshabka.external.diego.keys;
-		};
+    };
     lewdax = {
       uid = 2010;
       isAdmin = false;
@@ -79,7 +80,14 @@ in {
     };
   };
 
-  shabka.users.enable = true;
+  users.extraUsers = {
+    nixBuild = {
+      useDefaultShell = true;
+      openssh.authorizedKeys.keys = [  ];
+    };
+  };
+  nix.trustedUsers = [ "nixBuild" ];
+
   shabka.virtualisation = {
     libvirtd.enable = true;
   };
