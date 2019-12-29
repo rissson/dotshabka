@@ -120,7 +120,7 @@ in {
     power.enable = true;
     sound.enable = true;
     teamviewer.enable = true;
-    #virtualbox.enable = true;
+    virtualbox.enable = true;
     xorg.enable = true;
   };
 
