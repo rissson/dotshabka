@@ -21,7 +21,8 @@ in {
       ./services/web.nix
 
       ./home.nix
-    ];
+    ]
+    ++ (optionals (builtins.pathExists ./../../secrets/nixos) (singleton ./../../secrets/nixos));
 
   shabka.hardware.machine = "hetzner-sb";
 
