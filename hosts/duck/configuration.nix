@@ -19,10 +19,11 @@ in {
       ./networking.nix
 
       ./services/web.nix
+      ./services/TheFractalBot.nix
 
       ./home.nix
     ]
-    ++ (optionals (builtins.pathExists ./../../secrets/nixos) (singleton ./../../secrets/nixos));
+    ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
 
   shabka.hardware.machine = "hetzner-sb";
 
