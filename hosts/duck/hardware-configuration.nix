@@ -2,7 +2,13 @@
 
 with lib;
 
-{
+let
+  bootHostSshKeyPath = /srv/keys/initrd-ssh-key;
+in {
+  warnings = (mkIf (! (builtins.pathExists bootHostSshKeyPath)) [
+    "${toString bootHostSshKeyPath} does not exists. You will not be able to decrypt the disks through SSH after a reboot."
+  ]);
+
   imports = [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
   ];
@@ -24,19 +30,19 @@ with lib;
     ];
   };
 
-  boot.initrd.network = {
+  boot.initrd.network = (mkIf (builtins.pathExists bootHostSshKeyPath) {
     enable = true;
     ssh = {
       enable = true;
       port = 2222;
-      hostECDSAKey = /srv/keys/initrd-ssh-key;
+      hostECDSAKey = bootHostSshKeyPath;
       authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
     };
     postCommands = ''
       zpool import -f tank
       echo "zfs load-key -a; killall zfs" >> /root.profile
     '';
-  };
+  });
 
   fileSystems."/" =
     { device = "tank/root/nixos";
