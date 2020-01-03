@@ -93,6 +93,7 @@ in {
   nix.trustedUsers = [ "nixBuild" ];
 
   shabka.virtualisation = {
+    docker.enable = true;
     libvirtd.enable = true;
   };
 
