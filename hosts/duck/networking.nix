@@ -3,20 +3,19 @@
 with lib;
 
 let
-  extMAC = "50:46:5d:4d:23:5c";
+  extMAC = "00:25:90:d8:e5:1a";
   extInterface = "eth0";
 
-  ext4IP = "213.239.217.59";
-  ext4Gateway = "213.239.217.33";
+  ext4IP = "148.251.50.190";
+  ext4Gateway = "148.251.50.161";
   ext4Netmask = "255.255.255.224";
   ext4PrefixLength = 27;
 
-  ext6IP = "2a01:4f8:a0:7441::1";
+  ext6IP = "2a01:4f8:202:1097::1";
   ext6Gateway = "fe80::1";
   ext6PrefixLength = 64;
 in {
   networking.hostName = "duck";
-  networking.hostId = "bc7c6bda";
 
   networking.nameservers = [
     "1.1.1.1" "1.0.0.1" "208.67.222.222"
@@ -55,7 +54,7 @@ in {
     allowedUDPPorts = [ ];
 
     allowedTCPPortRanges = [
-      { from = 8001; to = 8002; } # weechat
+      { from = 8000; to = 8100; } # weechat
     ];
     allowedUDPPortRanges = [
       { from = 60000; to = 61000; } # mosh

@@ -25,7 +25,7 @@ in {
     ]
     ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
 
-  shabka.hardware.machine = "hetzner-sb";
+  shabka.hardware.machine = "hetzner_sb53";
 
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
@@ -81,16 +81,6 @@ in {
       sshKeys = singleton dotshabka.external.lewdax.keys;
     };
   };
-
-  users.extraUsers = {
-    nixBuild = {
-      useDefaultShell = true;
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGO5Ci5XecAiuS4ZN+BD3lxdRVNLqyGi/yvZcMrYU3Vy hedgehog-nixBuild"
-      ];
-    };
-  };
-  nix.trustedUsers = [ "nixBuild" ];
 
   shabka.virtualisation = {
     docker.enable = true;
