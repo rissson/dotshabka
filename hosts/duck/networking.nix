@@ -16,6 +16,7 @@ let
   ext6PrefixLength = 64;
 in {
   networking.hostName = "duck";
+  networking.domain = "lama-corp.space";
 
   networking.nameservers = [
     "1.1.1.1" "1.0.0.1" "208.67.222.222"
@@ -29,14 +30,50 @@ in {
   services.udev.extraRules = ''SUBSYSTEM=="net", ATTR{address}=="${extMAC}", NAME="${extInterface}"'';
 
   networking.useDHCP = false;
+
+  networking.bridges."br0" = {
+    interfaces = [ "${extInterface}" "tun3" ];
+  };
+
   networking.interfaces."${extInterface}" = {
     ipv4.addresses = [
       { address = ext4IP; prefixLength = ext4PrefixLength; }
+      { address = "148.251.148.232"; prefixLength = 29; }
     ];
     ipv6.addresses = [
       { address = ext6IP; prefixLength = ext6PrefixLength; }
+      { address = "2a01:4f8:202:1097::2"; prefixLength = 64; }
     ];
   };
+
+  networking.interfaces."br0" = {
+    ipv4.addresses = [
+      { address = "148.251.148.239"; prefixLength = 29; }
+    ];
+    ipv6.addresses = [
+      { address = "2a01:4f8:202:1097::9"; prefixLength = 64; }
+    ];
+  };
+
+  networking.interfaces."tap3" = {
+    ipv4.addresses = [
+      #{ address = "148.251.148.233"; prefixLength = 29; }
+      #{ address = "0.0.0.0"; prefixLength = 32; }
+    ];
+    ipv4.routes = [
+      { address = "148.251.148.232"; prefixLength = 29; via = "148.251.148.239"; }
+    ];
+    ipv6.addresses = [
+      #{ address = "2a01:4f8:202:1097::3"; prefixLength = 64; }
+    ];
+    virtual = true;
+    virtualType = "tap";
+  };
+
+  networking.localCommands = ''
+    ip link set tun3 promisc on
+  '';
+
   networking.defaultGateway = {
     address = ext4Gateway;
     interface = extInterface;
