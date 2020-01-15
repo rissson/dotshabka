@@ -32,23 +32,23 @@ in {
   networking.useDHCP = false;
 
   networking.bridges."br0" = {
-    interfaces = [ "${extInterface}" "tun3" ];
+    interfaces = [ "tap3" ];
   };
 
   networking.interfaces."${extInterface}" = {
     ipv4.addresses = [
+      { address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
     ipv6.addresses = [
+      { address = ext6IP; prefixLength = ext6PrefixLength; }
     ];
   };
 
   networking.interfaces."br0" = {
     ipv4.addresses = [
-      { address = ext4IP; prefixLength = ext4PrefixLength; }
       { address = "148.251.148.239"; prefixLength = 29; }
     ];
     ipv6.addresses = [
-      { address = ext6IP; prefixLength = ext6PrefixLength; }
       { address = "2a01:4f8:202:1097::9"; prefixLength = 64; }
     ];
   };
