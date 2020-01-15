@@ -46,10 +46,10 @@ in {
 
   networking.interfaces."br0" = {
     ipv4.addresses = [
-      { address = "148.251.148.239"; prefixLength = 29; }
+      { address = "148.251.148.238"; prefixLength = 29; }
     ];
     ipv6.addresses = [
-      { address = "2a01:4f8:202:1097::9"; prefixLength = 64; }
+      { address = "2a01:4f8:202:1097::8"; prefixLength = 64; }
     ];
   };
 
@@ -59,7 +59,7 @@ in {
       #{ address = "0.0.0.0"; prefixLength = 32; }
     ];
     ipv4.routes = [
-      { address = "148.251.148.232"; prefixLength = 29; via = "148.251.148.239"; }
+      { address = "148.251.148.232"; prefixLength = 29; via = "148.251.148.238"; }
     ];
     ipv6.addresses = [
       #{ address = "2a01:4f8:202:1097::3"; prefixLength = 64; }
