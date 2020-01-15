@@ -73,7 +73,7 @@ in {
   };
 
   networking.localCommands = ''
-    ip link set tun3 promisc on
+    ip link set tap3 promisc on
   '';
 
   networking.defaultGateway = {
