@@ -3,6 +3,7 @@
 with lib;
 
 let
+  # TODO: move this to an iPs.nix file
   extMAC = "00:25:90:d8:e5:1a";
   extInterface = "eth0";
 
@@ -51,19 +52,22 @@ in {
     ipv6.addresses = [
       { address = "2a01:4f8:202:1097::8"; prefixLength = 64; }
     ];
+    ipv4.routes = [
+      { address = "148.251.148.233"; prefixLength = 32; }
+    ];
+    ipv6.routes = [
+      { address = "2a01:4f8:202:1097::3"; prefixLength = 128; }
+    ];
   };
 
   networking.interfaces."tap3" = {
-    ipv4.addresses = [
-      #{ address = "148.251.148.233"; prefixLength = 29; }
-      #{ address = "0.0.0.0"; prefixLength = 32; }
-    ];
-    ipv4.routes = [
-      { address = "148.251.148.232"; prefixLength = 29; via = "148.251.148.238"; }
+    # Leaving this here for reference. TODO: move this to an iPs.nix file
+    /*ipv4.addresses = [
+      { address = "148.251.148.233"; prefixLength = 29; }
     ];
     ipv6.addresses = [
-      #{ address = "2a01:4f8:202:1097::3"; prefixLength = 64; }
-    ];
+      { address = "2a01:4f8:202:1097::3"; prefixLength = 64; }
+    ];*/
     virtual = true;
     virtualType = "tap";
   };
