@@ -55,9 +55,9 @@ in {
     ipv4.routes = [
       { address = "148.251.148.233"; prefixLength = 32; }
     ];
-    ipv6.routes = [
+    /*ipv6.routes = [
       { address = "2a01:4f8:202:1097::3"; prefixLength = 128; }
-    ];
+    ];*/
   };
 
   networking.interfaces."tap3" = {
@@ -72,9 +72,9 @@ in {
     virtualType = "tap";
   };
 
-  networking.localCommands = ''
+  /*networking.localCommands = ''
     ip link set tap3 promisc on
-  '';
+  '';*/
 
   networking.defaultGateway = {
     address = ext4Gateway;
