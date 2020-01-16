@@ -19,7 +19,8 @@ in {
     ../../modules/nixos
 
     ./home.nix
-  ];
+  ]
+  ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
 
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
 
