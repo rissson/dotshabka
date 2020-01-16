@@ -17,7 +17,7 @@ let
   ext6PrefixLength = 64;
 in {
   networking.hostName = "duck";
-  networking.domain = "lama-corp.space";
+  networking.domain = "srv.lama-corp.space";
 
   networking.nameservers = [
     "1.1.1.1" "1.0.0.1" "208.67.222.222"
