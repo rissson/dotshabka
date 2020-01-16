@@ -32,6 +32,22 @@ in {
   time.timeZone = "Europe/Paris";
 
   networking.hostName = "hedgehog";
+  networking.domain = "lama-corp.space";
+
+  networking.wireguard.interfaces = {
+    "wg0" = {
+      ips = [ "10.100.6.1/32" ];
+
+      peers = [
+        {
+          publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
+          allowedIPs = [ "10.100.0.0/16" ];
+          endpoint = "148.251.50.190:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
+  };
 
   /*networking.localCommands = ''
     ip netns delete sw1 || true

@@ -81,12 +81,32 @@ in {
     interface = extInterface;
   };
 
+  networking.nat = {
+    enable = true;
+    externalInterface = extInterface;
+    internalInterfaces = [ "wg0" ];
+  };
+
+  networking.wireguard.interfaces = {
+    "wg0" = {
+      ips = [ "10.100.1.1/16" ];
+      listenPort = 51820;
+
+      peers = [
+        { # hedgehog
+          publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
+          allowedIPs = [ "10.100.6.1/32" ];
+        }
+      ];
+    };
+  };
+
   networking.firewall = {
     enable = true;
     allowPing = true;
 
     allowedTCPPorts = [ 22 25 80 443 587 993 ];
-    allowedUDPPorts = [ ];
+    allowedUDPPorts = [ 51820 ]; # Wireguard
 
     allowedTCPPortRanges = [
       { from = 8000; to = 8100; } # weechat
@@ -94,5 +114,9 @@ in {
     allowedUDPPortRanges = [
       { from = 60000; to = 61000; } # mosh
     ];
+
+    extraCommands = ''
+      iptables -t nat -A POSTROUTING -s 10.100.0.0/16 -o eth0 -j MASQUERADE
+    '';
   };
 }
