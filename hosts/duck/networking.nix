@@ -10,7 +10,7 @@ let
   ext4IP = "148.251.50.190";
   ext4Gateway = "148.251.50.161";
   ext4Netmask = "255.255.255.224";
-  ext4PrefixLength = 27;
+  ext4PrefixLength = 32;
 
   ext6IP = "2a01:4f8:202:1097::1";
   ext6Gateway = "fe80::1";
@@ -48,8 +48,7 @@ in {
 
   networking.interfaces."br0" = {
     ipv4.addresses = [
-      { address = ext4IP; prefixLength = 32; }
-      #{ address = ext4IP; prefixLength = ext4PrefixLength; }
+      { address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
     ipv6.addresses = [
       { address = ext6IP; prefixLength = ext6PrefixLength; }
