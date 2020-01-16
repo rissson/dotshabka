@@ -7,6 +7,7 @@ let
 
   dotshabka = import ../.. { };
 
+  haveSecrets = builtins.pathExists ./../../secrets;
 in {
   imports =
     [
@@ -23,7 +24,7 @@ in {
 
       ./home.nix
     ]
-    ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
+    ++ (optionals haveSecrets (singleton ./../../secrets));
 
   shabka.hardware.machine = "hetzner_sb53";
 

@@ -3,6 +3,8 @@
 with lib;
 
 let
+  haveSecrets = builtins.pathExists ./../../secrets;
+
   # TODO: move this to an iPs.nix file
   extMAC = "00:25:90:d8:e5:1a";
   extInterface = "eth0";
@@ -81,13 +83,13 @@ in {
     interface = extInterface;
   };
 
-  networking.nat = {
+  networking.nat = mkIf haveSecrets {
     enable = true;
     externalInterface = extInterface;
     internalInterfaces = [ "wg0" ];
   };
 
-  networking.wireguard.interfaces = {
+  networking.wireguard.interfaces = mkIf haveSecrets {
     "wg0" = {
       ips = [ "10.100.1.1/16" ];
       listenPort = 51820;

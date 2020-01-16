@@ -7,6 +7,8 @@ let
 
   dotshabka = import ../.. { };
 
+  haveSecrets = builtins.pathExists ./../../secrets;
+
 in {
   imports = [
     ./hardware-configuration.nix
@@ -20,7 +22,7 @@ in {
 
     ./home.nix
   ]
-  ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
+  ++ (optionals haveSecrets (singleton ./../../secrets));
 
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
 
@@ -35,7 +37,7 @@ in {
   networking.hostName = "hedgehog";
   networking.domain = "lama-corp.space";
 
-  networking.wireguard.interfaces = {
+  networking.wireguard.interfaces = mkIf haveSecrets {
     "wg0" = {
       ips = [ "10.100.6.1/32" ];
 
