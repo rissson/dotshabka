@@ -33,7 +33,8 @@ in {
   networking.useDHCP = false;
 
   networking.bridges."br0" = {
-    interfaces = [ "tap3" ];
+    interfaces = [ ];
+    rstp = false;
   };
 
   networking.interfaces."${extInterface}" = {
@@ -41,40 +42,36 @@ in {
       { address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
     ipv6.addresses = [
-      { address = ext6IP; prefixLength = ext6PrefixLength; }
+      { address = ext6IP; prefixLength = 128; }
     ];
   };
 
   networking.interfaces."br0" = {
     ipv4.addresses = [
-      { address = "148.251.148.238"; prefixLength = 29; }
+      { address = ext4IP; prefixLength = 32; }
+      #{ address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
     ipv6.addresses = [
-      { address = "2a01:4f8:202:1097::8"; prefixLength = 64; }
+      { address = ext6IP; prefixLength = ext6PrefixLength; }
     ];
     ipv4.routes = [
+      { address = "148.251.148.232"; prefixLength = 32; }
       { address = "148.251.148.233"; prefixLength = 32; }
+      { address = "148.251.148.234"; prefixLength = 32; }
+      { address = "148.251.148.235"; prefixLength = 32; }
+      { address = "148.251.148.236"; prefixLength = 32; }
+      { address = "148.251.148.237"; prefixLength = 32; }
+      { address = "148.251.148.238"; prefixLength = 32; }
+      { address = "148.251.148.239"; prefixLength = 32; }
     ];
-    /*ipv6.routes = [
-      { address = "2a01:4f8:202:1097::3"; prefixLength = 128; }
-    ];*/
   };
 
-  networking.interfaces."tap3" = {
-    # Leaving this here for reference. TODO: move this to an iPs.nix file
-    /*ipv4.addresses = [
-      { address = "148.251.148.233"; prefixLength = 29; }
-    ];
-    ipv6.addresses = [
-      { address = "2a01:4f8:202:1097::3"; prefixLength = 64; }
-    ];*/
-    virtual = true;
-    virtualType = "tap";
+  # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv6.conf.all.forwarding" = true;
   };
-
-  /*networking.localCommands = ''
-    ip link set tap3 promisc on
-  '';*/
 
   networking.defaultGateway = {
     address = ext4Gateway;
