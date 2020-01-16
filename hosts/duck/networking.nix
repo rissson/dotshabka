@@ -3,19 +3,21 @@
 with lib;
 
 let
+  # TODO: move this to an iPs.nix file
   extMAC = "00:25:90:d8:e5:1a";
   extInterface = "eth0";
 
   ext4IP = "148.251.50.190";
   ext4Gateway = "148.251.50.161";
   ext4Netmask = "255.255.255.224";
-  ext4PrefixLength = 27;
+  ext4PrefixLength = 32;
 
   ext6IP = "2a01:4f8:202:1097::1";
   ext6Gateway = "fe80::1";
   ext6PrefixLength = 64;
 in {
   networking.hostName = "duck";
+  networking.domain = "lama-corp.space";
 
   networking.nameservers = [
     "1.1.1.1" "1.0.0.1" "208.67.222.222"
@@ -29,14 +31,47 @@ in {
   services.udev.extraRules = ''SUBSYSTEM=="net", ATTR{address}=="${extMAC}", NAME="${extInterface}"'';
 
   networking.useDHCP = false;
+
+  networking.bridges."br0" = {
+    interfaces = [ ];
+    rstp = false;
+  };
+
   networking.interfaces."${extInterface}" = {
+    ipv4.addresses = [
+      { address = ext4IP; prefixLength = ext4PrefixLength; }
+    ];
+    ipv6.addresses = [
+      { address = ext6IP; prefixLength = 128; }
+    ];
+  };
+
+  networking.interfaces."br0" = {
     ipv4.addresses = [
       { address = ext4IP; prefixLength = ext4PrefixLength; }
     ];
     ipv6.addresses = [
       { address = ext6IP; prefixLength = ext6PrefixLength; }
     ];
+    ipv4.routes = [
+      { address = "148.251.148.232"; prefixLength = 32; }
+      { address = "148.251.148.233"; prefixLength = 32; }
+      { address = "148.251.148.234"; prefixLength = 32; }
+      { address = "148.251.148.235"; prefixLength = 32; }
+      { address = "148.251.148.236"; prefixLength = 32; }
+      { address = "148.251.148.237"; prefixLength = 32; }
+      { address = "148.251.148.238"; prefixLength = 32; }
+      { address = "148.251.148.239"; prefixLength = 32; }
+    ];
   };
+
+  # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
   networking.defaultGateway = {
     address = ext4Gateway;
     interface = extInterface;
