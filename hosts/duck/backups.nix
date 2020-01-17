@@ -11,11 +11,13 @@ with lib;
         compression = "lzma";
 
         encryption.mode = "repokey";
-        environment.BORG_RSH = "ssh -P 23 -i /root/.ssh/id_ed25519_u221979";
+        environment.BORG_RSH = "ssh -i /root/.ssh/id_ed25519_u221979";
 
         paths = [ # TODO: generate this from the list of users
           "/home/risson" "/home/lewdax" "/home/diego"
         ];
+
+        startAt = "6h";
 
         prune = {
           keep = {
@@ -25,6 +27,9 @@ with lib;
             monthly = 12;
           };
         };
+
+        extraCreateArgs = "--stats --progress --checkpoint-interval 600";
+        extraPruneArgs = "--stats --save-space --list --progress";
       };
     };
   };
