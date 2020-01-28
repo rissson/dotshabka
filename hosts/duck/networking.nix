@@ -3,8 +3,6 @@
 with lib;
 
 let
-  haveSecrets = builtins.pathExists ./../../secrets;
-
   # TODO: move this to an iPs.nix file
   extMAC = "00:25:90:d8:e5:1a";
   extInterface = "eth0";
@@ -83,23 +81,26 @@ in {
     interface = extInterface;
   };
 
-  networking.nat = mkIf haveSecrets {
-    enable = true;
+  networking.nat = {
+    enable = config.networking.wireguard.enable;
     externalInterface = extInterface;
     internalInterfaces = [ "wg0" ];
   };
 
-  networking.wireguard.interfaces = mkIf haveSecrets {
-    "wg0" = {
-      ips = [ "10.100.1.1/16" ];
-      listenPort = 51820;
+  networking.wireguard = {
+    enable = false; # Enabled by secrets if present.
+      interfaces = {
+      "wg0" = {
+        ips = [ "10.100.1.1/16" ];
+        listenPort = 51820;
 
-      peers = [
-        { # hedgehog
+        peers = [
+          { # hedgehog
           publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
           allowedIPs = [ "10.100.6.1/32" ];
-        }
-      ];
+          }
+        ];
+      };
     };
   };
 
@@ -108,7 +109,7 @@ in {
     allowPing = true;
 
     allowedTCPPorts = [ 22 25 80 443 587 993 ];
-    allowedUDPPorts = [ 51820 ]; # Wireguard
+    allowedUDPPorts = [ ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
 
     allowedTCPPortRanges = [
       { from = 8000; to = 8100; } # weechat
