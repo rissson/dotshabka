@@ -84,6 +84,19 @@ in {
     };
   };
 
+  users.extraUsers = {
+    "gitlabci" = {
+      home = "/srv";
+      isSystemUser = true;
+      group = "deploy";
+      openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEfjcrIG01Wh266+cEL3ib80dJkyYxoMVFUaxQch1xnv" ];
+    };
+  };
+
+  users.extraGroups = {
+    "deploy" = {};
+  };
+
   shabka.virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;

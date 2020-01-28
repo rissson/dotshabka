@@ -19,6 +19,7 @@
   services.nginx = {
     enable = true;
     package = pkgs.nginxMainline;
+    group = "deploy";
 
     # Same limit as Cloudflare
     clientMaxBodySize = "100m";
