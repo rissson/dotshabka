@@ -20,6 +20,7 @@ in {
       ./networking.nix
 
       ./services/web.nix
+      ./services/hercules-ci.nix
       ./services/TheFractalBot.nix
 
       ./home.nix
