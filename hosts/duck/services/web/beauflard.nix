@@ -30,7 +30,7 @@
 
   services.phpfpm.pools."beauflard" = {
     user = "nginx";
-    group = "nginx";
+    group = "deploy";
     #if needed phpOptions = "";
     settings = {
       "pm" = "dynamic";
@@ -40,7 +40,7 @@
       "pm.min_spare_servers" = "1";
       "pm.max_spare_servers" = "5";
       "listen.owner" = "nginx";
-      "listen.group" = "nginx";
+      "listen.group" = "deploy";
       "php_admin_value[error_log]" = "'stderr'";
       "php_admin_flag[log_errors]" = "on";
       "env[PATH]" = "${lib.makeBinPath [ pkgs.php ]}";
