@@ -1,7 +1,7 @@
 with import <shabka/util>;
 
 let
-  nixos = buildHomeManagerConfiguration { conf = ./home.nix; };
+  nixos = buildHomeManagerConfiguration { conf = ./configuration.nix; };
 in {
   inherit (nixos) system;
 }
