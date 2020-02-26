@@ -2,6 +2,7 @@
 {
   #TODO: https://support.cloudflare.com/hc/en-us/articles/204899617 /srv/certs/cloudflare.pem
   imports = [
+    ./web/acdc.nix
     ./web/beauflard.nix
     ./web/jdmi.nix
     ./web/lama-corp.space.nix
