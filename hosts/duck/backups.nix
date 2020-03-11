@@ -17,7 +17,7 @@ with lib;
           "/home" "/root"
         ];
 
-        startAt = "3h15";
+        startAt = "3:15";
 
         prune = {
           keep = {
