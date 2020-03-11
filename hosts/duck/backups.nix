@@ -6,18 +6,18 @@ with lib;
   services.borgbackup = {
     jobs = {
       "homes" = {
-        repo = "ssh://u221979@u221979.your-storagebox.de:23/./backups/duck";
+        repo = "ssh://u221979@u221979.your-storagebox.de:23/./backups/duck/homes";
 
-        compression = "lzma";
+        compression = "zlib,1";
 
         encryption.mode = "repokey";
         environment.BORG_RSH = "ssh -i /root/.ssh/id_ed25519_u221979";
 
-        paths = [ # TODO: generate this from the list of users
-          "/home/risson" "/home/lewdax" "/home/diego"
+        paths = [
+          "/home" "/root"
         ];
 
-        startAt = "6h";
+        startAt = "3h15";
 
         prune = {
           keep = {
