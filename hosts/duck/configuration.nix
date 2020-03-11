@@ -17,6 +17,7 @@ in {
 
       ./hardware-configuration.nix
 
+      ./backups.nix
       ./networking.nix
 
       ./services/web.nix
