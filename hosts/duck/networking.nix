@@ -88,16 +88,15 @@ in {
   };
 
   networking.wireguard = {
-    enable = false; # Enabled by secrets if present.
-      interfaces = {
+    interfaces = {
       "wg0" = {
         ips = [ "10.100.1.1/16" ];
         listenPort = 51820;
 
         peers = [
           { # hedgehog
-          publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
-          allowedIPs = [ "10.100.6.1/32" ];
+            publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
+            allowedIPs = [ "10.100.6.1/32" ];
           }
         ];
       };

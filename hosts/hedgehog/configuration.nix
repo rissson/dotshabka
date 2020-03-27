@@ -18,6 +18,8 @@ in {
     <shabka/modules/nixos>
     ../../modules/nixos
 
+    ./networking.nix
+
     ./home.nix
   ]
   ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
@@ -31,27 +33,6 @@ in {
   # set the default locale and the timeZone
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
-
-  networking.hostName = "hedgehog";
-  networking.domain = "lama-corp.space";
-
-  networking.wireguard = {
-    enable = false; # Is enabled by secrets if they are present.
-    interfaces = {
-      "wg0" = {
-        ips = [ "10.100.6.1/32" ];
-
-        peers = [
-          {
-            publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
-            allowedIPs = [ "10.100.0.0/16" ];
-            endpoint = "148.251.50.190:51820";
-            persistentKeepalive = 25;
-          }
-        ];
-      };
-    };
-  };
 
   shabka.hardware.intel_backlight.enable = true;
   shabka.printing.enable = true;
@@ -68,7 +49,6 @@ in {
     autorandr.enable = true;
     bluetooth.enable = true;
     fonts.enable = true;
-    networking.enable = true;
     power.enable = true;
     sound.enable = true;
     teamviewer.enable = true;
