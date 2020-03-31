@@ -12,5 +12,6 @@ with lib;
   services.hercules-ci-agent = {
     enable = true;
     concurrentTasks = 4;
+    patchNix = true;
   };
 }
