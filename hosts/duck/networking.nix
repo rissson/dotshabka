@@ -88,6 +88,7 @@ in {
   };
 
   networking.wireguard = {
+    enable = false;
     interfaces = {
       "wg0" = {
         ips = [ "10.100.1.1/16" ];
