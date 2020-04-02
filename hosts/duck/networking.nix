@@ -108,16 +108,24 @@ in {
     enable = true;
     allowPing = true;
 
-    allowedTCPPorts = [ 22 25 80 443 587 993 ];
+    allowedTCPPorts = [
+      22 # SSH
+      80 # nginx
+      443 # nginx
+      19999 # netdata TODO: proxy it with nginx
+    ];
     allowedUDPPorts = [ ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
 
     allowedTCPPortRanges = [
       { from = 8000; to = 8100; } # weechat
+      { from = 6881; to = 6999; } # aria2c
     ];
     allowedUDPPortRanges = [
       { from = 60000; to = 61000; } # mosh
+      { from = 6881; to = 6999; } # aria2c
     ];
 
+    # NAT for Wireguard
     extraCommands = ''
       iptables -t nat -A POSTROUTING -s 10.100.0.0/16 -o eth0 -j MASQUERADE
     '';

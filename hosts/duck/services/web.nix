@@ -1,12 +1,16 @@
 { config, pkgs, lib, ... }:
 {
+  # TODO: score an A+ at SSLlabs
+  # TODO: register email for ACME
   #TODO: https://support.cloudflare.com/hc/en-us/articles/204899617 /srv/certs/cloudflare.pem
   imports = [
     ./web/acdc.nix
     ./web/beauflard.nix
+    ./web/cAtCDC.nix
     ./web/jdmi.nix
     ./web/lama-corp.space.nix
     ./web/risson.space.nix
+    ./web/scoreboard-seedbox-cri.nix
     ./web/upload.nix
   ];
 
@@ -26,6 +30,7 @@
     clientMaxBodySize = "100m";
 
     # Logging settings
+    # TODO: more fine logging and integration with netdata
     commonHttpConfig = ''
       log_format default '$remote_addr - $remote_user [$time_local] '
                          '"$request" $status $body_bytes_sent '
