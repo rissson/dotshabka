@@ -62,6 +62,7 @@ in {
     HandlePowerKey=suspend
   '';
 
+  users.users.root.hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
   users.users.root.openssh.authorizedKeys.keys = singleton dotshabka.external.risson.keys;
   shabka.users.users = {
     risson = {

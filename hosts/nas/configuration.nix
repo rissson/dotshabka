@@ -80,6 +80,7 @@ in {
     ];
   };
 
+  users.users.root.hashedPassword = "$6$6gHewlCr$qLfWzM/s0Olmaps2wyVfV83xVDXenGlJA.Sza.hoNFOvtue81L9I.wXVylZQ0eu68fl1NEsjjGIqnBTuoJDT..";
   users.users.root.openssh.authorizedKeys.keys = (singleton dotshabka.external.risson.keys)
     ++ (singleton dotshabka.external.diego.keys);
   shabka.users.enable = true;
