@@ -35,7 +35,7 @@
       enable = true;
       autorandr.enable = true;
       alacritty.enable = mkForce false;
-      dunst.enable = mkForce false;
+      dunst.enable = true;
       greenclip.enable = mkForce false;
       termite.enable = mkForce false;
       chromium.enable = mkForce false; # until it's more generic in shabka
