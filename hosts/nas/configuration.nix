@@ -18,6 +18,7 @@ in {
       ./hardware-configuration.nix
 
       ./networking.nix
+      ./dns-dhcp.nix
 
       ./home.nix
     ]

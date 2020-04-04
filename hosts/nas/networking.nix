@@ -4,7 +4,7 @@ with lib;
 
 {
   networking.hostName = "nas"; # Define your hostname.
-  networking.domain = "srv.lama-corp.space";
+  networking.domain = "srv.bar.lama-corp.space";
   networking.hostId = "3474d85a";
 
   networking.nameservers = [
@@ -35,8 +35,16 @@ with lib;
     enable = true;
     allowPing = true;
 
-    allowedTCPPorts = [ 22 19999 ];
-    allowedUDPPorts = [ ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
+    allowedTCPPorts = [
+      22 # SSH
+      53 # DNS
+      67 # DHCP
+      19999 # Netdata
+    ];
+    allowedUDPPorts = [
+      53 # DNS
+      67 # DHCP
+    ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
 
     allowedTCPPortRanges = [ ];
     allowedUDPPortRanges = [
