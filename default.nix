@@ -5,4 +5,5 @@ with pkgs;
 {
   path = ./.;
   external = import ./external { };
+  data = import ./data { };
 }

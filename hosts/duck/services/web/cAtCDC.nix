@@ -2,33 +2,32 @@
 
 with lib;
 
-let
-  nixpkgs = import (builtins.fetchTarball {
-    name = "nixpkgs-unstable-cAtCDC";
-    url = https://github.com/nixos/nixpkgs/archive/c9bf23e6583164033d0cdce83825f3bb288de9b7.tar.gz;
-    sha256 = "1v2zw6gqq3z1hwgwli7kihsqffp0xcim6a1y3dszg1wca1jqjq5w";
-  }) {};
-in {
-  systemd.services.cAtCDC = let
-    djangoEnv = nixpkgs.poetry2nix.mkPoetryEnv {
-      projectDir = /srv/http/cAtCDC;
-      overrides = nixpkgs.poetry2nix.overrides.withDefaults (
-        self: super: {
-          python-jose = super.python-jose.overridePythonAttrs(old: {
-            postPatch = ''
-              substituteInPlace setup.py --replace "'pytest-runner'," ""
-              substituteInPlace setup.py --replace "'pytest-runner'" ""
-            '';
-          });
-        }
-      );
-    };
-  in {
+{
+  systemd.services.cAtCDC = mkIf (builtins.pathExists /srv/http/cAtCDC) {
     enable = true;
     description = "cAtCDC website";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
-    script = ''
+    script = let
+      nixpkgs = import (builtins.fetchTarball {
+        name = "nixpkgs-unstable-cAtCDC";
+        url = "https://github.com/nixos/nixpkgs/archive/c9bf23e6583164033d0cdce83825f3bb288de9b7.tar.gz";
+        sha256 = "1v2zw6gqq3z1hwgwli7kihsqffp0xcim6a1y3dszg1wca1jqjq5w";
+      }) {};
+      djangoEnv = nixpkgs.poetry2nix.mkPoetryEnv {
+        projectDir = /srv/http/cAtCDC;
+        overrides = nixpkgs.poetry2nix.overrides.withDefaults (
+          self: super: {
+            python-jose = super.python-jose.overridePythonAttrs(old: {
+              postPatch = ''
+                substituteInPlace setup.py --replace "'pytest-runner'," ""
+                substituteInPlace setup.py --replace "'pytest-runner'" ""
+              '';
+            });
+          }
+        );
+      };
+    in ''
       ${djangoEnv}/bin/gunicorn \
           --workers 4 \
           --max-requests 1000 \

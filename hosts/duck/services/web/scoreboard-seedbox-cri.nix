@@ -18,7 +18,7 @@
         '';
       };
       "/static" = {
-        root = /home/risson/seedbox-cri-scoreboard;
+        root = "/home/risson/seedbox-cri-scoreboard";
       };
     };
   };

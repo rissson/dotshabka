@@ -3,66 +3,119 @@
 with lib;
 
 let
-  # TODO: move this to an iPs.nix file
-  extMAC = "00:25:90:d8:e5:1a";
-  extInterface = "eth0";
 
-  ext4IP = "148.251.50.190";
-  ext4Gateway = "148.251.50.161";
-  ext4Netmask = "255.255.255.224";
-  ext4PrefixLength = 32;
+  dotshabka = import ../.. { };
 
-  ext6IP = "2a01:4f8:202:1097::1";
-  ext6Gateway = "fe80::1";
-  ext6PrefixLength = 64;
 in {
-  networking.hostName = "duck";
-  networking.domain = "srv.lama-corp.space";
-
-  networking.nameservers = [
-    "1.1.1.1" "1.0.0.1" "208.67.222.222"
-    "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
+  boot.kernelParams = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; [
+    "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
   ];
 
-  boot.kernelParams = [
-    "ip=${ext4IP}::${ext4Gateway}:${ext4Netmask}:duckboot::none"
-  ];
+  services.udev.extraRules = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; ''
+    SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
+  '';
 
-  services.udev.extraRules = ''SUBSYSTEM=="net", ATTR{address}=="${extMAC}", NAME="${extInterface}"'';
+  networking = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; {
 
-  networking.useDHCP = false;
+    hostName = "duck";
+    domain = "srv.fsn.lama-corp.space";
 
-  networking.bridges."br0" = {
-    interfaces = [ ];
-    rstp = false;
-  };
+    nameservers = [
+      "1.1.1.1" "1.0.0.1" "208.67.222.222"
+      "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
+    ];
 
-  networking.interfaces."${extInterface}" = {
-    ipv4.addresses = [
-      { address = ext4IP; prefixLength = ext4PrefixLength; }
-    ];
-    ipv6.addresses = [
-      { address = ext6IP; prefixLength = 128; }
-    ];
-  };
+    useDHCP = false;
 
-  networking.interfaces."br0" = {
-    ipv4.addresses = [
-      { address = ext4IP; prefixLength = ext4PrefixLength; }
-    ];
-    ipv6.addresses = [
-      { address = ext6IP; prefixLength = ext6PrefixLength; }
-    ];
-    ipv4.routes = [
-      { address = "148.251.148.232"; prefixLength = 32; }
-      { address = "148.251.148.233"; prefixLength = 32; }
-      { address = "148.251.148.234"; prefixLength = 32; }
-      { address = "148.251.148.235"; prefixLength = 32; }
-      { address = "148.251.148.236"; prefixLength = 32; }
-      { address = "148.251.148.237"; prefixLength = 32; }
-      { address = "148.251.148.238"; prefixLength = 32; }
-      { address = "148.251.148.239"; prefixLength = 32; }
-    ];
+    bridges = {
+      "br0" = {
+        interfaces = [ ];
+        rstp = false;
+      };
+    };
+
+    interfaces = {
+      "${external.interface}" = {
+        ipv4.addresses = [
+          { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
+        ];
+        ipv6.addresses = [
+          { address = external.v6.ip;  prefixLength = 128; }
+        ];
+      };
+
+      "br0" = {
+        ipv4.addresses = [
+          { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
+        ];
+        ipv6.addresses = [
+          { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
+        ];
+        ipv4.routes = with virt; [
+          { address = hub.external.v4.ip; prefixLength = hub.external.v4.prefixLength; }
+          { address = lewdax.external.v4.ip; prefixLength = lewdax.external.v4.prefixLength; }
+        ];
+      };
+    };
+
+    defaultGateway = {
+      address = external.v4.gw;
+      interface = external.interface;
+    };
+    defaultGateway6 = {
+      address = external.v6.gw;
+      interface = external.interface;
+    };
+
+    nat = {
+      enable = config.networking.wireguard.enable;
+      externalInterface = external.interface;
+      internalInterfaces = [ wg.interface ];
+    };
+
+    wireguard = {
+      enable = false; # enabled by secrets
+      interfaces = {
+        "${wg.interface}" = {
+          ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
+          listenPort = 51820;
+
+          peers = [
+            { # nas
+              publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
+              allowedIPs = [ "172.20.2.254/32" ];
+            }
+            { # hedgehog
+              publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
+              allowedIPs = [ "172.28.101.1/32" ];
+            }
+          ];
+        };
+      };
+    };
+
+    firewall = {
+      enable = true;
+      allowPing = true;
+
+      allowedTCPPorts = [
+        22 # SSH
+        80 # nginx
+        443 # nginx
+      ];
+      allowedUDPPorts = [ ] ++
+        (optionals config.networking.wireguard.enable (singleton 51820)) # Wireguard
+      ;
+
+      allowedTCPPortRanges = [
+        { from = 8000; to = 8100; } # weechat
+        { from = 6881; to = 6999; } # aria2c
+      ];
+      allowedUDPPortRanges = [
+        { from = 60000; to = 61000; } # mosh
+        { from = 6881; to = 6999; } # aria2c
+      ];
+    };
   };
 
   # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
@@ -70,64 +123,5 @@ in {
     "net.ipv4.ip_forward" = true;
     "net.ipv4.conf.eth0.send_redirects" = false;
     "net.ipv6.conf.all.forwarding" = true;
-  };
-
-  networking.defaultGateway = {
-    address = ext4Gateway;
-    interface = extInterface;
-  };
-  networking.defaultGateway6 ={
-    address = ext6Gateway;
-    interface = extInterface;
-  };
-
-  networking.nat = {
-    enable = config.networking.wireguard.enable;
-    externalInterface = extInterface;
-    internalInterfaces = [ "wg0" ];
-  };
-
-  networking.wireguard = {
-    enable = false;
-    interfaces = {
-      "wg0" = {
-        ips = [ "10.100.1.1/16" ];
-        listenPort = 51820;
-
-        peers = [
-          { # hedgehog
-            publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
-            allowedIPs = [ "10.100.6.1/32" ];
-          }
-        ];
-      };
-    };
-  };
-
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-
-    allowedTCPPorts = [
-      22 # SSH
-      80 # nginx
-      443 # nginx
-      19999 # netdata TODO: proxy it with nginx
-    ];
-    allowedUDPPorts = [ ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
-
-    allowedTCPPortRanges = [
-      { from = 8000; to = 8100; } # weechat
-      { from = 6881; to = 6999; } # aria2c
-    ];
-    allowedUDPPortRanges = [
-      { from = 60000; to = 61000; } # mosh
-      { from = 6881; to = 6999; } # aria2c
-    ];
-
-    # NAT for Wireguard
-    extraCommands = ''
-      iptables -t nat -A POSTROUTING -s 10.100.0.0/16 -o eth0 -j MASQUERADE
-    '';
   };
 }
