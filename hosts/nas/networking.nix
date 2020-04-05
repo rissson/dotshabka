@@ -44,6 +44,7 @@ in {
       interfaces = {
         "${wg.interface}" = {
           ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
+          listenPort = 51820;
 
           peers = [
             { # duck.srv.fsn.lama-corp.space
