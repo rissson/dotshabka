@@ -77,26 +77,26 @@ in {
       dhcp-range=${dhcp.start},${dhcp.end},${defaultLeaseTime}
 
       domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
-      dhcp-host=${cuckoo.srv.internal.mac},cuckoo,${cuckoo.srv.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${srv.cuckoo.internal.mac},cuckoo,${srv.cuckoo.internal.v4.ip},${defaultLeaseTime}
 
       domain=lap.bar.lama-corp.space,${lap.start},${lap.end}
-      dhcp-host=${asus.lap.internal.mac},asus,${asus.lap.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${lap.asus.internal.mac},asus,${lap.asus.internal.v4.ip},${defaultLeaseTime}
 
       domain=mmd.bar.lama-corp.space,${mmd.start},${mmd.end}
-      dhcp-host=${loewe.mmd.internal.mac},loewe,${loewe.mmd.internal.v4.ip},${defaultLeaseTime}
-      dhcp-host=${bose.mmd.internal.mac},bose,${bose.mmd.internal.v4.ip},${defaultLeaseTime}
-      dhcp-host=${chromecast.mmd.internal.mac},chromecast,${chromecast.mmd.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${mmd.loewe.internal.mac},loewe,${mmd.loewe.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${mmd.bose.internal.mac},bose,${mmd.bose.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${mmd.chromecast.internal.mac},chromecast,${mmd.chromecast.internal.v4.ip},${defaultLeaseTime}
 
       domain=prt.bar.lama-corp.space,${prt.start},${prt.end}
-      dhcp-host=${hp.prt.internal.mac},hp,${hp.prt.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${prt.hp.internal.mac},hp,${prt.hp.internal.v4.ip},${defaultLeaseTime}
 
       domain=wfi.bar.lama-corp.space,${wfi.start},${wfi.end}
-      dhcp-host=${floor0.wfi.internal.mac},floor0,${floor0.wfi.internal.v4.ip},${defaultLeaseTime}
-      dhcp-host=${floor-1.wfi.internal.mac},floor-1,${floor-1.wfi.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${wfi.floor0.internal.mac},floor0,${wfi.floor0.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${wfi.floor-1.internal.mac},floor-1,${wfi.floor-1.internal.v4.ip},${defaultLeaseTime}
 
       domain=srv.bar.lama-corp.space,192.168.44.250,192.168.44.254
-      dhcp-host=${nas.srv.internal.mac},nas,${nas.srv.internal.v4.ip},${defaultLeaseTime}
-      dhcp-host=${livebox.srv.internal.mac},livebox,${livebox.srv.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${srv.nas.internal.mac},nas,${srv.nas.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${srv.livebox.internal.mac},livebox,${srv.livebox.internal.v4.ip},${defaultLeaseTime}
     '';
   };
 }
