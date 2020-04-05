@@ -38,13 +38,13 @@ in {
     enable = false;
     interfaces = {
       "wg0" = {
-        ips = [ "10.100.6.1/32" ];
+        ips = [ "172.28.101.1/32" ];
 
         peers = [
           { # duck.srv.lama-corp.space
             publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
-            allowedIPs = [ "10.100.0.0/16" ];
-            endpoint = "148.251.50.190:51820";
+            allowedIPs = [ "172.28.0.0/16" ];
+            endpoint = "duck.srv.fsn.lama-corp.space:51820";
             persistentKeepalive = 25;
           }
         ];

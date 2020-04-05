@@ -35,7 +35,7 @@ with lib;
     enable = false;
     interfaces = {
       "wg0" = {
-        ips = [ "172.28.2.254/32" ];
+        ips = [ "172.28.2.1/32" ];
 
         peers = [
           { # duck.srv.lama-corp.space

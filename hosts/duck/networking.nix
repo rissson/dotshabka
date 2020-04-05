@@ -83,7 +83,7 @@ in {
           peers = [
             { # nas
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "172.20.2.254/32" ];
+              allowedIPs = [ "172.20.2.1/32" ];
             }
             { # hedgehog
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
