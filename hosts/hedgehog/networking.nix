@@ -11,10 +11,7 @@ in {
   networking.hostName = "hedgehog";
   networking.domain = "lama-corp.space";
 
-  networking.nameservers = [
-    "1.1.1.1" "1.0.0.1" "208.67.222.222"
-    "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
-  ];
+  nameservers = dotshabka.data.iPs.externalNameservers;
 
   networking.useDHCP = true;
   networking.interfaces = {
@@ -41,10 +38,16 @@ in {
         ips = [ "172.28.101.1/32" ];
 
         peers = [
-          { # duck.srv.lama-corp.space
+          { # duck.srv.fsn.lama-corp.space
             publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
             allowedIPs = [ "172.28.0.0/16" ];
             endpoint = "duck.srv.fsn.lama-corp.space:51820";
+            persistentKeepalive = 25;
+          }
+          { # nas.srv.bar.lama-corp.space
+            publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
+            allowedIPs = [ "172.28.0.0/16" ];
+            endpoint = "bar.lama-corp.space:51820"; # Represents the public IP of the bar network
             persistentKeepalive = 25;
           }
         ];

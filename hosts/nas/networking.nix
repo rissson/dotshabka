@@ -2,71 +2,101 @@
 
 with lib;
 
-{
-  networking.hostName = "nas"; # Define your hostname.
-  networking.domain = "srv.bar.lama-corp.space";
-  networking.hostId = "3474d85a";
+let
 
-  networking.nameservers = [
-    "1.1.1.1" "1.0.0.1" "208.67.222.222"
-    "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
-  ];
+  dotshabka = import ../.. {};
 
-  networking.useDHCP = false;
-  networking.interfaces."bond0" = {
-    ipv4.addresses = [
-      { address = "192.168.44.253"; prefixLength = 24; }
-    ];
-  };
+in {
+  networking = with dotshabka.data.iPs.space.lama-corp.bar.srv.nas; {
 
-  networking.defaultGateway = {
-    address = "192.168.44.254";
-    interface = "bond0";
-  };
+    hostName = "nas";
+    domain = "srv.bar.lama-corp.space";
+    hostId = "3474d85a";
 
-  networking.bonds."bond0" = {
-    interfaces = [ "enp3s0" "enp4s0" ];
-    driverOptions = {
-      mode = "balance-alb";
+    nameservers = dotshabka.data.iPs.externalNameservers;
+
+    useDHCP = false;
+
+    bonds = {
+      "${internal.interface}" = {
+        interfaces = internal.bondInterfaces;
+        driverOptions = {
+          mode = "balance-alb";
+        };
+      };
     };
-  };
 
-  networking.wireguard = {
-    enable = false;
     interfaces = {
-      "wg0" = {
-        ips = [ "172.28.2.1/32" ];
-
-        peers = [
-          { # duck.srv.lama-corp.space
-            publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
-            allowedIPs = [ "172.28.0.0/16" ];
-            endpoint = "duck.srv.fsn.lama-corp.space:51820";
-            persistentKeepalive = 25;
-          }
+      "${internal.interface}" = {
+        ipv4.addresses = [
+          { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
         ];
+      };
+    };
+
+    defaultGateway = {
+      address = internal.v4.gw;
+      interface = internal.interface;
+    };
+
+    wireguard = {
+      enable = false; # enabled by secrets
+      interfaces = {
+        "${wg.interface}" = {
+          ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
+
+          peers = [
+            { # duck.srv.fsn.lama-corp.space
+              publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
+              allowedIPs = [ "172.28.0.0/${toString wg.v4.prefixLength}" ];
+              endpoint = "duck.srv.fsn.lama-corp.space:51820";
+              persistentKeepalive = 25;
+            }
+            { # hedgehog.lap.fly.lama-corp.space
+              publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
+              allowedIPs = [ "172.28.101.1/32" ];
+            }
+          ];
+        };
+      };
+    };
+
+    firewall = {
+      enable = true;
+      allowPing = true;
+
+      allowedTCPPorts = [
+        22 # SSH
+        53 # DNS
+        67 # DHCP
+      ];
+      allowedUDPPorts = [
+        53 # DNS
+        67 # DHCP
+      ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
+
+      allowedTCPPortRanges = [ ];
+      allowedUDPPortRanges = [
+        { from = 60000; to = 61000; } # mosh
+      ];
+
+      interfaces = {
+        "${wg.interface}" = {
+          allowedTCPPorts = [
+            19999 # Netdata
+          ];
+          allowedUDPPorts = [ ];
+
+          allowedTCPPortRanges = [ ];
+          allowedUDPPortRanges = [ ];
+        };
       };
     };
   };
 
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-
-    allowedTCPPorts = [
-      22 # SSH
-      53 # DNS
-      67 # DHCP
-      19999 # Netdata
-    ];
-    allowedUDPPorts = [
-      53 # DNS
-      67 # DHCP
-    ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
-
-    allowedTCPPortRanges = [ ];
-    allowedUDPPortRanges = [
-      { from = 60000; to = 61000; } # mosh
-    ];
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv6.conf.all.forwarding" = true;
   };
 }

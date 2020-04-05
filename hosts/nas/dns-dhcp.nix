@@ -1,42 +1,45 @@
 { pkgs, ... }:
 
 let
+
+  dotshabka = import ../.. {};
+
   hostsFile = pkgs.writeTextFile {
     name = "hosts";
     executable = false;
     destination = "/share/hosts";
-    text = ''
-      192.168.44.201  cuckoo      cuckoo.srv.bar.lama-corp.space
+    text = with dotshabka.data.iPs.space.lama-corp.bar; ''
+      ${srv.cuckoo.internal.v4.ip}      cuckoo      cuckoo.srv.bar.lama-corp.space
 
-      192.168.44.211  asus        asus.lap.bar.lama-corp.space
+      ${lap.asus.internal.v4.ip}        asus        asus.lap.bar.lama-corp.space
 
-      192.168.44.221  loewe       loewe.mmd.bar.lama-corp.space
-      192.168.44.222  bose        bose.mmd.bar.lama-corp.space
-      192.168.44.223  chromecast  chromecast.mmd.bar.lama-corp.space
+      ${mmd.loewe.internal.v4.ip}       loewe       loewe.mmd.bar.lama-corp.space
+      ${mmd.bose.internal.v4.ip}        bose        bose.mmd.bar.lama-corp.space
+      ${mmd.chromecast.internal.v4.ip}  chromecast  chromecast.mmd.bar.lama-corp.space
 
-      192.168.44.231  hp          hp.prt.bar.lama-corp.space
+      ${prt.hp.internal.v4.ip}          hp          hp.prt.bar.lama-corp.space
 
-      192.168.44.241  floor0      floor0.wfi.bar.lama-corp.space
-      192.168.44.242  kitchen     kitchen.wfi.bar.lama-corp.space
-      192.168.44.243  floor-1     floor-1.wfi.bar.lama-corp.space
+      ${wfi.floor0.internal.v4.ip}      floor0      floor0.wfi.bar.lama-corp.space
+      ${wfi.floor-1.internal.v4.ip}     floor-1     floor-1.wfi.bar.lama-corp.space
 
-      192.168.44.253  nas         nas.srv.bar.lama-corp.space
-      192.168.44.254  livebox     livebox.srv.bar.lama-corp.space
+      ${srv.nas.internal.v4.ip}         nas         nas.srv.bar.lama-corp.space
+      ${srv.livebox.internal.v4.ip}     livebox     livebox.srv.bar.lama-corp.space
     '';
   };
+
+  defaultLeaseTime = "12h";
+
 in {
-  services.dnsmasq = {
+  services.dnsmasq = with dotshabka.data.iPs.space.lama-corp.bar; {
     enable = true;
     resolveLocalQueries = false;
-    servers = [
-      "1.1.1.1" "1.0.0.1" "208.67.222.222"
-      "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
-    ];
+    servers = dotshabka.data.iPs.externalNameservers;
     extraConfig = ''
-      # Only listen on local network
-      listen-address=192.168.44.253
-      # Interface to listen on, managed by the kernel
-      interface=bond0
+      ### Global settings
+
+      # Interface not to listen on
+      except-interface=${srv.nas.wg.interface}
+      # Bind only to the others
       bind-interfaces
 
       ### DNS settings
@@ -56,8 +59,8 @@ in {
 
       dhcp-authoritative
       dhcp-rapid-commit
-      dhcp-option=option:router,192.168.44.254
-      dhcp-option=option:dns-server,192.168.44.253,1.1.1.1
+      dhcp-option=option:router,${srv.livebox.internal.v4.ip}
+      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${elemAt dotshabka.data.iPs.externalNameservers 1}
       # Tell MicroSoft devices to release the lease when they shutdown
       dhcp-option=vendor:MSFT,2,1i
       # Fix WPA autoconfiguration vulnerabilities
@@ -69,31 +72,31 @@ in {
       local=/bar.lama-corp.space/
       domain=bar.lama-corp.space
 
-      domain=dhcp.bar.lama-corp.space,192.168.44.100,192.168.44.199
+      domain=dhcp.bar.lama-corp.space,${dhcp.start},${dhcp.end}
       # range and lease time
-      dhcp-range=192.168.44.100,192.168.44.199,12h
+      dhcp-range=${dhcp.start},${dhcp.end},${defaultLeaseTime}
 
-      domain=srv.bar.lama-corp.space,192.168.44.200,192.168.44.209
-      dhcp-host=00:01:2e:48:df:6d,cuckoo,192.168.44.201,12h
+      domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
+      dhcp-host=${cuckoo.srv.internal.mac},cuckoo,${cuckoo.srv.internal.v4.ip},${defaultLeaseTime}
 
-      domain=lap.bar.lama-corp.space,192.168.44.210,192.168.44.219
-      dhcp-host=94:10:3e:f6:43:35,asus,192.168.44.211,12h
+      domain=lap.bar.lama-corp.space,${lap.start},${lap.end}
+      dhcp-host=${asus.lap.internal.mac},asus,${asus.lap.internal.v4.ip},${defaultLeaseTime}
 
-      domain=mmd.bar.lama-corp.space,192.168.44.220,192.168.44.229
-      dhcp-host=00:09:82:17:1c:c0,loewe,192.168.44.221,12h
-      dhcp-host=08:df:1f:08:49:34,bose,192.168.44.222,12h
-      dhcp-host=48:d6:d5:27:2b:b4,chromecast,192.126.44.223,12h
+      domain=mmd.bar.lama-corp.space,${mmd.start},${mmd.end}
+      dhcp-host=${loewe.mmd.internal.mac},loewe,${loewe.mmd.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${bose.mmd.internal.mac},bose,${bose.mmd.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${chromecast.mmd.internal.mac},chromecast,${chromecast.mmd.internal.v4.ip},${defaultLeaseTime}
 
-      domain=prt.bar.lama-corp.space,192.168.44.230,192.168.44.239
-      dhcp-host=88:51:fb:1b:21:f4,hp,192.168.44.231,12h
+      domain=prt.bar.lama-corp.space,${prt.start},${prt.end}
+      dhcp-host=${hp.prt.internal.mac},hp,${hp.prt.internal.v4.ip},${defaultLeaseTime}
 
-      domain=wfi.bar.lama-corp.space,192.168.44.240,192.168.44.249
-      dhcp-host=44:fe:3b:1b:ed:3e,floor0,192.168.44.241,12h
-      dhcp-host=00:e0:4c:90:a8:52,kitchen,192.168.44.242,12h
+      domain=wfi.bar.lama-corp.space,${wfi.start},${wfi.end}
+      dhcp-host=${floor0.wfi.internal.mac},floor0,${floor0.wfi.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${floor-1.wfi.internal.mac},floor-1,${floor-1.wfi.internal.v4.ip},${defaultLeaseTime}
 
       domain=srv.bar.lama-corp.space,192.168.44.250,192.168.44.254
-      dhcp-host=8e:3d:9b:ab:c9:c5,nas,192.168.44.253,12h
-      dhcp-host=78:81:02:13:49:4e,livebox,192.168.44.254,12h
+      dhcp-host=${nas.srv.internal.mac},nas,${nas.srv.internal.v4.ip},${defaultLeaseTime}
+      dhcp-host=${livebox.srv.internal.mac},livebox,${livebox.srv.internal.v4.ip},${defaultLeaseTime}
     '';
   };
 }

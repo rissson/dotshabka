@@ -20,10 +20,7 @@ in {
     hostName = "duck";
     domain = "srv.fsn.lama-corp.space";
 
-    nameservers = [
-      "1.1.1.1" "1.0.0.1" "208.67.222.222"
-      "2606:4700:4700::1111" "2606:4700:4700::1001" "2620:119:35::35"
-    ];
+    nameservers = dotshabka.data.iPs.externalNameservers;
 
     useDHCP = false;
 
@@ -81,11 +78,13 @@ in {
           listenPort = 51820;
 
           peers = [
-            { # nas
+            { # nas.srv.bar.lama-corp.space
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "172.28.2.1/32" ];
+              allowedIPs = [ "172.28.0.0/${toString wg.v4.prefixLength}" ];
+              endpoint = "bar.lama-corp.space:51820"; # Represents the public IP of the bar network
+              persistentKeepalive = 25;
             }
-            { # hedgehog
+            { # hedgehog.lap.fly.lama-corp.space
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
               allowedIPs = [ "172.28.101.1/32" ];
             }
@@ -115,6 +114,18 @@ in {
         { from = 60000; to = 61000; } # mosh
         { from = 6881; to = 6999; } # aria2c
       ];
+
+      interfaces = {
+        "${wg.interface}" = {
+          allowedTCPPorts = [
+            19999 # Netdata
+          ];
+          allowedUDPPorts = [ ];
+
+          allowedTCPPortRanges = [ ];
+          allowedUDPPortRanges = [ ];
+        };
+      };
     };
   };
 
