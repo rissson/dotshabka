@@ -53,6 +53,32 @@ in {
     '';
   };
 
+  docker-containers."cloudflare-ddns-ipv4" = {
+    image = "";
+    environment = {
+      ZONE = "lama-corp.space";
+      SUBDOMAIN = "bar";
+      PROXIED = "false";
+      RRTYPE = "A";
+    };
+    extraDockerOptions = [
+      "--network=host"
+    ];
+  };
+
+  docker-containers."cloudflare-ddns-ipv6" = {
+    image = "";
+    environment = {
+      ZONE = "lama-corp.space";
+      SUBDOMAIN = "bar";
+      PROXIED = "false";
+      RRTYPE = "AAAA";
+    };
+    extraDockerOptions = [
+      "--network=host"
+    ];
+  };
+
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
   shabka.keyboard.layouts = [ "qwerty" ];
