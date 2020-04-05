@@ -24,6 +24,11 @@ with lib;
                 substituteInPlace setup.py --replace "'pytest-runner'" ""
               '';
             });
+            social-auth-backend-epita = super.social-auth-backend-epita.overridePythonAttrs(old: {
+              postPatch = ''
+                substituteInPlace setup.py --replace "'social-auth-core[openidconnect]'," ""
+              '';
+            });
           }
         );
       };
