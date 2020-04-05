@@ -3,15 +3,19 @@
 with lib;
 
 let
+
+  dotshabka = import ../.. {};
+
   physicalInterface = "enp3s0";
   wirelessInterface = "wlp5s0";
+
 in {
   networking.networkmanager.enable = false;
 
   networking.hostName = "hedgehog";
   networking.domain = "lama-corp.space";
 
-  nameservers = dotshabka.data.iPs.externalNameservers;
+  networking.nameservers = dotshabka.data.iPs.externalNameservers;
 
   networking.useDHCP = true;
   networking.interfaces = {
