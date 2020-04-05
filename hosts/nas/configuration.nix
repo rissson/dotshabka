@@ -53,8 +53,9 @@ in {
     '';
   };
 
+  # TODO: package this and run it as a service
   docker-containers."cloudflare-ddns-ipv4" = {
-    image = "";
+    image = "oznu/cloudflare-ddns";
     environment = {
       ZONE = "lama-corp.space";
       SUBDOMAIN = "bar";
@@ -67,7 +68,7 @@ in {
   };
 
   docker-containers."cloudflare-ddns-ipv6" = {
-    image = "";
+    image = "oznu/cloudflare-ddns";
     environment = {
       ZONE = "lama-corp.space";
       SUBDOMAIN = "bar";
