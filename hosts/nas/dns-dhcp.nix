@@ -60,7 +60,7 @@ in {
       dhcp-authoritative
       dhcp-rapid-commit
       dhcp-option=option:router,${srv.livebox.internal.v4.ip}
-      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${elemAt dotshabka.data.iPs.externalNameservers 1}
+      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${builtins.elemAt dotshabka.data.iPs.externalNameservers 1}
       # Tell MicroSoft devices to release the lease when they shutdown
       dhcp-option=vendor:MSFT,2,1i
       # Fix WPA autoconfiguration vulnerabilities
