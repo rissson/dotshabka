@@ -31,6 +31,24 @@ with lib;
     };
   };
 
+  networking.wireguard = {
+    enable = false;
+    interfaces = {
+      "wg0" = {
+        ips = [ "172.28.2.254/32" ];
+
+        peers = [
+          { # duck.srv.lama-corp.space
+            publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
+            allowedIPs = [ "172.28.0.0/16" ];
+            endpoint = "duck.srv.fsn.lama-corp.space:51820";
+            persistentKeepalive = 25;
+          }
+        ];
+      };
+    };
+  };
+
   networking.firewall = {
     enable = true;
     allowPing = true;
