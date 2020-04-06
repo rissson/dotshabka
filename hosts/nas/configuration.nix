@@ -96,14 +96,14 @@ in {
         path = "/etc/ssh/ssh_host_rsa_key";
         rounds = 100;
         openSSHFormat = true;
-        comment = "nas.barr.srv.lama-corp.space";
+        comment = "nas.bar.srv.lama-corp.space";
       }
       {
         type = "ed25519";
         path = "/etc/ssh/ssh_host_ed25519_key";
         rounds = 100;
         openSSHFormat = true;
-        comment = "nas.barr.srv.lama-corp.space";
+        comment = "nas.bar.srv.lama-corp.space";
       }
     ];
 
