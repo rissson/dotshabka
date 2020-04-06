@@ -4,7 +4,6 @@ with pkgs;
 
 mkShell {
   buildInputs = with pkgs; [
-    gnumake
   ];
 
   # Export the location of the SSL CA bundle

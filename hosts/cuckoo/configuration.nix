@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
@@ -25,7 +25,7 @@ in {
   networking.hostName = "cuckoo";
   networking.domain = "srv.bar.lama-corp.space";
   networking.useDHCP = false;
-  networking.interface."enp4s11".useDHCP = true;
+  networking.interfaces."enp4s11".useDHCP = true;
   networking.firewall = {
     enable = true;
     allowPing = true;

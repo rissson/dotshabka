@@ -39,7 +39,7 @@ in {
     enable = false;
     interfaces = {
       "wg0" = {
-        ips = [ "172.28.101.1/32" ];
+        ips = [ "172.28.101.1/16" ];
 
         peers = [
           { # duck.srv.fsn.lama-corp.space
@@ -48,12 +48,12 @@ in {
             endpoint = "duck.srv.fsn.lama-corp.space:51820";
             persistentKeepalive = 25;
           }
-          { # nas.srv.bar.lama-corp.space
-            publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
+          /*{ # nas.srv.bar.lama-corp.space
+            publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
             allowedIPs = [ "172.28.0.0/16" ];
-            endpoint = "bar.lama-corp.space:51820"; # Represents the public IP of the bar network
+            endpoint = "bar.lama-corp.space:51820";
             persistentKeepalive = 25;
-          }
+          }*/
         ];
       };
     };
