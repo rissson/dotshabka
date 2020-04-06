@@ -4,6 +4,19 @@
   space.lama-corp = {
     fsn = import ./fsn.nix { };
     bar = import ./bar.nix { };
+    fly = {
+      lap = {
+        hedgehog = {
+          wg = {
+            interface = "wg0";
+            v4 = {
+              ip = "172.28.101.1";
+              prefixLength = 16;
+            };
+          };
+        };
+      };
+    };
   };
 
   externalNameservers = [
