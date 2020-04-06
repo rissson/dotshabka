@@ -76,6 +76,11 @@ in {
         comment = "cuckoo.srv.bar.lama-corp.space";
       }
     ];
+
+    extraConfig = ''
+      Match Address 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,169.254.0.0/16,fe80::/10,fd00::/8
+        PermitRootLogin prohibit-password
+    '';
   };
 
   users.users.root.hashedPassword = "$6$6gHewlCr$qLfWzM/s0Olmaps2wyVfV83xVDXenGlJA.Sza.hoNFOvtue81L9I.wXVylZQ0eu68fl1NEsjjGIqnBTuoJDT..";
