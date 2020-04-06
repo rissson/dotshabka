@@ -80,7 +80,7 @@ in {
           peers = [
             { # nas.srv.bar.lama-corp.space
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "${space.lama-corp.bar.srv.nas.wg.ip.v4}/32" ];
+              allowedIPs = [ "${dotshabka.data.iPs.space.lama-corp.bar.srv.nas.wg.v4.ip}/32" ];
             }
             { # hedgehog.lap.fly.lama-corp.space
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
