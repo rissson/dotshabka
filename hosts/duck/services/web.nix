@@ -9,6 +9,7 @@
     ./web/cAtCDC.nix
     ./web/jdmi.nix
     ./web/lama-corp.space.nix
+    ./web/pastebin.nix
     ./web/risson.space.nix
     ./web/scoreboard-seedbox-cri.nix
     ./web/upload.nix
