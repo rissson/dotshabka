@@ -10,7 +10,7 @@
     ];
     forceSSL = true;
     enableACME = true;
-    root = "/srv/http/pastebin";
+    root = "/srv/http/pastebin/htdocs";
     locations = {
       "/" = {
         index = "index.php index.html index.htm";
