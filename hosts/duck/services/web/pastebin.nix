@@ -11,11 +11,27 @@
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/pastebin/htdocs";
+    extraConfig = ''
+      client_body_buffer_size 8M;
+      client_max_body_size 8M;
+
+      # Only allow these request methods
+      if ($request_method !~ ^(GET|HEAD|POST)$ ) {
+        return 444;
+      }
+    '';
     locations = {
-      "/" = {
-        index = "index.php index.html index.htm";
+      "~ /\\." = {
+        extraConfig = "deny all;";
       };
-      "~ [^/]\.php(/|$)" = {
+      "~* /(?:static)/.*\\.php$" = {
+        extraConfig = "deny all;";
+      };
+      "/" = {
+        index = "index.php";
+        tryFiles = "$uri $uri/ /index.php?$args";
+      };
+      "~ [^/]\\.php(/|$)" = {
         tryFiles = "$uri $document_root$fastcgi_script_name =404";
         extraConfig = ''
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
