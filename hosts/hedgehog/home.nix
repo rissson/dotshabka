@@ -26,7 +26,7 @@
     shabka.gnupg.enable = true;
     shabka.htop.enable = true;
     shabka.keybase.enable = true;
-    shabka.syncthing.enable = true;
+    shabka.syncthing.enable = false;
     shabka.ssh.enable = true;
     shabka.tmux.enable = true;
     shabka.neovim.enable = true;
