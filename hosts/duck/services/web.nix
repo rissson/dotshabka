@@ -7,6 +7,7 @@
     ./web/acdc.nix
     ./web/beauflard.nix
     ./web/cAtCDC.nix
+    ./web/codimd.nix
     ./web/jdmi.nix
     ./web/lama-corp.space.nix
     ./web/pastebin.nix
