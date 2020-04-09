@@ -13,6 +13,13 @@ in {
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
   ];
 
+  boot.initrd.availableKernelModules = [ "ahci" "igb" "usbhid" "sd_mod" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.loader.grub = {
     enable = true;
     version = 2;
@@ -139,4 +146,6 @@ in {
     [ { device = "/dev/disk/by-uuid/222f1806-a087-462a-948c-68c6a5726661"; }
       { device = "/dev/disk/by-uuid/1ba67c78-35bd-44b0-9058-468db8e26cce"; }
     ];
+
+  nix.maxJobs = mkDefault 12;
 }

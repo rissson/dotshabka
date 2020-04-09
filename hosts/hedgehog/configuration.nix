@@ -27,8 +27,8 @@ in {
     options iwlwifi power_save=0
   '';
 
-  # set the default locale and the timeZone
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.consoleFont = "Lat2-Terminus16";
   time.timeZone = "Europe/Paris";
 
   shabka.hardware.intel_backlight.enable = true;
@@ -52,8 +52,6 @@ in {
     virtualbox.enable = true;
     xorg.enable = true;
   };
-
-  shabka.hardware.machine = "thinkpad-e580";
 
   services.logind.extraConfig = ''
     HandlePowerKey=suspend
