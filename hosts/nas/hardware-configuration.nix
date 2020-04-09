@@ -22,6 +22,21 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "*-*-24 05:24:14 UTC";
+  };
+
+  services.zfs.autoSnapshot = {
+    enable = true;
+    flags = "-k -p --utc -v";
+    frequent = 4;
+    hourly = 24;
+    daily = 7;
+    weekly = 4;
+    monthly = 12;
+  };
+
   fileSystems."/" =
     { device = "rpool/ROOT/nixos";
       fsType = "zfs";
