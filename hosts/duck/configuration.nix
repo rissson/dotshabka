@@ -31,10 +31,9 @@ in {
     ]
     ++ (optionals haveSecrets (singleton ./../../secrets));
 
-  shabka.hardware.machine = "hetzner_sb53";
-
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
+  i18n.consoleFont = "Lat2-Terminus16";
   shabka.keyboard.layouts = [ "qwerty" ];
   shabka.keyboard.enableAtBoot = true;
 

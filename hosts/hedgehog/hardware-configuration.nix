@@ -4,6 +4,21 @@
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
 
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  boot.loader.grub = {
+    configurationLimit = 30;
+    device = "nodev";
+    efiSupport = true;
+    enable = true;
+    enableCryptodisk = true;
+  };
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+
   boot.initrd.luks.devices = [
     {
       name = "cryptvgroot";
@@ -34,4 +49,8 @@
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; } ];
+
+  nix.maxJobs = lib.mkDefault 8;
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
