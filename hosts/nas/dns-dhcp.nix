@@ -37,8 +37,8 @@ in {
     extraConfig = ''
       ### Global settings
 
-      # Interface not to listen on
-      except-interface=${srv.nas.wg.interface}
+      # Interface not to listen on for DHCP
+      no-dhcp-interface=${srv.nas.wg.interface}
       # Bind only to the others
       bind-interfaces
 
@@ -52,6 +52,7 @@ in {
       no-poll
       no-hosts
       no-resolv
+      strict-order
       expand-hosts
       addn-hosts=${hostsFile}/share/hosts
 

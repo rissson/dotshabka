@@ -18,6 +18,7 @@ in {
       ./hardware-configuration.nix
 
       ./networking.nix
+      ./dns.nix
       ./users.nix
       ./monitoring.nix
 
