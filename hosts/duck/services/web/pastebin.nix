@@ -2,7 +2,7 @@
 {
   services.nginx.virtualHosts."bin.lama-corp.space" = {
     serverAliases = [
-      "bin.risson.me"
+      "bin.risson.space"
       "bin.risson.me"
       "bin.marcerisson.space"
       "bin.risson.rocks"

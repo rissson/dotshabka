@@ -15,6 +15,13 @@ in {
     SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
   '';
 
+  # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
   networking = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; {
 
     hostName = "duck";
@@ -125,12 +132,5 @@ in {
         };
       };
     };
-  };
-
-  # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
-  boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = true;
-    "net.ipv4.conf.eth0.send_redirects" = false;
-    "net.ipv6.conf.all.forwarding" = true;
   };
 }
