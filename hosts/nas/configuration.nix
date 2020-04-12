@@ -20,7 +20,7 @@ in {
       ./networking.nix
       ./dns-dhcp.nix
 
-      ./home.nix
+      ./home
     ]
     ++ (optionals haveSecrets (singleton ./../../secrets));
 

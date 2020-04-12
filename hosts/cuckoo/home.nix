@@ -7,7 +7,8 @@
   {
     imports = [
       <shabka/modules/home>
-      ../../modules/home
+      ../../modules/home/default
+      ../../modules/home/risson
     ];
 
     shabka.nixosConfig = nixosConfig;
