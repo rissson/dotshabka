@@ -2,18 +2,17 @@
 {
   # TODO: score an A+ at SSLlabs
   # TODO: register email for ACME
-  #TODO: https://support.cloudflare.com/hc/en-us/articles/204899617 /srv/certs/cloudflare.pem
   imports = [
-    ./web/acdc.nix
-    ./web/beauflard.nix
-    ./web/cAtCDC.nix
-    ./web/codimd.nix
-    ./web/jdmi.nix
-    ./web/lama-corp.space.nix
-    ./web/pastebin.nix
-    ./web/risson.space.nix
-    ./web/scoreboard-seedbox-cri.nix
-    ./web/upload.nix
+    ./acdc.nix
+    ./beauflard.nix
+    ./cAtCDC.nix
+    ./codimd.nix
+    ./jdmi.nix
+    ./lama-corp.space.nix
+    ./pastebin.nix
+    ./risson.space.nix
+    ./scoreboard-seedbox-cri.nix
+    ./upload.nix
   ];
 
   security.dhparams = {
@@ -28,7 +27,6 @@
     package = pkgs.nginxMainline;
     group = "deploy";
 
-    # Same limit as Cloudflare
     clientMaxBodySize = "100m";
 
     # Logging settings
@@ -41,13 +39,11 @@
       access_log /var/log/nginx/access.log default;
     '';
 
-    # Because yes.
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    # Security settings
     sslDhparam = config.security.dhparams.params."nginx".path;
   };
 

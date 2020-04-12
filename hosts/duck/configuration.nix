@@ -4,32 +4,21 @@ with lib;
 
 let
   shabka = import <shabka> { };
-
   dotshabka = import ../.. { };
-
-  haveSecrets = builtins.pathExists ./../../secrets;
 in {
   imports =
     [
       <shabka/modules/nixos>
-
       ../../modules/nixos
 
       ./hardware-configuration.nix
-
       ./networking.nix
       ./users.nix
       ./monitoring.nix
-
-      ./services/web.nix
-      ./services/s3.nix
-      ./services/databases.nix
-      ./services/hercules-ci.nix
-      ./services/TheFractalBot.nix
-
-      ./home.nix
+      ./services
+      ./home
     ]
-    ++ (optionals haveSecrets (singleton ./../../secrets));
+    ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
 
   shabka.hardware.machine = "hetzner_sb53";
 
