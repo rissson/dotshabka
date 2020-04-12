@@ -78,11 +78,12 @@ in {
     };
 
     wireguard = {
-      enable = false; # enabled by secrets
+      enable = true;
       interfaces = {
         "${wg.interface}" = {
           ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
           listenPort = 51820;
+          privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
             { # nas.srv.bar.lama-corp.space

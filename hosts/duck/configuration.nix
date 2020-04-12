@@ -14,6 +14,7 @@ in {
       ./hardware-configuration.nix
       ./networking.nix
       ./users.nix
+      ./backups.nix
       ./monitoring.nix
       ./services
       ./home

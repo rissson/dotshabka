@@ -3,7 +3,7 @@
 with lib;
 
 let
-  bootHostSshKeyPath = /srv/keys/initrd-ssh-key;
+  bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
 in {
   warnings = (optional (!(builtins.pathExists bootHostSshKeyPath))
     "${toString bootHostSshKeyPath} does not exists. You will not be able to decrypt the disks through SSH after a reboot."
