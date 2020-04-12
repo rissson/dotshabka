@@ -13,6 +13,7 @@
     ./risson.space.nix
     ./scoreboard-seedbox-cri.nix
     ./upload.nix
+    ./url.nix
   ];
 
   security.dhparams = {

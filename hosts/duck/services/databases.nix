@@ -26,4 +26,19 @@
       }
     ];
   };
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    dataDir = "/srv/mysql";
+    ensureDatabases = [
+      "yourls"
+    ];
+    ensureUsers = [
+      {
+        name = "yourls";
+        ensurePermissions = { "yourls.*" = "ALL PRIVILEGES"; };
+      }
+    ];
+  };
 }
