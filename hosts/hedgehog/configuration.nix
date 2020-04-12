@@ -1,16 +1,12 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
 let
   shabka = import <shabka> { };
-
   dotshabka = import ../.. { };
-
 in {
   imports = [
-    ./hardware-configuration.nix
-
     "${shabka.external.nixos-hardware.path}/common/cpu/intel"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
@@ -18,6 +14,7 @@ in {
     <shabka/modules/nixos>
     ../../modules/nixos
 
+    ./hardware-configuration.nix
     ./networking.nix
 
     ./home.nix
@@ -62,15 +59,19 @@ in {
     HandlePowerKey=suspend
   '';
 
-  users.users.root.hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-  users.users.root.openssh.authorizedKeys.keys = singleton dotshabka.external.risson.keys;
-  shabka.users.users = {
+  users.users.root = {
+    hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
+    openssh.authorizedKeys.keys = with config.shabka.users.users;
+      risson.sshKeys;
+  };
+
+  shabka.users.users = with dotshabka.data.users; {
     risson = {
       uid = 2000;
       isAdmin = true;
       home ="/home/risson";
-      hashedPassword = "$6$2YnxY3Tl$kRj7YZypnB2Od41GgpwYRcn4kCcCE6OksZlKLws0rEi//T/emKWEsUZZ2ZG40eph1bpmjznztav4iKc8scmqc1";
-      sshKeys = singleton dotshabka.external.risson.keys;
+      hashedPassword = risson.password;
+      sshKeys = risson.keys.ssh;
     };
   };
 
