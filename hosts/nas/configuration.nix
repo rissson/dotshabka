@@ -75,6 +75,16 @@ in {
     ];
   };
 
+  services.borgbackup.repos = {
+    "duck" = {
+      allowSubRepos = true;
+      path = "/srv/backups/duck";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9GpUHP1WRgwsd8sXWUC5r5AL73lcIuRr7NPenLe9xt"
+      ];
+    };
+  };
+
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
   shabka.keyboard.layouts = [ "qwerty" ];
