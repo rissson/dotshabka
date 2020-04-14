@@ -9,6 +9,9 @@
     ];
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-jdmi.risson.space.log netdata;
+    '';
     root = "/srv/http/jdmi/site";
     locations = {
       "/" = {

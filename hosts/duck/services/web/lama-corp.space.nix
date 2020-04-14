@@ -7,6 +7,9 @@
     default = true;
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-lama-corp.space.log netdata;
+    '';
     root = "/srv/http/lama-corp.space";
     locations = {
       "/" = {

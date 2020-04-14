@@ -14,6 +14,9 @@
     ];
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-risson.space.log netdata;
+    '';
     root = "/srv/http/risson.space/prod";
     locations = {
       "/" = {

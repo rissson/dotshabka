@@ -10,6 +10,9 @@
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/acdc";
+    extraConfig = ''
+      access_log /var/log/nginx/access-acdc.risson.space.log netdata;
+    '';
     locations = {
       "/photos" = {
         extraConfig = ''

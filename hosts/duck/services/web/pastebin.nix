@@ -12,6 +12,8 @@
     enableACME = true;
     root = "/srv/http/pastebin/htdocs";
     extraConfig = ''
+      access_log /var/log/nginx/access-bin.lama-corp.space.log netdata;
+
       client_body_buffer_size 8M;
       client_max_body_size 8M;
 

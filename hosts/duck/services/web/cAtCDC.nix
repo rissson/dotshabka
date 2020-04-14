@@ -64,6 +64,9 @@ with lib;
     ];
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-cats.acdc.risson.space.log netdata;
+    '';
     locations = {
       "/" = {
         proxyPass = "http://unix:/srv/http/cAtCDC/cAtCDC.sock";

@@ -29,22 +29,21 @@
 
     clientMaxBodySize = "100m";
 
-    # Logging settings
-    # TODO: more fine logging and integration with netdata
     commonHttpConfig = ''
-      log_format default '$remote_addr - $remote_user [$time_local] '
+      log_format netdata '$host $server_port $remote_addr - $remote_user [$time_local] '
                          '"$request" $status $body_bytes_sent '
-                         '$request_length $request_time '
+                         '$request_length $request_time $upstream_response_time '
                          '"$http_referer" "$http_user_agent"';
-      access_log /var/log/nginx/access.log default;
+      access_log /var/log/nginx/access.log netdata;
     '';
 
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-
     sslDhparam = config.security.dhparams.params."nginx".path;
+
+    statusPage = true;
   };
 
   security.acme.production = true;

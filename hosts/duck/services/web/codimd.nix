@@ -40,6 +40,9 @@ with lib;
     ];
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-md.lama-corp.space.log netdata;
+    '';
     locations = {
       "/" = {
         proxyPass = "http://localhost:19100";

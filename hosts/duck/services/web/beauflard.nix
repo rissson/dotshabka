@@ -10,6 +10,9 @@
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/beauflard";
+    extraConfig = ''
+      access_log /var/log/nginx/access-beauflard.risson.space.log netdata;
+    '';
     locations = {
       "/" = {
         index = "index.php index.html index.htm";

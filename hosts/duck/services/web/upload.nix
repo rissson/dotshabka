@@ -9,6 +9,9 @@
     ];
     forceSSL = true;
     enableACME = true;
+    extraConfig = ''
+      access_log /var/log/nginx/access-upload.risson.space.log netdata;
+    '';
     root = "/home/risson/upload";
     locations = {
       "/" = {
