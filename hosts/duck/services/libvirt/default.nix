@@ -15,7 +15,7 @@ let
     restartIfChanged = false;
 
     script = ''
-      uuid="$(${getBin pkgs.libvirt})/bin/virsh domuuid '${vmName}' || true)"
+      uuid="$(${getBin pkgs.libvirt}/bin/virsh domuuid '${vmName}' || true)"
       ${getBin pkgs.libvirt}/bin/virsh define <(sed "s/UUID/$uuid" '${xml}')
       ${getBin pkgs.libvirt}/bin/virsh start '${vmName}'
     '';
