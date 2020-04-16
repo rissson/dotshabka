@@ -86,6 +86,10 @@ in {
           privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
+            { # hub.virt.duck.srv.fsn.lama-corp.space
+              publicKey = "xa3HxQyrwM+uR8/NqiOCzonwOCqSD/ghkFow4d1omkQ=";
+              allowedIPs = [ "172.28.1.11/32" ];
+            }
             { # nas.srv.bar.lama-corp.space
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
               allowedIPs = [ "${dotshabka.data.iPs.space.lama-corp.bar.srv.nas.wg.v4.ip}/32" ];
