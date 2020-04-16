@@ -2,9 +2,9 @@
 
 with lib;
 
-with <dotshabka/data/iPs/space/lama-corp>;
-
-{
+let
+  dotshabka = import <dotshabka> {};
+in with dotshabka.data.iPs.space.lama-corp; {
   services.unbound = {
     enable = true;
     interfaces = [ "127.0.0.1" "::1" fsn.srv.duck.wg.v4.ip ];
@@ -41,8 +41,8 @@ with <dotshabka/data/iPs/space/lama-corp>;
 
         domain-insecure: "fly.lama-corp.space"
         local-zone: "fly.lama-corp.space." static
-        local-data: "hedgehog.lap.fly.lama-corp.space. IN A ${fly.lap.hedgehog.v4.ip}"
-        local-data-ptr: "${fly.lap.hedgehog.v4.ip} hedgehog.lap.fly.lama-corp.space"
+        local-data: "hedgehog.lap.fly.lama-corp.space. IN A ${fly.lap.hedgehog.wg.v4.ip}"
+        local-data-ptr: "${fly.lap.hedgehog.wg.v4.ip} hedgehog.lap.fly.lama-corp.space"
         local-data: "trunck.lap.fly.lama-corp.space. IN A ${fly.lap.trunck.wg.v4.ip}"
         local-data-ptr: "${fly.lap.trunck.wg.v4.ip} trunck.lap.fly.lama-corp.space"
 

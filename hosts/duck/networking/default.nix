@@ -2,9 +2,9 @@
 
 with lib;
 
-with <dotshabka/data/iPs/space/lama-corp>;
-
-{
+let
+  dotshabka = import <dotshabka> {};
+in with dotshabka.data.iPs.space.lama-corp; {
   imports = [
     ./dns.nix
   ];

@@ -15,7 +15,9 @@ in {
   networking.hostName = "hedgehog";
   networking.domain = "lap.fly.lama-corp.space";
 
-  networking.nameservers = [ "172.28.1.1" ];
+  networking.nameservers = [
+    "172.28.1.1"
+  ];
 
   networking.useDHCP = true;
   networking.interfaces = {
@@ -23,8 +25,6 @@ in {
       useDHCP = true;
     };
   };
-
-  services.resolved.enable = true;
 
   networking.wireless = {
     enable = true;
