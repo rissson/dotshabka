@@ -33,9 +33,9 @@ in with dotshabka.data.iPs; {
         unblock-lan-zones: yes
         insecure-lan-zones: yes
 
-        insecure-domain: "bar.lama-corp.space"
-        insecure-domain: "fly.lama-corp.space"
-        insecure-domain: "fsn.lama-corp.space"
+        domain-insecure: "bar.lama-corp.space"
+        domain-insecure: "fly.lama-corp.space"
+        domain-insecure: "fsn.lama-corp.space"
 
         local-zone: "44.168.192.in-addr.arpa." transparent
 
