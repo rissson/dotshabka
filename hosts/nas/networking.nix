@@ -53,10 +53,6 @@ in {
               endpoint = "duck.srv.fsn.lama-corp.space:51820";
               persistentKeepalive = 25;
             }
-            { # hedgehog.lap.fly.lama-corp.space
-              publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
-              allowedIPs = [ "172.28.101.1/32" ];
-            }
           ];
         };
       };
