@@ -3,10 +3,12 @@
 with lib;
 
 let
-
   dotshabka = import <dotshabka> {};
-
 in {
+  imports = [
+    ./dns.nix
+  ];
+
   boot.kernelParams = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; [
     "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
   ];
@@ -132,9 +134,12 @@ in {
       interfaces = {
         "${wg.interface}" = {
           allowedTCPPorts = [
+            53 # DNS
             19999 # Netdata
           ];
-          allowedUDPPorts = [ ];
+          allowedUDPPorts = [
+            53 # DNS
+          ];
 
           allowedTCPPortRanges = [ ];
           allowedUDPPortRanges = [ ];
