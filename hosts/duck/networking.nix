@@ -98,6 +98,10 @@ in {
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
               allowedIPs = [ "172.28.101.1/32" ];
             }
+            { # trunck.lap.fly.lama-corp.space
+              publicKey = "5AKJzXk/ybUl4fQXsP4aycHBbFP+IhhWbFUVtJCUzg0=";
+              allowedIPs = [ "172.28.102.1/32" ];
+            }
           ];
         };
       };
