@@ -57,6 +57,39 @@ in {
     HandlePowerKey=suspend
   '';
 
+  services.borgbackup = {
+    jobs = {
+      "nas-homes" = {
+        repo = "ssh://borg@172.28.2.1/./backups/homes";
+        compression = "zlib,1";
+
+        encryption = {
+          mode = "repokey-blake2";
+          passCommand = "cat /srv/secrets/root/backups/borg-nas-backups.passwd";
+        };
+        environment.BORG_RSH = "ssh -i /srv/secrets/root/backups/borg-nas-backups.ssh.key";
+
+        paths = [
+          "/home"
+          "/root"
+        ];
+
+        startAt = "*-*-* 02:02:54 UTC";
+        prune = {
+          keep = {
+            within = "1d";
+            daily = 7;
+            weekly = 4;
+            monthly = 12;
+          };
+        };
+
+        extraCreateArgs = "--stats --progress --checkpoint-interval 600";
+        extraPruneArgs = "--stats --save-space --list --progress";
+      };
+    };
+  };
+
   users.users.root = {
     hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
     openssh.authorizedKeys.keys = with config.shabka.users.users;
