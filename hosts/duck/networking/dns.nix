@@ -7,7 +7,7 @@ let
 in with dotshabka.data.iPs; {
   services.unbound = {
     enable = true;
-    interfaces = [ "0.0.0.0" "::0" ];
+    interfaces = [ "127.0.0.1" "::1" "172.28.1.1" ];
     allowedAccess = [ "0.0.0.0/0" "::0/0" ];
     enableRootTrustAnchor = true;
     extraConfig = ''
