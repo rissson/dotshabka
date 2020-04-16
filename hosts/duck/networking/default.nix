@@ -134,9 +134,12 @@ in {
       interfaces = {
         "${wg.interface}" = {
           allowedTCPPorts = [
+            53 # DNS
             19999 # Netdata
           ];
-          allowedUDPPorts = [ ];
+          allowedUDPPorts = [
+            53 # DNS
+          ];
 
           allowedTCPPortRanges = [ ];
           allowedUDPPortRanges = [ ];
