@@ -100,7 +100,7 @@ in {
             }
             { # trunck.lap.fly.lama-corp.space
               publicKey = "5AKJzXk/ybUl4fQXsP4aycHBbFP+IhhWbFUVtJCUzg0=";
-              allowedIPs = [ "172.28.102.1/24" ];
+              allowedIPs = [ "172.28.102.1/32" ];
             }
           ];
         };
