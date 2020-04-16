@@ -2,6 +2,8 @@
 
 with lib;
 
+with <dotshabka/data/iPs/space/lama-corp/fsn/srv/duck/virt>;
+
 let
 
   buildVmService = vmName: xml: {
@@ -42,7 +44,7 @@ in {
 
       kvmId = 1;
       name = "lewdax-ynh";
-      macAddress = "54:52:00:fb:94:e9";
+      macAddress = lewdax.mac;
       diskDevPath = "/dev/vg0/vm-lewdax-ynh";
       ifBridge = "br0";
     }
@@ -54,7 +56,7 @@ in {
 
       kvmId = 2;
       name = "lamacorp-ynh";
-      macAddress = "54:52:00:fb:94:e8";
+      macAddress = hub.mac;
       diskDevPath = "/dev/vg0/vm-lamacorp-ynh";
       ifBridge = "br0";
     }

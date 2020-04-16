@@ -60,7 +60,7 @@ in {
   services.borgbackup = {
     jobs = {
       "nas-homes" = {
-        repo = "ssh://borg@172.28.2.1/./backups/homes";
+        repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/homes";
         compression = "zlib,1";
 
         encryption = {

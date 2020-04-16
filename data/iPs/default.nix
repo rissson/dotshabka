@@ -15,6 +15,15 @@
             };
           };
         };
+        trunck = {
+          wg = {
+            interface = "wg0";
+            v4 = {
+              ip = "172.28.102.1";
+              prefixLength = 16;
+            };
+          };
+        };
       };
     };
   };

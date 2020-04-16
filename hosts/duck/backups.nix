@@ -4,7 +4,7 @@
   services.borgbackup = {
     jobs = {
       "nas-system" = {
-        repo = "ssh://borg@172.28.2.1/./backups/system";
+        repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/system";
         compression = "zlib,1";
 
         encryption.mode = "none";
@@ -35,7 +35,7 @@
       };
 
       "nas-homes" = {
-        repo = "ssh://borg@172.28.2.1/./backups/homes";
+        repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/homes";
         compression = "zlib,1";
 
         encryption.mode = "none";

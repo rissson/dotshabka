@@ -13,7 +13,7 @@ in {
     domain = "srv.bar.lama-corp.space";
     hostId = "3474d85a";
 
-    nameservers = dotshabka.data.iPs.externalNameservers;
+    nameservers = [ "172.28.1.1" ];
 
     useDHCP = false;
 
