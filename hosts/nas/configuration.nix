@@ -83,6 +83,13 @@ in {
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9GpUHP1WRgwsd8sXWUC5r5AL73lcIuRr7NPenLe9xt"
       ];
     };
+    "hedgehog" = {
+      allowSubRepos = true;
+      path = "/srv/backups/hedgehog";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOmVKSQfsQd8ifII8JTpRzdLYfkb0ZGGu/od8tKumnSU"
+      ];
+    };
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
