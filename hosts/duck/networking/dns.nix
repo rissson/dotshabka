@@ -44,7 +44,7 @@ in with dotshabka.data.iPs; {
         forward-addr: 172.28.2.1
       forward-zone:
         name: "44.168.192.in-addr.arpa."
-        forawrd-addr: 172.28.2.1
+        forward-addr: 172.28.2.1
 
       forward-zone:
         name: "."
