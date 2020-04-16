@@ -3,9 +3,7 @@
 with lib;
 
 let
-
   dotshabka = import <dotshabka> {};
-
 in {
   boot.kernelParams = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; [
     "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"

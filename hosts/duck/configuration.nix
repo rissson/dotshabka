@@ -12,7 +12,7 @@ in {
       ../../modules/nixos
 
       ./hardware-configuration.nix
-      ./networking.nix
+      ./networking
       ./users.nix
       ./backups.nix
       ./monitoring
