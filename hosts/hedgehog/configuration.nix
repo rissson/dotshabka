@@ -3,8 +3,8 @@
 with lib;
 
 let
-  shabka = import <shabka> { };
-  dotshabka = import ../.. { };
+  shabka = import <shabka> {};
+  dotshabka = import <dotshabka> {};
 in {
   imports = [
     "${shabka.external.nixos-hardware.path}/common/cpu/intel"

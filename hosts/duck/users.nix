@@ -3,7 +3,7 @@
 with lib;
 
 let
-  dotshabka = import ../.. { };
+  dotshabka = import <dotshabka> {};
 in {
 
   users.users.root = {

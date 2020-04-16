@@ -4,7 +4,7 @@ with lib;
 
 let
 
-  dotshabka = import ../.. { };
+  dotshabka = import <dotshabka> {};
 
 in {
   boot.kernelParams = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; [

@@ -4,7 +4,7 @@ with lib;
 
 let
 
-  dotshabka = import ../.. {};
+  dotshabka = import <dotshabka> {};
 
   physicalInterface = "enp3s0";
   wirelessInterface = "wlp5s0";

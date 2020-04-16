@@ -2,7 +2,7 @@
 
 let
 
-  dotshabka = import ../.. {};
+  dotshabka = import <dotshabka> {};
 
   hostsFile = pkgs.writeTextFile {
     name = "hosts";
