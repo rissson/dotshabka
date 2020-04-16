@@ -4,10 +4,10 @@ with lib;
 
 let
   dotshabka = import <dotshabka> {};
-in with dotshabka.data.iPs; {
+in with dotshabka.data.iPs.space.lama-corp; {
   services.unbound = {
     enable = true;
-    interfaces = [ "127.0.0.1" "::1" "172.28.1.1" ];
+    interfaces = [ "127.0.0.1" "::1" fsn.srv.duck.wg.v4.ip ];
     allowedAccess = [ "0.0.0.0/0" "::0/0" ];
     enableRootTrustAnchor = true;
     extraConfig = ''
@@ -36,29 +36,29 @@ in with dotshabka.data.iPs; {
 
         domain-insecure: "bar.lama-corp.space"
         local-zone: "44.168.192.in-addr.arpa." transparent
-        local-data: "nas.srv.bar.lama-corp.space. IN A 172.28.2.1"
-        local-data-ptr: "172.28.2.1 nas.srv.bar.lama-corp.space"
+        local-data: "nas.srv.bar.lama-corp.space. IN A ${bar.srv.nas.wg.v4.ip}"
+        local-data-ptr: "${bar.srv.nas.wg.v4.ip} nas.srv.bar.lama-corp.space"
 
         domain-insecure: "fly.lama-corp.space"
         local-zone: "fly.lama-corp.space." static
-        local-data: "hedgehog.lap.fly.lama-corp.space. IN A 172.28.101.1"
-        local-data-ptr: "172.28.101.1 hedgehog.lap.fly.lama-corp.space"
-        local-data: "trunck.lap.fly.lama-corp.space. IN A 172.28.102.1"
-        local-data-ptr: "172.28.102.1 trunck.lap.fly.lama-corp.space"
+        local-data: "hedgehog.lap.fly.lama-corp.space. IN A ${fly.lap.hedgehog.wg.v4.ip}"
+        local-data-ptr: "${fly.lap.hedgehog.wg.v4.ip} hedgehog.lap.fly.lama-corp.space"
+        local-data: "trunck.lap.fly.lama-corp.space. IN A ${fly.lap.trunck.wg.v4.ip}"
+        local-data-ptr: "${fly.lap.trunck.wg.v4.ip} trunck.lap.fly.lama-corp.space"
 
         domain-insecure: "fsn.lama-corp.space"
         local-zone: "fsn.lama-corp.space." static
-        local-data: "duck.srv.fsn.lama-corp.space. IN A 172.28.1.1"
-        local-data-ptr: "172.28.1.1 duck.srv.fsn.lama-corp.space"
-        local-data: "hub.virt.duck.fsn.lama-corp.space. IN A 172.28.1.11"
-        local-data-ptr: "172.28.1.11 hub.virt.duck.fsn.lama-corp.space"
+        local-data: "duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.wg.v4.ip} duck.srv.fsn.lama-corp.space"
+        local-data: "hub.virt.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.virt.hub.wg.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.virt.hub.wg.v4.ip} hub.virt.duck.srv.fsn.lama-corp.space"
 
       forward-zone:
         name: "bar.lama-corp.space."
-        forward-addr: 172.28.2.1
+        forward-addr: ${bar.srv.nas.wg.v4.ip}
       forward-zone:
         name: "44.168.192.in-addr.arpa."
-        forward-addr: 172.28.2.1
+        forward-addr: ${bar.srv.nas.wg.v4.ip}
 
       forward-zone:
         name: "."

@@ -13,9 +13,11 @@ in {
   networking.networkmanager.enable = false;
 
   networking.hostName = "hedgehog";
-  networking.domain = "lama-corp.space";
+  networking.domain = "lap.fly.lama-corp.space";
 
-  networking.nameservers = dotshabka.data.iPs.externalNameservers;
+  networking.nameservers = [
+    "172.28.1.1"
+  ];
 
   networking.useDHCP = true;
   networking.interfaces = {
@@ -23,8 +25,6 @@ in {
       useDHCP = true;
     };
   };
-
-  services.resolved.enable = true;
 
   networking.wireless = {
     enable = true;

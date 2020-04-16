@@ -4,16 +4,16 @@ with lib;
 
 let
   dotshabka = import <dotshabka> {};
-in {
+in with dotshabka.data.iPs.space.lama-corp; {
   imports = [
     ./dns.nix
   ];
 
-  boot.kernelParams = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; [
+  boot.kernelParams = with fsn.srv.duck; [
     "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
   ];
 
-  services.udev.extraRules = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; ''
+  services.udev.extraRules = with fsn.srv.duck; ''
     SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
   '';
 
@@ -24,12 +24,12 @@ in {
     "net.ipv6.conf.all.forwarding" = true;
   };
 
-  networking = with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck; {
+  networking = with fsn.srv.duck; {
 
     hostName = "duck";
     domain = "srv.fsn.lama-corp.space";
 
-    nameservers = dotshabka.data.iPs.externalNameservers;
+    nameservers = [ "127.0.0.1" "::1" ];
 
     useDHCP = false;
 
@@ -90,19 +90,19 @@ in {
           peers = [
             { # hub.virt.duck.srv.fsn.lama-corp.space
               publicKey = "xa3HxQyrwM+uR8/NqiOCzonwOCqSD/ghkFow4d1omkQ=";
-              allowedIPs = [ "172.28.1.11/32" ];
+              allowedIPs = [ "${fsn.srv.duck.virt.hub.wg.v4.ip}/32" ];
             }
             { # nas.srv.bar.lama-corp.space
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "${dotshabka.data.iPs.space.lama-corp.bar.srv.nas.wg.v4.ip}/32" ];
+              allowedIPs = [ "${bar.srv.nas.wg.v4.ip}/32" ];
             }
             { # hedgehog.lap.fly.lama-corp.space
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
-              allowedIPs = [ "172.28.101.1/32" ];
+              allowedIPs = [ "${fly.lap.hedgehog.wg.v4.ip}/32" ];
             }
             { # trunck.lap.fly.lama-corp.space
               publicKey = "5AKJzXk/ybUl4fQXsP4aycHBbFP+IhhWbFUVtJCUzg0=";
-              allowedIPs = [ "172.28.102.1/32" ];
+              allowedIPs = [ "${fly.lap.trunck.wg.v4.ip}/32" ];
             }
           ];
         };

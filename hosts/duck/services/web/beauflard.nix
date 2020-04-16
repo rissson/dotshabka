@@ -17,7 +17,7 @@
       "/" = {
         index = "index.php index.html index.htm";
       };
-      "~ [^/]\.php(/|$)" = {
+      "~ [^/]\\.php(/|$)" = {
         tryFiles = "$uri $document_root$fastcgi_script_name =404";
         extraConfig = ''
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
