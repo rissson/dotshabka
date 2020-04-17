@@ -23,11 +23,11 @@
       }
       {
         name = "pastebin";
-        ensurepermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
+        ensurePermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
       }
       {
         name = "scoreboard-seedbox-cri";
-        ensurepermissions = { "DATABASE scoreboard-seedbox-cri" = "ALL PRIVILEGES"; };
+        ensurePermissions = { "DATABASE scoreboard-seedbox-cri" = "ALL PRIVILEGES"; };
       }
     ];
   };
