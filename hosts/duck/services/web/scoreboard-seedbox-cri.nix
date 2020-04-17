@@ -10,16 +10,10 @@
     '';
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:9040";
-        extraConfig = ''
-          proxy_redirect off;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Host $http_host;
-        '';
-      };
-      "/static" = {
-        root = "/home/risson/seedbox-cri-scoreboard";
+      extraConfig = ''
+        return 200 'This website is currently under active maintenance. Sorry for the interruption :/';
+        add_header Content-Type text/plain;
+      '';
       };
     };
   };
