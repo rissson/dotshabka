@@ -4,23 +4,35 @@ with lib;
 
 let
   shabka = import <shabka> {};
-  dotshabka = import <dotshabka> {};
-  rissonNur = import dotshabka.external.risson.nur.path {
-    pkgs = import shabka.external.nixpkgs.release-unstable.path {};
-  };
+  nixpkgs = import shabka.external.nixpkgs.release-unstable.path {};
 in {
   systemd.services.thefractal-space = {
     enable = true;
     description = "thefractal.space website";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
-    script = ''
-      ${pkgs.python37Packages.gunicorn}/bin/gunicorn \
+    script = let
+      flaskEnv = nixpkgs.poetry2nix.mkPoetryEnv {
+        projectDir = "/srv/http/thefractal.space";
+
+        overrides = nixpkgs.poetry2nix.overrides.withDefaults (
+          self: super: {
+            kivy = null;
+            kivymd = null;
+            kivy-garden = null;
+            colour = super.colour.overridePythonAttrs(old: {
+              buildInputs = [ nixpkgs.python3Packages.d2to1 ];
+            });
+          }
+        );
+      };
+    in ''
+      ${flaskEnv}/bin/gunicorn \
           --workers 4 \
           --timeout 240 \
           --max-requests 1000 \
           --max-requests-jitter 50 \
-          --chdir ${rissonNur.thefractalbot-web}/lib/python3.7/site-packages \
+          --chdir /srv/http/thefractal.space \
           --bind unix:/srv/http/thefractal.space/thefractal.space.sock \
           thefractalbot_web.app:app
     '';
