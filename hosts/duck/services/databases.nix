@@ -10,6 +10,7 @@
       "catcdc"
       "codimd"
       "pastebin"
+      "scoreboard-seedbox-cri"
     ];
     ensureUsers = [
       {
@@ -22,7 +23,11 @@
       }
       {
         name = "pastebin";
-        ensurePermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
+        ensurepermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
+      }
+      {
+        name = "scoreboard-seedbox-cri";
+        ensurepermissions = { "DATABASE scoreboard-seedbox-cri" = "ALL PRIVILEGES"; };
       }
     ];
   };
