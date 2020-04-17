@@ -8,7 +8,7 @@ let
   buildVmService = vmName: xml: {
     after = [ "libvirtd.service" ];
     requires = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.targer" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
