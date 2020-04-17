@@ -1,9 +1,11 @@
-{ ... }:
+{ lib, ... }:
+
+with lib;
 
 let
   nixpkgs = import (import <shabka> {}).external.nixpkgs.release-unstable.path {};
 in {
-  systemd.services.scoreboard-seedbox-cri = {
+  systemd.services.scoreboard-seedbox-cri = mkIf (builtins.pathExists /srv/http/scoreboard-seedbox-cri) {
     enable = true;
     description = "thefractal.space website";
     after = [ "network.target" ];

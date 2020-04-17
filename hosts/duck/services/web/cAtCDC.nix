@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, ... }:
 
 with lib;
 
@@ -15,7 +15,7 @@ with lib;
         sha256 = "1v2zw6gqq3z1hwgwli7kihsqffp0xcim6a1y3dszg1wca1jqjq5w";
       }) {};
       djangoEnv = nixpkgs.poetry2nix.mkPoetryEnv {
-        projectDir = /srv/http/cAtCDC;
+        projectDir = "/srv/http/cAtCDC";
         overrides = nixpkgs.poetry2nix.overrides.withDefaults (
           self: super: {
             python-jose = super.python-jose.overridePythonAttrs(old: {
@@ -42,7 +42,7 @@ with lib;
           conf.wsgi:application
     '';
     serviceConfig = {
-      WorkingDirectory = /srv/http/cAtCDC;
+      WorkingDirectory = "/srv/http/cAtCDC";
       Restart = "always";
       RestartSec = "10s";
       StartLimitInterval = "1min";

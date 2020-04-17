@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, ... }:
 
 with lib;
 
@@ -6,7 +6,7 @@ let
   shabka = import <shabka> {};
   nixpkgs = import shabka.external.nixpkgs.release-unstable.path {};
 in {
-  systemd.services.thefractal-space = {
+  systemd.services.thefractal-space = mkIf (builtins.pathExists /srv/http/thefractal.space) {
     enable = true;
     description = "thefractal.space website";
     after = [ "network.target" ];
