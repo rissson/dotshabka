@@ -38,7 +38,7 @@ in {
       ### Global settings
 
       # Interface not to listen on
-      except-interface=${srv.nas.wg.interface}
+      no-dhcp-interface=${srv.nas.wg.interface}
       # Bind only to the others
       bind-interfaces
 
