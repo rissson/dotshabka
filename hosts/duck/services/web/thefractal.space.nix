@@ -3,7 +3,11 @@
 with lib;
 
 let
-  dotshabka = import <dotshabka> {};
+  shabka = import <shabka> {};
+  dotshabka = import ../../.. {};
+  rissonNur = import dotshabka.external.risson.nur.path {
+    pkgs = import shabka.external.nixpkgs.release-unstable.path {};
+  };
 in {
   systemd.services.thefractal-space = {
     enable = true;
@@ -16,7 +20,7 @@ in {
           --timeout 240 \
           --max-requests 1000 \
           --max-requests-jitter 50 \
-          --chdir ${dotshabka.external.risson.nur.thefractalbot-web}/lib/python3.7/site-packages \
+          --chdir ${rissonNur.thefractalbot-web}/lib/python3.7/site-packages \
           --bind unix:/srv/http/thefractal.space/thefractal.space.sock \
           thefractalbot_web.app:app
     '';
