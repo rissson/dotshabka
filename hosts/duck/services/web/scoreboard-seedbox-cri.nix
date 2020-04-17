@@ -3,7 +3,7 @@
 let
   nixpkgs = import (import <shabka> {}).external.nixpkgs.release-unstable.path {};
 in {
-  systemd.services.thefractal-space = {
+  systemd.services.scoreboard-seedbox-cri = {
     enable = true;
     description = "thefractal.space website";
     after = [ "network.target" ];
