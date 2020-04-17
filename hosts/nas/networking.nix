@@ -58,6 +58,12 @@ in {
       };
     };
 
+    nat = {
+      enable = true;
+      externalInterface = internal.interface;
+      internalInterfaces = [ wg.interface ];
+    };
+
     firewall = {
       enable = true;
       allowPing = true;
