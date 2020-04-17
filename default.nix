@@ -5,5 +5,5 @@ with pkgs;
 {
   path = ./.;
   data = import ./data { };
-  external = import ./external { inherit (pkgs) stdenNoCC; };
+  external = import ./external { inherit stdenNoCC; };
 }
