@@ -94,7 +94,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
             }
             { # nas.srv.bar.lama-corp.space
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "${bar.srv.nas.wg.v4.ip}/32" ];
+              allowedIPs = [ "${bar.srv.nas.wg.v4.ip}/32" "192.168.44.0/24" ];
             }
             { # hedgehog.lap.fly.lama-corp.space
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
