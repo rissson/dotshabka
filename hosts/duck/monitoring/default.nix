@@ -85,6 +85,12 @@ with lib;
         custom_log_format:
           pattern: '(?P<vhost>[a-zA-Z\d.-_\[\]]+) (?P<port>\d+) (?P<address>[\da-f.:]+) .* "(?P<method>[A-Z]+)[^"]*" (?P<code>[1-9]\d{2}) (?P<bytes_sent>\d+) (?P<resp_length>\d+) (?P<resp_time>\d+)'
 
+      nginx_thefractal_space:
+        name: 'thefractal_space'
+        path: /var/log/nginx/access-thefractal.space.log
+        custom_log_format:
+          pattern: '(?P<vhost>[a-zA-Z\d.-_\[\]]+) (?P<port>\d+) (?P<address>[\da-f.:]+) .* "(?P<method>[A-Z]+)[^"]*" (?P<code>[1-9]\d{2}) (?P<bytes_sent>\d+) (?P<resp_length>\d+) (?P<resp_time>\d+)'
+
       nginx_upload_risson_space:
         name: 'upload_risson_space'
         path: /var/log/nginx/access-upload.risson.space.log

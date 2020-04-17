@@ -12,6 +12,7 @@
     ./pastebin.nix
     ./risson.space.nix
     ./scoreboard-seedbox-cri.nix
+    ./thefractal.space.nix
     ./upload.nix
   ];
 
