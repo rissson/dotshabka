@@ -4,7 +4,7 @@ with lib;
 
 let
   shabka = import <shabka> {};
-  dotshabka = import ../../.. {};
+  dotshabka = import <dotshabka> {};
   rissonNur = import dotshabka.external.risson.nur.path {
     pkgs = import shabka.external.nixpkgs.release-unstable.path {};
   };
