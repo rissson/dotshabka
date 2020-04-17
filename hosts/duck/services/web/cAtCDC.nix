@@ -57,10 +57,6 @@ with lib;
   services.nginx.virtualHosts."cats.acdc.epita.fr" = {
     serverAliases = [
       "cats.acdc.risson.space"
-      "cats.acdc.risson.me"
-      "cats.acdc.marcerisson.space"
-      "cats.acdc.risson.rocks"
-      "cats.acdc.risson.tech"
     ];
     forceSSL = true;
     enableACME = true;
