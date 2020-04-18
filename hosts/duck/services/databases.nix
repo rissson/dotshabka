@@ -9,7 +9,6 @@
     ensureDatabases = [
       "catcdc"
       "codimd"
-      "mattermost"
       "pastebin"
       "scoreboard_seedbox_cri"
     ];
@@ -21,10 +20,6 @@
       {
         name = "codimd";
         ensurePermissions = { "DATABASE codimd" = "ALL PRIVILEGES"; };
-      }
-      {
-        name = "mattermost";
-        ensurePermissions = { "DATABASE mattermost" = "ALL PRIVILEGES"; };
       }
       {
         name = "pastebin";
