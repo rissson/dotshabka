@@ -42,20 +42,17 @@ in {
     '';
   });
 
-  boot.initrd.luks.devices = [
-    {
-      name = "cryptroot";
+  boot.initrd.luks.devices = {
+    cryptroot = {
       device = "/dev/disk/by-uuid/3573c5d2-11f6-45a2-8bf2-e325922b0cd5";
-    }
-    {
-      name = "cryptswap1";
+    };
+    cryptswap1 = {
       device = "/dev/disk/by-uuid/b6e59cc1-1d1c-4a7f-9e9f-d89a9dc78935";
-    }
-    {
-      name = "cryptswap2";
+    };
+    cryptswap2 = {
       device = "/dev/disk/by-uuid/a33a7cf1-5570-47ef-84eb-a79a6e49c533";
-    }
-  ];
+    };
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/338877a6-bcf3-40f2-8798-5683e000b531";

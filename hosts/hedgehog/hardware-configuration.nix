@@ -19,15 +19,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
-  boot.initrd.luks.devices = [
-    {
-      name = "cryptvgroot";
+  boot.initrd.luks.devices = {
+    cryptvgroot = {
       device = "/dev/disk/by-uuid/4463e27b-5bd1-4945-b4be-b5ea86ac46dd";
       preLVM = true;
       keyFile = "/keyfile0.bin";
       allowDiscards = true;
-    }
-  ];
+    };
+  };
 
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.grub.extraInitrd = /boot/initrd.keys.gz;
