@@ -157,7 +157,7 @@ in {
     };
   };
 
-  services.nginx.virtualHosts."chat.lama-corp.space" = {
+  services.nginx.virtualHosts."new.chat.lama-corp.space" = {
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
