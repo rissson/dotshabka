@@ -28,7 +28,7 @@ in {
   '';
 
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.consoleFont = "Lat2-Terminus16";
+  console.font = "Lat2-Terminus16";
   time.timeZone = "Europe/Paris";
 
   shabka.hardware.intel_backlight.enable = true;

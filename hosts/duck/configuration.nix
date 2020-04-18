@@ -23,7 +23,7 @@ in {
 
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
-  i18n.consoleFont = "Lat2-Terminus16";
+  console.font = "Lat2-Terminus16";
   shabka.keyboard.layouts = [ "qwerty" ];
   shabka.keyboard.enableAtBoot = true;
 
