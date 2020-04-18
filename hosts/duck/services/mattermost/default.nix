@@ -54,6 +54,7 @@ in {
         DisableBotsWhenOwnerIsDeactivated = true;
         EnableSVGs = true;
         EnableLatex = true;
+        EnableCustomEmoji = true;
       };
       TeamSettings = {
         MaxUsersPerTeam = 50;
