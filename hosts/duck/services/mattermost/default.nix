@@ -22,7 +22,7 @@ in {
     localDatabaseCreate = true;
     localDatabaseName = "mattermost";
     localDatabaseUser = "mattermost";
-    mutableConfig = false;
+    mutableConfig = true;
     siteName = "Chat | Lama Corp.";
     siteUrl = "https://new.chat.lama-corp.space";
     statePath = "/srv/mattermost";
