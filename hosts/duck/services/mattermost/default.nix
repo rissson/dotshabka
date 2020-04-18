@@ -22,7 +22,7 @@ in {
     localDatabaseCreate = true;
     localDatabaseName = "mattermost";
     localDatabaseUser = "mattermost";
-    mutableConfig = true;
+    mutableConfig = false;
     siteName = "Chat | Lama Corp.";
     siteUrl = "https://new.chat.lama-corp.space";
     statePath = "/srv/mattermost";
@@ -99,9 +99,8 @@ in {
         UseChannelInEmailNotifications = false;
         RequireEmailVerification = true;
         FeedbackName = "Notifications - Chat | Lama Corp.";
-        FeedbackEmail = "no-reply@chat.lama-corp.space";
+        FeedbackEmail = "server@lama-corp.space";
         FeedbackOrganization = "Lama Corp.";
-        EnableSMTPAuth = true;
         SendPushNotifications = true;
         PushNotificationServer = "https://push-test.mattermost.com";
         PushNotificationContents = "full";
@@ -157,6 +156,7 @@ in {
     };
   };
 
+  security.acme.certs."new.chat.lama-corp.space".email = "server@lama-corp.space";
   services.nginx.virtualHosts."new.chat.lama-corp.space" = {
     forceSSL = true;
     enableACME = true;
@@ -170,7 +170,6 @@ in {
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "upgrade";
           client_max_body_size 50M;
-          proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
@@ -187,10 +186,10 @@ in {
       };
       "/" = {
         proxyPass = "http://localhost:19065";
+        # TODO: enable cache?
         extraConfig = ''
           client_max_body_size 50M;
           proxy_set_header Connection "";
-          proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
@@ -198,12 +197,12 @@ in {
           proxy_buffers 256 16k;
           proxy_buffer_size 16k;
           proxy_read_timeout 600s;
-          proxy_cache mattermost_cache;
-          proxy_cache_revalidate on;
-          proxy_cache_min_uses 2;
-          proxy_cache_use_stale timeout;
-          proxy_cache_lock on;
-          proxy_http_version 1.1;
+          #proxy_cache mattermost_cache;
+          #proxy_cache_revalidate on;
+          #proxy_cache_min_uses 2;
+          #proxy_cache_use_stale timeout;
+          #proxy_cache_lock on;
+          #proxy_http_version 1.1;
         '';
       };
     };
