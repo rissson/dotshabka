@@ -48,7 +48,6 @@ in {
     };
   };
 
-  security.acme.certs."thefractal.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."thefractal.space" = {
     forceSSL = true;
     enableACME = true;

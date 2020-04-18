@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 {
-  security.acme.certs."upload.risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."upload.risson.space" = {
     serverAliases = [
       "upload.risson.me"

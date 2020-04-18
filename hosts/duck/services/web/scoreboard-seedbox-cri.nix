@@ -51,7 +51,6 @@ in {
     };
   };
 
-  security.acme.certs."scoreboard-seedbox-cri.risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."scoreboard-seedbox-cri.risson.space" = {
     forceSSL = true;
     enableACME = true;

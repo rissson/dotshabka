@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 {
   # TODO: score an A+ at SSLlabs
-  # TODO: register email for ACME
   imports = [
     ./acdc.nix
     ./beauflard.nix
@@ -47,5 +46,8 @@
     statusPage = true;
   };
 
-  security.acme.production = true;
+  security.acme = {
+    acceptTerms = true;
+    email = "caa@lama-corp.space";
+  };
 }
