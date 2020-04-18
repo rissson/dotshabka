@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 {
+  security.acme.certs."acdc.risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."acdc.risson.space" = {
     serverAliases = [
       "acdc.risson.me"

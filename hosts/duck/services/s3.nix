@@ -8,6 +8,7 @@
     dataDir = "/srv/minio/data";
   };
 
+  security.acme.certs."static.lama-corp.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."static.lama-corp.space" = {
     serverAliases = [
       "static.risson.space"

@@ -30,6 +30,7 @@ with lib;
     };
   };
 
+  security.acme.certs."md.lama-corp.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."md.lama-corp.space" = {
     serverAliases = [
       "md.risson.space"

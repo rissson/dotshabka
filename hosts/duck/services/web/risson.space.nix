@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 {
+  security.acme.certs."risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."risson.space" = {
     serverAliases = [
       "www.risson.space"
@@ -25,6 +26,7 @@
     };
   };
 
+  security.acme.certs."staging.risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."staging.risson.space" = {
     serverAliases = [
       "staging.risson.me"
@@ -42,6 +44,7 @@
     };
   };
 
+  security.acme.certs."dev.risson.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."dev.risson.space" = {
     serverAliases = [
       "dev.risson.me"

@@ -54,6 +54,7 @@ with lib;
     };
   };
 
+  security.acme.certs."cats.acdc.epita.fr".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."cats.acdc.epita.fr" = {
     serverAliases = [
       "cats.acdc.risson.space"

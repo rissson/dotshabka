@@ -157,7 +157,7 @@ in {
     };
   };
 
-  security.acme.certs."new.chat.lama-corp.space".email = "server@lama-corp.space";
+  security.acme.certs."new.chat.lama-corp.space".email = "caa@lama-corp.space";
   services.nginx.virtualHosts."new.chat.lama-corp.space" = {
     forceSSL = true;
     enableACME = true;
