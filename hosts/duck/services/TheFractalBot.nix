@@ -5,13 +5,13 @@ let
 
   brocoli = with nixpkgs; python3Packages.buildPythonApplication rec {
     pname = "brocoli";
-    version = "9c2cdb07df1802527bce502fad6f036b55efc65f";
+    version = "334d672d48b4f80f1f077b89deea079d2766e268";
 
     src = fetchFromGitLab {
       owner = "ddorn";
       repo = pname;
       rev = version;
-      sha256 = "08dddy7hwrqjy0584bwyy151j3537n91015sxw74dyps51nk4gsg";
+      sha256 = "0cw8rsw40j6rkv8iiksnsap7r0krxxa0vx0akihcgxd51vwivg5k";
     };
 
     propagatedBuildInputs = [
@@ -24,6 +24,7 @@ let
       python3Packages.pygments
       python3Packages.setuptools
       python3Packages.setuptools_scm
+      python3Packages.pillow
     ];
 
     doCheck = false; # There are no tests.
