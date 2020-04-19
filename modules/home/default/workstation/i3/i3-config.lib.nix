@@ -60,7 +60,7 @@ in {
   config = {
     modifier = defaultModifier;
 
-    fonts = [ "pango:SourceCodePro Regular 8" ];
+    fonts = [ "pango:Source Code Pro for Powerline 8" ];
 
     bars = []; # We are using Polybar, so no bar should be defined
 

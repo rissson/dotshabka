@@ -49,7 +49,7 @@ in {
     power.enable = true;
     sound.enable = true;
     teamviewer.enable = true;
-    virtualbox.enable = true;
+    virtualbox.enable = mkForce false;
     xorg.enable = true;
   };
 

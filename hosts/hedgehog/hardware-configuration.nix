@@ -15,9 +15,14 @@
     efiSupport = true;
     enable = true;
     enableCryptodisk = true;
+    extraInitrd = /boot/initrd.keys.gz;
   };
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi = {
+    canTouchEfiVariables = true;
+    efiSysMountPoint = "/boot/efi";
+  };
+
+  #boot.loader.systemd-boot.enable = true;
 
   boot.initrd.luks.devices = {
     cryptvgroot = {
@@ -27,9 +32,6 @@
       allowDiscards = true;
     };
   };
-
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.loader.grub.extraInitrd = /boot/initrd.keys.gz;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5e2332dc-77c3-4b59-91d2-416b25f10e0e";
