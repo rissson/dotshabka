@@ -21,8 +21,6 @@ in {
   ]
   ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
 
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
-
   boot.extraModprobeConfig = ''
     options iwlwifi power_save=0
   '';
@@ -46,6 +44,7 @@ in {
     autorandr.enable = true;
     bluetooth.enable = true;
     fonts.enable = true;
+    gtk.enable = true;
     power.enable = true;
     sound.enable = true;
     teamviewer.enable = true;
