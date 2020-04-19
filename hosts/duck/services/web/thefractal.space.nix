@@ -34,7 +34,7 @@ in {
           --max-requests-jitter 50 \
           --chdir /srv/http/thefractal.space \
           --bind unix:/srv/http/thefractal.space/thefractal.space.sock \
-          thefractalbot_web.app:app
+          thefractalspace.app:app
     '';
     serviceConfig = {
       WorkingDirectory = "/srv/http/thefractal.space";
