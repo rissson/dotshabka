@@ -8,6 +8,13 @@ with lib;
     ./smartd.nix
   ];
 
+  services.netdata.python = {
+    enable = true;
+    extraPackages = ps: [
+      ps.psycopg2
+    ];
+  };
+
   environment.etc = mkIf config.services.netdata.enable {
     "netdata/go.d.conf".text = ''
       modules:
