@@ -75,7 +75,8 @@ in with dotshabka.data.iPs.space.lama-corp; {
 
       remote-control:
         control-enable: yes
-        control-interface: 127.0.0.1 ::1
+        control-interface: "127.0.0.1"
+        control-interface: "::1"
         control-port: 8953
         control-use-cert: no
     '';
