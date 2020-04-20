@@ -34,5 +34,12 @@ with lib;
       phpfpm: no
       web_log: no
     '';
+
+    "netdata/health_alarm_notify.conf".text = ''
+      sendmail="${pkgs.sendmail}/bin/sendmail"
+      curl="${pkgs.curl}/bin/curl"
+      SEND_EMAIL="YES"
+      DEFAULT_RECIPIENT_EMAIL="server@lama-corp.space"
+    '';
   };
 }
