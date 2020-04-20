@@ -28,7 +28,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
     nameservers = [
       "127.0.0.1"
       "::1"
-    ] ++ dotshabka.iPs.externalNameservers;
+    ] ++ dotshabka.data.iPs.externalNameservers;
 
     useDHCP = false;
 
