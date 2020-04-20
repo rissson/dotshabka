@@ -30,10 +30,10 @@
     clientMaxBodySize = "100m";
 
     commonHttpConfig = ''
-      log_format netdata '$host $server_port $remote_addr - $remote_user [$time_local] '
+      log_format netdata '$host:$server_port $remote_addr - $remote_user [$time_local] '
                          '"$request" $status $body_bytes_sent '
-                         '$request_length $request_time $upstream_response_time '
-                         '"$http_referer" "$http_user_agent"';
+                         '"$http_referer" "$http_user_agent" '
+                         '$request_length $request_time $upstream_response_time';
       access_log /var/log/nginx/access.log netdata;
     '';
 

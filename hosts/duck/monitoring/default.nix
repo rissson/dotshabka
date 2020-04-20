@@ -8,9 +8,8 @@ with lib;
       example: no
       logind: yes
       nginx: no
-      web_log: yes
+      web_log: no
     '';
-    "netdata/python.d/web_log.conf".text = builtins.readFile ./python.d/web_log.conf;
 
     "netdata/go.d.conf".text = ''
       modules:
@@ -25,9 +24,10 @@ with lib;
         phpfpm: no
         rabbitmq: no
         squidlog: no
-        web_log: no
+        web_log: yes
         whoisquery: no
     '';
     "netdata/go.d/nginx.conf".text = builtins.readFile ./go.d/nginx.conf;
+    "netdata/go.d/web_log.conf".text = builtins.readFile ./go.d/web_log.conf;
   };
 }
