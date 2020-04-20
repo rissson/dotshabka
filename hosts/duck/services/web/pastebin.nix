@@ -51,7 +51,7 @@
           allow 172.28.0.0/16;
           allow 148.251.50.190;
           allow 148.251.148.232/29;
-          allow [2a01:4f8:202:1097::]/64;
+          allow 2a01:4f8:202:1097::/64;
           deny all;
           fastcgi_pass unix:${config.services.phpfpm.pools."pastebin".socket};
           include ${pkgs.nginx}/conf/fastcgi_params;
