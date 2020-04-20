@@ -3,6 +3,11 @@
 with lib;
 
 {
+  imports = [
+    ./logrotate.nix
+    ./smartd.nix
+  ];
+
   environment.etc = mkIf config.services.netdata.enable {
     "netdata/go.d.conf".text = ''
       modules:
