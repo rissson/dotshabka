@@ -4,13 +4,6 @@ with lib;
 
 {
   environment.etc = mkIf config.services.netdata.enable {
-    "netdata/python.d.conf".text = ''
-      example: no
-      logind: yes
-      nginx: no
-      web_log: no
-    '';
-
     "netdata/go.d.conf".text = ''
       modules:
         apache: no
@@ -29,5 +22,12 @@ with lib;
     '';
     "netdata/go.d/nginx.conf".text = builtins.readFile ./go.d/nginx.conf;
     "netdata/go.d/web_log.conf".text = builtins.readFile ./go.d/web_log.conf;
+
+    "netdata/python.d.conf".text = ''
+      example: no
+      logind: yes
+      nginx: no
+      web_log: no
+    '';
   };
 }
