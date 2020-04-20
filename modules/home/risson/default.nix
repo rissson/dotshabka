@@ -1,5 +1,5 @@
 with import <shabka/util>;
 
 {
-  imports = recImport ./.;
+  imports = recImport ./default;
 }

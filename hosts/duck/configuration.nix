@@ -9,7 +9,8 @@ in {
   imports =
     [
       <shabka/modules/nixos>
-      ../../modules/nixos
+      <dotshabka/modules/nixos>
+      <dotshabka/modules/nixos/server>
 
       ./hardware-configuration.nix
       ./networking
@@ -19,41 +20,10 @@ in {
       ./services
       ./home
     ]
-    ++ (optionals (builtins.pathExists ./../../secrets) (singleton ./../../secrets));
+    ++ (optionals (builtins.pathExists <dotshabka/secrets>) (singleton <dotshabka/secrets>));
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "Europe/Paris";
-  console.font = "Lat2-Terminus16";
   shabka.keyboard.layouts = [ "qwerty" ];
   shabka.keyboard.enableAtBoot = true;
-
-  services.openssh = {
-    enable = true;
-    passwordAuthentication = false;
-    permitRootLogin = "no";
-    hostKeys = [
-      {
-        type = "rsa";
-        bits = 4096;
-        path = "/etc/ssh/ssh_host_rsa_key";
-        rounds = 100;
-        openSSHFormat = true;
-        comment = "duck.srv.fsn.lama-corp.space";
-      }
-      {
-        type = "ed25519";
-        path = "/etc/ssh/ssh_host_ed25519_key";
-        rounds = 100;
-        openSSHFormat = true;
-        comment = "duck.srv.fsn.lama-corp.space";
-      }
-    ];
-
-    extraConfig = ''
-      Match Address 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,169.254.0.0/16,fe80::/10,fd00::/8
-        PermitRootLogin prohibit-password
-    '';
-  };
 
   shabka.virtualisation = {
     docker.enable = true;

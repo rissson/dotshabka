@@ -1,13 +1,25 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
+  imports = let
+    shabka = import <shabka> {};
+  in [
+    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    "${shabka.external.nixos-hardware.path}/common/cpu/intel"
+    "${shabka.external.nixos-hardware.path}/common/pc/laptop"
+    "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
+  ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModprobeConfig = ''
+    options iwlwifi power_save=0
+  '';
 
   boot.loader.grub = {
     configurationLimit = 30;
@@ -22,8 +34,6 @@
     efiSysMountPoint = "/boot/efi";
   };
 
-  #boot.loader.systemd-boot.enable = true;
-
   boot.initrd.luks.devices = {
     cryptvgroot = {
       device = "/dev/disk/by-uuid/4463e27b-5bd1-4945-b4be-b5ea86ac46dd";
@@ -33,25 +43,32 @@
     };
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/5e2332dc-77c3-4b59-91d2-416b25f10e0e";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/5e2332dc-77c3-4b59-91d2-416b25f10e0e";
       fsType = "ext4";
     };
 
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/CB1A-AC4D";
+    "/home" = {
+      device = "/dev/disk/by-uuid/2ffe6dbb-ec89-444a-8d22-0277eb02b0c7";
+      fsType = "ext4";
+    };
+
+    "/boot/efi" = {
+      device = "/dev/disk/by-uuid/CB1A-AC4D";
       fsType = "vfat";
     };
+  };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/2ffe6dbb-ec89-444a-8d22-0277eb02b0c7";
-      fsType = "ext4";
-    };
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; }
+  ];
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; } ];
+  nix.maxJobs = 6;
 
-  nix.maxJobs = lib.mkDefault 8;
+  powerManagement = mkIf config.shabka.workstation.power.enable {
+    cpuFreqGovernor = "powersave";
+  };
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  shabka.hardware.intel_backlight.enable = true;
 }

@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  shabka.keyboard.layouts = [ "qwerty_intl" ];
+  shabka.keyboard.layouts = [ "qwerty" ];
 
   shabka.git.enable = true;
   shabka.gnupg.enable = true;

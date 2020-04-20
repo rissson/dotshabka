@@ -4,9 +4,20 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
+  imports = let
+    shabka = import <shabka> {};
+  in [
+    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    "${shabka.external.nixos-hardware.path}/common/cpu/intel"
+    "${shabka.external.nixos-hardware.path}/common/pc/hdd"
+  ];
+
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.grub = {
     enable = true;
@@ -15,124 +26,112 @@
     zfsSupport = true;
   };
 
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
-
   services.zfs.autoScrub = {
     enable = true;
     interval = "*-*-24 05:24:14 UTC";
   };
 
-  services.zfs.autoSnapshot = {
-    enable = true;
-    flags = "-k -p --utc -v";
-    frequent = 4;
-    hourly = 24;
-    daily = 7;
-    weekly = 4;
-    monthly = 12;
+  fileSystems = {
+    "/" =
+      { device = "rpool/ROOT/nixos";
+      fsType = "zfs";
+    };
+
+    "/home" =
+      { device = "rpool/ROOT/home";
+      fsType = "zfs";
+    };
+
+    "/home/diego" =
+      { device = "rpool/ROOT/home/diego";
+      fsType = "zfs";
+    };
+
+    "/home/risson" =
+      { device = "rpool/ROOT/home/risson";
+      fsType = "zfs";
+    };
+
+    "/root" =
+      { device = "rpool/ROOT/home/root";
+      fsType = "zfs";
+    };
+
+    "/nix" =
+      { device = "rpool/NIX/nix";
+      fsType = "zfs";
+    };
+
+    "/opt" =
+      { device = "rpool/ROOT/opt";
+      fsType = "zfs";
+    };
+
+    "/srv" =
+      { device = "rpool/ROOT/srv";
+      fsType = "zfs";
+    };
+
+    "/tmp" =
+      { device = "rpool/ROOT/tmp";
+      fsType = "zfs";
+    };
+
+    "/var" =
+      { device = "rpool/ROOT/var";
+      fsType = "zfs";
+    };
+
+    "/var/cache" =
+      { device = "rpool/ROOT/var/cache";
+      fsType = "zfs";
+    };
+
+    "/var/lib" =
+      { device = "rpool/ROOT/var/lib";
+      fsType = "zfs";
+    };
+
+    "/var/lib/docker" =
+      { device = "rpool/ROOT/var/lib/docker";
+      fsType = "zfs";
+    };
+
+    "/var/lib/libvirt" =
+      { device = "rpool/ROOT/var/lib/libvirt";
+      fsType = "zfs";
+    };
+
+    "/var/log" =
+      { device = "rpool/ROOT/var/log";
+      fsType = "zfs";
+    };
+
+    "/var/spool" =
+      { device = "rpool/ROOT/var/spool";
+      fsType = "zfs";
+    };
+
+    "/var/tmp" =
+      { device = "rpool/ROOT/var/tmp";
+      fsType = "zfs";
+    };
+
+    "/boot" =
+      { device = "bpool/BOOT/boot";
+      fsType = "zfs";
+    };
   };
 
-  fileSystems."/" =
-    { device = "rpool/ROOT/nixos";
-      fsType = "zfs";
-    };
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/09a51cb0-eae7-4c25-826a-be99bf583106"; }
+    { device = "/dev/disk/by-uuid/cf2e3dba-5687-4d63-987e-dde2056c8439"; }
+    { device = "/dev/disk/by-uuid/9e875d9c-ce27-4ec5-b6a7-c534cd01914b"; }
+  ];
 
-  fileSystems."/home" =
-    { device = "rpool/ROOT/home";
-      fsType = "zfs";
-    };
+  nix.maxJobs = 3;
 
-  fileSystems."/home/diego" =
-    { device = "rpool/ROOT/home/diego";
-      fsType = "zfs";
-    };
-
-  fileSystems."/home/risson" =
-    { device = "rpool/ROOT/home/risson";
-      fsType = "zfs";
-    };
-
-  fileSystems."/root" =
-    { device = "rpool/ROOT/home/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "rpool/NIX/nix";
-      fsType = "zfs";
-    };
-
-  fileSystems."/opt" =
-    { device = "rpool/ROOT/opt";
-      fsType = "zfs";
-    };
-
-  fileSystems."/srv" =
-    { device = "rpool/ROOT/srv";
-      fsType = "zfs";
-    };
-
-  fileSystems."/tmp" =
-    { device = "rpool/ROOT/tmp";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var" =
-    { device = "rpool/ROOT/var";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/cache" =
-    { device = "rpool/ROOT/var/cache";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/lib" =
-    { device = "rpool/ROOT/var/lib";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/lib/docker" =
-    { device = "rpool/ROOT/var/lib/docker";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/lib/libvirt" =
-    { device = "rpool/ROOT/var/lib/libvirt";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/log" =
-    { device = "rpool/ROOT/var/log";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/spool" =
-    { device = "rpool/ROOT/var/spool";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var/tmp" =
-    { device = "rpool/ROOT/var/tmp";
-      fsType = "zfs";
-    };
-
-  fileSystems."/boot" =
-    { device = "bpool/BOOT/boot";
-      fsType = "zfs";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/09a51cb0-eae7-4c25-826a-be99bf583106"; }
-      { device = "/dev/disk/by-uuid/cf2e3dba-5687-4d63-987e-dde2056c8439"; }
-      { device = "/dev/disk/by-uuid/9e875d9c-ce27-4ec5-b6a7-c534cd01914b"; }
-    ];
-
-  nix.maxJobs = lib.mkDefault 4;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement = mkIf config.shabka.workstation.power.enable {
+    cpuFreqGovernor = "ondemand";
+  };
 }
