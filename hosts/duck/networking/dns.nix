@@ -11,6 +11,9 @@ in with dotshabka.data.iPs.space.lama-corp; {
     allowedAccess = [ "0.0.0.0/0" "::0/0" ];
     enableRootTrustAnchor = true;
     extraConfig = ''
+        statistics-cumulative: yes
+        extended-statistics: yes
+
         tls-cert-bundle: ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
         # Do not query the following addresses. No DNS queries are sent there.
         # List one address per entry. List classless netblocks with /size,
@@ -69,6 +72,13 @@ in with dotshabka.data.iPs.space.lama-corp; {
         forward-addr: 2a07:a8c1::#61ba3a.dns2.nextdns.io
         forward-addr: 1.1.1.1@853#cloudflare-dns.com
         forward-addr: 1.0.0.1@853#cloudflare-dns.com
+
+      remote-control:
+        control-enable: yes
+        control-interface: "127.0.0.1"
+        control-interface: "::1"
+        control-port: 8953
+        control-use-cert: no
     '';
   };
 }
