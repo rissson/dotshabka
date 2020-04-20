@@ -1,0 +1,24 @@
+/CODEOWNERS @risson @ddorn
+/LICENSE @risson @ddorn
+/README.md @risson
+
+/default.nix @risson
+/shell.nix @risson
+
+/data/ @risson
+/scripts/ @risson
+
+/hosts/duck/ @risson @ddorn
+/hosts/hedgehog/ @risson
+/hosts/nas/ @risson
+
+/modules/* @risson @ddorn
+/modules/nixos/ @risson @ddorn
+
+/modules/home/* @risson @ddorn
+/modules/home/default/ @risson @ddorn
+/modules/home/server/ @risson @ddorn
+/modules/home/workstation/ @risson @ddorn
+
+/modules/home/risson/ @risson
+/modules/home/diego/ @ddorn
