@@ -32,7 +32,7 @@ with lib;
       sendmail="${pkgs.system-sendmail}/bin/sendmail"
       curl="${pkgs.curl}/bin/curl"
       SEND_EMAIL="YES"
-      DEFAULT_RECIPIENT_EMAIL="server@lama-corp.space"
+      DEFAULT_RECIPIENT_EMAIL="root@lama-corp.ovh"
     '';
   };
 }
