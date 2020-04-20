@@ -102,7 +102,7 @@ in {
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
-    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv4.conf.bond0.send_redirects" = false;
     "net.ipv6.conf.all.forwarding" = true;
   };
 }

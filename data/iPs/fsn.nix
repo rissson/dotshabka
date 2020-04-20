@@ -5,7 +5,7 @@
     duck = {
       external = {
         mac = "00:25:90:d8:e5:1a";
-        interface = "eth0";
+        interface = "eno1";
         v4 = {
           ip  = "148.251.50.190";
           prefixLength = 32;
