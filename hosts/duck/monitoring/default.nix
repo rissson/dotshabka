@@ -16,6 +16,7 @@ with lib;
     "netdata/go.d/phpfpm.conf".text = builtins.readFile ./go.d/phpfpm.conf;
     "netdata/go.d/portcheck.conf".text = builtins.readFile ./go.d/portcheck.conf;
     "netdata/go.d/web_log.conf".text = builtins.readFile ./go.d/web_log.conf;
+    "netdata/go.d/x509check.conf".text = builtins.readFile ./go.d/x509check.conf;
 
     "netdata/python.d.conf".text = ''
       example: no
