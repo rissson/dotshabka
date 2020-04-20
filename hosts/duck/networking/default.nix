@@ -13,14 +13,10 @@ in with dotshabka.data.iPs.space.lama-corp; {
     "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
   ];
 
-  services.udev.extraRules = with fsn.srv.duck; ''
-    SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
-  '';
-
   # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
-    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv4.conf.eno1.send_redirects" = false;
     "net.ipv6.conf.all.forwarding" = true;
   };
 
@@ -29,7 +25,10 @@ in with dotshabka.data.iPs.space.lama-corp; {
     hostName = "duck";
     domain = "srv.fsn.lama-corp.space";
 
-    nameservers = [ "127.0.0.1" "::1" ];
+    nameservers = [
+      "127.0.0.1"
+      "::1"
+    ] ++ dotshabka.data.iPs.externalNameservers;
 
     useDHCP = false;
 

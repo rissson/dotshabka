@@ -13,7 +13,10 @@ in {
     domain = "srv.bar.lama-corp.space";
     hostId = "3474d85a";
 
-    nameservers = [ "172.28.1.1" ];
+    nameservers = [
+      "172.28.1.1"
+      "1.1.1.1"
+    ];
 
     useDHCP = false;
 
@@ -50,7 +53,7 @@ in {
             { # duck.srv.fsn.lama-corp.space
               publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
               allowedIPs = [ "172.28.0.0/${toString wg.v4.prefixLength}" ];
-              endpoint = "duck.srv.fsn.lama-corp.space:51820";
+              endpoint = "${dotshabka.data.iPs.space.lama-corp.fsn.srv.duck.external.v4.ip}:51820";
               persistentKeepalive = 25;
             }
           ];
@@ -99,7 +102,7 @@ in {
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
-    "net.ipv4.conf.eth0.send_redirects" = false;
+    "net.ipv4.conf.bond0.send_redirects" = false;
     "net.ipv6.conf.all.forwarding" = true;
   };
 }
