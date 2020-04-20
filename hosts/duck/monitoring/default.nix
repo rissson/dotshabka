@@ -14,6 +14,7 @@ with lib;
     "netdata/go.d/httpcheck.conf".text = builtins.readFile ./go.d/httpcheck.conf;
     "netdata/go.d/nginx.conf".text = builtins.readFile ./go.d/nginx.conf;
     "netdata/go.d/phpfpm.conf".text = builtins.readFile ./go.d/phpfpm.conf;
+    "netdata/go.d/portcheck.conf".text = builtins.readFile ./go.d/portcheck.conf;
     "netdata/go.d/web_log.conf".text = builtins.readFile ./go.d/web_log.conf;
 
     "netdata/python.d.conf".text = ''
