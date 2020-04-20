@@ -22,6 +22,9 @@
         ensurePermissions = { "DATABASE codimd" = "ALL PRIVILEGES"; };
       }
       {
+        name = "netdata";
+      }
+      {
         name = "pastebin";
         ensurePermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
       }
