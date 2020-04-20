@@ -39,5 +39,6 @@ with lib;
       phpfpm: no
       web_log: no
     '';
+    "netdata/python.d/postgres.conf".text = builtins.readFile ./python.d/postgres.conf;
   };
 }
