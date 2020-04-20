@@ -4,8 +4,30 @@ with lib;
 
 {
   environment.etc = mkIf config.services.netdata.enable {
-    "netdata/python.d.conf".text = builtins.readFile ./python.d.conf;
-    "netdata/python.d/nginx.conf".text = builtins.readFile ./python.d/nginx.conf;
+    "netdata/python.d.conf".text = ''
+      example: no
+      logind: yes
+      nginx: no
+      web_log: yes
+    '';
     "netdata/python.d/web_log.conf".text = builtins.readFile ./python.d/web_log.conf;
+
+    "netdata/go.d.conf".text = ''
+      modules:
+        apache: no
+        bind: no
+        example: no
+        freeradius: no
+        lighttpd: no
+        mysql: no
+        nginx: yes
+        openvpn: no
+        phpfpm: no
+        rabbitmq: no
+        squidlog: no
+        web_log: no
+        whoisquery: no
+    '';
+    "netdata/go.d/nginx.conf".text = builtins.readFile ./go.d/nginx.conf;
   };
 }
