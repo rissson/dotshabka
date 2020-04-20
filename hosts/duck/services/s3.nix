@@ -24,6 +24,7 @@
       # They will get denied by Minio if the credentials are wrong anyway
       # We only give credentials to people we trust
       client_max_body_size 0;
+      access_log /var/log/nginx/access-static.lama-corp.space.log netdata;
     '';
     locations = {
       "/" = {
