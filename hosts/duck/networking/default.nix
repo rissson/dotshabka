@@ -135,6 +135,8 @@ in with dotshabka.data.iPs.space.lama-corp; {
         "${wg.interface}" = {
           allowedTCPPorts = [
             53 # DNS
+            9200 # Elasticsearch HTTP
+            9300 # Elasticsearch TCP
             19999 # Netdata
           ];
           allowedUDPPorts = [
