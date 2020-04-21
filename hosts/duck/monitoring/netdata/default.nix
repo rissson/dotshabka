@@ -3,6 +3,14 @@
 with lib;
 
 {
+  services.netdata.config = {
+    backend = {
+      enabled = "yes";
+      type = "opentsdb";
+      destination = "localhost:20042";
+    };
+  };
+
   environment.etc = mkIf config.services.netdata.enable {
     "netdata/go.d.conf".text = ''
       modules:
