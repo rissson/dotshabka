@@ -135,6 +135,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
         "${wg.interface}" = {
           allowedTCPPorts = [
             53 # DNS
+            3000 # grafana
             5601 # Kibana
             19999 # Netdata
           ];
