@@ -16,9 +16,4 @@
     dataDir = "/srv/elk/kibana";
     listenAddress = "172.28.1.1";
   };
-
-  services.logstash = {
-    enable = true;
-    dataDir = "/srv/elk/logstash";
-  };
 }
