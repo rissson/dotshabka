@@ -5,6 +5,7 @@
     ./netdata
     ./logrotate.nix
     ./smartd.nix
-    ./elk
+    ./elk.nix
+    ./influxdb.nix
   ];
 }
