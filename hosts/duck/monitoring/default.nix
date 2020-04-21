@@ -7,5 +7,6 @@
     ./smartd.nix
     ./elk.nix
     ./influxdb.nix
+    ./grafana.nix
   ];
 }
