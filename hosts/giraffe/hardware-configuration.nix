@@ -76,8 +76,9 @@ with lib;
     };
   };
 
-
-  swapDevices = [];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/dd184cf2-21db-486b-a810-37991b6586eb"; }
+  ];
 
   nix.maxJobs = 1;
 
