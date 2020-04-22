@@ -2,6 +2,33 @@
 
 {
   space.lama-corp = {
+    nbg = {
+      srv = {
+        giraffe = {
+          external = {
+            mac = "96:00:00:4f:07:af";
+            interface = "ens3";
+            v4 = {
+              ip  = "78.46.241.184";
+              prefixLength = 32;
+              gw = "172.31.1.1";
+            };
+            v6 = {
+              ip = "2a01:4f8:c0c:1f9a::1";
+              prefixLength = 64;
+              gw = "fe80::1";
+            };
+          };
+          wg = {
+            interface = "wg0";
+            v4 = {
+              ip = "172.28.3.1";
+              prefixLength = 16;
+            };
+          };
+        };
+      };
+    };
     fsn = import ./fsn.nix { };
     bar = import ./bar.nix { };
     fly = {
