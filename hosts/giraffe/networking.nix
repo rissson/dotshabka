@@ -80,6 +80,7 @@ in {
           allowedTCPPorts = [
             3000 # Grafana
             19999 # Netdata
+            20042 # influxdb
           ];
           allowedUDPPorts = [ ];
 
