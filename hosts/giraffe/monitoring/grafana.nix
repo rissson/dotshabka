@@ -3,8 +3,8 @@
 {
   services.grafana = {
     enable = true;
-    addr = "172.28.1.1";
+    addr = "172.28.3.1";
     dataDir = "/srv/grafana";
-    rootUrl = "http://172.28.1.1:3000";
+    rootUrl = "http://172.28.3.1:3000";
   };
 }
