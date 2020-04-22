@@ -2,7 +2,13 @@
 
 with lib;
 
-{
+let
+  bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
+in {
+  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath))
+    "${toString bootHostSshKeyPath} does not exists. You will not be able to decrypt the disks through SSH after a reboot."
+  );
+
   imports = [
     <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
   ];
@@ -32,6 +38,19 @@ with lib;
       preLVM = true;
       allowDiscards = true;
     };
+  };
+
+  boot.initrd.network = mkIf (builtins.pathExists bootHostSshKeyPath) {
+    enable = true;
+    ssh = {
+      enable = true;
+      port = 2222;
+      hostECDSAKey = bootHostSshKeyPath;
+      authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
+    };
+    postCommands = ''
+      echo 'cryptsetup-askpass' >> /root/.profile
+    '';
   };
 
   services.zfs.autoScrub = {
