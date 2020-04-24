@@ -44,9 +44,11 @@ in with dotshabka.data.iPs.space.lama-corp; {
       "${external.interface}" = {
         ipv4.addresses = [
           { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
+          { address = "148.251.148.239"; prefixLength = 32; }
         ];
         ipv6.addresses = [
           { address = external.v6.ip;  prefixLength = 128; }
+          { address = "2a01:4f8:202:1097::9";  prefixLength = 128; }
         ];
       };
 
@@ -120,8 +122,10 @@ in with dotshabka.data.iPs.space.lama-corp; {
 
       allowedTCPPorts = [
         22 # SSH
+        25 # postfix
         80 # nginx
         443 # nginx
+        587 # postfix
       ];
       allowedUDPPorts = [ ] ++
         (optionals config.networking.wireguard.enable (singleton 51820)) # Wireguard
@@ -140,6 +144,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
         "${wg.interface}" = {
           allowedTCPPorts = [
             53 # DNS
+            389 # LDAP
             3000 # grafana
             5601 # Kibana
             19999 # Netdata
