@@ -18,7 +18,7 @@ with lib;
 
   shabka.keyboard = {
     layouts = [ "bepo" "qwerty_intl" ];
-    enableAtBoot = false;
+    enableAtBoot = mkForce false;
   };
 
   shabka.virtualisation = {
