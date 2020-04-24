@@ -14,7 +14,6 @@
       "static.risson.space"
       "static.risson.me"
       "static.marcerisson.space"
-      "static.risson.rocks"
       "static.risson.tech"
       "static.cats.acdc.epita.fr"
     ];
