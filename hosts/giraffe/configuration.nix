@@ -11,8 +11,8 @@ with lib;
 
       ./hardware-configuration.nix
       ./networking.nix
-      ./mail.nix
       ./monitoring
+      ./mail
 
       ./home
     ]
