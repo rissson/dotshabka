@@ -2,13 +2,12 @@
 {
   services.nginx.virtualHosts."risson.space" = {
     serverAliases = [
+      "risson.lama-corp.space"
       "www.risson.space"
       "risson.me"
       "www.risson.me"
       "marcerisson.space"
       "www.marcerisson.space"
-      "risson.rocks"
-      "www.risson.rocks"
       "risson.tech"
       "www.risson.tech"
     ];
