@@ -5,7 +5,6 @@
       "bin.risson.space"
       "bin.risson.me"
       "bin.marcerisson.space"
-      "bin.risson.rocks"
       "bin.risson.tech"
     ];
     forceSSL = true;
