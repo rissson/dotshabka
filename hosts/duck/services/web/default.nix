@@ -1,10 +1,14 @@
 { config, pkgs, lib, ... }:
 {
+  disabledModules = [
+    "services/web-servers/uwsgi.nix"
+  ];
+
   # TODO: score an A+ at SSLlabs
   imports = [
     ./acdc.nix
     ./beauflard.nix
-    ./cAtCDC.nix
+    ./cats.acdc.risson.space.nix
     ./codimd.nix
     ./jdmi.nix
     ./lama-corp.space.nix
@@ -13,6 +17,7 @@
     ./scoreboard-seedbox-cri.nix
     ./thefractal.space.nix
     ./upload.nix
+    ./uwsgi.nix
   ];
 
   security.dhparams = {
@@ -44,6 +49,15 @@
     sslDhparam = config.security.dhparams.params."nginx".path;
 
     statusPage = true;
+  };
+
+  services.uwsgi = {
+    enable = true;
+    plugins = [ "python3" ];
+    instance = {
+      type = "emperor";
+    };
+    group = "deploy";
   };
 
   security.acme = {
