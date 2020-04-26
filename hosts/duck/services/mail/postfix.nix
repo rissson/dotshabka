@@ -93,7 +93,6 @@ in {
     # main.cf/smtp_header_checks
     headerChecks = [
       { action = "IGNORE"; pattern = "/^X-Originating-IP:/"; }
-      { action = "IGNORE"; pattern = "/^Received:/"; }
       { action = "IGNORE"; pattern = "/^User-Agent:/"; }
       { action = "IGNORE"; pattern = "/^X-Mailer:/"; }
       { action = "IGNORE"; pattern = "/^X-Enigmail:/"; }
@@ -280,7 +279,8 @@ in {
 
       policy-spf_time_limit = "3600s";
 
-      smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
+      smtpd_milters = "unix:/run/opendkim/opendkim.sock,unix:/run/rspamd/rspamd-milter.sock";
+      non_smtpd_milters = "unix:/run/opendkim/opendkim.sock";
       milter_protocol = "6";
       milter_default_action = "accept";
       milter_mail_macros = "i {mail_addr} {client_addr} {client_name} {auth_type} {auth_authen} {auth_author} {mail_addr} {mail_host} {mail_mailer}";

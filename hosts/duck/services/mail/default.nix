@@ -10,6 +10,7 @@ Look into postsrsd, see if it affects sending with one of a user's aliases
     ./clamav.nix
     ./dovecot.nix
     ./postfix.nix
+    ./opendkim.nix
     ./rspamd.nix
   ];
 }
