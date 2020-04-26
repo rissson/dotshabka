@@ -23,12 +23,6 @@ with lib;
           }
         '';
       };
-      "dkim_signing.conf" = {
-        text = ''
-          path = "/srv/mail/dkim/$domain.$selector.key";
-          selector = "dkim";
-        '';
-      };
     };
 
     overrides = {
