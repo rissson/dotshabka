@@ -7,7 +7,6 @@ let
 in with dotshabka.data.iPs.space.lama-corp; {
   imports = [
     ./dns.nix
-    ./mail.nix
   ];
 
   boot.kernelParams = with fsn.srv.duck; [
