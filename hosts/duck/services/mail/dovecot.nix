@@ -38,17 +38,60 @@ in {
     enableImap = true;
     enableLmtp = true;
 
+    protocols = [ "sieve" ];
+
+    enablePAM = false;
+
     # directory to store mail. The tilda makes it relative to the *dovecot*
     # virtual home directory.
     #
     # We use mdbox - this is Dovecot's own high-performance mail store format.
     # There are other slower, more "traditional" formats you can choose from.
     # Read about them here: https://wiki2.dovecot.org/MailboxFormat
-    mailLocation = "maildir:${dataDir}/vhosts/%n";
+    mailLocation = "maildir:${dataDir}/vhosts/%n:LAYOUT=fs";
 
     sslCACert = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     sslServerCert = "${config.security.acme.certs."imap.lama-corp.space".directory}/fullchain.pem";
     sslServerKey = "${config.security.acme.certs."imap.lama-corp.space".directory}/key.pem";
+
+    mailboxes = [
+      {
+        name = "Drafts";
+        auto = "subscribe";
+        specialUse = "Drafts";
+      }
+      {
+        name = "Junk";
+        auto = "create";
+        specialUse = "Junk";
+      }
+      {
+        name = "Trash";
+        auto = "create";
+        specialUse = "Trash";
+      }
+      {
+        name = "Archive";
+        auto = "subscribe";
+        specialUse = "Archive";
+      }
+      {
+        name = "Sent";
+        auto = "subscribe";
+        specialUse = "Sent";
+      }
+    ];
+
+    sieveScripts = {
+      after = builtins.toFile "spam.sieve" ''
+        require "fileinto";
+
+        if header :is "X-Spam" "Yes" {
+            fileinto "Junk";
+            stop;
+        }
+      '';
+    };
 
     extraConfig = concatStrings [
       # authentication
@@ -91,6 +134,9 @@ in {
         # large (64k) to store them separately from the mail store.
         mail_attachment_dir = ${dataDir}/attachments
         mail_attachment_min_size = 64k
+
+        recipient_delimiter = +
+        lmtp_save_to_detail_mailbox = yes
       ''
 
       # master
@@ -172,34 +218,9 @@ in {
           mail_fsync = optimized
           mail_plugins = $mail_plugins sieve
         }
-      ''
 
-      # mailboxes
-      ''
-        # define any special IMAP folders here. You can force them to be created
-        # or created+subscribed automatically used the `auto` option.
-        namespace inbox {
-          mailbox Drafts {
-            auto = subscribe
-            special_use = \Drafts
-          }
-          mailbox Junk {
-            auto = create
-            special_use = \Junk
-          }
-          mailbox Trash {
-            auto = create
-            special_use = \Trash
-          }
-          mailbox Archive {
-            auto = subscribe
-            special_use = \Archive
-          }
-          mailbox Sent {
-            auto = subscribe
-            special_use = \Sent
-          }
-        }
+        lda_mailbox_autosubscribe = yes
+        lda_mailbox_autocreate = yes
       ''
 
       # IMAP
@@ -254,9 +275,5 @@ in {
         }
       ''
     ];
-
-
-
-    enablePAM = false;
   };
 }
