@@ -15,6 +15,7 @@
         rotate 5
         weekly
         olddir /var/log/nginx/old
+        create 644 nginx nginx
       }
     '';
   };
