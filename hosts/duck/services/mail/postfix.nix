@@ -280,8 +280,7 @@ in {
 
       policy-spf_time_limit = "3600s";
 
-      smtpd_milters = "unix:/run/opendkim/opendkim.sock,unix:/run/rspamd/rspamd-milter.sock";
-      non_smtpd_milters = "unix:/run/opendkim/opendkim.sock";
+      smtpd_milters = "unix:/run/rspamd/rspamd-milter.sock";
       milter_protocol = "6";
       milter_default_action = "accept";
       milter_mail_macros = "i {mail_addr} {client_addr} {client_name} {auth_type} {auth_authen} {auth_author} {mail_addr} {mail_host} {mail_mailer}";
@@ -299,21 +298,23 @@ in {
 
     # master.cf
     masterConfig = {
-      "smtp" = {
+      smtp_inet = {
+        name = "smtp";
         type = "inet";
         private = false;
         command = "smtpd";
         args = [ "-o" "smtpd_sasl_auth_enable=no" ];
       };
-      "policy-spf" = {
+      policy-spf = {
         type = "unix";
         privileged = true;
         chroot = false;
         command = "spawn";
-        args = [ "user=nobody" "argv=${pkgs.pypolicyd-spf}/bin/policyd-spf" "${policyd-spf}"];
+        args = [ "user=nobody" "argv=${pkgs.pypolicyd-spf}/bin/policyd-spf" ];
       };
     };
 
+    enableSmtp = true;
     enableSubmission = true;
     submissionOptions = {
       smtpd_tls_security_level = "encrypt";
