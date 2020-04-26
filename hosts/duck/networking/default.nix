@@ -121,6 +121,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
         80 # nginx
         443 # nginx
         587 # postfix
+        993 # dovecot
       ];
       allowedUDPPorts = [ ] ++
         (optionals config.networking.wireguard.enable (singleton 51820)) # Wireguard
