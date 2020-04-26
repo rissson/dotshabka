@@ -1,4 +1,6 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
 
 let
   ldap-virtual-mailbox-domains = pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
@@ -29,7 +31,30 @@ let
     result_attribute = mail
   '';
   hostname = with config.networking; "smtp-1.${hostName}.${domain}";
+
 in {
+  security.acme.certs = let
+    domain = "${config.services.postfix.hostname}";
+    extraDomains = { "smtp.lama-corp.space" = null; };
+    dnsProvider = "cloudflare";
+    credentialsFile = "/srv/secrets/root/acme-dns.keys";
+    postRun = "systemctl reload postfix";
+  in mkIf config.services.postfix.enable {
+    "${domain}.rsa" = {
+      inherit domain extraDomains dnsProvider credentialsFile postRun;
+      keyType = "rsa4096";
+    };
+    "${domain}.ecc" = {
+      inherit domain extraDomains dnsProvider credentialsFile postRun;
+      keyType = "ec384";
+    };
+  };
+
+  security.dhparams.params = mkIf config.services.postfix.enable {
+    "postfix-512".bits = 512;
+    "postfix-1024".bits = 1024;
+  };
+
   services.postfix = {
     enable = true;
 
@@ -46,7 +71,7 @@ in {
     # virtual domains, which are configured below. Make sure to specify the FQDN
     # of your sever, as well as localhost.
     # Note: NEVER specify any virtual domains here!!! Those come later.
-    destination = [ hostname "localhost" ] ;
+    destination = [ ] ;
 
     # main.cf/myorigin
     # Domain appended to mail sent locally from this machine - such as mail sent
@@ -79,6 +104,8 @@ in {
     config = {
       # disable "new mail" notifications for local unix users
       biff = false;
+
+      smtpd_banner = "${hostname} ESMTP NO UCE";
 
       # prevent spammers from searching for valid users
       disable_vrfy_command = true;
@@ -145,8 +172,11 @@ in {
       smtp_tls_mandatory_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
       smtp_tls_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
 
+      smtp_tls_ciphers = "high";
+      smtpd_tls_ciphers = "high";
+      smtp_tls_mandatory_ciphers = "high";
       smtpd_tls_mandatory_ciphers = "high";
-      tls_high_cipherlist = "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256";
+
 
       # allow other mail servers to connect using TLS, but don't require it
       smtpd_tls_security_level = "may";
@@ -248,6 +278,14 @@ in {
           reject_unauth_pipelining
       '';
 
+      policy-spf_time_limit = "3600s";
+
+      smtpd_milters = "unix:/run/opendkim/opendkim.sock,unix:/run/rspamd/rspamd-milter.sock";
+      non_smtpd_milters = "unix:/run/opendkim/opendkim.sock";
+      milter_protocol = "6";
+      milter_default_action = "accept";
+      milter_mail_macros = "i {mail_addr} {client_addr} {client_name} {auth_type} {auth_authen} {auth_author} {mail_addr} {mail_host} {mail_mailer}";
+
       # deliver mail for virtual users to Dovecot's LMTP socket
       virtual_transport = "lmtp:unix:/run/dovecot2/dovecot-lmtp";
 
@@ -266,6 +304,13 @@ in {
         private = false;
         command = "smtpd";
         args = [ "-o" "smtpd_sasl_auth_enable=no" ];
+      };
+      "policy-spf" = {
+        type = "unix";
+        privileged = true;
+        chroot = false;
+        command = "spawn";
+        args = [ "user=nobody" "argv=${pkgs.pypolicyd-spf}/bin/policyd-spf" "${policyd-spf}"];
       };
     };
 
