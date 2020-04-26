@@ -14,7 +14,7 @@ with lib;
 
     ./home.nix
   ]
-  ++ (optionals (builtins.pathExists <dotshabka/secrets>) (singleton <dotshabka/secrets>));
+  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
 
   shabka.keyboard = {
     layouts = [ "bepo" "qwerty_intl" ];

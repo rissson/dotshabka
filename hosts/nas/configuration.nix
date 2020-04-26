@@ -3,23 +3,22 @@
 with lib;
 
 {
-  imports =
-    [
-      <shabka/modules/nixos>
-      <dotshabka/modules/nixos>
-      <dotshabka/modules/nixos/server>
+  imports = [
+    <shabka/modules/nixos>
+    <dotshabka/modules/nixos>
+    <dotshabka/modules/nixos/server>
 
-      ./hardware-configuration.nix
-      ./networking.nix
-      ./mail.nix
-      ./backups.nix
-      ./monitoring
-      ./dns-dhcp.nix
-      ./dyndns.nix
+    ./hardware-configuration.nix
+    ./networking.nix
+    ./mail.nix
+    ./backups.nix
+    ./monitoring
+    ./dns-dhcp.nix
+    ./dyndns.nix
 
-      ./home
-    ]
-    ++ (optionals (builtins.pathExists <dotshabka/secrets>) (singleton <dotshabka/secrets>));
+    ./home
+  ]
+  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

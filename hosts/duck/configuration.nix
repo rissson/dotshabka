@@ -20,7 +20,7 @@ in {
       ./services
       ./home
     ]
-    ++ (optionals (builtins.pathExists <dotshabka/secrets>) (singleton <dotshabka/secrets>));
+    ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
 
   shabka.keyboard.layouts = [ "qwerty" ];
   shabka.keyboard.enableAtBoot = true;
