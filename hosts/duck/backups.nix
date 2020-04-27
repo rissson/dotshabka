@@ -30,6 +30,7 @@ with lib;
 
         readWritePaths = [
           "/srv/backups"
+          "/srv/ldap"
         ];
 
         startAt = "*-*-* *:44:30 UTC";
