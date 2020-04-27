@@ -31,4 +31,11 @@
       }
     ];
   };
+
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
+    location = "/srv/backups";
+    startAt = "*-*-* 02:16:23 UTC";
+  };
 }

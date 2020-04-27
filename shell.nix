@@ -3,7 +3,8 @@
 with pkgs;
 
 mkShell {
-  buildInputs = with pkgs; [
+  buildInputs = [
+    morph
   ];
 
   # Export the location of the SSL CA bundle
