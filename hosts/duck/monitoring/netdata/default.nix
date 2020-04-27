@@ -38,6 +38,7 @@ with lib;
       curl="${pkgs.curl}/bin/curl"
       SEND_EMAIL="YES"
       DEFAULT_RECIPIENT_EMAIL="root@lama-corp.ovh"
+      role_recipients_email[sysadmin]=root@lama-corp.ovh
     '';
   };
 }
