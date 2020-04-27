@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   services.logrotate = {
@@ -15,7 +15,7 @@
         rotate 5
         weekly
         olddir /var/log/nginx/old
-        create 644 nginx nginx
+        create 644 ${config.services.nginx.user} ${config.services.nginx.group}
       }
     '';
   };
