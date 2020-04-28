@@ -1,38 +1,8 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB",
-      "label": "InfluxDB",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "6.7.1"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:273",
+        "$$hashKey": "object:15720",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -48,8 +18,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1587666246711,
+  "id": 43,
+  "iteration": 1588109921286,
   "links": [
     {
       "icon": "cloud",
@@ -91,17 +61,24 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": "${DS_INFLUXDB}",
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 4,
+      "id": 2,
       "panels": [],
-      "repeat": null,
-      "title": "System Overview",
+      "repeat": "host",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
+      "title": "Connections - $host",
       "type": "row"
     },
     {
@@ -109,27 +86,24 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB}",
-      "description": "Total CPU utilization (all cores). 100% here means there is no CPU idle time at all. You can get per core usage at the CPUs section and per application usage at the Applications Monitoring section.\n\nKeep an eye on iowait. If it is constantly high, your disks are a bottleneck and they slow your system down.\n\nAn important metric worth monitoring, is softirq. A constantly high percentage of softirq may indicate network driver issues.",
+      "datasource": null,
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 7,
+        "w": 24,
         "x": 0,
         "y": 1
       },
       "hiddenSeries": false,
-      "id": 6,
+      "id": 4,
       "legend": {
-        "alignAsTable": false,
+        "alignAsTable": true,
         "avg": true,
         "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
         "max": true,
         "min": true,
-        "rightSide": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": true
@@ -144,15 +118,20 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatDirection": "h",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "softirq",
+          "alias": "active",
           "groupBy": [
             {
               "params": [
@@ -167,139 +146,10 @@
               "type": "fill"
             }
           ],
-          "measurement": "netdata.system.cpu.softirq",
+          "measurement": "netdata.nginx_local.connections.active",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            }
-          ]
-        },
-        {
-          "alias": "user",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "netdata.system.cpu.user",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            }
-          ]
-        },
-        {
-          "alias": "system",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "netdata.system.cpu.system",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            }
-          ]
-        },
-        {
-          "alias": "iowait",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "netdata.system.cpu.iowait",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "D",
           "resultFormat": "time_series",
           "select": [
             [
@@ -328,13 +178,12 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU - Total utilization",
+      "title": "Active Client Connections Including Waiting Connections",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
-      "transparent": true,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -345,16 +194,16 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:381",
+          "$$hashKey": "object:43960",
           "format": "short",
-          "label": null,
+          "label": "connections",
           "logBase": 1,
           "max": null,
           "min": null,
           "show": true
         },
         {
-          "$$hashKey": "object:382",
+          "$$hashKey": "object:43961",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -373,58 +222,51 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB}",
-      "description": "Pressure Stall Information identifies and quantifies the disruptions caused by resource contentions. The \"some\" line indicates the share of time in which at least some tasks are stalled on CPU. The ratios (in %) are tracked as recent trends over 10-, 60-, and 300-second windows.",
+      "datasource": null,
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
-        "x": 12,
-        "y": 1
+        "x": 0,
+        "y": 8
       },
       "hiddenSeries": false,
-      "id": 8,
+      "id": 6,
       "legend": {
+        "alignAsTable": true,
         "avg": true,
         "current": true,
         "max": true,
         "min": true,
-        "rightSide": false,
         "show": true,
         "total": false,
         "values": true
       },
       "lines": true,
       "linewidth": 1,
-      "links": [
-        {
-          "targetBlank": true,
-          "title": "Details about Pressure Stall Information",
-          "url": ""
-        }
-      ],
       "nullPointMode": "connected",
       "options": {
-        "dataLinks": [
-          {
-            "targetBlank": true,
-            "title": "Details about Pressure Stall Information",
-            "url": "https://www.kernel.org/doc/html/latest/accounting/psi.html"
-          }
-        ]
+        "dataLinks": []
       },
       "percentage": false,
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "some 10",
+          "alias": "idle",
           "groupBy": [
             {
               "params": [
@@ -439,7 +281,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "netdata.system.cpu_pressure.some_10",
+          "measurement": "netdata.nginx_local.connections_statuses.idle",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -467,7 +309,7 @@
           ]
         },
         {
-          "alias": "some 60",
+          "alias": "reading",
           "groupBy": [
             {
               "params": [
@@ -482,7 +324,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "netdata.system.cpu_pressure.some_60",
+          "measurement": "netdata.nginx_local.connections_statuses.reading",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "B",
@@ -510,7 +352,7 @@
           ]
         },
         {
-          "alias": "some 300",
+          "alias": "writing",
           "groupBy": [
             {
               "params": [
@@ -525,7 +367,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "netdata.system.cpu_pressure.some_300",
+          "measurement": "netdata.nginx_local.connections_statuses.writing",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "C",
@@ -557,13 +399,12 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU - Pressure Stall Information",
+      "title": "Active Connections Per Status",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
-      "transparent": true,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -574,16 +415,354 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1034",
+          "$$hashKey": "object:44162",
           "format": "short",
-          "label": null,
+          "label": "connections",
           "logBase": 1,
           "max": null,
           "min": null,
           "show": true
         },
         {
-          "$$hashKey": "object:1035",
+          "$$hashKey": "object:44163",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "accepted",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.nginx_local.connections_accepted_handled.accepted",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        },
+        {
+          "alias": "handled",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.nginx_local.connections_accepted_handled.handled",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Accepted And Handled Connections",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:44324",
+          "format": "short",
+          "label": "connections/s",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:44325",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 10,
+      "panels": [],
+      "repeat": "host",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
+      "title": "Requests - $host",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "duck",
+          "value": "duck"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "requests",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.nginx_local.requests.requests",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Client Requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:44453",
+          "format": "short",
+          "label": "requests/s",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:44454",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -606,21 +785,24 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
-        "datasource": "${DS_INFLUXDB}",
+        "current": {
+          "text": "duck",
+          "value": "duck"
+        },
+        "datasource": "InfluxDB",
         "definition": "",
         "hide": 0,
         "includeAll": false,
         "index": -1,
         "label": "Host",
-        "multi": false,
+        "multi": true,
         "name": "host",
         "options": [],
         "query": "SHOW TAG VALUES FROM \"netdata.system.cpu.system\" WITH KEY = \"host\"\t",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 5,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -664,10 +846,10 @@
     ]
   },
   "timezone": "browser",
-  "title": "Netdata per-host",
-  "uid": "AwBL_P3Wk",
+  "title": "nginx",
+  "uid": "sxyJ9keWk",
   "variables": {
     "list": []
   },
-  "version": 7
+  "version": 2
 }
