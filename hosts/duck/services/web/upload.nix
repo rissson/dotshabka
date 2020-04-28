@@ -4,7 +4,6 @@
     serverAliases = [
       "upload.risson.me"
       "upload.marcerisson.space"
-      "upload.risson.rocks"
       "upload.risson.tech"
     ];
     forceSSL = true;

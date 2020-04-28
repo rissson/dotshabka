@@ -4,7 +4,6 @@
     serverAliases = [
       "jdmi.risson.me"
       "jdmi.marcerisson.space"
-      "jdmi.risson.rocks"
       "jdmi.risson.tech"
     ];
     forceSSL = true;

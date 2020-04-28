@@ -4,7 +4,6 @@
     serverAliases = [
       "acdc.risson.me"
       "acdc.marcerisson.space"
-      "acdc.risson.rocks"
       "acdc.risson.tech"
     ];
     forceSSL = true;

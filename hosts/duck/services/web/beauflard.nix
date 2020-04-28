@@ -4,7 +4,6 @@
     serverAliases = [
       "beauflard.risson.me"
       "beauflard.marcerisson.space"
-      "beauflard.risson.rocks"
       "beauflard.risson.tech"
     ];
     forceSSL = true;

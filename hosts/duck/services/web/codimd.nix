@@ -16,7 +16,6 @@ with lib;
         "md.marcerisson.space"
         "md.risson.me"
         "md.risson.tech"
-        "md.risson.rocks"
       ];
       defaultPermission = "freely";
       domain = "md.lama-corp.space";
@@ -36,7 +35,6 @@ with lib;
       "md.marcerisson.space"
       "md.risson.me"
       "md.risson.tech"
-      "md.risson.rocks"
     ];
     forceSSL = true;
     enableACME = true;
