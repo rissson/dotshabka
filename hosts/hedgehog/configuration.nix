@@ -11,6 +11,7 @@ with lib;
     ./hardware-configuration.nix
     ./networking
     ./backups.nix
+    ./vm.nix
 
     ./home.nix
   ]
