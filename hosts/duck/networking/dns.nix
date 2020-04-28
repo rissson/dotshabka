@@ -56,6 +56,11 @@ in with dotshabka.data.iPs.space.lama-corp; {
         local-data: "hub.virt.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.virt.hub.wg.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.virt.hub.wg.v4.ip} hub.virt.duck.srv.fsn.lama-corp.space"
 
+        domain-insecure: "nbg.lama-corp.space"
+        local-zone: "nbg.lama-corp.space." static
+        local-data: "giraffe.srv.nbg.lama-corp.space. IN A ${nbg.srv.giraffe.wg.v4.ip}"
+        local-data-ptr: "${nbg.srv.giraffe.wg.v4.ip} giraffe.srv.nbg.lama-corp.space"
+
       forward-zone:
         name: "bar.lama-corp.space."
         forward-addr: ${bar.srv.nas.wg.v4.ip}

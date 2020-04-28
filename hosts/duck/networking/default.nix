@@ -96,6 +96,11 @@ in with dotshabka.data.iPs.space.lama-corp; {
               publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
               allowedIPs = [ "${bar.srv.nas.wg.v4.ip}/32" "192.168.44.0/24" ];
             }
+            {
+              # giraffe.srv.nbg.lama-corp.space
+              publicKey = "mUowpLh9k0s/hJzWu7EBguCAOaF+XRYdThBjXPQ9Qig=";
+              allowedIPs = [ "${nbg.srv.giraffe.wg.v4.ip}/32" ];
+            }
             { # hedgehog.lap.fly.lama-corp.space
               publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
               allowedIPs = [ "${fly.lap.hedgehog.wg.v4.ip}/32" ];
@@ -135,6 +140,8 @@ in with dotshabka.data.iPs.space.lama-corp; {
         "${wg.interface}" = {
           allowedTCPPorts = [
             53 # DNS
+            3000 # grafana
+            5601 # Kibana
             19999 # Netdata
           ];
           allowedUDPPorts = [

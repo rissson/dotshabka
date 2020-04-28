@@ -1,6 +1,6 @@
 {
   shabka.home-manager.config = { userName, uid, isAdmin, home, nixosConfig }:
-  { lib, ... }:
+  { config, lib, pkgs, ... }:
 
   with lib;
 
@@ -11,6 +11,8 @@
       <dotshabka/modules/home/workstation>
       <dotshabka/modules/home/risson>
       <dotshabka/modules/home/risson/workstation>
+
+      ./mail.nix
     ];
 
     shabka.nixosConfig = nixosConfig;

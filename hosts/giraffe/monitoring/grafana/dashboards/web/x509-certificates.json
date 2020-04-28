@@ -1,0 +1,2744 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:15720",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "limit": 100,
+        "name": "Annotations & Alerts",
+        "showIn": 0,
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 22,
+  "iteration": 1588110418125,
+  "links": [
+    {
+      "$$hashKey": "object:2915",
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata duck",
+      "tooltip": "Open Netdata monitoring for duck",
+      "type": "link",
+      "url": "http://duck.srv.fsn.lama-corp.space:19999"
+    },
+    {
+      "$$hashKey": "object:2916",
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata hub",
+      "tooltip": "Open Netdata monitoring for hub",
+      "type": "link",
+      "url": "https://bird.lama-corp.space"
+    },
+    {
+      "$$hashKey": "object:2917",
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata nas",
+      "tooltip": "Open Netdata monitoring for nas",
+      "type": "link",
+      "url": "http://nas.srv.bar.lama-corp.space:19999"
+    },
+    {
+      "$$hashKey": "object:2918",
+      "icon": "cloud",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata giraffe",
+      "tooltip": "Open Netdata monitoring for giraffe",
+      "type": "link",
+      "url": "http://giraffe.srv.nbg.lama-corp.space:19999"
+    }
+  ],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": "website",
+      "repeatDirection": "h",
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "acdc_risson_space",
+          "value": "acdc_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 13,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "beauflard_risson_space",
+          "value": "beauflard_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 14,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "bin_lama_corp_space",
+          "value": "bin_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 15,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "bricks_lama_corp_space",
+          "value": "bricks_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 16,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "cats_acdc_risson_space",
+          "value": "cats_acdc_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 17,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "chat_lama_corp_space",
+          "value": "chat_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 7
+      },
+      "id": 18,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "hub_lama_corp_space",
+          "value": "hub_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 4,
+        "y": 7
+      },
+      "id": 19,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "hub_lama_corp_space_smtp",
+          "value": "hub_lama_corp_space_smtp"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 8,
+        "y": 7
+      },
+      "id": 20,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "jdmi_risson_space",
+          "value": "jdmi_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 12,
+        "y": 7
+      },
+      "id": 21,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "lama_corp_space",
+          "value": "lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 16,
+        "y": 7
+      },
+      "id": 22,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "mail_lama_corp_space",
+          "value": "mail_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 20,
+        "y": 7
+      },
+      "id": 23,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "md_lama_corp_space",
+          "value": "md_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 14
+      },
+      "id": 24,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "risson_space",
+          "value": "risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 4,
+        "y": 14
+      },
+      "id": 25,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "scoreboard_seedbox_cri_risson_space",
+          "value": "scoreboard_seedbox_cri_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 8,
+        "y": 14
+      },
+      "id": 26,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "static_lama_corp_space",
+          "value": "static_lama_corp_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 12,
+        "y": 14
+      },
+      "id": 27,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "thefractal_space",
+          "value": "thefractal_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "InfluxDB",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 16,
+        "y": 14
+      },
+      "id": 28,
+      "interval": null,
+      "links": [],
+      "mappingType": 2,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:3415",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:3416",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "$$hashKey": "object:4362",
+          "from": "1209600",
+          "text": "VALID",
+          "to": "10000000"
+        },
+        {
+          "$$hashKey": "object:4364",
+          "from": "604800",
+          "text": "14 DAYS",
+          "to": "1209600"
+        },
+        {
+          "$$hashKey": "object:4366",
+          "from": "0",
+          "text": "7 DAYS",
+          "to": "604800"
+        },
+        {
+          "$$hashKey": "object:4641",
+          "from": "-10000000",
+          "text": "EXPIRED",
+          "to": "0"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1588110418125,
+      "repeatPanelId": 12,
+      "scopedVars": {
+        "website": {
+          "selected": true,
+          "text": "upload_risson_space",
+          "value": "upload_risson_space"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": 10000000,
+        "ymin": 0
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "success",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "netdata.x509check_$website.time_until_expiration.expiry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "604800,1209600",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$website",
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:4359",
+          "op": "=",
+          "text": "pouet",
+          "value": "/\\d/"
+        }
+      ],
+      "valueName": "current"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "acdc_risson_space + beauflard_risson_space + bin_lama_corp_space + bricks_lama_corp_space + cats_acdc_risson_space + chat_lama_corp_space + hub_lama_corp_space + hub_lama_corp_space_smtp + jdmi_risson_space + lama_corp_space + mail_lama_corp_space + md_lama_corp_space + risson_space + scoreboard_seedbox_cri_risson_space + static_lama_corp_space + thefractal_space + upload_risson_space",
+          "value": [
+            "acdc_risson_space",
+            "beauflard_risson_space",
+            "bin_lama_corp_space",
+            "bricks_lama_corp_space",
+            "cats_acdc_risson_space",
+            "chat_lama_corp_space",
+            "hub_lama_corp_space",
+            "hub_lama_corp_space_smtp",
+            "jdmi_risson_space",
+            "lama_corp_space",
+            "mail_lama_corp_space",
+            "md_lama_corp_space",
+            "risson_space",
+            "scoreboard_seedbox_cri_risson_space",
+            "static_lama_corp_space",
+            "thefractal_space",
+            "upload_risson_space"
+          ]
+        },
+        "datasource": "InfluxDB",
+        "definition": "SHOW MEASUREMENTS WITH MEASUREMENT =~ /netdata.x509check_*/",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "Website",
+        "multi": true,
+        "name": "website",
+        "options": [],
+        "query": "SHOW MEASUREMENTS WITH MEASUREMENT =~ /netdata.x509check_*/",
+        "refresh": 1,
+        "regex": "/netdata.x509check_([^.]*)..*/",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "30s",
+      "1m",
+      "5m",
+      "10m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "10d",
+      "14d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "X509 Certificates",
+  "uid": "sqkGpyqWz",
+  "variables": {
+    "list": []
+  },
+  "version": 3
+}
