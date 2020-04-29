@@ -4,7 +4,7 @@ with lib;
 
 let
   dotshabka = import <dotshabka> {};
-in with dotshabka.data.iPs.space.lama-corp; {
+in with dotshabka.data.space.lama-corp; {
   services.unbound = {
     enable = true;
     interfaces = [ "127.0.0.1" "::1" fsn.srv.duck.wg.v4.ip ];

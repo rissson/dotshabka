@@ -92,7 +92,6 @@ in with dotshabka.data.space.lama-corp; {
           privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
-            # Distant peers
             {
               # nas.srv.bar
               inherit (bar.srv.nas.wg) publicKey;
@@ -127,15 +126,6 @@ in with dotshabka.data.space.lama-corp; {
               allowedIPs = with fly.lap.trunck.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
-              ];
-            }
-
-            # Local peers
-            {
-              # hub.virt.duck.srv.fsn
-              inherit (fsn.srv.duck.virt.hub.wg) publicKey;
-              allowedIPs = [
-                "${fsn.srv.duck.virt.hub.wg.v4.ip}/32"
               ];
             }
           ];

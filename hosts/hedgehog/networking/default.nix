@@ -41,7 +41,6 @@ with import <dotshabka/data/space.lama-corp> {}; {
           privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
-            # Distant peers
             {
               # duck.srv.fsn
               inherit (fsn.srv.duck.wg) publicKey;
@@ -68,9 +67,9 @@ with import <dotshabka/data/space.lama-corp> {}; {
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
                 # Local networks
-                bar.subnet
+                #bar.subnet
               ];
-              endpoint = "bar.lama-corp.space:51820";
+              endpoint = "90.126.230.161:51820";
             }
           ];
         };

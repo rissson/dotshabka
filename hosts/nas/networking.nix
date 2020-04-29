@@ -54,7 +54,6 @@ in with import <dotshabka/data/space.lama-corp> {}; {
           privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
-            # Distant peers
             {
               # duck.srv.fsn
               inherit (fsn.srv.duck.wg) publicKey;
