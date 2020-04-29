@@ -8,7 +8,7 @@ let
     name = "hosts";
     executable = false;
     destination = "/share/hosts";
-    text = with dotshabka.data.iPs.space.lama-corp.bar; ''
+    text = with dotshabka.data.space.lama-corp.bar; ''
       ${srv.cuckoo.internal.v4.ip}      cuckoo      cuckoo.srv.bar.lama-corp.space
 
       ${lap.asus.internal.v4.ip}        asus        asus.lap.bar.lama-corp.space
@@ -30,10 +30,10 @@ let
   defaultLeaseTime = "12h";
 
 in {
-  services.dnsmasq = with dotshabka.data.iPs.space.lama-corp.bar; {
+  services.dnsmasq = with dotshabka.data.space.lama-corp.bar; {
     enable = true;
     resolveLocalQueries = false;
-    servers = dotshabka.data.iPs.externalNameservers;
+    servers = dotshabka.data.externalNameservers;
     extraConfig = ''
       ### Global settings
 
@@ -60,7 +60,7 @@ in {
       dhcp-authoritative
       dhcp-rapid-commit
       dhcp-option=option:router,${srv.livebox.internal.v4.ip}
-      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${builtins.elemAt dotshabka.data.iPs.externalNameservers 1}
+      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${builtins.elemAt dotshabka.data.externalNameservers 1}
       # Tell MicroSoft devices to release the lease when they shutdown
       dhcp-option=vendor:MSFT,2,1i
       # Fix WPA autoconfiguration vulnerabilities

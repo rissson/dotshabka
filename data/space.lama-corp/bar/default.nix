@@ -1,4 +1,4 @@
-{ }:
+{ ... }:
 
 {
   subnet = "192.168.44.0/24";
@@ -37,9 +37,14 @@
       };
       wg = {
         interface = "wg0";
+        publicKey = "+nasSLlJuvgViVcmcCcjMFvwRLmYgGRkBed+Z6qxfw4=";
         v4 = {
           ip = "172.28.2.1";
-          prefixLength = 16;
+          prefixLength = 24;
+        };
+        v6 = {
+          ip = "fd00:7fd7:e9a5:2::1";
+          prefixLength = 64;
         };
       };
     };

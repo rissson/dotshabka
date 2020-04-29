@@ -9,7 +9,7 @@ with lib;
     <dotshabka/modules/nixos/server>
 
     ./hardware-configuration.nix
-    ./networking.nix
+    ./networking
     ./mail.nix
     ./monitoring
 
