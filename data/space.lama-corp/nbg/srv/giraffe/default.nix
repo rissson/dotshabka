@@ -20,10 +20,12 @@
     interface = "wg0";
     publicKey = "GrGIRAF3f1bcFLBTK9u+RzsjeZt6JXYrBwJnsFGo7zo=";
     v4 = {
+      subnet = "172.28.3.0";
       ip = "172.28.3.1";
       prefixLength = 24;
     };
     v6 = {
+      subnet = "fd00:7fd7:e9a5:3::";
       ip = "fd00:7fd7:e9a5:3::1";
       prefixLength = 64;
     };

@@ -39,10 +39,12 @@
         interface = "wg0";
         publicKey = "+nasSLlJuvgViVcmcCcjMFvwRLmYgGRkBed+Z6qxfw4=";
         v4 = {
+          subnet = "172.28.2.0";
           ip = "172.28.2.1";
           prefixLength = 24;
         };
         v6 = {
+          subnet = "fd00:7fd7:e9a5:2::";
           ip = "fd00:7fd7:e9a5:2::1";
           prefixLength = 64;
         };

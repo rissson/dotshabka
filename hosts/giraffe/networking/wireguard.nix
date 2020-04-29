@@ -21,8 +21,8 @@ with import <dotshabka/data/space.lama-corp> {}; {
               # duck.srv.fsn
               inherit (fsn.srv.duck.wg) publicKey;
               allowedIPs = with fsn.srv.duck.wg; [
-                "${v4.ip}/${toString v4.prefixLength}"
-                "${v6.ip}/${toString v6.prefixLength}"
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
               ];
               endpoint = "${fsn.srv.duck.external.v4.ip}:51820";
             }
@@ -31,8 +31,8 @@ with import <dotshabka/data/space.lama-corp> {}; {
               inherit (bar.srv.nas.wg) publicKey;
               allowedIPs = with bar.srv.nas.wg; [
                 # Wireguard networks
-                "${v4.ip}/${toString v4.prefixLength}"
-                "${v6.ip}/${toString v6.prefixLength}"
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
                 # Local networks
                 bar.subnet
               ];
@@ -41,16 +41,16 @@ with import <dotshabka/data/space.lama-corp> {}; {
               # hedgehog.lap.fly
               inherit (fly.lap.hedgehog.wg) publicKey;
               allowedIPs = with fly.lap.hedgehog.wg; [
-                "${v4.ip}/${toString v4.prefixLength}"
-                "${v6.ip}/${toString v6.prefixLength}"
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
               ];
             }
             {
               # trunck.lap.fly
               inherit (fly.lap.trunck.wg) publicKey;
               allowedIPs = with fly.lap.trunck.wg; [
-                "${v4.ip}/${toString v4.prefixLength}"
-                "${v6.ip}/${toString v6.prefixLength}"
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
               ];
             }
           ];
