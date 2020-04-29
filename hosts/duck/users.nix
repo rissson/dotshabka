@@ -4,7 +4,18 @@ with lib;
 
 {
   shabka.users = with import <dotshabka/data/users> {}; {
+    enable = true;
     users = {
+      risson = {
+        inherit (risson) uid hashedPassword sshKeys;
+        isAdmin = true;
+        home ="/home/risson";
+      };
+      diego = {
+        inherit (diego) uid hashedPassword sshKeys;
+        isAdmin = true;
+        home = "/home/diego";
+      };
       lewdax = {
         inherit (lewdax) uid hashedPassword sshKeys;
         isAdmin = false;

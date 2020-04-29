@@ -1,4 +1,4 @@
-{ config, pkgs, system, ... }:
+{ config, pkgs, system, extraConfig, ... }:
 
 let
   vmTools = pkgs.callPackage "${pkgs.path}/pkgs/build-support/vm" {
@@ -20,62 +20,70 @@ let
   };
   config = (import <nixpkgs/nixos/lib/eval-config.nix> {
     inherit system;
-    modules = [{
-      environment.systemPackages = [ pkgs.file ];
-      services.openssh.enable = true;
-      services.openssh.permitRootLogin = "yes";
-      users.users.root.password = "test";
-      networking.firewall.allowedTCPPorts = [ 22 ];
-      networking.hostId = "ad31f38a";
-      users.mutableUsers = false;
-      boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "virtio_balloon" "virtio_blk" "virtio_pci" "virtio_ring" "aes_x86_64" "aesni_intel" "cryptd" ];
-      boot.supportedFilesystems = [ "zfs" ];
-      boot.kernelPackages = pkgs.linuxPackages_latest;
-
-      boot.kernelParams = [
-        "elevator=none"
+    modules = [
+      {
+        imports = [
+          <shabka/modules/nixos>
+          <dotshabka/modules/nixos>
+          <dotshabka/modules/nixos/server>
         ];
-      boot.loader.grub = {
-        enable = true;
-        version = 2;
-        device = "/dev/vda";
-        zfsSupport = true;
-      };
-      fileSystems = {
-        "/" =
-          { device = "rpool/local/root";
-          fsType = "zfs";
-        };
-        "/nix" =
-          { device = "rpool/local/nix";
-          fsType = "zfs";
-        };
-        "/root" =
-          { device = "rpool/persist/home/root";
-          fsType = "zfs";
-        };
-        "/srv" =
-          { device = "rpool/persist/srv";
-          fsType = "zfs";
-        };
-        "/boot" =
-          { device = "/dev/disk/by-label/nixos-boot";
-          fsType = "ext4";
-        };
-      };
 
-      # We want our template image to be as small as possible, but the deployed
-      # image should be able to beof any size. Hence we resize on the first boot
-      systemd.services.resize-main-fs = {
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig.Type = "oneshot";
-        script = ''
-          # Resize main partition to fill the whole disk
-          echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vda --no-reread -N 1
-          ${pkgs.parted}/bin/partprobe
-        '';
-      };
-    }];
+        boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci"
+        "usbhid" "usb_storage" "sd_mod" "virtio_balloon" "virtio_blk"
+        "virtio_pci" "virtio_ring" "aes_x86_64" "aesni_intel" "cryptd" ];
+        boot.supportedFilesystems = [ "zfs" ];
+        boot.kernelPackages = pkgs.linuxPackages_latest;
+        boot.kernelParams = [ "elevator=none" ];
+
+        boot.loader.grub = {
+          enable = true;
+          version = 2;
+          device = "/dev/vda";
+          zfsSupport = true;
+        };
+
+        fileSystems = {
+          "/" =
+            { device = "rpool/local/root";
+            fsType = "zfs";
+          };
+          "/nix" =
+            { device = "rpool/local/nix";
+            fsType = "zfs";
+          };
+          "/root" =
+            { device = "rpool/persist/home/root";
+            fsType = "zfs";
+          };
+          "/srv" =
+            { device = "rpool/persist/srv";
+            fsType = "zfs";
+          };
+          "/boot" =
+            { device = "/dev/disk/by-label/nixos-boot";
+            fsType = "ext4";
+          };
+          "/efi" =
+            { device = "/dev/disk/by-label/nixos-efi";
+            fsType = "vfat";
+          };
+        };
+
+        # We want our template image to be as small as possible, but the deployed
+        # image should be able to beof any size. Hence we resize on the first boot
+        systemd.services.resize-main-fs = {
+          wantedBy = [ "multi-user.target" ];
+          serviceConfig.Type = "oneshot";
+          script = ''
+            # Resize main partition to fill the whole disk
+            echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vda --no-reread -N 1
+            ${pkgs.parted}/bin/partprobe
+          '';
+        };
+      }
+
+      extraConfig
+    ];
   }).config;
 
 in vmTools.runInLinuxVM (
@@ -89,7 +97,7 @@ in vmTools.runInLinuxVM (
     '';
     postVM = ''
       echo compressing VM image...
-      ${pkgs.vmTools.qemu}/bin/qemu-img convert -c $diskImage -O qcow2 $out/baseline.qcow2
+      ${pkgs.vmTools.qemu}/bin/qemu-img convert -c $diskImage -O qcow2 $out/image.qcow2
     '';
 
     buildInputs = with pkgs; [ utillinux perl gptfdisk zfs e2fsprogs dosfstools ];
@@ -138,10 +146,9 @@ in vmTools.runInLinuxVM (
     # Mount the previously created partitions
     mkdir /mnt
     mount -t zfs rpool/local/root /mnt
-    mkdir /mnt/{boot,nix,root,srv}
+    mkdir /mnt/{boot,efi,nix,root,srv}
     mount "$DISK"3 /mnt/boot
-    mkdir /mnt/boot/efi
-    mount "$DISK"2 /mnt/boot/efi
+    mount "$DISK"2 /mnt/efi
     mount -t zfs rpool/local/nix /mnt/nix
     mount -t zfs rpool/persist/home/root /mnt/root
     mount -t zfs rpool/persist/srv /mnt/srv

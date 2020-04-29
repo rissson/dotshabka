@@ -1,4 +1,4 @@
-<domain type='kvm' id='@kvmId@'>
+<domain type='kvm'>
   <name>@name@</name>
   <uuid>UUID</uuid>
   <metadata>

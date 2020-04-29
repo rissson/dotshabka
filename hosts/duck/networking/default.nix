@@ -33,6 +33,14 @@ in with dotshabka.data.space.lama-corp; {
     useDHCP = false;
 
     bridges = {
+      "br-public" = {
+        interfaces = [ ];
+        rstp = false;
+      };
+      "br-local" = {
+        interfaces = [ ];
+        rstp = false;
+      };
       "br0" = {
         interfaces = [ ];
         rstp = false;
@@ -43,11 +51,30 @@ in with dotshabka.data.space.lama-corp; {
       "${external.interface}" = {
         ipv4.addresses = [
           { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
-          { address = "148.251.148.239"; prefixLength = 32; }
         ];
         ipv6.addresses = [
           { address = external.v6.ip;  prefixLength = 128; }
-          { address = "2a01:4f8:202:1097::9";  prefixLength = 128; }
+        ];
+      };
+
+      "${external.bridge}" = {
+        ipv4.addresses = [
+          { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
+        ];
+        ipv6.addresses = [
+          { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
+        ];
+        ipv4.routes = with virt; [
+          { address = mail-1.external.v4.ip; prefixLength = mail-1.external.v4.prefixLength; }
+        ];
+      };
+
+      "${internal.interface}" = {
+        ipv4.addresses = [
+          { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
+        ];
+        ipv6.addresses = [
+          { address = internal.v6.ip; prefixLength = internal.v6.prefixLength; }
         ];
       };
 
@@ -77,7 +104,7 @@ in with dotshabka.data.space.lama-corp; {
     nat = {
       enable = config.networking.wireguard.enable;
       externalInterface = external.interface;
-      internalInterfaces = [ wg.interface ];
+      internalInterfaces = [ internal.interface wg.interface ];
     };
 
     wireguard = {
