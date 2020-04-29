@@ -36,7 +36,7 @@ let
     '';
   };
 
-in with dotshabka.data.iPs.space.lama-corp.fsn.srv.duck.virt; {
+in with dotshabka.data.space.lama-corp.fsn.srv.duck.virt; {
   systemd.services.libvirtd-guest-lewdax-ynh = buildVmService "lewdax-ynh" (
     pkgs.substituteAll {
       src = ./ynh.xml;
