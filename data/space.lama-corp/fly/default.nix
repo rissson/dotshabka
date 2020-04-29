@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  lap = import ./lap {};
+  lap = import ./lap { };
 }

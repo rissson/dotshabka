@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  hub = import ./hub {};
+  hub = import ./hub { };
 
-  lewdax = import ./lewdax {};
+  lewdax = import ./lewdax { };
 }

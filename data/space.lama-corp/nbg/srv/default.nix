@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  giraffe = import ./giraffe {};
+  giraffe = import ./giraffe { };
 }

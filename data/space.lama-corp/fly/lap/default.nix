@@ -1,6 +1,6 @@
 { ... }:
 
 {
-  hedgehog = import ./hedgehog {};
-  trunck = import ./trunck {};
+  hedgehog = import ./hedgehog { };
+  trunck = import ./trunck { };
 }

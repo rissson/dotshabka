@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  srv = import ./srv {};
+  srv = import ./srv { };
 }

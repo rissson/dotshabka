@@ -1,11 +1,11 @@
 { }:
 
 {
-  bar = import ./bar {};
+  bar = import ./bar { };
 
-  fly = import ./fly {};
+  fly = import ./fly { };
 
-  fsn = import ./fsn {};
+  fsn = import ./fsn { };
 
-  nbg = import ./nbg {};
+  nbg = import ./nbg { };
 }
