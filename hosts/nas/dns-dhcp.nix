@@ -11,8 +11,6 @@ let
     text = with dotshabka.data.space.lama-corp.bar; ''
       ${srv.cuckoo.internal.v4.ip}      cuckoo      cuckoo.srv.bar.lama-corp.space
 
-      ${lap.asus.internal.v4.ip}        asus        asus.lap.bar.lama-corp.space
-
       ${mmd.loewe.internal.v4.ip}       loewe       loewe.mmd.bar.lama-corp.space
       ${mmd.bose.internal.v4.ip}        bose        bose.mmd.bar.lama-corp.space
       ${mmd.chromecast.internal.v4.ip}  chromecast  chromecast.mmd.bar.lama-corp.space
@@ -78,9 +76,6 @@ in {
 
       domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
       dhcp-host=${srv.cuckoo.internal.mac},cuckoo,${srv.cuckoo.internal.v4.ip},${defaultLeaseTime}
-
-      domain=lap.bar.lama-corp.space,${lap.start},${lap.end}
-      dhcp-host=${lap.asus.internal.mac},asus,${lap.asus.internal.v4.ip},${defaultLeaseTime}
 
       domain=mmd.bar.lama-corp.space,${mmd.start},${mmd.end}
       dhcp-host=${mmd.loewe.internal.mac},loewe,${mmd.loewe.internal.v4.ip},${defaultLeaseTime}
