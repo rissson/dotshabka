@@ -9,7 +9,7 @@ with lib;
     <dotshabka/modules/nixos/workstation>
 
     ./hardware-configuration.nix
-    ./networking.nix
+    ./networking
     ./backups.nix
 
     ./home.nix

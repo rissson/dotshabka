@@ -6,8 +6,8 @@ let
 
   dotshabka = import <dotshabka> {};
 
-in {
-  networking = with dotshabka.data.iPs.space.lama-corp.bar.srv.nas; {
+in with import <dotshabka/data/space.lama-corp> {}; {
+  networking = with bar.srv.nas; {
 
     hostName = "nas";
     domain = "srv.bar.lama-corp.space";
@@ -43,18 +43,50 @@ in {
     };
 
     wireguard = {
-      enable = false; # enabled by secrets
-      interfaces = {
-        "${wg.interface}" = {
-          ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
+      enable = true;
+      interfaces = with wg; {
+        "${interface}" = {
+          ips = [
+            "${v4.ip}/${toString v4.prefixLength}"
+            "${v6.ip}/${toString v6.prefixLength}"
+          ];
           listenPort = 51820;
+          privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
-            { # duck.srv.fsn.lama-corp.space
-              publicKey = "CCA8bRHyKy7Er430MPwrNPS+PgLelCDKsaTos/Z7XXE=";
-              allowedIPs = [ "172.28.0.0/${toString wg.v4.prefixLength}" ];
-              endpoint = "${dotshabka.data.iPs.space.lama-corp.fsn.srv.duck.external.v4.ip}:51820";
-              persistentKeepalive = 25;
+            {
+              # duck.srv.fsn
+              inherit (fsn.srv.duck.wg) publicKey;
+              allowedIPs = with fsn.srv.duck.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
+              endpoint = "${fsn.srv.duck.external.v4.ip}:51820";
+            }
+            {
+              # giraffe.srv.nbg
+              inherit (nbg.srv.giraffe.wg) publicKey;
+              allowedIPs = with nbg.srv.giraffe.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
+              endpoint = "${nbg.srv.giraffe.external.v4.ip}:51820";
+            }
+            {
+              # hedgehog.lap.fly
+              inherit (fly.lap.hedgehog.wg) publicKey;
+              allowedIPs = with fly.lap.hedgehog.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
+            }
+            {
+              # trunck.lap.fly
+              inherit (fly.lap.trunck.wg) publicKey;
+              allowedIPs = with fly.lap.trunck.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
             }
           ];
         };
@@ -79,7 +111,8 @@ in {
       allowedUDPPorts = [
         53 # DNS
         67 # DHCP
-      ] ++ (optionals config.networking.wireguard.enable (singleton 51820)); # Wireguard
+        51820 # Wireguard
+      ];
 
       allowedTCPPortRanges = [ ];
       allowedUDPPortRanges = [

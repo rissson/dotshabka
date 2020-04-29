@@ -8,10 +8,8 @@ let
     name = "hosts";
     executable = false;
     destination = "/share/hosts";
-    text = with dotshabka.data.iPs.space.lama-corp.bar; ''
+    text = with dotshabka.data.space.lama-corp.bar; ''
       ${srv.cuckoo.internal.v4.ip}      cuckoo      cuckoo.srv.bar.lama-corp.space
-
-      ${lap.asus.internal.v4.ip}        asus        asus.lap.bar.lama-corp.space
 
       ${mmd.loewe.internal.v4.ip}       loewe       loewe.mmd.bar.lama-corp.space
       ${mmd.bose.internal.v4.ip}        bose        bose.mmd.bar.lama-corp.space
@@ -30,10 +28,10 @@ let
   defaultLeaseTime = "12h";
 
 in {
-  services.dnsmasq = with dotshabka.data.iPs.space.lama-corp.bar; {
+  services.dnsmasq = with dotshabka.data.space.lama-corp.bar; {
     enable = true;
     resolveLocalQueries = false;
-    servers = dotshabka.data.iPs.externalNameservers;
+    servers = dotshabka.data.externalNameservers;
     extraConfig = ''
       ### Global settings
 
@@ -60,7 +58,7 @@ in {
       dhcp-authoritative
       dhcp-rapid-commit
       dhcp-option=option:router,${srv.livebox.internal.v4.ip}
-      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${builtins.elemAt dotshabka.data.iPs.externalNameservers 1}
+      dhcp-option=option:dns-server,${srv.nas.internal.v4.ip},${builtins.elemAt dotshabka.data.externalNameservers 1}
       # Tell MicroSoft devices to release the lease when they shutdown
       dhcp-option=vendor:MSFT,2,1i
       # Fix WPA autoconfiguration vulnerabilities
@@ -78,9 +76,6 @@ in {
 
       domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
       dhcp-host=${srv.cuckoo.internal.mac},cuckoo,${srv.cuckoo.internal.v4.ip},${defaultLeaseTime}
-
-      domain=lap.bar.lama-corp.space,${lap.start},${lap.end}
-      dhcp-host=${lap.asus.internal.mac},asus,${lap.asus.internal.v4.ip},${defaultLeaseTime}
 
       domain=mmd.bar.lama-corp.space,${mmd.start},${mmd.end}
       dhcp-host=${mmd.loewe.internal.mac},loewe,${mmd.loewe.internal.v4.ip},${defaultLeaseTime}

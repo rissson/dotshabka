@@ -24,6 +24,10 @@ in {
     "elevator=none"
   ];
 
+  boot.initrd.postDeviceCommands = mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
+
   boot.loader.grub = {
     enable = true;
     version = 2;

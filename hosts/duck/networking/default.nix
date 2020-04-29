@@ -4,7 +4,7 @@ with lib;
 
 let
   dotshabka = import <dotshabka> {};
-in with dotshabka.data.iPs.space.lama-corp; {
+in with dotshabka.data.space.lama-corp; {
   imports = [
     ./dns.nix
   ];
@@ -28,7 +28,7 @@ in with dotshabka.data.iPs.space.lama-corp; {
     nameservers = [
       "127.0.0.1"
       "::1"
-    ] ++ dotshabka.data.iPs.externalNameservers;
+    ] ++ dotshabka.data.externalNameservers;
 
     useDHCP = false;
 
@@ -82,33 +82,51 @@ in with dotshabka.data.iPs.space.lama-corp; {
 
     wireguard = {
       enable = true;
-      interfaces = {
-        "${wg.interface}" = {
-          ips = [ "${wg.v4.ip}/${toString wg.v4.prefixLength}" ];
+      interfaces = with wg; {
+        "${interface}" = {
+          ips = [
+            "${v4.ip}/${toString v4.prefixLength}"
+            "${v6.ip}/${toString v6.prefixLength}"
+          ];
           listenPort = 51820;
           privateKeyFile = "/srv/secrets/root/wireguard.key";
 
           peers = [
-            { # hub.virt.duck.srv.fsn.lama-corp.space
-              publicKey = "xa3HxQyrwM+uR8/NqiOCzonwOCqSD/ghkFow4d1omkQ=";
-              allowedIPs = [ "${fsn.srv.duck.virt.hub.wg.v4.ip}/32" ];
-            }
-            { # nas.srv.bar.lama-corp.space
-              publicKey = "4Iwgsv3cQdWfbym0ZZz71QUiVO/vmt3psTBgue+j/U4=";
-              allowedIPs = [ "${bar.srv.nas.wg.v4.ip}/32" "192.168.44.0/24" ];
+            {
+              # nas.srv.bar
+              inherit (bar.srv.nas.wg) publicKey;
+              allowedIPs = with bar.srv.nas.wg; [
+                # Wireguard networks
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+                # Local networks
+                bar.subnet
+              ];
             }
             {
-              # giraffe.srv.nbg.lama-corp.space
-              publicKey = "mUowpLh9k0s/hJzWu7EBguCAOaF+XRYdThBjXPQ9Qig=";
-              allowedIPs = [ "${nbg.srv.giraffe.wg.v4.ip}/32" ];
+              # giraffe.srv.nbg
+              inherit (nbg.srv.giraffe.wg) publicKey;
+              allowedIPs = with nbg.srv.giraffe.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
+              endpoint = "${nbg.srv.giraffe.external.v4.ip}:51820";
             }
-            { # hedgehog.lap.fly.lama-corp.space
-              publicKey = "qBFik9hW+zN6gbT4InmhIomtV3CtJsYaRZuuEVng2Xo=";
-              allowedIPs = [ "${fly.lap.hedgehog.wg.v4.ip}/32" ];
+            {
+              # hedgehog.lap.fly
+              inherit (fly.lap.hedgehog.wg) publicKey;
+              allowedIPs = with fly.lap.hedgehog.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
             }
-            { # trunck.lap.fly.lama-corp.space
-              publicKey = "5AKJzXk/ybUl4fQXsP4aycHBbFP+IhhWbFUVtJCUzg0=";
-              allowedIPs = [ "${fly.lap.trunck.wg.v4.ip}/32" ];
+            {
+              # trunck.lap.fly
+              inherit (fly.lap.trunck.wg) publicKey;
+              allowedIPs = with fly.lap.trunck.wg; [
+                "${v4.subnet}/${toString v4.prefixLength}"
+                "${v6.subnet}/${toString v6.prefixLength}"
+              ];
             }
           ];
         };
