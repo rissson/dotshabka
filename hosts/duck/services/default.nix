@@ -3,6 +3,7 @@
 {
   imports = [
     ./databases.nix
+    ./gitlab-runners
     ./hercules-ci.nix
     ./ldap
     ./libvirt
