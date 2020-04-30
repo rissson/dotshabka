@@ -12,8 +12,22 @@ with lib;
     ./networking.nix
     ./backups.nix
     ./monitoring
+
+    ./ldap
+    ./mail
   ]
   ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
+
+  security.dhparams = mkIf config.services.postfix.enable {
+    enable = true;
+    defaultBitSize = 2048;
+    stateful = true;
+  };
+
+  security.acme = mkIf (config.services.postfix.enable || config.services.dovecot.enable) {
+    acceptTerms = true;
+    email = "caa@lama-corp.space";
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

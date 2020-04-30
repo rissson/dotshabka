@@ -150,11 +150,8 @@ with import <dotshabka/data/space.lama-corp> { }; with fsn.srv.duck; {
 
       allowedTCPPorts = [
         22 # SSH
-        25 # postfix
         80 # nginx
         443 # nginx
-        587 # postfix
-        993 # dovecot
       ];
       allowedUDPPorts = [
         51820 # Wireguard
