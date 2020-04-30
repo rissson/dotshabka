@@ -92,6 +92,7 @@
           hostname = "duck.srv.fsn.lama-corp.space";
         };
         "*.duck" = {
+          user = "root";
           hostname = "%h.srv.fsn.lama-corp.space";
         };
         "nas" = {
