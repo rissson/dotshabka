@@ -25,7 +25,7 @@
       prefixLength = 24;
     };
     v6 = {
-      ip = "fd00:7fd7:e9a5:1::1";
+      ip = "fd00:7fd7:e9a5:1::fe";
       prefixLength = 64;
     };
   };

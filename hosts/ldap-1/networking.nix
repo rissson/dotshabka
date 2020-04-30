@@ -2,15 +2,14 @@
 
 with lib;
 
-with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
+with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.ldap-1; {
   # libvirt messes around with interfaces names, so we need to pin it
   services.udev.extraRules = ''
-        SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
         SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
   '';
 
   networking = {
-    hostName = "mail-1";
+    hostName = "ldap-1";
     domain = "duck.srv.fsn.lama-corp.space";
     inherit hostId;
 
@@ -22,14 +21,6 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
     useDHCP = false;
 
     interfaces = {
-      "${external.interface}" = {
-        ipv4.addresses = [
-          { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
-        ];
-        ipv6.addresses = [
-          { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
-        ];
-      };
       "${internal.interface}" = {
         ipv4.addresses = [
           { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
@@ -41,13 +32,13 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
     };
 
     defaultGateway = {
-      address = external.v4.gw;
-      interface = external.interface;
+      address = internal.v4.gw;
+      interface = internal.interface;
     };
 
     defaultGateway6 = {
-      address = external.v6.gw;
-      interface = external.interface;
+      address = internal.v6.gw;
+      interface = internal.interface;
     };
 
     firewall = {
@@ -56,9 +47,6 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
 
       allowedTCPPorts = [
         22 # SSH
-        25 # postfix
-        587 # postfix
-        993 # dovecot
       ];
       allowedUDPPorts = [ ];
 
@@ -68,6 +56,7 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
       interfaces = {
         "${internal.interface}" = {
           allowedTCPPorts = [
+            389 # ldap
             19999 # Netdata
           ];
           allowedUDPPorts = [ ];
