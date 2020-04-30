@@ -76,7 +76,7 @@ let
           serviceConfig.Type = "oneshot";
           script = ''
             # Resize main partition to fill the whole disk
-            echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vda --no-reread -N 1
+            echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vda --no-reread -N 4
             ${pkgs.parted}/bin/partprobe
           '';
         };
