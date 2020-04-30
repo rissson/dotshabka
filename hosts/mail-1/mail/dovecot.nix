@@ -6,7 +6,7 @@ let
   dataDir = "/srv/mail";
 
   ldap-conf-ext = pkgs.writeText "ldap.conf.ext" ''
-    hosts = localhost
+    hosts = ldap-1.duck.srv.fsn.lama-corp.space
     ldap_version = 3
     auth_bind = yes
     auth_bind_userdn = uid=%n,ou=users,dc=lama-corp,dc=space
@@ -24,7 +24,7 @@ in {
     "imap.lama-corp.space" = {
       dnsProvider = "cloudflare";
       credentialsFile = "/srv/secrets/root/acme-dns.keys";
-      #postRun = "systemctl reload dovecot2";
+      postRun = "systemctl reload dovecot2";
     };
   };
 

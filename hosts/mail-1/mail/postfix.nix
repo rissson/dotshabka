@@ -4,7 +4,7 @@ with lib;
 
 let
   ldap-virtual-mailbox-domains = pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
-    server_host = localhost
+    server_host = ldap-1.duck.srv.fsn.lama-corp.space
     server_port = 389
     version = 3
     bind = no
@@ -13,7 +13,7 @@ let
     result_attribute = dc
   '';
   ldap-virtual-mailbox-maps = pkgs.writeText "ldap-virtual-mailbox-maps.cf" ''
-    server_host = localhost
+    server_host = ldap-1.duck.srv.fsn.lama-corp.space
     server_port = 389
     version = 3
     bind = no
@@ -22,7 +22,7 @@ let
     result_attribute = mail
   '';
   ldap-virtual-alias-maps = pkgs.writeText "ldap-virtual-alias-maps.cf" ''
-    server_host = localhost
+    server_host = ldap-1.duck.srv.fsn.lama-corp.space
     server_port = 389
     version = 3
     bind = no
@@ -30,7 +30,7 @@ let
     query_filter = (&(objectClass=inetLocalMailRecipient)(mailLocalAddress=%s)(memberOf=cn=mail,ou=permissions,dc=lama-corp,dc=space))
     result_attribute = mail
   '';
-  hostname = with config.networking; "smtp-1.${hostName}.${domain}";
+  hostname = with config.networking; "${hostName}.${domain}";
 
 in {
   security.acme.certs = let
@@ -78,7 +78,13 @@ in {
     # via the `sendmail` command.
     origin = hostname;
 
-    networks = [ "172.28.0.0/16" "127.0.0.0/8" "[::ffff:127.0.0.0]/104" "[::1]/128" ];
+    networks = [
+      "172.28.0.0/16"
+      "[df00:7fd7:e9a5::]/48"
+      "127.0.0.0/8"
+      "[::ffff:127.0.0.0]/104"
+      "[::1]/128"
+    ];
 
     # main.cf/smtp_tls_CAfile
     sslCACert = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
