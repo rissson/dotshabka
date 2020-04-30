@@ -167,6 +167,17 @@ with import <dotshabka/data/space.lama-corp> { }; with fsn.srv.duck; {
       ];
 
       interfaces = {
+        "${internal.interface}" = {
+          allowedTCPPorts = [
+            53 # DNS
+          ];
+          allowedUDPPorts = [
+            53 # DNS
+          ];
+
+          allowedTCPPortRanges = [ ];
+          allowedUDPPortRanges = [ ];
+        };
         "${wg.interface}" = {
           allowedTCPPorts = [
             53 # DNS
