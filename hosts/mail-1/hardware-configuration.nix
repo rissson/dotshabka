@@ -18,6 +18,10 @@ with lib;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "elevator=none" ];
 
+  boot.initrd.postDeviceCommands = mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
+
   boot.loader.grub = {
     enable = true;
     version = 2;
