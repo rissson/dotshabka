@@ -43,7 +43,6 @@
       dunst.enable = true;
       greenclip.enable = mkForce false;
       termite.enable = mkForce false;
-      chromium.enable = mkForce false; # until it's more generic in shabka
       firefox.enable = mkForce false;
       i3 = {
         enable = true;
@@ -130,8 +129,6 @@
     };
 
     ## TBD once fixed in shabka
-    home.file.".config/chromium/profiles/epita/.keep".text = "";
-    home.file.".config/chromium/profiles/lamacorp/.keep".text = "";
     home.file.".mozilla/firefox/profiles/epita/.keep".text = "";
     home.file.".mozilla/firefox/profiles/lamacorp/.keep".text = "";
     home.file.".mozilla/firefox/profiles/personal/.keep".text = "";
