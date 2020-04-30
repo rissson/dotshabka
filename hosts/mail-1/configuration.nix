@@ -29,6 +29,12 @@ with lib;
     email = "caa@lama-corp.space";
   };
 
+  systemd.tmpfiles.rules = [
+    "L /var/lib/acme        - - - -   /srv/var/lib/acme"
+    "L /var/lib/dhparams    - - - -   /srv/var/lib/dhparams"
+    "L /var/spool/mail      - - - -   /srv/var/spool/mail"
+  ];
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
