@@ -22,6 +22,7 @@ with lib;
     enable = true;
     defaultBitSize = 2048;
     stateful = true;
+    path = "/srv/var/lib/dhparams";
   };
 
   security.acme = mkIf (config.services.postfix.enable || config.services.dovecot.enable) {
@@ -31,7 +32,6 @@ with lib;
 
   systemd.tmpfiles.rules = [
     "L /var/lib/acme        - - - -   /srv/var/lib/acme"
-    "L /var/lib/dhparams    - - - -   /srv/var/lib/dhparams"
     "L /var/spool/mail      - - - -   /srv/var/spool/mail"
   ];
 
