@@ -60,8 +60,8 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv> {}; {
       macAddressPublic = external.mac;
       macAddressLocal = internal.mac;
       diskPath = "/srv/vm/${vmName}.qcow2";
-      ifBridgePublic = "br-public";
-      ifBridgeLocal = "br-local";
+      ifBridgePublic = duck.external.bridge;
+      ifBridgeLocal = duck.internal.interface;
     });
     extraConfig = {
       networking = {
@@ -105,6 +105,57 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv> {}; {
       # libvirt messes around with interfaces names, so we need to pin it
       services.udev.extraRules = ''
         SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
+        SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
+      '';
+    };
+  };
+
+  systemd.services.libvirtd-guest-ldap-1 = with duck.ldap-1; buildVmService rec {
+    vmName = "ldap-1";
+    diskSize = 10;
+    xml = (pkgs.substituteAll {
+      src = ./vm-local.xml;
+
+      inherit vmName;
+      cpus = 1;
+      ram = 2;
+      macAddressLocal = internal.mac;
+      diskPath = "/srv/vm/${vmName}.qcow2";
+      ifBridgeLocal = duck.internal.interface;
+    });
+    extraConfig = {
+      networking = {
+        hostName = vmName;
+        domain = with config.networking; "${hostName}.${domain}";
+        # required for ZFS
+        inherit hostId;
+
+        nameservers = [
+          duck.internal.v4.ip
+          duck.internal.v6.ip
+        ];
+
+        interfaces."${internal.interface}" = {
+          ipv4.addresses = [
+            { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
+          ];
+          ipv6.addresses = [
+            { address = internal.v6.ip; prefixLength = internal.v6.prefixLength; }
+          ];
+        };
+        defaultGateway = {
+          address = internal.v4.gw;
+          interface = internal.interface;
+        };
+
+        defaultGateway6 = {
+          address = internal.v6.gw;
+          interface = internal.interface;
+        };
+      };
+
+      # libvirt messes around with interfaces names, so we need to pin it
+      services.udev.extraRules = ''
         SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
       '';
     };

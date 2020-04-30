@@ -1,5 +1,5 @@
 <domain type='kvm'>
-  <name>@name@</name>
+  <name>@vmName@</name>
   <uuid>UUID</uuid>
   <memory unit='GiB'>@ram@</memory>
   <currentMemory unit='GiB'>@ram@</currentMemory>
@@ -23,14 +23,10 @@
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name="qemu" type="qcow2"/>
-      <source file="/srv/vm/@name@.qcow2"/>
-      <target dev="vda" bus="ide"/>
+      <source file="/srv/vm/@vmName@.qcow2"/>
+      <target dev="vda" bus="virtio"/>
+      <serial>7377239801</serial>
     </disk>
-    <interface type='bridge' trustGuestRxFilters='yes'>
-      <mac address='@macAddressPublic@'/>
-      <source bridge='@ifBridgePublic@'/>
-      <model type='virtio'/>
-    </interface>
     <interface type='bridge' trustGuestRxFilters='yes'>
       <mac address='@macAddressLocal@'/>
       <source bridge='@ifBridgeLocal@'/>
