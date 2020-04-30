@@ -83,6 +83,51 @@
       locker.enable = true;
     };
 
+    programs.urxvt.extraConfig.termName = "rxvt-256color";
+
+    programs.ssh = {
+      matchBlocks = {
+        ### Lama Corp.
+        "duck" = {
+          hostname = "duck.srv.fsn.lama-corp.space";
+        };
+        "*.duck" = {
+          hostname = "%h.srv.fsn.lama-corp.space";
+        };
+        "nas" = {
+          hostname = "nas.srv.bar.lama-corp.space";
+        };
+        "giraffe" = {
+          hostname = "giraffe.srv.nbg.lama-corp.space";
+        };
+
+        ### CRI
+        "goat" = {
+          user = "risson";
+          hostname = "gate.cri.epita.fr";
+          port = 22450;
+        };
+
+        "git.cri.epita.fr" = {
+          user = "git";
+          extraOptions = {
+            controlMaster = "yes";
+            controlPersist = "2m";
+          };
+        };
+
+        # Git hosting
+        "gitlab" = {
+          hostname = "gitlab.com";
+          user = "git";
+        };
+        "github" = {
+          hostname = "github.com";
+          user = "git";
+        };
+      };
+    };
+
     ## TBD once fixed in shabka
     home.file.".config/chromium/profiles/epita/.keep".text = "";
     home.file.".config/chromium/profiles/lamacorp/.keep".text = "";
