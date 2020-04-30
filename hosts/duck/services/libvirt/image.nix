@@ -142,6 +142,9 @@ in vmTools.runInLinuxVM (
     zfs create -o mountpoint=legacy rpool/persist/home/root
     zfs create -o mountpoint=legacy rpool/persist/srv
 
+    # Enable snapshots on volumes we care about
+    zfs set com.sun:auto-snapshot=true rpool/persist
+
     echo mounting partitions...
     # Mount the previously created partitions
     mkdir /mnt
