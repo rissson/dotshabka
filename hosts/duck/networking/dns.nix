@@ -7,7 +7,14 @@ let
 in with dotshabka.data.space.lama-corp; {
   services.unbound = {
     enable = true;
-    interfaces = [ "127.0.0.1" "::1" fsn.srv.duck.wg.v4.ip ];
+    interfaces = with fsn.srv.duck; [
+      "127.0.0.1"
+      "::1"
+      wg.v4.ip
+      wg.v6.ip
+      internal.v4.ip
+      internal.v6.ip
+    ];
     allowedAccess = [ "0.0.0.0/0" "::0/0" ];
     enableRootTrustAnchor = true;
     extraConfig = ''

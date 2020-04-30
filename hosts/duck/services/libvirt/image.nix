@@ -152,6 +152,8 @@ in vmTools.runInLinuxVM (
     mount -t zfs rpool/local/nix /mnt/nix
     mount -t zfs rpool/persist/home/root /mnt/root
     mount -t zfs rpool/persist/srv /mnt/srv
+    # For host ssh keys
+    mkdir /mnt/srv/ssh
 
     for dir in dev proc sys; do
         mkdir /mnt/$dir

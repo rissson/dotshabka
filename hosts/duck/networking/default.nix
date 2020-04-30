@@ -2,14 +2,12 @@
 
 with lib;
 
-let
-  dotshabka = import <dotshabka> {};
-in with dotshabka.data.space.lama-corp; {
+with import <dotshabka/data/space.lama-corp> { }; with fsn.srv.duck; {
   imports = [
     ./dns.nix
   ];
 
-  boot.kernelParams = with fsn.srv.duck; [
+  boot.kernelParams = [
     "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
   ];
 
@@ -20,28 +18,24 @@ in with dotshabka.data.space.lama-corp; {
     "net.ipv6.conf.all.forwarding" = true;
   };
 
-  networking = with fsn.srv.duck; {
+  networking = {
 
     hostName = "duck";
     domain = "srv.fsn.lama-corp.space";
 
-    nameservers = [
+    nameservers = with import <dotshabka/data> {}; [
       "127.0.0.1"
       "::1"
-    ] ++ dotshabka.data.externalNameservers;
+    ] ++ externalNameservers;
 
     useDHCP = false;
 
     bridges = {
-      "br-public" = {
+      "${external.bridge}" = {
         interfaces = [ ];
         rstp = false;
       };
-      "br-local" = {
-        interfaces = [ ];
-        rstp = false;
-      };
-      "br0" = {
+      "${internal.interface}" = {
         interfaces = [ ];
         rstp = false;
       };
@@ -64,7 +58,9 @@ in with dotshabka.data.space.lama-corp; {
         ipv6.addresses = [
           { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
         ];
-        ipv4.routes = with virt; [
+        ipv4.routes = [
+          { address = virt.hub.external.v4.ip; prefixLength = virt.hub.external.v4.prefixLength; }
+          { address = virt.lewdax.external.v4.ip; prefixLength = virt.lewdax.external.v4.prefixLength; }
           { address = mail-1.external.v4.ip; prefixLength = mail-1.external.v4.prefixLength; }
         ];
       };
@@ -76,19 +72,7 @@ in with dotshabka.data.space.lama-corp; {
         ipv6.addresses = [
           { address = internal.v6.ip; prefixLength = internal.v6.prefixLength; }
         ];
-      };
-
-      "br0" = {
-        ipv4.addresses = [
-          { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
-        ];
-        ipv6.addresses = [
-          { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
-        ];
-        ipv4.routes = with virt; [
-          { address = hub.external.v4.ip; prefixLength = hub.external.v4.prefixLength; }
-          { address = lewdax.external.v4.ip; prefixLength = lewdax.external.v4.prefixLength; }
-        ];
+        proxyARP = true; # CRITICAL TO ACCESS THE WIREGUARD
       };
     };
 
@@ -112,8 +96,8 @@ in with dotshabka.data.space.lama-corp; {
       interfaces = with wg; {
         "${interface}" = {
           ips = [
-            "${v4.ip}/${toString v4.prefixLength}"
-            "${v6.ip}/${toString v6.prefixLength}"
+            "${v4.ip}/32"
+            "${v6.ip}/128"
           ];
           listenPort = 51820;
           privateKeyFile = "/srv/secrets/root/wireguard.key";
@@ -172,9 +156,9 @@ in with dotshabka.data.space.lama-corp; {
         587 # postfix
         993 # dovecot
       ];
-      allowedUDPPorts = [ ] ++
-        (optionals config.networking.wireguard.enable (singleton 51820)) # Wireguard
-      ;
+      allowedUDPPorts = [
+        51820 # Wireguard
+      ];
 
       allowedTCPPortRanges = [
         { from = 8000; to = 8100; } # weechat

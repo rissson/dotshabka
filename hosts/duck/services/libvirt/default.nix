@@ -38,7 +38,7 @@ let
     '';
   };
 
-in with dotshabka.data.space.lama-corp.fsn.srv.duck.virt; {
+in with dotshabka.data.space.lama-corp.fsn.srv.duck; {
   imports = [
     ./vm.nix
   ];
@@ -48,9 +48,9 @@ in with dotshabka.data.space.lama-corp.fsn.srv.duck.virt; {
       src = ./ynh.xml;
 
       name = "lewdax-ynh";
-      macAddress = lewdax.mac;
+      macAddress = virt.lewdax.mac;
       diskDevPath = "/dev/vg0/vm-lewdax-ynh";
-      ifBridge = "br0";
+      ifBridge = external.bridge;
     }
   );
 
@@ -59,9 +59,9 @@ in with dotshabka.data.space.lama-corp.fsn.srv.duck.virt; {
       src = ./ynh.xml;
 
       name = "lamacorp-ynh";
-      macAddress = hub.mac;
+      macAddress = virt.hub.mac;
       diskDevPath = "/dev/vg0/vm-lamacorp-ynh";
-      ifBridge = "br0";
+      ifBridge = external.bridge;
     }
   );
 }

@@ -21,7 +21,7 @@
     mac = "54:52:00:00:00:01";
     interface = "br-local";
     v4 = {
-      ip = "172.28.1.1";
+      ip = "172.28.1.254";
       prefixLength = 24;
     };
     v6 = {

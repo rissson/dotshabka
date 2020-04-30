@@ -47,8 +47,8 @@ let
        done
      '';
    };
-in with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {}; {
-  systemd.services.libvirtd-guest-mail-1 = with mail-1; buildVmService rec {
+in with import <dotshabka/data/space.lama-corp/fsn/srv> {}; {
+  systemd.services.libvirtd-guest-mail-1 = with duck.mail-1; buildVmService rec {
     vmName = "mail-1";
     diskSize = 25;
     xml = (pkgs.substituteAll {
@@ -70,7 +70,12 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {}; {
         # required for ZFS
         inherit hostId;
 
-       interfaces."${external.interface}" = {
+        nameservers = [
+          duck.internal.v4.ip
+          duck.internal.v6.ip
+        ];
+
+        interfaces."${external.interface}" = {
           ipv4.addresses = [
             { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
           ];
