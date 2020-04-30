@@ -64,19 +64,13 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {}; {
       ifBridgeLocal = "br-local";
     });
     extraConfig = {
-      networking.hostName = vmName;
-      networking.domain = with config.networking; "${hostName}.${domain}";
-      # required for ZFS
-      networking.hostId = "ad31f38a";
+      networking = {
+        hostName = vmName;
+        domain = with config.networking; "${hostName}.${domain}";
+        # required for ZFS
+        inherit hostId;
 
-      # libvirt messes around with interfaces names, so we need to pin it
-      services.udev.extraRules = ''
-        SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
-        SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
-      '';
-
-      networking.interfaces = {
-        "${external.interface}" = {
+       interfaces."${external.interface}" = {
           ipv4.addresses = [
             { address = external.v4.ip; prefixLength = external.v4.prefixLength; }
           ];
@@ -84,7 +78,7 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {}; {
             { address = external.v6.ip; prefixLength = external.v6.prefixLength; }
           ];
         };
-        "${internal.interface}" = {
+        interfaces."${internal.interface}" = {
           ipv4.addresses = [
             { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
           ];
@@ -92,7 +86,22 @@ in with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {}; {
             { address = internal.v6.ip; prefixLength = internal.v6.prefixLength; }
           ];
         };
+        defaultGateway = {
+          address = external.v4.gw;
+          interface = external.interface;
+        };
+
+        defaultGateway6 = {
+          address = external.v6.gw;
+          interface = external.interface;
+        };
       };
+
+      # libvirt messes around with interfaces names, so we need to pin it
+      services.udev.extraRules = ''
+        SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"
+        SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
+      '';
     };
   };
 }

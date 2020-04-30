@@ -79,5 +79,8 @@ giraffe:
 hedgehog:
   <<: *linux-host-template
 
+mail-1:
+  <<: *linux-host-template
+
 nas:
   <<: *linux-host-template
