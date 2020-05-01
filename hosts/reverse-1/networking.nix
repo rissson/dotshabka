@@ -2,7 +2,7 @@
 
 with lib;
 
-with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.mail-1; {
+with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.reverse-1; {
   # libvirt messes around with interfaces names, so we need to pin it
   services.udev.extraRules = ''
         SUBSYSTEM=="net", ATTR{address}=="${external.mac}", NAME="${external.interface}"

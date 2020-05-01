@@ -2,12 +2,6 @@
 
 {
   services.nginx.virtualHosts."grafana.lama-corp.space" = {
-    serverAliases = [
-      "grafana.risson.space"
-      "grafana.risson.me"
-      "grafana.marcerisson.space"
-      "grafana.risson.tech"
-    ];
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
