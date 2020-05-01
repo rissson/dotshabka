@@ -51,6 +51,10 @@ let
             { device = "rpool/local/nix";
             fsType = "zfs";
           };
+          "/var/log" = {
+            device = "rpool/local/var/log";
+            fsType = "zfs";
+          };
           "/root" =
             { device = "rpool/persist/home/root";
             fsType = "zfs";
@@ -135,6 +139,8 @@ in vmTools.runInLinuxVM (
     zfs create -o atime=off -o mountpoint=legacy rpool/local/nix
     zfs create -o mountpoint=legacy rpool/local/root
     zfs snapshot rpool/local/root@blank
+    zfs create -o mountpoint=none rpool/local/var
+    zfs create -o mountpoint=legacy rpool/local/var/log
 
     # Create the persistent zfs vols
     zfs create -o mountpoint=none rpool/persist
@@ -149,10 +155,11 @@ in vmTools.runInLinuxVM (
     # Mount the previously created partitions
     mkdir /mnt
     mount -t zfs rpool/local/root /mnt
-    mkdir /mnt/{boot,efi,nix,root,srv}
+    mkdir -p /mnt/{boot,efi,nix,root,srv,var/log}
     mount "$DISK"3 /mnt/boot
     mount "$DISK"2 /mnt/efi
     mount -t zfs rpool/local/nix /mnt/nix
+    mount -t zfs rpool/local/var/log /mnt/var/log
     mount -t zfs rpool/persist/home/root /mnt/root
     mount -t zfs rpool/persist/srv /mnt/srv
     # For host ssh keys

@@ -31,7 +31,7 @@ with lib;
 
   services.zfs.autoScrub = {
     enable = true;
-    interval = "*-*-09 04:08:02 UTC";
+    interval = "*-*-09 06:01:14 UTC";
   };
 
   fileSystems = {
@@ -41,6 +41,10 @@ with lib;
     };
     "/nix" = {
       device = "rpool/local/nix";
+      fsType = "zfs";
+    };
+    "/var/log" = {
+      device = "rpool/local/var/log";
       fsType = "zfs";
     };
     "/root" = {
@@ -61,5 +65,5 @@ with lib;
     };
   };
 
-  nix.maxJobs = 1;
+  nix.maxJobs = 2;
 }

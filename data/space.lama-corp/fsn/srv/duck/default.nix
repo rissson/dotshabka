@@ -49,5 +49,7 @@
 
   mail-1 = import ./mail-1 { };
 
+  reverse-1 = import ./reverse-1 { };
+
   virt = import ./virt { };
 }
