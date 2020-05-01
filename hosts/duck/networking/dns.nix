@@ -62,6 +62,8 @@ in with dotshabka.data.space.lama-corp; {
         local-data-ptr: "${fsn.srv.duck.wg.v4.ip} duck.srv.fsn.lama-corp.space"
         local-data: "hub.virt.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.virt.hub.wg.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.virt.hub.wg.v4.ip} hub.virt.duck.srv.fsn.lama-corp.space"
+        local-data: "reverse-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.reverse-1.internal.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.reverse-1.internal.v4.ip} reverse-1.duck.srv.fsn.lama-corp.space"
         local-data: "mail-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.mail-1.internal.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.mail-1.internal.v4.ip} mail-1.duck.srv.fsn.lama-corp.space"
         local-data: "ldap-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.ldap-1.internal.v4.ip}"
