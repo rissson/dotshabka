@@ -61,6 +61,7 @@ with import <dotshabka/data/space.lama-corp> { }; with fsn.srv.duck; {
         ipv4.routes = [
           { address = virt.hub.external.v4.ip; prefixLength = virt.hub.external.v4.prefixLength; }
           { address = virt.lewdax.external.v4.ip; prefixLength = virt.lewdax.external.v4.prefixLength; }
+          { address = reverse-1.external.v4.ip; prefixLength = reverse-1.external.v4.prefixLength; }
           { address = mail-1.external.v4.ip; prefixLength = mail-1.external.v4.prefixLength; }
         ];
       };
