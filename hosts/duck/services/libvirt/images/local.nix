@@ -18,6 +18,7 @@ let
       "spl"
     ];
   };
+
   config = (import <nixpkgs/nixos/lib/eval-config.nix> {
     inherit system;
     modules = [
@@ -44,23 +45,23 @@ let
 
         fileSystems = {
           "/" =
-            { device = "rpool/local/root";
+            { device = "lpool/root";
             fsType = "zfs";
           };
           "/nix" =
-            { device = "rpool/local/nix";
+            { device = "lpool/nix";
             fsType = "zfs";
           };
           "/var/log" = {
-            device = "rpool/local/var/log";
+            device = "lpool/var/log";
             fsType = "zfs";
           };
           "/root" =
-            { device = "rpool/persist/home/root";
+            { device = "ppool/home/root";
             fsType = "zfs";
           };
           "/srv" =
-            { device = "rpool/persist/srv";
+            { device = "ppool/srv";
             fsType = "zfs";
           };
           "/boot" =
@@ -81,6 +82,7 @@ let
           script = ''
             # Resize main partition to fill the whole disk
             echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vda --no-reread -N 4
+            echo ", +" | ${pkgs.utillinux}/bin/sfdisk /dev/vdb --no-reread
             ${pkgs.parted}/bin/partprobe
           '';
         };
@@ -91,7 +93,7 @@ let
   }).config;
 
 in vmTools.runInLinuxVM (
-  pkgs.runCommand "nixos-sun-baseline-image" {
+  pkgs.runCommand "libvirt-guest-image-local" {
     memSize = 768;
     preVM = ''
       mkdir $out
@@ -132,38 +134,24 @@ in vmTools.runInLinuxVM (
     zpool create -o ashift=12 -O acltype=posixacl -O canmount=off \
       -O compression=on -O dnodesize=auto -O normalization=formD \
       -O relatime=on -O xattr=sa -O mountpoint=none \
-      rpool "$DISK"4
+      lpool "$DISK"4
 
     # Create the non-persistent zfs vols
-    zfs create -o mountpoint=none rpool/local
-    zfs create -o atime=off -o mountpoint=legacy rpool/local/nix
-    zfs create -o mountpoint=legacy rpool/local/root
-    zfs snapshot rpool/local/root@blank
-    zfs create -o mountpoint=none rpool/local/var
-    zfs create -o mountpoint=legacy rpool/local/var/log
-
-    # Create the persistent zfs vols
-    zfs create -o mountpoint=none rpool/persist
-    zfs create -o mountpoint=none rpool/persist/home
-    zfs create -o mountpoint=legacy rpool/persist/home/root
-    zfs create -o mountpoint=legacy rpool/persist/srv
-
-    # Enable snapshots on volumes we care about
-    zfs set com.sun:auto-snapshot=true rpool/persist
+    zfs create -o atime=off -o mountpoint=legacy lpool/nix
+    zfs create -o mountpoint=legacy lpool/root
+    zfs snapshot lpool/root@blank
+    zfs create -o mountpoint=none lpool/var
+    zfs create -o mountpoint=legacy lpool/var/log
 
     echo mounting partitions...
     # Mount the previously created partitions
     mkdir /mnt
-    mount -t zfs rpool/local/root /mnt
-    mkdir -p /mnt/{boot,efi,nix,root,srv,var/log}
+    mount -t zfs lpool/root /mnt
+    mkdir -p /mnt/{boot,efi,nix,var/log}
     mount "$DISK"3 /mnt/boot
     mount "$DISK"2 /mnt/efi
-    mount -t zfs rpool/local/nix /mnt/nix
-    mount -t zfs rpool/local/var/log /mnt/var/log
-    mount -t zfs rpool/persist/home/root /mnt/root
-    mount -t zfs rpool/persist/srv /mnt/srv
-    # For host ssh keys
-    mkdir /mnt/srv/ssh
+    mount -t zfs lpool/nix /mnt/nix
+    mount -t zfs lpool/var/log /mnt/var/log
 
     for dir in dev proc sys; do
         mkdir /mnt/$dir

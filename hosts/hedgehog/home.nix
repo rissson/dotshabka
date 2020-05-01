@@ -100,6 +100,9 @@
         "giraffe" = {
           hostname = "giraffe.srv.nbg.lama-corp.space";
         };
+        "*.duck.srv.fsn.lama-corp.space" = {
+          user = "root";
+        };
 
         ### CRI
         "goat" = {

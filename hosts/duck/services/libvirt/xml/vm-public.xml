@@ -23,9 +23,15 @@
     <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name="qemu" type="qcow2"/>
-      <source file="/srv/vm/@vmName@.qcow2"/>
+      <source file="/srv/vm/@vmName@-local.qcow2"/>
       <target dev="vda" bus="virtio"/>
       <serial>7377239801</serial>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name="qemu" type="qcow2"/>
+      <source file="/srv/vm/@vmName@-persist.qcow2"/>
+      <target dev="vdb" bus="virtio"/>
+      <serial>7377239802</serial>
     </disk>
     <interface type='bridge' trustGuestRxFilters='yes'>
       <mac address='@macAddressPublic@'/>

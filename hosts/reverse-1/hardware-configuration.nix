@@ -36,23 +36,23 @@ with lib;
 
   fileSystems = {
     "/" = {
-      device = "rpool/local/root";
+      device = "lpool/root";
       fsType = "zfs";
     };
     "/nix" = {
-      device = "rpool/local/nix";
+      device = "lpool/nix";
       fsType = "zfs";
     };
     "/var/log" = {
-      device = "rpool/local/var/log";
+      device = "lpool/var/log";
       fsType = "zfs";
     };
     "/root" = {
-      device = "rpool/persist/home/root";
+      device = "ppool/home/root";
       fsType = "zfs";
     };
     "/srv" = {
-      device = "rpool/persist/srv";
+      device = "ppool/srv";
       fsType = "zfs";
     };
     "/boot" = {
