@@ -3,9 +3,11 @@
 with lib;
 
 let
-  nixpkgs = import (import <shabka> {}).external.nixpkgs.release-unstable.path {};
+  nixpkgs =
+    import (import <shabka> { }).external.nixpkgs.release-unstable.path { };
   cfg = config.services.mattermost;
-  database = "postgres://${cfg.localDatabaseUser}:${cfg.localDatabasePassword}@localhost:5432/${cfg.localDatabaseName}?sslmode=disable&connect_timeout=10";
+  database =
+    "postgres://${cfg.localDatabaseUser}:${cfg.localDatabasePassword}@localhost:5432/${cfg.localDatabaseName}?sslmode=disable&connect_timeout=10";
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -16,14 +18,15 @@ in {
     })
   ];
 
-  systemd.services.mattermost.serviceConfig.ExecStart = mkForce (pkgs.writeTextFile {
-    name = "unit-script-mattermost-start";
-    executable = true;
-    text = ''
-      #! ${pkgs.runtimeShell} -e
-      ${pkgs.mattermost}/bin/mattermost server -c '${database}'
-    '';
-  });
+  systemd.services.mattermost.serviceConfig.ExecStart = mkForce
+    (pkgs.writeTextFile {
+      name = "unit-script-mattermost-start";
+      executable = true;
+      text = ''
+        #! ${pkgs.runtimeShell} -e
+        ${pkgs.mattermost}/bin/mattermost server -c '${database}'
+      '';
+    });
 
   services.mattermost = {
     enable = true;

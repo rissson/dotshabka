@@ -1,11 +1,7 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   services.nginx.virtualHosts."acdc.risson.space" = {
-    serverAliases = [
-      "acdc.risson.me"
-      "acdc.marcerisson.space"
-      "acdc.risson.tech"
-    ];
+    serverAliases =
+      [ "acdc.risson.me" "acdc.marcerisson.space" "acdc.risson.tech" ];
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/acdc";

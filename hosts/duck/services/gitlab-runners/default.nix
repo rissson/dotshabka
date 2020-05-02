@@ -3,13 +3,9 @@
 with lib;
 
 {
-  disabledModules = [
-    "services/continuous-integration/gitlab-runner.nix"
-  ];
+  disabledModules = [ "services/continuous-integration/gitlab-runner.nix" ];
 
-  imports = [
-    ./gitlab-runner.nix
-  ];
+  imports = [ ./gitlab-runner.nix ];
 
   services.gitlab-runner = {
     enable = true;
@@ -39,7 +35,9 @@ with lib;
 
           . ${pkgs.nix}/etc/profile.d/nix.sh
 
-          ${pkgs.nix}/bin/nix-env -i ${concatStringsSep " " (with pkgs; [ nix cacert git openssh cachix ])}
+          ${pkgs.nix}/bin/nix-env -i ${
+            concatStringsSep " " (with pkgs; [ nix cacert git openssh cachix ])
+          }
 
           ${pkgs.nix}/bin/nix-channel --add https://nixos.org/channels/nixpkgs-unstable
           ${pkgs.nix}/bin/nix-channel --update nixpkgs
@@ -48,8 +46,10 @@ with lib;
           ENV = "/etc/profile";
           USER = "root";
           NIX_REMOTE = "daemon";
-          PATH = "/nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:/bin:/sbin:/usr/bin:/usr/sbin";
-          NIX_SSL_CERT_FILE = "/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt";
+          PATH =
+            "/nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:/bin:/sbin:/usr/bin:/usr/sbin";
+          NIX_SSL_CERT_FILE =
+            "/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt";
         };
         tagList = [ "nix-store" ];
       };

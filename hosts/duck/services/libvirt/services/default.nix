@@ -1,14 +1,11 @@
-{ config, pkgs, lib, system
-, vmName, localDiskSize ? 10, persistDiskSize ? 1, xml
-, extraConfig
-}:
+{ config, pkgs, lib, system, vmName, localDiskSize ? 10, persistDiskSize ? 1
+, xml, extraConfig }:
 
 with lib;
 
 let
-  imageLocal = import ../images/local.nix {
-    inherit config pkgs system extraConfig;
-  };
+  imageLocal =
+    import ../images/local.nix { inherit config pkgs system extraConfig; };
   imagePersist = import ../images/persist.nix {
     inherit config pkgs system;
     inherit (extraConfig.networking) hostId;
@@ -28,13 +25,17 @@ in {
     if ! ${pkgs.libvirt}/bin/virsh vol-key '${vmName}-local.qcow2' --pool default &> /dev/null; then
       ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 ${imageLocal}/image.qcow2 /srv/vm/${vmName}-local.qcow2
       ${pkgs.libvirt}/bin/virsh pool-refresh default
-      ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-local.qcow2' ${toString localDiskSize}G --pool default
+      ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-local.qcow2' ${
+        toString localDiskSize
+      }G --pool default
     fi
 
     if ! ${pkgs.libvirt}/bin/virsh vol-key '${vmName}-persist.qcow2' --pool default &> /dev/null; then
       ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 ${imagePersist}/image.qcow2 /srv/vm/${vmName}-persist.qcow2
       ${pkgs.libvirt}/bin/virsh pool-refresh default
-      ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-persist.qcow2' ${toString persistDiskSize}G --pool default
+      ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-persist.qcow2' ${
+        toString persistDiskSize
+      }G --pool default
     fi
 
     uuid="$(${getBin pkgs.libvirt}/bin/virsh domuuid '${vmName}' || true)"
@@ -45,7 +46,9 @@ in {
   preStop = ''
     ${getBin pkgs.libvirt}/bin/virsh shutdown '${vmName}'
     let "timeout = $(date +%s) + 120"
-    while [ "$(${getBin pkgs.libvirt}/bin/virsh list --name | grep --count '^${vmName}$')" -gt 0 ]; do
+    while [ "$(${
+      getBin pkgs.libvirt
+    }/bin/virsh list --name | grep --count '^${vmName}$')" -gt 0 ]; do
       if [ "$(date +%s)" -ge "$timeout" ]; then
         # Meh, we warned it...
         ${getBin pkgs.libvirt}/bin/virsh destroy '${vmName}'

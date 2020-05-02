@@ -11,13 +11,14 @@ in {
     })
   ];
 
-  services.netdata.enable = true;
-
-  services.netdata.config = {
-    backend = {
-      enabled = "yes";
-      type = "opentsdb";
-      destination = "giraffe.srv.nbg.lama-corp.space:20042";
+  services.netdata = {
+    enable = true;
+    config = {
+      backend = {
+        enabled = "yes";
+        type = "opentsdb";
+        destination = "giraffe.srv.nbg.lama-corp.space:20042";
+      };
     };
   };
 

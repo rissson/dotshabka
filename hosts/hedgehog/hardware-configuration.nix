@@ -3,8 +3,7 @@
 with lib;
 
 {
-  imports = let
-    shabka = import <shabka> {};
+  imports = let shabka = import <shabka> { };
   in [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     "${shabka.external.nixos-hardware.path}/common/cpu/intel"
@@ -12,7 +11,8 @@ with lib;
     "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
   ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -60,9 +60,8 @@ with lib;
     };
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; }
-  ];
+  swapDevices =
+    [{ device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; }];
 
   nix.maxJobs = 6;
 

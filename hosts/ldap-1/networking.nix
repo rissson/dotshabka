@@ -2,10 +2,11 @@
 
 with lib;
 
-with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.ldap-1; {
+with import <dotshabka/data/space.lama-corp> { };
+with fsn.srv.duck.ldap-1; {
   # libvirt messes around with interfaces names, so we need to pin it
   services.udev.extraRules = ''
-        SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
+    SUBSYSTEM=="net", ATTR{address}=="${internal.mac}", NAME="${internal.interface}"
   '';
 
   networking = {
@@ -13,21 +14,20 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.ldap-1; {
     domain = "duck.srv.fsn.lama-corp.space";
     inherit hostId;
 
-    nameservers = [
-      fsn.srv.duck.internal.v4.ip
-      fsn.srv.duck.internal.v6.ip
-    ];
+    nameservers = [ fsn.srv.duck.internal.v4.ip fsn.srv.duck.internal.v6.ip ];
 
     useDHCP = false;
 
     interfaces = {
       "${internal.interface}" = {
-        ipv4.addresses = [
-          { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
-        ];
-        ipv6.addresses = [
-          { address = internal.v6.ip; prefixLength = internal.v6.prefixLength; }
-        ];
+        ipv4.addresses = [{
+          address = internal.v4.ip;
+          prefixLength = internal.v4.prefixLength;
+        }];
+        ipv6.addresses = [{
+          address = internal.v6.ip;
+          prefixLength = internal.v6.prefixLength;
+        }];
       };
     };
 
@@ -62,9 +62,11 @@ with import <dotshabka/data/space.lama-corp> {}; with fsn.srv.duck.ldap-1; {
           allowedUDPPorts = [ ];
 
           allowedTCPPortRanges = [ ];
-          allowedUDPPortRanges = [
-            { from = 60000; to = 61000; } # mosh
-          ];
+          allowedUDPPortRanges = [{
+            from = 60000;
+            to = 61000;
+          } # mosh
+            ];
         };
       };
     };

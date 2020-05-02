@@ -14,8 +14,8 @@ with lib;
     ./monitoring
 
     ./mail
-  ]
-  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
+  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
+    (singleton "${<dotshabka>}/secrets"));
 
   security.dhparams = mkIf config.services.postfix.enable {
     enable = true;
@@ -24,10 +24,11 @@ with lib;
     path = "/srv/var/lib/dhparams";
   };
 
-  security.acme = mkIf (config.services.postfix.enable || config.services.dovecot.enable) {
-    acceptTerms = true;
-    email = "caa@lama-corp.space";
-  };
+  security.acme =
+    mkIf (config.services.postfix.enable || config.services.dovecot.enable) {
+      acceptTerms = true;
+      email = "caa@lama-corp.space";
+    };
 
   systemd.tmpfiles.rules = [
     "L /var/lib/acme        - - - -   /srv/var/lib/acme"

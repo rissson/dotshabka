@@ -13,8 +13,8 @@ with lib;
     ./backups.nix
 
     ./home.nix
-  ]
-  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
+  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
+    (singleton "${<dotshabka>}/secrets"));
 
   shabka.keyboard = {
     layouts = [ "bepo" "qwerty_intl" ];
@@ -32,11 +32,12 @@ with lib;
   };
 
   users.users.root = {
-    hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
+    hashedPassword =
+      "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
     openssh.authorizedKeys.keys = config.shabka.users.users.risson.sshKeys;
   };
 
-  shabka.users = with import <dotshabka/data/users> {}; {
+  shabka.users = with import <dotshabka/data/users> { }; {
     enable = true;
     users = {
       risson = {

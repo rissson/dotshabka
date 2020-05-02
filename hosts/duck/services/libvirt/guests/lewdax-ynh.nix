@@ -1,6 +1,6 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv/duck> {};
+with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { };
 
 rec {
   vmName = "lewdax-ynh";

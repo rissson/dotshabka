@@ -10,7 +10,8 @@ with lib;
         compression = "zlib,1";
 
         encryption.mode = "none";
-        environment.BORG_RSH = "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
+        environment.BORG_RSH =
+          "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
 
         paths = [
           "/boot"
@@ -22,16 +23,7 @@ with lib;
           "/var/spool"
         ];
 
-        preHook = concatStrings [
-          (optionalString config.services.openldap.enable ''
-            ${pkgs.openldap}/bin/slapcat -F ${config.services.openldap.configDir} -l /srv/backups/ldap_backup.ldif
-          '')
-        ];
-
-        readWritePaths = [
-          "/srv/backups"
-          "/srv/ldap"
-        ];
+        readWritePaths = [ "/srv/backups" ];
 
         startAt = "*-*-* *:44:30 UTC";
         prune = {
@@ -52,12 +44,10 @@ with lib;
         compression = "zlib,1";
 
         encryption.mode = "none";
-        environment.BORG_RSH = "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
+        environment.BORG_RSH =
+          "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
 
-        paths = [
-          "/home"
-          "/root"
-        ];
+        paths = [ "/home" "/root" ];
 
         startAt = "*-*-* *:39:30 UTC";
         prune = {
@@ -74,19 +64,19 @@ with lib;
       };
 
       "hetzner-homes" = {
-        repo = "ssh://u221979@u221979.your-storagebox.de:23/./backups/duck/homes";
+        repo =
+          "ssh://u221979@u221979.your-storagebox.de:23/./backups/duck/homes";
         compression = "zlib,1";
 
         encryption = {
           mode = "repokey";
-          passCommand = "cat /srv/secrets/root/backups/borg-u221979-backups-duck-homes.repo.passwd";
+          passCommand =
+            "cat /srv/secrets/root/backups/borg-u221979-backups-duck-homes.repo.passwd";
         };
-        environment.BORG_RSH = "ssh -i /srv/secrets/root/backups/borg-u221979-backups-duck-homes.ssh.key";
+        environment.BORG_RSH =
+          "ssh -i /srv/secrets/root/backups/borg-u221979-backups-duck-homes.ssh.key";
 
-        paths = [
-          "/home"
-          "/root"
-        ];
+        paths = [ "/home" "/root" ];
 
         startAt = "*-*-* 03:07:15 UTC";
         prune = {

@@ -51,8 +51,11 @@ in {
     mailLocation = "maildir:${dataDir}/vhosts/%n:LAYOUT=fs";
 
     sslCACert = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-    sslServerCert = "${config.security.acme.certs."imap.lama-corp.space".directory}/fullchain.pem";
-    sslServerKey = "${config.security.acme.certs."imap.lama-corp.space".directory}/key.pem";
+    sslServerCert = "${
+        config.security.acme.certs."imap.lama-corp.space".directory
+      }/fullchain.pem";
+    sslServerKey =
+      "${config.security.acme.certs."imap.lama-corp.space".directory}/key.pem";
 
     mailboxes = [
       {

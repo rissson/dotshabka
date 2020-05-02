@@ -11,12 +11,10 @@
           mode = "repokey-blake2";
           passCommand = "cat /srv/secrets/root/backups/borg-nas-backups.passwd";
         };
-        environment.BORG_RSH = "ssh -i /srv/secrets/root/backups/borg-nas-backups.ssh.key";
+        environment.BORG_RSH =
+          "ssh -i /srv/secrets/root/backups/borg-nas-backups.ssh.key";
 
-        paths = [
-          "/home"
-          "/root"
-        ];
+        paths = [ "/home" "/root" ];
 
         startAt = "*-*-* 02:02:54 UTC";
         prune = {

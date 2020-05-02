@@ -28,7 +28,8 @@ let
     inherit version;
 
     src = fetchurl {
-      url = "https://releases.mattermost.com/${version}/mattermost-${version}-linux-amd64.tar.gz";
+      url =
+        "https://releases.mattermost.com/${version}/mattermost-${version}-linux-amd64.tar.gz";
       sha256 = "0l0n482x9jg285hawxdv5mi4iwxvpmywj3mn4mzjf72sr9gv5v20";
     };
 
@@ -47,16 +48,15 @@ let
     '';
   };
 
-in
-  buildEnv {
-    name = "mattermost-${version}";
-    paths = [ mattermost-server mattermost-webapp ];
+in buildEnv {
+  name = "mattermost-${version}";
+  paths = [ mattermost-server mattermost-webapp ];
 
-    meta = with stdenv.lib; {
-      description = "Open-source, self-hosted Slack-alternative";
-      homepage = "https://www.mattermost.org";
-      license = with licenses; [ agpl3 asl20 ];
-      maintainers = with maintainers; [ fpletz ryantm ];
-      platforms = platforms.unix;
-    };
-  }
+  meta = with stdenv.lib; {
+    description = "Open-source, self-hosted Slack-alternative";
+    homepage = "https://www.mattermost.org";
+    license = with licenses; [ agpl3 asl20 ];
+    maintainers = with maintainers; [ fpletz ryantm ];
+    platforms = platforms.unix;
+  };
+}

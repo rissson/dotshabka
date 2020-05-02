@@ -21,7 +21,9 @@ with lib;
   preStop = ''
     ${getBin pkgs.libvirt}/bin/virsh shutdown '${vmName}'
     let "timeout = $(date +%s) + 120"
-    while [ "$(${getBin pkgs.libvirt}/bin/virsh list --name | grep --count '^${vmName}$')" -gt 0 ]; do
+    while [ "$(${
+      getBin pkgs.libvirt
+    }/bin/virsh list --name | grep --count '^${vmName}$')" -gt 0 ]; do
       if [ "$(date +%s)" -ge "$timeout" ]; then
         # Meh, we warned it...
         ${getBin pkgs.libvirt}/bin/virsh destroy '${vmName}'

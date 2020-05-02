@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  shabka.neovim.enable = true;
+}

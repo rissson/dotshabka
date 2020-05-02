@@ -2,27 +2,31 @@
 
 with lib;
 
-let
-  bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
+let bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
 in {
-  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath))
-    "${toString bootHostSshKeyPath} does not exists. You will not be able to decrypt the disks through SSH after a reboot."
-  );
+  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath)) "${
+      toString bootHostSshKeyPath
+    } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");
 
-  imports = [
-    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  imports = [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix> ];
+
+  boot.initrd.availableKernelModules = [
+    "ata_piix"
+    "virtio_pci"
+    "xhci_pci"
+    "sd_mod"
+    "sr_mod"
+    "aes_x86_64"
+    "aesni_intel"
+    "cryptd"
   ];
-
-  boot.initrd.availableKernelModules = [ "ata_piix" "virtio_pci" "xhci_pci" "sd_mod" "sr_mod" "aes_x86_64" "aesni_intel" "cryptd" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "zfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.kernelParams = [
-    "elevator=none"
-  ];
+  boot.kernelParams = [ "elevator=none" ];
 
   boot.initrd.postDeviceCommands = mkAfter ''
     zfs rollback -r rpool/local/root@blank
@@ -63,45 +67,44 @@ in {
   };
 
   fileSystems = {
-    "/" =
-      { device = "rpool/local/root";
+    "/" = {
+      device = "rpool/local/root";
       fsType = "zfs";
     };
 
-    "/nix" =
-      { device = "rpool/local/nix";
+    "/nix" = {
+      device = "rpool/local/nix";
       fsType = "zfs";
     };
 
-    "/home/diego" =
-      { device = "rpool/persist/home/diego";
+    "/home/diego" = {
+      device = "rpool/persist/home/diego";
       fsType = "zfs";
     };
 
-    "/home/risson" =
-      { device = "rpool/persist/home/risson";
+    "/home/risson" = {
+      device = "rpool/persist/home/risson";
       fsType = "zfs";
     };
 
-    "/root" =
-      { device = "rpool/persist/home/root";
+    "/root" = {
+      device = "rpool/persist/home/root";
       fsType = "zfs";
     };
 
-    "/srv" =
-      { device = "rpool/persist/srv";
+    "/srv" = {
+      device = "rpool/persist/srv";
       fsType = "zfs";
     };
 
-    "/boot" =
-      { device = "/dev/disk/by-uuid/91f628df-9ed7-47a4-bc4f-41225a65c0b5";
+    "/boot" = {
+      device = "/dev/disk/by-uuid/91f628df-9ed7-47a4-bc4f-41225a65c0b5";
       fsType = "ext4";
     };
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/dd184cf2-21db-486b-a810-37991b6586eb"; }
-  ];
+  swapDevices =
+    [{ device = "/dev/disk/by-uuid/dd184cf2-21db-486b-a810-37991b6586eb"; }];
 
   nix.maxJobs = 1;
 
