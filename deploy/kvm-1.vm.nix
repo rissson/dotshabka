@@ -39,6 +39,13 @@ in {
           owner.group = "root";
           permissions = "0444";
         };
+        "borg/nas-system.ssh.key" = {
+          source = "../secrets/files/hosts/mail-1/borg/nas-system.ssh.key";
+          destination = "/srv/secrets/borg/nas-system.ssh.key";
+          owner.user = "root";
+          owner.group = "root";
+          permissions = "0400";
+        };
       };
     };
 
@@ -46,7 +53,17 @@ in {
   };
 
   "reverse-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; };
+    deployment = defaultDeployment { inherit config; } \\ {
+      secrets = {
+        "borg/nas-system.ssh.key" = {
+          source = "../secrets/files/hosts/reverse-1/borg/nas-system.ssh.key";
+          destination = "/srv/secrets/borg/nas-system.ssh.key";
+          owner.user = "root";
+          owner.group = "root";
+          permissions = "0400";
+        };
+      };
+    };
 
     imports = [ "${<dotshabka>}/hosts/reverse-1/configuration.nix" ];
   };
