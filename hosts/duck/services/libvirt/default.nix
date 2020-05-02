@@ -12,7 +12,7 @@ let
     import ./services/ynh.nix ({ inherit pkgs lib; } // args);
 
 in {
-  shabka.virtualisation.libvirt.enable = true;
+  shabka.virtualisation.libvirtd.enable = true;
 
   systemd.services = {
     libvirtd-guest-mail-1 =
