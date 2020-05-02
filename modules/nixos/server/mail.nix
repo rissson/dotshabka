@@ -6,7 +6,7 @@
     root = "root@lama-corp.ovh";
     hostName = "ssl0.ovh.net:465";
     useTLS = true;
-    domain = with config.networking; "${hostName}.${domain}";
+    domain = "lama-corp.ovh";
     authUser = "root@lama-corp.ovh";
     authPassFile = "/srv/secrets/ssmtp/root_lama-corp_ovh.passwd";
   };
