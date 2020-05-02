@@ -1,7 +1,7 @@
 { ... }:
 
 with import <dotshabka/data/space.lama-corp> { };
-with srv.fsn.duck; {
+with fsn.srv.duck; {
   networking.firewall.allowedUDPPorts =
     [ config.networking.wireguard.interfaces.${wg.interface}.listenPort ];
 
