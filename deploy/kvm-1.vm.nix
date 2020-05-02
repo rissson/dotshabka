@@ -53,7 +53,7 @@ in {
   };
 
   "reverse-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } \\ {
+    deployment = defaultDeployment { inherit config; } // {
       secrets = {
         "borg/nas-system.ssh.key" = {
           source = "../secrets/files/hosts/reverse-1/borg/nas-system.ssh.key";
