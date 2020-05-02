@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 with import <dotshabka/data/space.lama-corp> { };
 with fsn.srv.duck; {
