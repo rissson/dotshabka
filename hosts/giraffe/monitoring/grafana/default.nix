@@ -23,22 +23,21 @@
           updateIntervalSeconds = 10;
         }
       ];
-      datasources = [
-        {
-          name = "InfluxDB";
-          type = "influxdb";
-          url = "http://localhost:8086";
-          isDefault = true;
-          editable = false;
-          access = "proxy";
-          database = "opentsdb_netdata";
-        }
-      ];
+      datasources = [{
+        name = "InfluxDB";
+        type = "influxdb";
+        url = "http://localhost:8086";
+        isDefault = true;
+        editable = false;
+        access = "proxy";
+        database = "opentsdb_netdata";
+      }];
     };
   };
 
   environment.etc = {
-    "grafana/dashboards/netdata-per-host".source = ./dashboards/netdata-per-host;
+    "grafana/dashboards/netdata-per-host".source =
+      ./dashboards/netdata-per-host;
     "grafana/dashboards/web".source = ./dashboards/web;
   };
 }

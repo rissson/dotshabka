@@ -2,7 +2,7 @@
 
 with lib;
 
-with import <dotshabka/data/space.lama-corp> {}; {
+with import <dotshabka/data/space.lama-corp> { }; {
   networking = with nbg.srv.giraffe; {
     wireguard = {
       enable = true;

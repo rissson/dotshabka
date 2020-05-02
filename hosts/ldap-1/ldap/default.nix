@@ -16,14 +16,16 @@ with lib;
         src = ./slapd.conf;
 
         coreSchema = "${pkgs.openldap}/etc/schema/core.schema";
-        cosineSchema = "${pkgs.openldap}/etc/schema/cosineSchema.schema";
-        inetorgpersonSchema = "${pkgs.openldap}/etc/schema/inetorgperson.schema";
+        cosineSchema = "${pkgs.openldap}/etc/schema/cosine.schema";
+        inetorgpersonSchema =
+          "${pkgs.openldap}/etc/schema/inetorgperson.schema";
         nisSchema = "${pkgs.openldap}/etc/schema/nis.schema";
         miscSchema = "${pkgs.openldap}/etc/schema/misc.schema";
 
         suffix = "dc=lama-corp,dc=space";
         dataDir = config.services.openldap.dataDir;
-        rootPw = "{CRYPT}$6$$eFsJgRkgYWTpEx/WNOE3I1YX8tAoSUYlw9IWlrN6sXD1TJNib/cGghREKE11SXCE/M3RytQCtz18D5lr7Gt5r1";
+        rootPw =
+          "{CRYPT}$6$$eFsJgRkgYWTpEx/WNOE3I1YX8tAoSUYlw9IWlrN6sXD1TJNib/cGghREKE11SXCE/M3RytQCtz18D5lr7Gt5r1";
       };
     };
   };

@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   services.nginx.virtualHosts."bin.lama-corp.space" = {
     serverAliases = [
       "bin.risson.space"
@@ -22,12 +21,8 @@
       }
     '';
     locations = {
-      "~ /\\." = {
-        extraConfig = "deny all;";
-      };
-      "~* /(?:static)/.*\\.php$" = {
-        extraConfig = "deny all;";
-      };
+      "~ /\\." = { extraConfig = "deny all;"; };
+      "~* /(?:static)/.*\\.php$" = { extraConfig = "deny all;"; };
       "/" = {
         index = "index.php";
         tryFiles = "$uri $uri/ /index.php?$args";

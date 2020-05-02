@@ -2,9 +2,7 @@
 
 {
   # TODO: score an A+ at SSLlabs
-  imports = [
-    ./grafana.lama-corp.space.nix
-  ];
+  imports = [ ./grafana.lama-corp.space.nix ];
 
   security.dhparams = {
     enable = true;
@@ -41,7 +39,6 @@
     email = "caa@lama-corp.space";
   };
 
-  systemd.tmpfiles.rules = [
-    "L /var/lib/acme        - - - -   /srv/var/lib/acme"
-  ];
+  systemd.tmpfiles.rules =
+    [ "L /var/lib/acme        - - - -   /srv/var/lib/acme" ];
 }

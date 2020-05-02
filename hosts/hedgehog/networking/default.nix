@@ -1,21 +1,14 @@
 { ... }:
 
-with import <dotshabka/data/space.lama-corp> {}; {
+with import <dotshabka/data/space.lama-corp> { }; {
   networking = with fly.lap.hedgehog; {
     hostName = "hedgehog";
     domain = "lap.fly.lama-corp.space";
 
-    nameservers = [
-      "172.28.1.1"
-      "1.1.1.1"
-    ];
+    nameservers = [ "172.28.1.1" "1.1.1.1" ];
 
     useDHCP = true;
-    interfaces = {
-      "enp3s0" = {
-        useDHCP = true;
-      };
-    };
+    interfaces = { "enp3s0" = { useDHCP = true; }; };
 
     dhcpcd.extraConfig = ''
       nohook resolv.conf

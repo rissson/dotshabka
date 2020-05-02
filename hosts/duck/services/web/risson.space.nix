@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   services.nginx.virtualHosts."risson.space" = {
     serverAliases = [
       "risson.lama-corp.space"
@@ -17,11 +16,7 @@
       access_log /var/log/nginx/access-risson.space.log netdata;
     '';
     root = "/srv/http/risson.space/prod";
-    locations = {
-      "/" = {
-        index = "index.html index.htm";
-      };
-    };
+    locations = { "/" = { index = "index.html index.htm"; }; };
   };
 
   services.nginx.virtualHosts."staging.risson.space" = {
@@ -34,11 +29,7 @@
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/risson.space/staging";
-    locations = {
-      "/" = {
-        index = "index.html index.htm";
-      };
-    };
+    locations = { "/" = { index = "index.html index.htm"; }; };
   };
 
   services.nginx.virtualHosts."dev.risson.space" = {
@@ -51,10 +42,6 @@
     forceSSL = true;
     enableACME = true;
     root = "/srv/http/risson.space/dev";
-    locations = {
-      "/" = {
-        index = "index.html index.htm";
-      };
-    };
+    locations = { "/" = { index = "index.html index.htm"; }; };
   };
 }

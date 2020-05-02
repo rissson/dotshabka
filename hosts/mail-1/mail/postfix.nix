@@ -3,15 +3,16 @@
 with lib;
 
 let
-  ldap-virtual-mailbox-domains = pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
-    server_host = ldap-1.duck.srv.fsn.lama-corp.space
-    server_port = 389
-    version = 3
-    bind = no
-    search_base = ou=domains,dc=lama-corp,dc=space
-    query_filter = (&(ObjectClass=dNSDomain)(dc=%s))
-    result_attribute = dc
-  '';
+  ldap-virtual-mailbox-domains =
+    pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
+      server_host = ldap-1.duck.srv.fsn.lama-corp.space
+      server_port = 389
+      version = 3
+      bind = no
+      search_base = ou=domains,dc=lama-corp,dc=space
+      query_filter = (&(ObjectClass=dNSDomain)(dc=%s))
+      result_attribute = dc
+    '';
   ldap-virtual-mailbox-maps = pkgs.writeText "ldap-virtual-mailbox-maps.cf" ''
     server_host = ldap-1.duck.srv.fsn.lama-corp.space
     server_port = 389
@@ -71,7 +72,7 @@ in {
     # virtual domains, which are configured below. Make sure to specify the FQDN
     # of your sever, as well as localhost.
     # Note: NEVER specify any virtual domains here!!! Those come later.
-    destination = [ ] ;
+    destination = [ ];
 
     # main.cf/myorigin
     # Domain appended to mail sent locally from this machine - such as mail sent
@@ -92,17 +93,34 @@ in {
     # path to the SSL certificate for the mail server
     # ECC certs are configured in the config section below.
     # main.cf/smtpd_tls_cert_file
-    sslCert = "${config.security.acme.certs."${hostname}.rsa".directory}/fullchain.pem";
+    sslCert =
+      "${config.security.acme.certs."${hostname}.rsa".directory}/fullchain.pem";
     # main.cf/smtpd_tls_key_file
-    sslKey = "${config.security.acme.certs."${hostname}.rsa".directory}/key.pem";
+    sslKey =
+      "${config.security.acme.certs."${hostname}.rsa".directory}/key.pem";
 
     # main.cf/smtp_header_checks
     headerChecks = [
-      { action = "IGNORE"; pattern = "/^X-Originating-IP:/"; }
-      { action = "IGNORE"; pattern = "/^User-Agent:/"; }
-      { action = "IGNORE"; pattern = "/^X-Mailer:/"; }
-      { action = "IGNORE"; pattern = "/^X-Enigmail:/"; }
-      { action = "REPLACE Message-ID: <$1@${hostname}>"; pattern = "/^Message-ID:\\s+<(.*?)@.*?>/"; }
+      {
+        action = "IGNORE";
+        pattern = "/^X-Originating-IP:/";
+      }
+      {
+        action = "IGNORE";
+        pattern = "/^User-Agent:/";
+      }
+      {
+        action = "IGNORE";
+        pattern = "/^X-Mailer:/";
+      }
+      {
+        action = "IGNORE";
+        pattern = "/^X-Enigmail:/";
+      }
+      {
+        action = "REPLACE Message-ID: <$1@${hostname}>";
+        pattern = "/^Message-ID:\\s+<(.*?)@.*?>/";
+      }
     ];
 
     # main.cf
@@ -138,8 +156,11 @@ in {
       # is faster and arguably more secure, but many mail servers don't yet
       # support it. I enable both types in postfix, but you most likely only
       # have a single RSA cert, and don't need to include these three lines.
-      smtpd_tls_eccert_file = "${config.security.acme.certs."${hostname}.ecc".directory}/fullchain.pem";
-      smtpd_tls_eckey_file = "${config.security.acme.certs."${hostname}.ecc".directory}/key.pem";
+      smtpd_tls_eccert_file = "${
+          config.security.acme.certs."${hostname}.ecc".directory
+        }/fullchain.pem";
+      smtpd_tls_eckey_file =
+        "${config.security.acme.certs."${hostname}.ecc".directory}/key.pem";
       smtpd_tls_eecdh_grade = "ultra";
 
       # These two lines define how postfix will connect to other mail servers.
@@ -167,21 +188,27 @@ in {
       # there that do not use TLS, and many that do only support old ciphers.
       # Forcing TLS for everyone *will* cause you to lose mail.
       # This means we only allow TLSv1.2 and TLSv1.3
-      smtpd_tls_protocols = "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
+      smtpd_tls_protocols =
+        "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
       smtp_tls_protocols = "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
-      smtpd_tls_mandatory_protocols = "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
-      smtp_tls_mandatory_protocols = "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
+      smtpd_tls_mandatory_protocols =
+        "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
+      smtp_tls_mandatory_protocols =
+        "!SSLv2, !SSLv3, !TLSv1, !TLSv1.1, TLSv1.2, TLSv1.3";
 
-      smtpd_tls_mandatory_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
-      smtpd_tls_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
-      smtp_tls_mandatory_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
-      smtp_tls_exclude_ciphers = "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
+      smtpd_tls_mandatory_exclude_ciphers =
+        "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
+      smtpd_tls_exclude_ciphers =
+        "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
+      smtp_tls_mandatory_exclude_ciphers =
+        "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
+      smtp_tls_exclude_ciphers =
+        "MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL";
 
       smtp_tls_ciphers = "high";
       smtpd_tls_ciphers = "high";
       smtp_tls_mandatory_ciphers = "high";
       smtpd_tls_mandatory_ciphers = "high";
-
 
       # allow other mail servers to connect using TLS, but don't require it
       smtpd_tls_security_level = "may";
@@ -190,12 +217,16 @@ in {
       tls_ssl_options = "no_ticket, no_compression";
 
       # it's more secure to generate your own DH params
-      smtpd_tls_dh512_param_file = config.security.dhparams.params."postfix-512".path;
-      smtpd_tls_dh1024_param_file = config.security.dhparams.params."postfix-1024".path;
+      smtpd_tls_dh512_param_file =
+        config.security.dhparams.params."postfix-512".path;
+      smtpd_tls_dh1024_param_file =
+        config.security.dhparams.params."postfix-1024".path;
 
       # cache incoming and outgoing TLS sessions
-      smtpd_tls_session_cache_database = "btree:\${data_directory}/smtpd_tlscache";
-      smtp_tls_session_cache_database = "btree:\${data_directory}/smtp_tlscache";
+      smtpd_tls_session_cache_database =
+        "btree:\${data_directory}/smtpd_tlscache";
+      smtp_tls_session_cache_database =
+        "btree:\${data_directory}/smtp_tlscache";
 
       # enable SMTPD auth. Dovecot will place an `auth` socket in postfix's
       # runtime directory that we will use for authentication.
@@ -285,11 +316,13 @@ in {
 
       policy-spf_time_limit = "3600s";
 
-      smtpd_milters = "unix:/run/opendkim/opendkim.sock,unix:/run/rspamd/rspamd-milter.sock";
+      smtpd_milters =
+        "unix:/run/opendkim/opendkim.sock,unix:/run/rspamd/rspamd-milter.sock";
       non_smtpd_milters = "unix:/run/opendkim/opendkim.sock";
       milter_protocol = "6";
       milter_default_action = "accept";
-      milter_mail_macros = "i {mail_addr} {client_addr} {client_name} {auth_type} {auth_authen} {auth_author} {mail_addr} {mail_host} {mail_mailer}";
+      milter_mail_macros =
+        "i {mail_addr} {client_addr} {client_name} {auth_type} {auth_authen} {auth_author} {mail_addr} {mail_host} {mail_mailer}";
 
       # deliver mail for virtual users to Dovecot's LMTP socket
       virtual_transport = "lmtp:unix:/run/dovecot2/dovecot-lmtp";

@@ -1,9 +1,7 @@
 { ... }:
 
 {
-  shabka.virtualisation = {
-    docker.enable = true;
-  };
+  shabka.virtualisation = { docker.enable = true; };
 
   # TODO: package this and run it as a service
   docker-containers."cloudflare-ddns-ipv4" = {
@@ -14,9 +12,7 @@
       PROXIED = "false";
       RRTYPE = "A";
     };
-    extraDockerOptions = [
-      "--network=host"
-    ];
+    extraDockerOptions = [ "--network=host" ];
   };
 
   docker-containers."cloudflare-ddns-ipv6" = {
@@ -27,8 +23,6 @@
       PROXIED = "false";
       RRTYPE = "AAAA";
     };
-    extraDockerOptions = [
-      "--network=host"
-    ];
+    extraDockerOptions = [ "--network=host" ];
   };
 }

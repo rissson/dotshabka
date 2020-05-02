@@ -3,13 +3,13 @@
 with lib;
 
 {
-  shabka.users = with import <dotshabka/data/users> {}; {
+  shabka.users = with import <dotshabka/data/users> { }; {
     enable = true;
     users = {
       risson = {
         inherit (risson) uid hashedPassword sshKeys;
         isAdmin = true;
-        home ="/home/risson";
+        home = "/home/risson";
       };
       diego = {
         inherit (diego) uid hashedPassword sshKeys;
@@ -19,7 +19,7 @@ with lib;
       lewdax = {
         inherit (lewdax) uid hashedPassword sshKeys;
         isAdmin = false;
-        home ="/home/lewdax";
+        home = "/home/lewdax";
       };
     };
   };
@@ -31,11 +31,11 @@ with lib;
       group = "deploy";
       packages = with pkgs; [ rsync ];
       shell = pkgs.bash;
-      openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEfjcrIG01Wh266+cEL3ib80dJkyYxoMVFUaxQch1xnv" ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEfjcrIG01Wh266+cEL3ib80dJkyYxoMVFUaxQch1xnv"
+      ];
     };
   };
 
-  users.extraGroups = {
-    "deploy" = {};
-  };
+  users.extraGroups = { "deploy" = { }; };
 }

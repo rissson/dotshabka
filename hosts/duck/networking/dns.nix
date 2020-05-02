@@ -2,8 +2,7 @@
 
 with lib;
 
-let
-  dotshabka = import <dotshabka> {};
+let dotshabka = import <dotshabka> { };
 in with dotshabka.data.space.lama-corp; {
   services.unbound = {
     enable = true;

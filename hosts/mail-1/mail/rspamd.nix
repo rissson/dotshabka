@@ -57,7 +57,7 @@ with lib;
         socket = "/run/rspamd/worker-controller.sock";
         mode = "0666";
       }];
-      includes = [];
+      includes = [ ];
     };
   };
 
@@ -71,7 +71,6 @@ with lib;
     requires = [ "rspamd.service" ];
   };
 
-  users.extraUsers.${config.services.postfix.user}.extraGroups = [
-    config.services.rspamd.group
-  ];
+  users.extraUsers.${config.services.postfix.user}.extraGroups =
+    [ config.services.rspamd.group ];
 }

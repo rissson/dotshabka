@@ -13,9 +13,7 @@ let
 
     imap = {
       port = 993;
-      tls = {
-        enable = true;
-      };
+      tls = { enable = true; };
     };
     smtp = {
       port = 587;
@@ -39,9 +37,7 @@ let
     neomutt.enable = true;
   };
 
-  gmailEmailAccount = {
-    flavor = "gmail.com";
-  };
+  gmailEmailAccount = { flavor = "gmail.com"; };
 
   myAccounts = {
     lamacorp = {
@@ -55,8 +51,8 @@ let
 
       realName = "Marc 'risson' Schmitt";
       signature.text = ''
-          Marc 'risson' Schmitt
-          Lama Corp.
+        Marc 'risson' Schmitt
+        Lama Corp.
       '';
 
       userName = "risson";
@@ -68,7 +64,8 @@ let
     };
   };
 
-  extendAccounts = name: value: nameValuePair name (commonEmailAccount // value);
+  extendAccounts = name: value:
+    nameValuePair name (commonEmailAccount // value);
 in {
   accounts.email.maildirBasePath = "mail";
   accounts.email.accounts = mapAttrs' extendAccounts myAccounts;
@@ -77,16 +74,13 @@ in {
 
   programs.offlineimap = {
     enable = true;
-    extraConfig.general = {
-      ui = "basic";
-    };
+    extraConfig.general = { ui = "basic"; };
   };
 
   programs.neomutt = {
     enable = true;
-    editor = "\$EDITOR '+set ft=mail' '+set fileencoding=utf-8' '+set ff=unix' '+set enc=utf-8' '+set fo+=w' %s";
-    sidebar = {
-      enable = true;
-    };
+    editor =
+      "$EDITOR '+set ft=mail' '+set fileencoding=utf-8' '+set ff=unix' '+set enc=utf-8' '+set fo+=w' %s";
+    sidebar = { enable = true; };
   };
 }

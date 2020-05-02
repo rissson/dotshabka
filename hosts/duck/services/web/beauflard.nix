@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   services.nginx.virtualHosts."beauflard.risson.space" = {
     serverAliases = [
       "beauflard.risson.me"
@@ -13,9 +12,7 @@
       access_log /var/log/nginx/access-beauflard.risson.space.log netdata;
     '';
     locations = {
-      "/" = {
-        index = "index.php index.html index.htm";
-      };
+      "/" = { index = "index.php index.html index.htm"; };
       "~ [^/]\\.php(/|$)" = {
         tryFiles = "$uri $document_root$fastcgi_script_name =404";
         extraConfig = ''

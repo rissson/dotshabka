@@ -11,11 +11,10 @@ with lib;
     ./hardware-configuration.nix
     ./networking.nix
     ./backups.nix
-    ./monitoring
 
     ./ldap
-  ]
-  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
+  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
+    (singleton "${<dotshabka>}/secrets"));
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

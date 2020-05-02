@@ -4,36 +4,32 @@ with lib;
 
 let
 
-  dotshabka = import <dotshabka> {};
+  dotshabka = import <dotshabka> { };
 
-in with import <dotshabka/data/space.lama-corp> {}; {
+in with import <dotshabka/data/space.lama-corp> { }; {
   networking = with bar.srv.nas; {
 
     hostName = "nas";
     domain = "srv.bar.lama-corp.space";
     hostId = "3474d85a";
 
-    nameservers = [
-      "172.28.1.1"
-      "1.1.1.1"
-    ];
+    nameservers = [ "172.28.1.1" "1.1.1.1" ];
 
     useDHCP = false;
 
     bonds = {
       "${internal.interface}" = {
         interfaces = internal.bondInterfaces;
-        driverOptions = {
-          mode = "balance-alb";
-        };
+        driverOptions = { mode = "balance-alb"; };
       };
     };
 
     interfaces = {
       "${internal.interface}" = {
-        ipv4.addresses = [
-          { address = internal.v4.ip; prefixLength = internal.v4.prefixLength; }
-        ];
+        ipv4.addresses = [{
+          address = internal.v4.ip;
+          prefixLength = internal.v4.prefixLength;
+        }];
       };
     };
 
@@ -115,9 +111,11 @@ in with import <dotshabka/data/space.lama-corp> {}; {
       ];
 
       allowedTCPPortRanges = [ ];
-      allowedUDPPortRanges = [
-        { from = 60000; to = 61000; } # mosh
-      ];
+      allowedUDPPortRanges = [{
+        from = 60000;
+        to = 61000;
+      } # mosh
+        ];
 
       interfaces = {
         "${wg.interface}" = {

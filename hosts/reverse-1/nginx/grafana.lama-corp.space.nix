@@ -8,9 +8,7 @@
       access_log /var/log/nginx/access-chat.lama-corp.space.log netdata;
     '';
     locations = {
-      "/" = {
-        proxyPass = "http://giraffe.srv.nbg.lama-corp.space:3000";
-      };
+      "/" = { proxyPass = "http://giraffe.srv.nbg.lama-corp.space:3000"; };
     };
   };
 }

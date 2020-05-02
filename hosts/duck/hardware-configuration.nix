@@ -2,22 +2,18 @@
 
 with lib;
 
-let
-  bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
+let bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
 in {
-  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath))
-    "${toString bootHostSshKeyPath} does not exists. You will not be able to decrypt the disks through SSH after a reboot."
-  );
+  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath)) "${
+      toString bootHostSshKeyPath
+    } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");
 
-  imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-  ];
+  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
 
   boot.initrd.availableKernelModules = [ "ahci" "igb" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.grub = {
@@ -54,95 +50,97 @@ in {
     };
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/338877a6-bcf3-40f2-8798-5683e000b531";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/338877a6-bcf3-40f2-8798-5683e000b531";
       fsType = "xfs";
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/9f1cd2f9-74a0-4e26-ba27-e501d5bf3fc4";
+    "/home" = {
+      device = "/dev/disk/by-uuid/9f1cd2f9-74a0-4e26-ba27-e501d5bf3fc4";
       fsType = "xfs";
     };
 
-  fileSystems."/opt" =
-    { device = "/dev/disk/by-uuid/86b01e8a-2ee6-4185-896e-f4f3f372c7f6";
+    "/opt" = {
+      device = "/dev/disk/by-uuid/86b01e8a-2ee6-4185-896e-f4f3f372c7f6";
       fsType = "xfs";
     };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/de013b18-da3b-4117-8b24-327a8ed45dfa";
+    "/nix" = {
+      device = "/dev/disk/by-uuid/de013b18-da3b-4117-8b24-327a8ed45dfa";
       fsType = "xfs";
     };
 
-  fileSystems."/srv" =
-    { device = "/dev/disk/by-uuid/5a85ee5c-f351-4df8-915e-d773f51b582c";
+    "/srv" = {
+      device = "/dev/disk/by-uuid/5a85ee5c-f351-4df8-915e-d773f51b582c";
       fsType = "xfs";
     };
 
-  fileSystems."/var" =
-    { device = "/dev/disk/by-uuid/4a975e48-a7be-451b-8628-22b1964c65b9";
+    "/var" = {
+      device = "/dev/disk/by-uuid/4a975e48-a7be-451b-8628-22b1964c65b9";
       fsType = "xfs";
     };
 
-  fileSystems."/home/diego" =
-    { device = "/dev/disk/by-uuid/f3541147-07ab-41ac-98f3-c92d427c5282";
+    "/home/diego" = {
+      device = "/dev/disk/by-uuid/f3541147-07ab-41ac-98f3-c92d427c5282";
       fsType = "xfs";
     };
 
-  fileSystems."/home/lewdax" =
-    { device = "/dev/disk/by-uuid/56ff78f0-e33a-4c34-81fe-2905dff9b5de";
+    "/home/lewdax" = {
+      device = "/dev/disk/by-uuid/56ff78f0-e33a-4c34-81fe-2905dff9b5de";
       fsType = "xfs";
     };
 
-  fileSystems."/home/risson" =
-    { device = "/dev/disk/by-uuid/e18ed6ce-b4d9-4a52-b0f3-9768faf6b4fd";
+    "/home/risson" = {
+      device = "/dev/disk/by-uuid/e18ed6ce-b4d9-4a52-b0f3-9768faf6b4fd";
       fsType = "xfs";
     };
 
-  fileSystems."/root" =
-    { device = "/dev/disk/by-uuid/b8336303-a0ff-4c73-b063-4385800a5a8b";
+    "/root" = {
+      device = "/dev/disk/by-uuid/b8336303-a0ff-4c73-b063-4385800a5a8b";
       fsType = "xfs";
     };
 
-  fileSystems."/var/cache" =
-    { device = "/dev/disk/by-uuid/e0191f12-055b-4c74-a6cb-aa73c11f59ab";
+    "/var/cache" = {
+      device = "/dev/disk/by-uuid/e0191f12-055b-4c74-a6cb-aa73c11f59ab";
       fsType = "xfs";
     };
 
-  fileSystems."/var/lib" =
-    { device = "/dev/disk/by-uuid/eecd78e1-74b3-4bef-9457-9a16926ebab0";
+    "/var/lib" = {
+      device = "/dev/disk/by-uuid/eecd78e1-74b3-4bef-9457-9a16926ebab0";
       fsType = "xfs";
     };
 
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/c1423fff-57ae-4268-a182-c2015d4dfd90";
+    "/var/log" = {
+      device = "/dev/disk/by-uuid/c1423fff-57ae-4268-a182-c2015d4dfd90";
       fsType = "xfs";
     };
 
-  fileSystems."/var/lib/libvirt" =
-    { device = "/dev/disk/by-uuid/db4857e4-ff0b-4166-93f0-a1a8d059aee3";
+    "/var/lib/libvirt" = {
+      device = "/dev/disk/by-uuid/db4857e4-ff0b-4166-93f0-a1a8d059aee3";
       fsType = "xfs";
     };
 
-  fileSystems."/var/lib/docker" =
-    { device = "/dev/disk/by-uuid/0723674b-9834-466e-aa7a-6ff3aa646207";
+    "/var/lib/docker" = {
+      device = "/dev/disk/by-uuid/0723674b-9834-466e-aa7a-6ff3aa646207";
       fsType = "xfs";
     };
 
-  fileSystems."/var/lib/libvirt/images" =
-    { device = "/dev/disk/by-uuid/8936a009-a2b5-4bb0-804f-a4e292d8bc1e";
+    "/var/lib/libvirt/images" = {
+      device = "/dev/disk/by-uuid/8936a009-a2b5-4bb0-804f-a4e292d8bc1e";
       fsType = "xfs";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/5520d746-6155-4da0-9a04-dc5decca2e0f";
+    "/boot" = {
+      device = "/dev/disk/by-uuid/5520d746-6155-4da0-9a04-dc5decca2e0f";
       fsType = "ext4";
     };
+  };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/222f1806-a087-462a-948c-68c6a5726661"; }
-      { device = "/dev/disk/by-uuid/1ba67c78-35bd-44b0-9058-468db8e26cce"; }
-    ];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/222f1806-a087-462a-948c-68c6a5726661"; }
+    { device = "/dev/disk/by-uuid/1ba67c78-35bd-44b0-9058-468db8e26cce"; }
+  ];
 
   nix.maxJobs = mkDefault 12;
 }

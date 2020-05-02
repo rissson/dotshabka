@@ -1,4 +1,6 @@
-{ config, ... }:
+{ config, lib, ... }:
+
+with lib;
 
 {
   services.openssh = {
@@ -28,4 +30,8 @@
         PermitRootLogin prohibit-password
     '';
   };
+
+  systemd.services.sshd.preStart = mkBefore ''
+    mkdir -m 0755 -p /srv/ssh
+  '';
 }

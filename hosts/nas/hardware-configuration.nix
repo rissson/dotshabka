@@ -3,15 +3,15 @@
 with lib;
 
 {
-  imports = let
-    shabka = import <shabka> {};
+  imports = let shabka = import <shabka> { };
   in [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     "${shabka.external.nixos-hardware.path}/common/cpu/intel"
     "${shabka.external.nixos-hardware.path}/common/pc/hdd"
   ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.availableKernelModules =
+    [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -31,93 +31,93 @@ with lib;
   };
 
   fileSystems = {
-    "/" =
-      { device = "rpool/ROOT/nixos";
+    "/" = {
+      device = "rpool/ROOT/nixos";
       fsType = "zfs";
     };
 
-    "/home" =
-      { device = "rpool/ROOT/home";
+    "/home" = {
+      device = "rpool/ROOT/home";
       fsType = "zfs";
     };
 
-    "/home/diego" =
-      { device = "rpool/ROOT/home/diego";
+    "/home/diego" = {
+      device = "rpool/ROOT/home/diego";
       fsType = "zfs";
     };
 
-    "/home/risson" =
-      { device = "rpool/ROOT/home/risson";
+    "/home/risson" = {
+      device = "rpool/ROOT/home/risson";
       fsType = "zfs";
     };
 
-    "/root" =
-      { device = "rpool/ROOT/home/root";
+    "/root" = {
+      device = "rpool/ROOT/home/root";
       fsType = "zfs";
     };
 
-    "/nix" =
-      { device = "rpool/NIX/nix";
+    "/nix" = {
+      device = "rpool/NIX/nix";
       fsType = "zfs";
     };
 
-    "/opt" =
-      { device = "rpool/ROOT/opt";
+    "/opt" = {
+      device = "rpool/ROOT/opt";
       fsType = "zfs";
     };
 
-    "/srv" =
-      { device = "rpool/ROOT/srv";
+    "/srv" = {
+      device = "rpool/ROOT/srv";
       fsType = "zfs";
     };
 
-    "/tmp" =
-      { device = "rpool/ROOT/tmp";
+    "/tmp" = {
+      device = "rpool/ROOT/tmp";
       fsType = "zfs";
     };
 
-    "/var" =
-      { device = "rpool/ROOT/var";
+    "/var" = {
+      device = "rpool/ROOT/var";
       fsType = "zfs";
     };
 
-    "/var/cache" =
-      { device = "rpool/ROOT/var/cache";
+    "/var/cache" = {
+      device = "rpool/ROOT/var/cache";
       fsType = "zfs";
     };
 
-    "/var/lib" =
-      { device = "rpool/ROOT/var/lib";
+    "/var/lib" = {
+      device = "rpool/ROOT/var/lib";
       fsType = "zfs";
     };
 
-    "/var/lib/docker" =
-      { device = "rpool/ROOT/var/lib/docker";
+    "/var/lib/docker" = {
+      device = "rpool/ROOT/var/lib/docker";
       fsType = "zfs";
     };
 
-    "/var/lib/libvirt" =
-      { device = "rpool/ROOT/var/lib/libvirt";
+    "/var/lib/libvirt" = {
+      device = "rpool/ROOT/var/lib/libvirt";
       fsType = "zfs";
     };
 
-    "/var/log" =
-      { device = "rpool/ROOT/var/log";
+    "/var/log" = {
+      device = "rpool/ROOT/var/log";
       fsType = "zfs";
     };
 
-    "/var/spool" =
-      { device = "rpool/ROOT/var/spool";
+    "/var/spool" = {
+      device = "rpool/ROOT/var/spool";
       fsType = "zfs";
     };
 
-    "/var/tmp" =
-      { device = "rpool/ROOT/var/tmp";
+    "/var/tmp" = {
+      device = "rpool/ROOT/var/tmp";
       fsType = "zfs";
     };
 
-    "/boot" =
-      { device = "bpool/BOOT/boot";
+    "/boot" = {
+      device = "bpool/BOOT/boot";
       fsType = "zfs";
     };
   };

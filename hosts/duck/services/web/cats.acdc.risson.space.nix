@@ -9,7 +9,7 @@ let
     rev = "1.0.0";
     sha256 = "027xbdhmf4198l8dxwgbbvb2330cpn5iai3935rcny8bvvfqy60w";
   };
-  catcdc = import catcdcSrc {};
+  catcdc = import catcdcSrc { };
   catcdcEnv = import catcdcSrc { mkEnv = true; };
   socketName = "uwsgi-cats.acdc.risson.space.sock";
   socket = "${config.services.uwsgi.runDir}/${socketName}";
@@ -33,9 +33,8 @@ in {
     source = "/srv/secrets/uwsgi/catcdc.settings.py";
   };
 
-  systemd.services.uwsgi.restartTriggers = [
-    config.environment.etc."catcdc/settings.py".source
-  ];
+  systemd.services.uwsgi.restartTriggers =
+    [ config.environment.etc."catcdc/settings.py".source ];
 
   systemd.services."catcdc" = {
     description = "Init cAtCDC database and static files";
@@ -54,9 +53,7 @@ in {
   };
 
   services.nginx.virtualHosts."cats.acdc.epita.fr" = {
-    serverAliases = [
-      "cats.acdc.risson.space"
-    ];
+    serverAliases = [ "cats.acdc.risson.space" ];
     forceSSL = true;
     enableACME = true;
     extraConfig = ''

@@ -17,16 +17,16 @@ with lib;
     ./dyndns.nix
 
     ./home
-  ]
-  ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets") (singleton "${<dotshabka>}/secrets"));
+  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
+    (singleton "${<dotshabka>}/secrets"));
 
-  shabka.users = with import <dotshabka/data/users> {}; {
+  shabka.users = with import <dotshabka/data/users> { }; {
     enable = true;
     users = {
       risson = {
         inherit (risson) uid hashedPassword sshKeys;
         isAdmin = true;
-        home ="/home/risson";
+        home = "/home/risson";
       };
       diego = {
         inherit (diego) uid hashedPassword sshKeys;

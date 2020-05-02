@@ -1,8 +1,5 @@
-{ config, pkgs, lib, ... }:
-{
-  disabledModules = [
-    "services/web-servers/uwsgi.nix"
-  ];
+{ config, pkgs, lib, ... }: {
+  disabledModules = [ "services/web-servers/uwsgi.nix" ];
 
   # TODO: score an A+ at SSLlabs
   imports = [
@@ -54,9 +51,7 @@
   services.uwsgi = {
     enable = true;
     plugins = [ "python3" ];
-    instance = {
-      type = "emperor";
-    };
+    instance = { type = "emperor"; };
     group = "deploy";
   };
 
@@ -64,4 +59,6 @@
     acceptTerms = true;
     email = "caa@lama-corp.space";
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
