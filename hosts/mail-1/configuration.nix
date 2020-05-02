@@ -11,7 +11,6 @@ with lib;
     ./hardware-configuration.nix
     ./networking.nix
     ./backups.nix
-    ./monitoring
 
     ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")

@@ -38,7 +38,7 @@ in {
     domain = "${config.services.postfix.hostname}";
     extraDomains = { "smtp.lama-corp.space" = null; };
     dnsProvider = "cloudflare";
-    credentialsFile = "/srv/secrets/root/acme-dns.keys";
+    credentialsFile = "/srv/secrets/acme/dns-credentials";
     postRun = "systemctl reload postfix";
   in mkIf config.services.postfix.enable {
     "${domain}.rsa" = {

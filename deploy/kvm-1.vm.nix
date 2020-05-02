@@ -22,7 +22,19 @@ in {
   };
 
   "mail-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; };
+    deployment = defaultDeployment { inherit config; } // {
+      secrets = {
+        "acme-dns-keys" = {
+          source = "../secrets/files/acme/dns-credentials";
+          destination = "/srv/secrets/acme/dns-credentials";
+          owner = {
+            user = "root";
+            group = "root";
+          };
+          permissions = "0444";
+        };
+      };
+    };
 
     imports = [ "${<dotshabka>}/hosts/mail-1/configuration.nix" ];
   };

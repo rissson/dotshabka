@@ -10,7 +10,6 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking
-    ./mail.nix
     ./monitoring
 
     ./home

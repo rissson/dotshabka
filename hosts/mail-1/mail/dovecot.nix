@@ -22,8 +22,9 @@ let
 in {
   security.acme.certs = mkIf config.services.dovecot2.enable {
     "imap.lama-corp.space" = {
+      extraDomains = { "imap-1.lama-corp.space" = null; };
       dnsProvider = "cloudflare";
-      credentialsFile = "/srv/secrets/root/acme-dns.keys";
+      credentialsFile = "/srv/secrets/acme/dns-credentials";
       postRun = "systemctl reload dovecot2";
     };
   };

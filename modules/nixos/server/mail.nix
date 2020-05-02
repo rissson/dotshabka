@@ -8,6 +8,6 @@
     useTLS = true;
     domain = with config.networking; "${hostName}.${domain}";
     authUser = "root@lama-corp.ovh";
-    authPassFile = "/srv/secrets/root_lama-corp_ovh.passwd";
+    authPassFile = "/srv/secrets/ssmtp/root_lama-corp_ovh.passwd";
   };
 }
