@@ -16,7 +16,7 @@ with lib;
         src = ./slapd.conf;
 
         coreSchema = "${pkgs.openldap}/etc/schema/core.schema";
-        cosineSchema = "${pkgs.openldap}/etc/schema/cosineSchema.schema";
+        cosineSchema = "${pkgs.openldap}/etc/schema/cosine.schema";
         inetorgpersonSchema =
           "${pkgs.openldap}/etc/schema/inetorgperson.schema";
         nisSchema = "${pkgs.openldap}/etc/schema/nis.schema";
