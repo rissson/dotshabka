@@ -8,7 +8,7 @@ let
           user = "root";
           group = "root";
         };
-        permissions = "0400";
+        permissions = "0444";
       };
     };
   };
