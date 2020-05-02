@@ -4,10 +4,8 @@ let
       "ssmtp-root_lama-corp_ovh_passwd" = {
         source = "../secrets/files/ssmtp/root_lama-corp_ovh.passwd";
         destination = config.services.ssmtp.authPassFile;
-        owner = {
-          user = "root";
-          group = "root";
-        };
+        owner.user = "root";
+        owner.group = "root";
         permissions = "0444";
       };
     };
@@ -16,7 +14,17 @@ in {
   network = { description = "Lama Corp. servers"; };
 
   "ldap-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; };
+    deployment = defaultDeployment { inherit config; } // {
+      secrets = {
+        "borg/nas-system.ssh.key" = {
+          source = "../secrets/files/hosts/ldap-1/borg/nas-system.ssh.key";
+          destination = "/srv/secrets/borg/nas-system.ssh.key";
+          owner.user = "root";
+          owner.group = "root";
+          permissions = "0400";
+        };
+      };
+    };
 
     imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
   };
@@ -24,13 +32,11 @@ in {
   "mail-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
     deployment = defaultDeployment { inherit config; } // {
       secrets = {
-        "acme-dns-keys" = {
+        "acme/dns-credentials" = {
           source = "../secrets/files/acme/dns-credentials";
           destination = "/srv/secrets/acme/dns-credentials";
-          owner = {
-            user = "root";
-            group = "root";
-          };
+          owner.user = "root";
+          owner.group = "root";
           permissions = "0444";
         };
       };

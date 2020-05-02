@@ -9,6 +9,13 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9GpUHP1WRgwsd8sXWUC5r5AL73lcIuRr7NPenLe9xt"
       ];
     };
+    "ldap-1" = {
+      allowSubRepos = true;
+      path = "/srv/backups/ldap-1";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEulb8KXXtoaWkY8p2Mr18qQYMzD3hPW0KqavQ6E8i1D"
+      ];
+    };
     "hedgehog" = {
       allowSubRepos = true;
       path = "/srv/backups/hedgehog";
