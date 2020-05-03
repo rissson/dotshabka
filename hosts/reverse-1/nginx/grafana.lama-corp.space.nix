@@ -5,10 +5,8 @@
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
-      access_log /var/log/nginx/access-chat.lama-corp.space.log netdata;
+      access_log /var/log/nginx/access-grafana.lama-corp.space.log netdata;
     '';
-    locations = {
-      "/" = { proxyPass = "http://giraffe.srv.nbg.lama-corp.space:3000"; };
-    };
+    locations."/".proxyPass = "http://giraffe.srv.nbg.lama-corp.space:3000";
   };
 }
