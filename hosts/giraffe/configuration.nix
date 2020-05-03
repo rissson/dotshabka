@@ -11,8 +11,6 @@ with lib;
     ./hardware-configuration.nix
     ./networking
     ./monitoring
-
-    ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 

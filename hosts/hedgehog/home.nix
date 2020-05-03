@@ -103,8 +103,14 @@
             user = "root";
             hostname = "%h.srv.fsn.lama-corp.space";
           };
-          "nas" = { hostname = "nas.srv.bar.lama-corp.space"; };
-          "giraffe" = { hostname = "giraffe.srv.nbg.lama-corp.space"; };
+          "nas" = {
+            hostname = "nas.srv.bar.lama-corp.space";
+            user = "root";
+          };
+          "giraffe" = {
+            hostname = "giraffe.srv.nbg.lama-corp.space";
+            user = "root";
+          };
           "*.duck.srv.fsn.lama-corp.space" = { user = "root"; };
 
           ### CRI
