@@ -69,6 +69,7 @@ in with dotshabka.data.space.lama-corp; {
         local-data-ptr: "${fsn.srv.duck.ldap-1.internal.v4.ip} ldap-1.duck.srv.fsn.lama-corp.space"
         local-data: "web-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-1.internal.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.web-1.internal.v4.ip} web-1.duck.srv.fsn.lama-corp.space"
+        local-data: "postgres-1.duck.srv.fsn.lama-corp.space. IN CNAME duck.srv.fsn.lama-corp.space"
 
         domain-insecure: "nbg.lama-corp.space"
         local-zone: "nbg.lama-corp.space." static
