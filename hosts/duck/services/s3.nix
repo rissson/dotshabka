@@ -27,7 +27,7 @@
     '';
     locations = {
       "/" = {
-        proxyPass = "http://localhost:19000";
+        proxyPass = "http://172.28.1.1:19000";
         extraConfig = ''
           proxy_redirect off;
           proxy_set_header X-Real-IP $remote_addr;

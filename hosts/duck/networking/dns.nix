@@ -67,10 +67,12 @@ in with dotshabka.data.space.lama-corp; {
         local-data-ptr: "${fsn.srv.duck.mail-1.internal.v4.ip} mail-1.duck.srv.fsn.lama-corp.space"
         local-data: "ldap-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.ldap-1.internal.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.ldap-1.internal.v4.ip} ldap-1.duck.srv.fsn.lama-corp.space"
+        local-data: "web-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-1.internal.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.web-1.internal.v4.ip} web-1.vrt.fsn.lama-corp.space"
         local-data: "web-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-1.internal.v4.ip}"
-        local-data-ptr: "${fsn.srv.duck.web-1.internal.v4.ip} web-1.duck.srv.fsn.lama-corp.space"
-        local-data: "postgres-1.vrt.fsn.lama-corp.space. IN CNAME duck.srv.fsn.lama-corp.space"
-        local-data: "minio-1.vrt.fsn.lama-corp.space. IN CNAME duck.srv.fsn.lama-corp.space"
+
+        local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
+        local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
 
         domain-insecure: "nbg.lama-corp.space"
         local-zone: "nbg.lama-corp.space." static
