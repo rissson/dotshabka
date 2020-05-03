@@ -75,11 +75,13 @@ with fsn.srv.duck.mail-1; {
           allowedUDPPorts = [ ];
 
           allowedTCPPortRanges = [ ];
-          allowedUDPPortRanges = [{
-            from = 60000;
-            to = 61000;
-          } # mosh
-            ];
+          allowedUDPPortRanges = [
+            {
+              # mosh
+              from = 60000;
+              to = 61000;
+            }
+          ];
         };
       };
     };

@@ -1,4 +1,6 @@
-{ ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
 
 {
   services.borgbackup = {
@@ -17,7 +19,23 @@
             "/var/log"
           ];
 
-          startAt = "*-*-* *:55:58 UTC";
+          preHook = concatStrings [
+            (optionalString config.services.influxdb.enable ''
+                ${pkgs.influxdb}/bin/influxd backup -portable /srv/influxdb/dump
+            '')
+          ];
+
+          postHook = concatStrings [
+            (optionalString config.services.influxdb.enable ''
+              rm -rf /srv/influxdb/dump
+            '')
+          ];
+
+          readWritePaths = [
+            "/srv/influxdb"
+          ];
+
+          startAt = "*-*-* *:33:53 UTC";
           prune = {
             keep = {
               within = "1d";

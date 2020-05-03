@@ -10,7 +10,6 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
-    ./mail.nix
     ./backups.nix
     ./monitoring
     ./dns-dhcp.nix

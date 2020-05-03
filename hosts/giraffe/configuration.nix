@@ -10,10 +10,9 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking
-    ./mail.nix
     ./monitoring
+    ./backups.nix
 
-    ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 

@@ -77,16 +77,6 @@ in {
       fsType = "zfs";
     };
 
-    "/home/diego" = {
-      device = "rpool/persist/home/diego";
-      fsType = "zfs";
-    };
-
-    "/home/risson" = {
-      device = "rpool/persist/home/risson";
-      fsType = "zfs";
-    };
-
     "/root" = {
       device = "rpool/persist/home/root";
       fsType = "zfs";

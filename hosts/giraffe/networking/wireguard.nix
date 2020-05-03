@@ -13,7 +13,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
             "${v6.ip}/${toString v6.prefixLength}"
           ];
           listenPort = 51820;
-          privateKeyFile = "/srv/secrets/root/wireguard.key";
+          privateKeyFile = "/srv/secrets/wireguard/private.key";
 
           peers = [
             {

@@ -2,7 +2,10 @@
 
 {
   # TODO: score an A+ at SSLlabs
-  imports = [ ./grafana.lama-corp.space.nix ];
+  imports = [
+    ./grafana.lama-corp.space.nix
+    ./netdata.lama-corp.space.nix
+  ];
 
   security.dhparams = {
     enable = true;
