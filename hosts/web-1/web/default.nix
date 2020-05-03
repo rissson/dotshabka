@@ -10,6 +10,7 @@
     ./cats.acdc.risson.space.nix
     ./jdmi.risson.space.nix
     ./lama-corp.space.nix
+    ./md.lama-corp.space.nix
     ./risson.space.nix
 
     ./uwsgi.nix

@@ -10,6 +10,7 @@
     ./grafana.lama-corp.space.nix
     ./jdmi.risson.space.nix
     ./lama-corp.space.nix
+    ./md.lama-corp.space.nix
     ./netdata.lama-corp.space.nix
     ./risson.space.nix
   ];
