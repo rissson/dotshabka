@@ -1,5 +1,7 @@
 { config, pkgs, lib, ... }:
 
+with lib;
+
 {
   # TODO: score an A+ at SSLlabs
   imports = [
@@ -15,10 +17,11 @@
     ./risson.space.nix
   ];
 
-  security.dhparams = {
+  security.dhparams = mkIf config.services.nginx.enable {
     enable = true;
     defaultBitSize = 2048;
     stateful = true;
+    path = "/srv/var/lib/dhparams";
     params."nginx".bits = 2048;
   };
 
@@ -45,7 +48,7 @@
     statusPage = true;
   };
 
-  security.acme = {
+  security.acme = mkIf config.services.nginx.enable {
     acceptTerms = true;
     email = "caa@lama-corp.space";
     #server = "https://acme-staging-v02.api.letsencrypt.org/directory";
