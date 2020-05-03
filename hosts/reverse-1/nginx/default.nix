@@ -4,8 +4,12 @@
   # TODO: score an A+ at SSLlabs
   imports = [
     ./acdc.risson.space.nix
+    ./beauflard.risson.space.nix
     ./grafana.lama-corp.space.nix
+    ./jdmi.risson.space.nix
+    ./lama-corp.space.nix
     ./netdata.lama-corp.space.nix
+    ./risson.space.nix
   ];
 
   security.dhparams = {
