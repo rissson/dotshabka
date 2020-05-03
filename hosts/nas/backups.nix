@@ -9,6 +9,13 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9GpUHP1WRgwsd8sXWUC5r5AL73lcIuRr7NPenLe9xt"
       ];
     };
+    "giraffe" = {
+      allowSubRepos = true;
+      path = "/srv/backups/giraffe";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIyfCxH3k5TMkz4p7VenPmUC2+njFY/6t3e21HwxrVjG"
+      ];
+    };
     "hedgehog" = {
       allowSubRepos = true;
       path = "/srv/backups/hedgehog";

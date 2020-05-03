@@ -8,23 +8,20 @@ let
         owner.group = "root";
         permissions = "0444";
       };
+      "borg/nas-system.ssh.key" = {
+        source = "../secrets/files/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
+        destination = "/srv/secrets/borg/nas-system.ssh.key";
+        owner.user = "root";
+        owner.group = "root";
+        permissions = "0400";
+      };
     };
   };
 in {
   network = { description = "Lama Corp. servers"; };
 
   "ldap-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } // {
-      secrets = {
-        "borg/nas-system.ssh.key" = {
-          source = "../secrets/files/hosts/ldap-1/borg/nas-system.ssh.key";
-          destination = "/srv/secrets/borg/nas-system.ssh.key";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0400";
-        };
-      };
-    };
+    deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
   };
@@ -39,13 +36,6 @@ in {
           owner.group = "root";
           permissions = "0444";
         };
-        "borg/nas-system.ssh.key" = {
-          source = "../secrets/files/hosts/mail-1/borg/nas-system.ssh.key";
-          destination = "/srv/secrets/borg/nas-system.ssh.key";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0400";
-        };
       };
     };
 
@@ -53,17 +43,7 @@ in {
   };
 
   "reverse-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } // {
-      secrets = {
-        "borg/nas-system.ssh.key" = {
-          source = "../secrets/files/hosts/reverse-1/borg/nas-system.ssh.key";
-          destination = "/srv/secrets/borg/nas-system.ssh.key";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0400";
-        };
-      };
-    };
+    deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/reverse-1/configuration.nix" ];
   };
