@@ -23,6 +23,8 @@ in {
       serviceBuilder (import ./guests/reverse-1.nix { inherit pkgs; });
     libvirtd-guest-web-1 =
       serviceBuilder (import ./guests/web-1.nix { inherit pkgs; });
+    libvirtd-guest-web-2 =
+      serviceBuilder (import ./guests/web-2.nix { inherit pkgs; });
 
     libvirtd-guest-lewdax-ynh =
       ynhServiceBuilder (import ./guests/lewdax-ynh.nix { inherit pkgs; });

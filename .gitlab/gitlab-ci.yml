@@ -93,3 +93,6 @@ reverse-1:
 
 web-1:
   <<: *linux-host-template
+
+web-2:
+  <<: *linux-host-template
