@@ -3,6 +3,7 @@
 {
   # TODO: score an A+ at SSLlabs
   imports = [
+    ./acdc.risson.space.nix
     ./grafana.lama-corp.space.nix
     ./netdata.lama-corp.space.nix
   ];
@@ -40,6 +41,7 @@
   security.acme = {
     acceptTerms = true;
     email = "caa@lama-corp.space";
+    #server = "https://acme-staging-v02.api.letsencrypt.org/directory";
   };
 
   systemd.tmpfiles.rules =

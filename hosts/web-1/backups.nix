@@ -19,7 +19,7 @@ with lib;
             "/var/log"
           ];
 
-          startAt = "*-*-* *:08:04 UTC";
+          startAt = "*-*-* *:58:23 UTC";
           prune = {
             keep = {
               within = "1d";
