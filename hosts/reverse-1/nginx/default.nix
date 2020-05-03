@@ -5,6 +5,7 @@
   imports = [
     ./acdc.risson.space.nix
     ./beauflard.risson.space.nix
+    ./bin.lama-corp.space.nix
     ./cats.acdc.risson.space.nix
     ./grafana.lama-corp.space.nix
     ./jdmi.risson.space.nix
