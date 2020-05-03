@@ -3,7 +3,7 @@
 {
   services.minio = {
     enable = false; # Enabled by secrets
-    listenAddress = "localhost:19000";
+    listenAddress = "172.28.1.1:19000";
     configDir = "/srv/minio/config";
     dataDir = "/srv/minio/data";
   };
