@@ -47,4 +47,10 @@ in {
 
     imports = [ "${<dotshabka>}/hosts/reverse-1/configuration.nix" ];
   };
+
+  "web-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
+    deployment = defaultDeployment { inherit config; };
+
+    imports = [ "${<dotshabka>}/hosts/web-1/configuration.nix" ];
+  };
 }

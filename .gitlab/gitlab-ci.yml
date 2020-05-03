@@ -90,3 +90,6 @@ nas:
 
 reverse-1:
   <<: *linux-host-template
+
+web-1:
+  <<: *linux-host-template

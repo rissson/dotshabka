@@ -51,5 +51,7 @@
 
   reverse-1 = import ./reverse-1 { };
 
+  web-1 = import ./web-1 { };
+
   virt = import ./virt { };
 }
