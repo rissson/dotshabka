@@ -1,11 +1,16 @@
-{ lib, ... }:
+{ config, lib, ... }:
+
+with lib;
 
 {
   services.grafana = {
     enable = true;
     addr = "172.28.3.1";
     dataDir = "/srv/grafana";
-    rootUrl = "http://172.28.3.1:3000";
+    rootUrl = "https://grafana.lama-corp.space/";
+    domain = "grafana.lama-corp.space";
+
+    auth.anonymous.enable = true;
 
     provision = {
       enable = true;
@@ -35,7 +40,7 @@
     };
   };
 
-  environment.etc = {
+  environment.etc = mkIf config.services.grafana.enable {
     "grafana/dashboards/netdata-per-host".source =
       ./dashboards/netdata-per-host;
     "grafana/dashboards/web".source = ./dashboards/web;
