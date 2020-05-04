@@ -51,5 +51,12 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF2Gr60YhDCP3Kz5gGhELicpmekF74tRgWTuL1XephzI"
       ];
     };
+    "web-2" = {
+      allowSubRepos = true;
+      path = "/srv/backups/web-2";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdzrzL0JJZFc9v2eA8Q5bPQv7hSJ5SPEbQP9M8BIM/D"
+      ];
+    };
   };
 }
