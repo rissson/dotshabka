@@ -70,6 +70,9 @@ in with dotshabka.data.space.lama-corp; {
         local-data: "web-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-1.internal.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.web-1.internal.v4.ip} web-1.vrt.fsn.lama-corp.space"
         local-data: "web-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-1.internal.v4.ip}"
+        local-data: "web-2.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-2.internal.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.web-2.internal.v4.ip} web-2.vrt.fsn.lama-corp.space"
+        local-data: "web-2.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-2.internal.v4.ip}"
 
         local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
         local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
