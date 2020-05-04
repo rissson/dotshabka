@@ -37,6 +37,14 @@ in {
       servers."mail-1.duck.srv.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
+    /*"netdata-minio-1" = {
+      servers."postgres-1.duck.srv.fsn.lama-corp.space:19999" = {};
+      extraConfig = "keepalive 64;";
+    };*/
+    "netdata-postgres-1" = {
+      servers."postgres-1.vrt.fsn.lama-corp.space:19999" = {};
+      extraConfig = "keepalive 64;";
+    };
     "netdata-reverse-1" = {
       servers."reverse-1.duck.srv.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";

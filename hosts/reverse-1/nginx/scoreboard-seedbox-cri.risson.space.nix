@@ -13,7 +13,7 @@ with lib;
       enableACME = true;
       extraConfig = ''
         client_max_body_size 25M;
-        access_log /var/log/nginx/access-cats.acdc.risson.space.log netdata;
+        access_log /var/log/nginx/access-scoreboard-seedbox-cri.risson.space.log netdata;
       '';
       locations = {
         "/" = {
