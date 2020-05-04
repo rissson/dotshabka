@@ -67,9 +67,16 @@ in {
   "web-2.duck.srv.fsn.lama-corp.space" = { config, ... }: {
     deployment = defaultDeployment { inherit config; } // {
       secrets = {
-        "uwsgi/cats.acdc.risson.space" = {
+        "uwsgi/cats.acdc.risson.space.settings.py" = {
           source = "../secrets/files/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
           destination = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
+          owner.user = "root";
+          owner.group = "root";
+          permissions = "0444";
+        };
+        "uwsgi/scoreboard-seedbox-cri.risson.space.settings.py" = {
+          source = "../secrets/files/hosts/web-2/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
+          destination = "/srv/secrets/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
           owner.user = "root";
           owner.group = "root";
           permissions = "0444";

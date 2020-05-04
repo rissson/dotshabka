@@ -16,18 +16,20 @@ let
 in {
   networking.firewall.allowedTCPPorts = [ port ];
 
-  services.uwsgi.instance.vassals."catcdc" = {
-    type = "normal";
-    pyhome = "${catcdcEnv}";
-    env = [
-      "PATH=${catcdc.python}/bin"
-      "PYTHONPATH=${catcdc}/${catcdc.python.sitePackages}"
-    ];
-    wsgi = "catcdc.wsgi:application";
-    socket = ":${toString port}";
-    master = true;
-    processes = 2;
-    vacuum = true;
+  services.uwsgi.instance.vassals = {
+    "catcdc" = {
+      type = "normal";
+      pyhome = "${catcdcEnv}";
+      env = [
+        "PATH=${catcdc.python}/bin"
+        "PYTHONPATH=${catcdc}/${catcdc.python.sitePackages}"
+      ];
+      wsgi = "catcdc.wsgi:application";
+      socket = ":${toString port}";
+      master = true;
+      processes = 2;
+      vacuum = true;
+    };
   };
 
   environment.etc."catcdc/settings.py" = {

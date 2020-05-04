@@ -53,13 +53,10 @@ let
           } // removeAttrs c [ "type" "pythonPackages" ]
         else if c.type == "emperor" then
           {
-            emperor = if builtins.typeOf c.vassals != "set" then
-              c.vassals
-            else
-              pkgs.buildEnv {
-                name = "vassals";
-                paths = mapAttrsToList buildCfg c.vassals;
-              };
+            emperor = pkgs.buildEnv {
+              name = "vassals";
+              paths = mapAttrsToList buildCfg c.vassals;
+            };
           } // removeAttrs c [ "type" "vassals" ]
         else
           throw
@@ -90,34 +87,15 @@ in {
         internal = true;
       };
 
-      instance = mkOption {
-        type = types.attrs;
-        default = { type = "normal"; };
-        example = literalExample ''
-          {
-            type = "emperor";
-            vassals = {
-              moin = {
-                type = "normal";
-                pythonPackages = self: with self; [ moinmoin ];
-                socket = "${config.services.uwsgi.runDir}/uwsgi.sock";
-              };
-            };
-          }
-        '';
-        description = ''
-          uWSGI configuration. It awaits an attribute <literal>type</literal> inside which can be either
-          <literal>normal</literal> or <literal>emperor</literal>.
-
-          For <literal>normal</literal> mode you can specify <literal>pythonPackages</literal> as a function
-          from libraries set into a list of libraries. <literal>pythonpath</literal> will be set accordingly.
-
-          For <literal>emperor</literal> mode, you should use <literal>vassals</literal> attribute
-          which should be either a set of names and configurations or a path to a directory.
-
-          Other attributes will be used in configuration file as-is. Notice that you can redefine
-          <literal>plugins</literal> setting here.
-        '';
+      instance = {
+        type = mkOption {
+          type = types.str;
+          default = "normal";
+        };
+        vassals = mkOption {
+          type = types.attrs;
+          default = { };
+        };
       };
 
       plugins = mkOption {
