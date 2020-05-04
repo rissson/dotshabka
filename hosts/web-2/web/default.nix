@@ -6,6 +6,7 @@
   imports = [
     ./cats.acdc.risson.space.nix
     ./scoreboard-seedbox-cri.risson.space.nix
+    ./md.lama-corp.space.nix
 
     ./uwsgi.nix
   ];

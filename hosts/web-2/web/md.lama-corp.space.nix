@@ -1,6 +1,6 @@
 { config, ... }:
 
-let port = 8007;
+let port = 8003;
 in {
   networking.firewall.allowedTCPPorts = [ port ];
   services.codimd = {
