@@ -42,6 +42,12 @@ in {
     imports = [ "${<dotshabka>}/hosts/mail-1/configuration.nix" ];
   };
 
+  "postgres-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
+    deployment = defaultDeployment { inherit config; };
+
+    imports = [ "${<dotshabka>}/hosts/postgres-1/configuration.nix" ];
+  };
+
   "reverse-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 

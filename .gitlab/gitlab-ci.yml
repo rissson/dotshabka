@@ -88,6 +88,9 @@ mail-1:
 nas:
   <<: *linux-host-template
 
+postgres-1:
+  <<: *linux-host-template
+
 reverse-1:
   <<: *linux-host-template
 

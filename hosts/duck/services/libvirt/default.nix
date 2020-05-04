@@ -15,10 +15,12 @@ in {
   shabka.virtualisation.libvirtd.enable = true;
 
   systemd.services = {
-    libvirtd-guest-mail-1 =
-      serviceBuilder (import ./guests/mail-1.nix { inherit pkgs; });
     libvirtd-guest-ldap-1 =
       serviceBuilder (import ./guests/ldap-1.nix { inherit pkgs; });
+    libvirtd-guest-mail-1 =
+      serviceBuilder (import ./guests/mail-1.nix { inherit pkgs; });
+    libvirtd-guest-postgres-1 =
+      serviceBuilder (import ./guests/postgres-1.nix { inherit pkgs; });
     libvirtd-guest-reverse-1 =
       serviceBuilder (import ./guests/reverse-1.nix { inherit pkgs; });
     libvirtd-guest-web-1 =
