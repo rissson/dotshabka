@@ -45,6 +45,10 @@ in {
       servers."web-1.duck.srv.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
+    "netdata-web-2" = {
+      servers."web-2.duck.srv.fsn.lama-corp.space:19999" = {};
+      extraConfig = "keepalive 64;";
+    };
     "netdata-nas" = {
       servers."nas.srv.bar.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
