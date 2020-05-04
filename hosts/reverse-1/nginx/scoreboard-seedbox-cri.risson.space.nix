@@ -9,7 +9,6 @@ with lib;
     };
 
     virtualHosts."scoreboard-seedbox-cri.risson.space" = {
-      serverAliases = [ "cats.acdc.epita.fr" ];
       forceSSL = true;
       enableACME = true;
       extraConfig = ''

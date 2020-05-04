@@ -7,6 +7,7 @@
     ./cats.acdc.risson.space.nix
     ./scoreboard-seedbox-cri.risson.space.nix
     ./md.lama-corp.space.nix
+    ./thefractal.space.nix
 
     ./uwsgi.nix
   ];

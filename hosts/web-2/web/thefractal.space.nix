@@ -5,51 +5,36 @@ with lib;
 let
   port = 8002;
 
+  nixpkgs = import (builtins.fetchTarball {
+    name = "nixpkgs-unstable-thefractal-space";
+    url = "https://github.com/NixOS/nixpkgs-channels/archive/c9bf23e6583164033d0cdce83825f3bb288de9b7.tar.gz";
+    sha256 = "1v2zw6gqq3z1hwgwli7kihsqffp0xcim6a1y3dszg1wca1jqjq5w";
+  }) {};
+
   thefractalspaceSrc = pkgs.fetchFromGitLab {
     owner = "ddorn";
     repo = "thefractal.space";
-    rev = "1.0.0";
-    sha256 = "027xbdhmf4198l8dxwgbbvb2330cpn5iai3935rcny8bvvfqy60w";
+    rev = "271fc63de6d4149fe79ece6fc9b63916e5b6bb04";
+    sha256 = "1iwhamgni9yfyfn0d35qb85mgavh2h1hi4zs9raqm8l4k8qxfqng";
   };
-  catcdc = import catcdcSrc { };
-  catcdcEnv = import catcdcSrc { mkEnv = true; };
+  thefractalspace = import thefractalspaceSrc { };
+  thefractalspaceEnv = import thefractalspaceSrc { mkEnv = true; };
 in {
   networking.firewall.allowedTCPPorts = [ port ];
 
-  services.uwsgi.instance.vassals."catcdc" = {
-    type = "normal";
-    pyhome = "${catcdcEnv}";
-    env = [
-      "PATH=${catcdc.python}/bin"
-      "PYTHONPATH=${catcdc}/${catcdc.python.sitePackages}"
-    ];
-    wsgi = "catcdc.wsgi:application";
-    socket = ":${toString port}";
-    master = true;
-    processes = 2;
-    vacuum = true;
-  };
-
-  environment.etc."catcdc/settings.py" = {
-    source = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
-  };
-
-  systemd.services.uwsgi.restartTriggers =
-    [ config.environment.etc."catcdc/settings.py".source ];
-
-  systemd.services."catcdc" = {
-    description = "Init cAtCDC database and static files";
-    before = [ "uwsgi.service" ];
-    requiredBy = [ "uwsgi.service" ];
-    restartTriggers = [ config.environment.etc."catcdc/settings.py".source ];
-    script = ''
-      ${catcdc}/bin/catcdc migrate
-      ${catcdc}/bin/catcdc collectstatic --no-input
-    '';
-    serviceConfig = {
-      User = config.services.uwsgi.user;
-      Type = "oneshot";
-      RemainAfterExit = "yes";
+  services.uwsgi.instance.vassals = {
+    "thefractalspace" = {
+      type = "normal";
+      pyhome = "${thefractalspaceEnv}";
+      env = [
+        "PATH=${thefractalspace.python}/bin"
+        "PYTHONPATH=${thefractalspace}/${thefractalspace.python.sitePackages}"
+      ];
+      wsgi = "thefractalspace.app:app";
+      socket = ":${toString port}";
+      master = true;
+      processes = 2;
+      vacuum = true;
     };
   };
 }
