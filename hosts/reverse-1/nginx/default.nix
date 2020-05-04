@@ -9,6 +9,7 @@ with lib;
     ./beauflard.risson.space.nix
     ./bin.lama-corp.space.nix
     ./cats.acdc.risson.space.nix
+    ./chat.lama-corp.space.nix
     ./grafana.lama-corp.space.nix
     ./jdmi.risson.space.nix
     ./lama-corp.space.nix

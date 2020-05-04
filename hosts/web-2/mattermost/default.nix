@@ -3,6 +3,8 @@
 with lib;
 
 let
+  port = 19065;
+
   nixpkgs =
     import (import <shabka> { }).external.nixpkgs.release-unstable.path { };
   cfg = config.services.mattermost;
@@ -18,6 +20,8 @@ in {
     })
   ];
 
+  networking.firewall.allowedTCPPorts = [ port ];
+
   systemd.services.mattermost.serviceConfig.ExecStart = mkForce
     (pkgs.writeTextFile {
       name = "unit-script-mattermost-start";
@@ -30,7 +34,7 @@ in {
 
   services.mattermost = {
     enable = true;
-    listenAddress = ":8000";
+    listenAddress = ":${toString port}";
     localDatabaseCreate = false;
     localDatabaseName = "mattermost";
     localDatabaseUser = "mattermost";
