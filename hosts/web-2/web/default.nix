@@ -4,6 +4,8 @@
   disabledModules = [ "services/web-servers/uwsgi.nix" ];
 
   imports = [
+    ./cats.acdc.risson.space.nix
+
     ./uwsgi.nix
   ];
 

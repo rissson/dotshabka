@@ -68,7 +68,7 @@ in {
     deployment = defaultDeployment { inherit config; } // {
       secrets = {
         "uwsgi/cats.acdc.risson.space" = {
-          source = "../secrets/files/hosts/web-1/uwsgi/cats.acdc.risson.space.settings.py";
+          source = "../secrets/files/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
           destination = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
           owner.user = "root";
           owner.group = "root";
