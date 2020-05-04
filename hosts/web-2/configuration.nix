@@ -12,6 +12,7 @@ with lib;
     ./networking.nix
     ./backups.nix
 
+    ./mattermost
     ./web
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
