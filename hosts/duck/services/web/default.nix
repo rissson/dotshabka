@@ -1,10 +1,6 @@
 { config, pkgs, lib, ... }: {
 
   # TODO: score an A+ at SSLlabs
-  imports = [
-    ./scoreboard-seedbox-cri.nix
-    ./thefractal.space.nix
-  ];
 
   security.dhparams = {
     enable = true;
