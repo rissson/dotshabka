@@ -16,6 +16,7 @@ with lib;
     ./netdata.lama-corp.space.nix
     ./risson.space.nix
     ./scoreboard-seedbox-cri.risson.space.nix
+    ./thefractal.space.nix
   ];
 
   security.dhparams = mkIf config.services.nginx.enable {

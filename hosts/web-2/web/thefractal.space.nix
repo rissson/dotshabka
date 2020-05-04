@@ -29,12 +29,14 @@ in {
       env = [
         "PATH=${thefractalspace.python}/bin"
         "PYTHONPATH=${thefractalspace}/${thefractalspace.python.sitePackages}"
+        "FRACTALS_DIR=/var/cache/thefractal.space"
       ];
       wsgi = "thefractalspace.app:app";
       socket = ":${toString port}";
       master = true;
       processes = 2;
       vacuum = true;
+      chdir = "/var/cache/thefractal.space";
     };
   };
 }
