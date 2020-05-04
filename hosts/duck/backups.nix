@@ -25,6 +25,10 @@ with lib;
 
         readWritePaths = [ "/srv/backups" ];
 
+        exclude = [
+          "/srv/http/thefractal.space/imgs/*"
+        ];
+
         startAt = "*-*-* *:44:30 UTC";
         prune = {
           keep = {
