@@ -14,19 +14,18 @@ with lib;
           "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
 
         paths = [
-          "/boot"
-          "/opt"
           "/srv"
           "/var/db"
           "/var/lib"
           "/var/log"
-          "/var/spool"
         ];
 
         readWritePaths = [ "/srv/backups" ];
 
         exclude = [
-          "/srv/http/thefractal.space/imgs/*"
+          "/srv/http/thefractal.space/imgs/*" # they can get recreated
+          "/srv/vm/*" # VMs backup themselves
+          "/var/lib/docker/*" # Don't care
         ];
 
         startAt = "*-*-* *:44:30 UTC";
