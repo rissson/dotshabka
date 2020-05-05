@@ -20,8 +20,6 @@ with lib;
           "/var/log"
         ];
 
-        readWritePaths = [ "/srv/backups" ];
-
         exclude = [
           "/srv/http/thefractal.space/imgs/*" # they can get recreated
           "/srv/vm/*" # VMs backup themselves
