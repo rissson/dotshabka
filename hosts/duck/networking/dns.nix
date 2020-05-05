@@ -74,10 +74,12 @@ in with dotshabka.data.space.lama-corp; {
         local-data-ptr: "${fsn.srv.duck.web-2.internal.v4.ip} web-2.vrt.fsn.lama-corp.space"
         local-data: "web-2.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.web-2.internal.v4.ip}"
         local-data-ptr: "${fsn.srv.duck.postgres-1.internal.v4.ip} postgres-1.vrt.fsn.lama-corp.space"
-        local-data: "postgres-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.postgres-1.internal.v4.ip}"
-
         local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.postgres-1.internal.v4.ip}"
-        local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
+        local-data-ptr: "${fsn.srv.duck.minio-1.internal.v4.ip} minio-1.vrt.fsn.lama-corp.space"
+        local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.srv.duck.minio-1.internal.v4.ip}"
+
+        local-data: "postgres-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.postgres-1.internal.v4.ip}"
+        local-data: "minio-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.minio-1.internal.v4.ip}"
 
         domain-insecure: "nbg.lama-corp.space"
         local-zone: "nbg.lama-corp.space." static
