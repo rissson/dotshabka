@@ -3,7 +3,7 @@
 {
   services.nginx = {
     upstreams."static-lama-corp-space" = {
-      servers."duck.srv.fsn.lama-corp.space:19000" = {};
+      servers."minio-1.vrt.fsn.lama-corp.space:19000" = {};
     };
 
     virtualHosts."static.lama-corp.space" = {
