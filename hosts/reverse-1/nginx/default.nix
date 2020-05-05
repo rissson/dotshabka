@@ -17,6 +17,7 @@ with lib;
     ./netdata.lama-corp.space.nix
     ./risson.space.nix
     ./scoreboard-seedbox-cri.risson.space.nix
+    ./static.lama-corp.space.nix
     ./thefractal.space.nix
   ];
 
