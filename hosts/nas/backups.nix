@@ -37,6 +37,13 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINwJpYOirGecmEd+tO7E8qNLQ4iTIkh7zn+L0OVyrmDo"
       ];
     };
+    "minio-1" = {
+      allowSubRepos = true;
+      path = "/srv/backups/minio-1";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAtPgrdOwkfjh1Gk8A/sFC+GkwoC9kBQRwYj3RRp2Cl1"
+      ];
+    };
     "postgres-1" = {
       allowSubRepos = true;
       path = "/srv/backups/postgres-1";
