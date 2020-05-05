@@ -19,6 +19,8 @@ in {
       serviceBuilder (import ./guests/ldap-1.nix { inherit pkgs; });
     libvirtd-guest-mail-1 =
       serviceBuilder (import ./guests/mail-1.nix { inherit pkgs; });
+    libvirtd-guest-minio-1 =
+      serviceBuilder (import ./guests/minio-1.nix { inherit pkgs; });
     libvirtd-guest-postgres-1 =
       serviceBuilder (import ./guests/postgres-1.nix { inherit pkgs; });
     libvirtd-guest-reverse-1 =

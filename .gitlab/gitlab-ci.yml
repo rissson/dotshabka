@@ -85,6 +85,9 @@ ldap-1:
 mail-1:
   <<: *linux-host-template
 
+minio-1:
+  <<: *linux-host-template
+
 nas:
   <<: *linux-host-template
 

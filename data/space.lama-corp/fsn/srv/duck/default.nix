@@ -49,6 +49,8 @@
 
   mail-1 = import ./mail-1 { };
 
+  minio-1 = import ./minio-1 { };
+
   postgres-1 = import ./postgres-1 { };
 
   reverse-1 = import ./reverse-1 { };
