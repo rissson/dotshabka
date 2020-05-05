@@ -30,8 +30,6 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
       "${internal.interface}" = {
         allowedTCPPorts = [
           53 # DNS
-          5432 # postgresql
-          19000 # minio
         ];
         allowedUDPPorts = [
           53 # DNS
@@ -43,8 +41,6 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
       "${wg.interface}" = {
         allowedTCPPorts = [
           53 # DNS
-          5432 # postgresql
-          19000 # minio
           19999 # Netdata
         ];
         allowedUDPPorts = [
