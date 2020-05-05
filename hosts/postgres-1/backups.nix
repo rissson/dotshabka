@@ -3,35 +3,34 @@
 with lib;
 
 {
-  /*services.borgbackup = {
+  services.borgbackup = {
     jobs = {
       "nas-system" = {
         repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/system";
         compression = "zlib,1";
 
         encryption.mode = "none";
-        environment.BORG_RSH =
-          "ssh -i /srv/secrets/borg/nas-system.ssh.key";
+        environment.BORG_RSH = "ssh -i /srv/secrets/borg/nas-system.ssh.key";
 
-          paths = [
-            "/root"
-            "/srv"
-            "/var/log"
-          ];
+        paths = [
+          "/root"
+          "/srv"
+          "/var/log"
+        ];
 
-          startAt = "*-*-* *:58:23 UTC";
-          prune = {
-            keep = {
-              within = "1d";
-              daily = 7;
-              weekly = 4;
-              monthly = 12;
-            };
+        startAt = "*-*-* *:00:06 UTC";
+        prune = {
+          keep = {
+            within = "1d";
+            daily = 7;
+            weekly = 4;
+            monthly = 12;
           };
-
-          extraCreateArgs = "--stats --progress --checkpoint-interval 600";
-          extraPruneArgs = "--stats --save-space --list --progress";
         };
+
+        extraCreateArgs = "--stats --progress --checkpoint-interval 600";
+        extraPruneArgs = "--stats --save-space --list --progress";
       };
-    };*/
+    };
+  };
 }

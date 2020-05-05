@@ -37,6 +37,13 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINwJpYOirGecmEd+tO7E8qNLQ4iTIkh7zn+L0OVyrmDo"
       ];
     };
+    "postgres-1" = {
+      allowSubRepos = true;
+      path = "/srv/backups/postgres-1";
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/bYtJW7JXvit66uDckJ+NhoroTodLvg0MCq2pozdAm"
+      ];
+    };
     "reverse-1" = {
       allowSubRepos = true;
       path = "/srv/backups/reverse-1";

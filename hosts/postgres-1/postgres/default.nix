@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
-  networking.firewall.allowedTCPPorts = [ 5432 ];
+  networking.firewall.allowedTCPPorts = [ config.services.postgresql.port ];
 
   services.postgresql = {
     enable = true;
