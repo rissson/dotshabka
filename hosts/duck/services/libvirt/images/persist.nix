@@ -75,7 +75,7 @@ in vmTools.runInLinuxVM (pkgs.runCommand "libvirt-guest-image-persist" {
     -O relatime=on -O xattr=sa -O mountpoint=none \
     ppool "$DISK"
 
-  zfs set com.sun:auto-snaphot=true ppool
+  zfs set com.sun:auto-snapshot=true ppool
 
   zfs create -o mountpoint=none ppool/home
   zfs create -o mountpoint=legacy ppool/home/root
