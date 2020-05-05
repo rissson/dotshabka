@@ -26,8 +26,8 @@ in {
     imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
   };
 
-  "mail-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } // {
+  "mail-1.duck.srv.fsn.lama-corp.space" = { config, lib, ... }: {
+    deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "acme/dns-credentials" = {
           source = "../secrets/files/acme/dns-credentials";
@@ -37,7 +37,7 @@ in {
           permissions = "0444";
         };
       };
-    };
+    }];
 
     imports = [ "${<dotshabka>}/hosts/mail-1/configuration.nix" ];
   };
@@ -55,23 +55,13 @@ in {
   };
 
   "web-1.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } // {
-      secrets = {
-        "uwsgi/cats.acdc.risson.space" = {
-          source = "../secrets/files/hosts/web-1/uwsgi/cats.acdc.risson.space.settings.py";
-          destination = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0444";
-        };
-      };
-    };
+    deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/web-1/configuration.nix" ];
   };
 
-  "web-2.duck.srv.fsn.lama-corp.space" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; } // {
+  "web-2.duck.srv.fsn.lama-corp.space" = { config, lib, ... }: {
+    deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "uwsgi/cats.acdc.risson.space.settings.py" = {
           source = "../secrets/files/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
@@ -88,7 +78,7 @@ in {
           permissions = "0444";
         };
       };
-    };
+    }];
 
     imports = [ "${<dotshabka>}/hosts/web-2/configuration.nix" ];
   };
