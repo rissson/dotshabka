@@ -102,3 +102,6 @@ web-1:
 
 web-2:
   <<: *linux-host-template
+
+acdc-tp14-1:
+  <<: *linux-host-template

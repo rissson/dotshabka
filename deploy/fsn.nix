@@ -20,6 +20,12 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
+  "acdc-tp14-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+    deployment = defaultDeployment { inherit config; };
+
+    imports = [ "${<dotshabka>}/hosts/acdc-tp14-1/configuration.nix" ];
+  };
+
   "ldap-1.vrt.fsn.lama-corp.space" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
