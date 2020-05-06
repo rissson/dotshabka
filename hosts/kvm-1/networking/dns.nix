@@ -63,6 +63,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
         local-data-ptr: "${fsn.vrt.mail-1.internal.v4.ip} mail-1.vrt.fsn.lama-corp.space"
 
         local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
+        local-data: "tp14.acdc.risson.space.minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.minio-1.internal.v4.ip} minio-1.vrt.fsn.lama-corp.space"
 
         local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.postgres-1.internal.v4.ip}"

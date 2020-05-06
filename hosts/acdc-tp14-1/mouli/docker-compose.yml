@@ -95,7 +95,7 @@ services:
 
 networks:
   frontend:
-    external: true
+    external: false
   backend:
     external: false
 
