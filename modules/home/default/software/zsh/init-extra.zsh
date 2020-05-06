@@ -194,6 +194,10 @@ export LC_ALL="${LANG}"
 # load the Emscripten environment
 pathprepend PATH "/usr/lib/emsdk"
 
+# Path to shabka
+pathprepend PATH "/home/risson/code/shabka/bin"
+DOTSHABKA_PATH="/home/risson/code/dotshabka"
+
 # Anything got installed into MYFS?
 pathprepend PATH "${MYFS}/bin"
 if [[ -d "${MYFS}" ]]; then
