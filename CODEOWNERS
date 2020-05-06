@@ -8,9 +8,17 @@
 /data/ @risson
 /scripts/ @risson
 
-/hosts/duck/ @risson @ddorn
+/hosts/giraffe/ @risson
 /hosts/hedgehog/ @risson
+/hosts/kvm-1/ @risson @diego
+/hosts/ldap-1/ @risson
+/hosts/mail-1/ @risson
+/hosts/minio-1/ @risson
 /hosts/nas/ @risson
+/hosts/postgres-1/ @risson
+/hosts/reverse-1/ @risson
+/hosts/web-1/ @risson @ddorn
+/hosts/web-2/ @risson @ddorn
 
 /modules/* @risson @ddorn
 /modules/nixos/ @risson @ddorn
