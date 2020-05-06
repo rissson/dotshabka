@@ -70,7 +70,7 @@ stages:
   variables:
     <<: *global-variables
 
-duck:
+kvm-1:
   <<: *linux-host-template
 
 giraffe:

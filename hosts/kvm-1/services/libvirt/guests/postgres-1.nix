@@ -3,20 +3,20 @@
 with import <dotshabka/data/space.lama-corp/fsn> { };
 
 with srv;
-with vrt.ldap-1;
+with vrt.postgres-1;
 
 rec {
-  vmName = "ldap-1";
+  vmName = "postgres-1";
   localDiskSize = 10;
-  persistDiskSize = 5;
+  persistDiskSize = 10;
   xml = (pkgs.substituteAll {
     src = ../xml/vm-local.xml;
 
     inherit vmName;
-    cpus = 1;
+    cpus = 2;
     ram = 2;
     macAddressLocal = internal.mac;
-    ifBridgeLocal = duck.internal.interface;
+    ifBridgeLocal = kvm-1.internal.interface;
   });
   extraConfig = {
     networking = {
@@ -25,7 +25,7 @@ rec {
       # required for ZFS
       inherit hostId;
 
-      nameservers = [ duck.internal.v4.ip duck.internal.v6.ip ];
+      nameservers = [ kvm-1.internal.v4.ip kvm-1.internal.v6.ip ];
 
       interfaces."${internal.interface}" = {
         ipv4.addresses = [{

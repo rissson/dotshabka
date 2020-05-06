@@ -6,7 +6,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
 
   services.unbound = {
     enable = true;
-    interfaces = with fsn.srv.duck; [
+    interfaces = with fsn.srv.kvm-1; [
       "127.0.0.1"
       "::1"
       wg.v4.ip
@@ -47,39 +47,31 @@ with import <dotshabka/data/space.lama-corp> { }; {
         domain-insecure: "fsn.lama-corp.space"
         local-zone: "fsn.lama-corp.space." static
 
-        local-data: "duck.srv.fsn.lama-corp.space. IN A ${fsn.srv.duck.wg.v4.ip}"
-        local-data-ptr: "${fsn.srv.duck.wg.v4.ip} duck.srv.fsn.lama-corp.space"
+        local-data: "kvm-1.srv.fsn.lama-corp.space. IN A ${fsn.srv.kvm-1.wg.v4.ip}"
+        local-data-ptr: "${fsn.srv.kvm-1.wg.v4.ip} kvm-1.srv.fsn.lama-corp.space"
 
         local-data: "hub.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.hub.wg.v4.ip}"
-        local-data: "hub.virt.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.hub.wg.v4.ip}"
         local-data-ptr: "${fsn.vrt.hub.wg.v4.ip} hub.vrt.fsn.lama-corp.space"
 
         local-data: "ldap-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.ldap-1.internal.v4.ip}"
-        local-data: "ldap-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.ldap-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.ldap-1.internal.v4.ip} ldap-1.vrt.fsn.lama-corp.space"
 
         local-data: "mail-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.mail-1.internal.v4.ip}"
-        local-data: "mail-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.mail-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.mail-1.internal.v4.ip} mail-1.vrt.fsn.lama-corp.space"
 
         local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
-        local-data: "minio-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.minio-1.internal.v4.ip} minio-1.vrt.fsn.lama-corp.space"
 
         local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.postgres-1.internal.v4.ip}"
-        local-data: "postgres-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.postgres-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.postgres-1.internal.v4.ip} postgres-1.vrt.fsn.lama-corp.space"
 
         local-data: "reverse-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.reverse-1.internal.v4.ip}"
-        local-data: "reverse-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.reverse-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.reverse-1.internal.v4.ip} reverse-1.vrt.fsn.lama-corp.space"
 
         local-data: "web-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.web-1.internal.v4.ip}"
-        local-data: "web-1.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.web-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.web-1.internal.v4.ip} web-1.vrt.fsn.lama-corp.space"
 
         local-data: "web-2.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.web-2.internal.v4.ip}"
-        local-data: "web-2.duck.srv.fsn.lama-corp.space. IN A ${fsn.vrt.web-2.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.web-2.internal.v4.ip} web-2.vrt.fsn.lama-corp.space"
 
 

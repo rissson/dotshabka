@@ -1,6 +1,6 @@
 { ... }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
+with import <dotshabka/data/space.lama-corp/fsn/srv/kvm-1> { }; {
   networking.firewall = {
     enable = true;
     allowPing = true;

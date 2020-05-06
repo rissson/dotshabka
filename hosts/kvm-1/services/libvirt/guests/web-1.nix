@@ -16,7 +16,7 @@ rec {
     cpus = 4;
     ram = 4;
     macAddressLocal = internal.mac;
-    ifBridgeLocal = duck.internal.interface;
+    ifBridgeLocal = kvm-1.internal.interface;
   });
   extraConfig = {
     networking = {
@@ -25,7 +25,7 @@ rec {
       # required for ZFS
       inherit hostId;
 
-      nameservers = [ duck.internal.v4.ip duck.internal.v6.ip ];
+      nameservers = [ kvm-1.internal.v4.ip kvm-1.internal.v6.ip ];
 
       interfaces."${internal.interface}" = {
         ipv4.addresses = [{

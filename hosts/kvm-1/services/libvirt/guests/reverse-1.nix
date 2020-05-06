@@ -3,22 +3,22 @@
 with import <dotshabka/data/space.lama-corp/fsn> { };
 
 with srv;
-with vrt.mail-1;
+with vrt.reverse-1;
 
 rec {
-  vmName = "mail-1";
-  localDiskSize = 10;
-  persistDiskSize = 15;
+  vmName = "reverse-1";
+  localDiskSize = 5;
+  persistDiskSize = 1;
   xml = (pkgs.substituteAll {
     src = ../xml/vm-public.xml;
 
     inherit vmName;
     cpus = 2;
-    ram = 4;
+    ram = 2;
     macAddressPublic = external.mac;
     macAddressLocal = internal.mac;
-    ifBridgePublic = duck.external.bridge;
-    ifBridgeLocal = duck.internal.interface;
+    ifBridgePublic = kvm-1.external.bridge;
+    ifBridgeLocal = kvm-1.internal.interface;
   });
   extraConfig = {
     networking = {
@@ -27,7 +27,7 @@ rec {
       # required for ZFS
       inherit hostId;
 
-      nameservers = [ duck.internal.v4.ip duck.internal.v6.ip ];
+      nameservers = [ kvm-1.internal.v4.ip kvm-1.internal.v6.ip ];
 
       interfaces."${external.interface}" = {
         ipv4.addresses = [{

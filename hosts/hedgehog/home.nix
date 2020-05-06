@@ -100,7 +100,7 @@
       programs.ssh = {
         matchBlocks = {
           ### Lama Corp.
-          "duck" = { hostname = "duck.srv.fsn.lama-corp.space"; };
+          "kvm-1" = { hostname = "kvm-1.srv.fsn.lama-corp.space"; };
           "*.vrt" = {
             user = "root";
             hostname = "%h.vrt.fsn.lama-corp.space";

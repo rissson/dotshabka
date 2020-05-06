@@ -3,11 +3,11 @@
 with lib;
 
 with import <dotshabka/data/space.lama-corp/fsn> { };
-with srv.duck; {
+with srv.kvm-1; {
   imports = [ ./dns.nix ./firewall.nix ./wireguard.nix ];
 
   boot.kernelParams = [
-    "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:duckboot::none"
+    "ip=${external.v4.ip}::${external.v4.gw}:255.255.255.224:kvm-1boot::none"
   ];
 
   # See https://www.sysorchestra.com/hetzner-root-server-with-kvm-ipv4-and-ipv6-networking/
@@ -18,7 +18,7 @@ with srv.duck; {
   };
 
   networking = {
-    hostName = "duck";
+    hostName = "kvm-1";
     domain = "srv.fsn.lama-corp.space";
 
     nameservers = with import <dotshabka/data> { };

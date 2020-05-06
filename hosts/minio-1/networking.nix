@@ -14,7 +14,7 @@ with fsn.vrt.minio-1; {
     domain = "vrt.fsn.lama-corp.space";
     inherit hostId;
 
-    nameservers = [ fsn.srv.duck.internal.v4.ip fsn.srv.duck.internal.v6.ip ];
+    nameservers = [ fsn.srv.kvm-1.internal.v4.ip fsn.srv.kvm-1.internal.v6.ip ];
 
     useDHCP = false;
 

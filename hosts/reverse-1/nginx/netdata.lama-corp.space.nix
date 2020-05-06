@@ -25,8 +25,8 @@ in {
   ];
 
   services.nginx.upstreams = {
-    "netdata-duck" = {
-      servers."duck.srv.fsn.lama-corp.space:19999" = {};
+    "netdata-kvm-1" = {
+      servers."kvm-1.srv.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-ldap-1" = {
