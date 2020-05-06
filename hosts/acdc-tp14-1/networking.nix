@@ -10,7 +10,7 @@ with fsn.vrt.acdc-tp14-1; {
   '';
 
   networking = {
-    hostName = "ldap-1";
+    hostName = "acdc-tp14-1";
     domain = "vrt.fsn.lama-corp.space";
     inherit hostId;
 
