@@ -96,7 +96,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
         domain-insecure: "drn.lama-corp.space"
         local-zone: "102.28.172.in-addr.arpa." transparent
         local-data: "trunck.lap.drn.lama-corp.space. IN A ${drn.lap.trunck.wg.v4.ip}"
-        local-data-ptr: "${drn.lap.trunck.wg.v4.ip} "trunck.lap.drn.lama-corp.space"
+        local-data-ptr: "${drn.lap.trunck.wg.v4.ip} trunck.lap.drn.lama-corp.space"
 
         private-domain: "nbg.lama-corp.space"
         domain-insecure: "nbg.lama-corp.space"
