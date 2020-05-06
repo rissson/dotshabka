@@ -7,14 +7,14 @@ with vrt.acdc-tp14-1;
 
 rec {
   vmName = "acdc-tp14-1";
-  localDiskSize = 10;
+  localDiskSize = 20;
   persistDiskSize = 5;
   xml = (pkgs.substituteAll {
     src = ../xml/vm-local.xml;
 
     inherit vmName;
-    cpus = 1;
-    ram = 2;
+    cpus = 8;
+    ram = 8;
     macAddressLocal = internal.mac;
     ifBridgeLocal = kvm-1.internal.interface;
   });
