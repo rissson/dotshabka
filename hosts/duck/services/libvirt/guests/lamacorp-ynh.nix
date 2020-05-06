@@ -1,6 +1,6 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
 rec {
   vmName = "lamacorp-ynh";
@@ -8,8 +8,8 @@ rec {
     src = ../xml/ynh.xml;
 
     name = vmName;
-    macAddress = virt.hub.mac;
+    macAddress = vrt.hub.mac;
     diskDevPath = "/dev/vg0/vm-${vmName}";
-    ifBridge = external.bridge;
+    ifBridge = srv.duck.external.bridge;
   };
 }

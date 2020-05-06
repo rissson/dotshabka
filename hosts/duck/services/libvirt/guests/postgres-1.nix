@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.postgres-1;
+with srv;
+with vrt.postgres-1;
 
 rec {
   vmName = "postgres-1";

@@ -1,6 +1,6 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
 rec {
   vmName = "lewdax-ynh";
@@ -8,8 +8,8 @@ rec {
     src = ../xml/ynh.xml;
 
     name = vmName;
-    macaddress = virt.lewdax.mac;
+    macaddress = vrt.lewdax.mac;
     diskdevpath = "/dev/vg0/vm-${vmName}";
-    ifbridge = external.bridge;
+    ifbridge = srv.duck.external.bridge;
   };
 }

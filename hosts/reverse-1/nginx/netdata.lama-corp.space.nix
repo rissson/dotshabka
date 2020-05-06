@@ -30,31 +30,31 @@ in {
       extraConfig = "keepalive 64;";
     };
     "netdata-ldap-1" = {
-      servers."ldap-1.duck.srv.fsn.lama-corp.space:19999" = {};
+      servers."ldap-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-mail-1" = {
-      servers."mail-1.duck.srv.fsn.lama-corp.space:19999" = {};
+      servers."mail-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
-    /*"netdata-minio-1" = {
-      servers."postgres-1.duck.srv.fsn.lama-corp.space:19999" = {};
+    "netdata-minio-1" = {
+      servers."minio-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
-    };*/
+    };
     "netdata-postgres-1" = {
       servers."postgres-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-reverse-1" = {
-      servers."reverse-1.duck.srv.fsn.lama-corp.space:19999" = {};
+      servers."reverse-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-web-1" = {
-      servers."web-1.duck.srv.fsn.lama-corp.space:19999" = {};
+      servers."web-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-web-2" = {
-      servers."web-2.duck.srv.fsn.lama-corp.space:19999" = {};
+      servers."web-2.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
     "netdata-nas" = {

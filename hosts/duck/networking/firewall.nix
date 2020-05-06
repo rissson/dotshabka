@@ -7,23 +7,27 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
 
     allowedTCPPortRanges = [
       {
+        # weechat
         from = 8000;
         to = 8100;
-      } # weechat
+      }
       {
+        # aria2c
         from = 6881;
         to = 6999;
-      } # aria2c
+      }
     ];
     allowedUDPPortRanges = [
       {
+        # mosh
         from = 60000;
         to = 61000;
-      } # mosh
+      }
       {
+        # aria2c
         from = 6881;
         to = 6999;
-      } # aria2c
+      }
     ];
 
     interfaces = {
@@ -34,9 +38,6 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
         allowedUDPPorts = [
           53 # DNS
         ];
-
-        allowedTCPPortRanges = [ ];
-        allowedUDPPortRanges = [ ];
       };
       "${wg.interface}" = {
         allowedTCPPorts = [
@@ -46,9 +47,6 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/duck> { }; {
         allowedUDPPorts = [
           53 # DNS
         ];
-
-        allowedTCPPortRanges = [ ];
-        allowedUDPPortRanges = [ ];
       };
     };
   };

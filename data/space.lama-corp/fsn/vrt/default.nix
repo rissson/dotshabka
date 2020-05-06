@@ -16,4 +16,8 @@
   web-2 = import ./web-2 { };
 
   virt = import ./virt { };
+
+  hub = import ./hub { };
+
+  lewdax = import ./lewdax { };
 }

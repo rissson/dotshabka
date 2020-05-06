@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.minio-1;
+with srv;
+with vrt.minio-1;
 
 rec {
   vmName = "minio-1";

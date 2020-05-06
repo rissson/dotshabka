@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.mail-1;
+with srv;
+with vrt.mail-1;
 
 rec {
   vmName = "mail-1";

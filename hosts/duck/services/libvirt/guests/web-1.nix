@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.web-1;
+with srv;
+with vrt.web-1;
 
 rec {
   vmName = "web-1";

@@ -1,9 +1,9 @@
 { ... }:
 
 with import <dotshabka/data/space.lama-corp> { }; {
-  networking = with fly.lap.hedgehog; {
+  networking = with rsn.lap.hedgehog; {
     hostName = "hedgehog";
-    domain = "lap.fly.lama-corp.space";
+    domain = "lap.rsn.lama-corp.space";
 
     nameservers = [ "172.28.1.1" "1.1.1.1" ];
 

@@ -6,7 +6,7 @@ let
   dataDir = "/srv/mail";
 
   ldap-conf-ext = pkgs.writeText "ldap.conf.ext" ''
-    hosts = ldap-1.duck.srv.fsn.lama-corp.space
+    hosts = ldap-1.vrt.fsn.lama-corp.space
     ldap_version = 3
     auth_bind = yes
     auth_bind_userdn = uid=%n,ou=users,dc=lama-corp,dc=space
@@ -22,7 +22,6 @@ let
 in {
   security.acme.certs = mkIf config.services.dovecot2.enable {
     "imap.lama-corp.space" = {
-      extraDomains = { "imap-1.lama-corp.space" = null; };
       dnsProvider = "cloudflare";
       credentialsFile = "/srv/secrets/acme/dns-credentials";
       postRun = "systemctl reload dovecot2";

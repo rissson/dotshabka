@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.ldap-1;
+with srv;
+with vrt.ldap-1;
 
 rec {
   vmName = "ldap-1";

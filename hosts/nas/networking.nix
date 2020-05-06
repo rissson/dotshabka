@@ -70,16 +70,16 @@ in with import <dotshabka/data/space.lama-corp> { }; {
             }
             {
               # hedgehog.lap.fly
-              inherit (fly.lap.hedgehog.wg) publicKey;
-              allowedIPs = with fly.lap.hedgehog.wg; [
+              inherit (rsn.lap.hedgehog.wg) publicKey;
+              allowedIPs = with rsn.lap.hedgehog.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];
             }
             {
               # trunck.lap.fly
-              inherit (fly.lap.trunck.wg) publicKey;
-              allowedIPs = with fly.lap.trunck.wg; [
+              inherit (drn.lap.trunck.wg) publicKey;
+              allowedIPs = with drn.lap.trunck.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];

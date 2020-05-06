@@ -1,8 +1,9 @@
 { pkgs }:
 
-with import <dotshabka/data/space.lama-corp/fsn/srv> { };
+with import <dotshabka/data/space.lama-corp/fsn> { };
 
-with duck.reverse-1;
+with srv;
+with vrt.reverse-1;
 
 rec {
   vmName = "reverse-1";

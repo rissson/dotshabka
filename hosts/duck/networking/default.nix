@@ -2,8 +2,8 @@
 
 with lib;
 
-with import <dotshabka/data/space.lama-corp> { };
-with fsn.srv.duck; {
+with import <dotshabka/data/space.lama-corp/fsn> { };
+with srv.duck; {
   imports = [ ./dns.nix ./firewall.nix ./wireguard.nix ];
 
   boot.kernelParams = [
@@ -58,14 +58,14 @@ with fsn.srv.duck; {
           address = external.v6.ip;
           prefixLength = external.v6.prefixLength;
         }];
-        ipv4.routes = [
+        ipv4.routes = with vrt; [
           {
-            address = virt.hub.external.v4.ip;
-            prefixLength = virt.hub.external.v4.prefixLength;
+            address = hub.external.v4.ip;
+            prefixLength = hub.external.v4.prefixLength;
           }
           {
-            address = virt.lewdax.external.v4.ip;
-            prefixLength = virt.lewdax.external.v4.prefixLength;
+            address = lewdax.external.v4.ip;
+            prefixLength = lewdax.external.v4.prefixLength;
           }
           {
             address = reverse-1.external.v4.ip;
@@ -101,7 +101,7 @@ with fsn.srv.duck; {
     };
 
     nat = {
-      enable = config.networking.wireguard.enable;
+      enable = true;
       externalInterface = external.interface;
       internalInterfaces = [ internal.interface wg.interface ];
     };

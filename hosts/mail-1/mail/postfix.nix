@@ -5,7 +5,7 @@ with lib;
 let
   ldap-virtual-mailbox-domains =
     pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
-      server_host = ldap-1.duck.srv.fsn.lama-corp.space
+      server_host = ldap-1.vrt.fsn.lama-corp.space
       server_port = 389
       version = 3
       bind = no
@@ -14,7 +14,7 @@ let
       result_attribute = dc
     '';
   ldap-virtual-mailbox-maps = pkgs.writeText "ldap-virtual-mailbox-maps.cf" ''
-    server_host = ldap-1.duck.srv.fsn.lama-corp.space
+    server_host = ldap-1.vrt.fsn.lama-corp.space
     server_port = 389
     version = 3
     bind = no
@@ -23,7 +23,7 @@ let
     result_attribute = mail
   '';
   ldap-virtual-alias-maps = pkgs.writeText "ldap-virtual-alias-maps.cf" ''
-    server_host = ldap-1.duck.srv.fsn.lama-corp.space
+    server_host = ldap-1.vrt.fsn.lama-corp.space
     server_port = 389
     version = 3
     bind = no
