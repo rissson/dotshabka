@@ -26,7 +26,7 @@ in {
     imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
   };
 
-  "mail-1.duck.srv.fsn.lama-corp.space" = { config, lib, ... }: {
+  "mail-1.vrt.fsn.lama-corp.space" = { config, lib, ... }: {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "acme/dns-credentials" = {
