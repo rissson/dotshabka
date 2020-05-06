@@ -17,13 +17,13 @@ with import <dotshabka/data/space.lama-corp> { }; {
 
           peers = [
             {
-              # duck.srv.fsn
-              inherit (fsn.srv.duck.wg) publicKey;
-              allowedIPs = with fsn.srv.duck.wg; [
+              # kvm-1.srv.fsn
+              inherit (fsn.srv.kvm-1.wg) publicKey;
+              allowedIPs = with fsn.srv.kvm-1.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];
-              endpoint = "${fsn.srv.duck.external.v4.ip}:51820";
+              endpoint = "${fsn.srv.kvm-1.external.v4.ip}:51820";
             }
             {
               # nas.srv.bar
@@ -38,16 +38,16 @@ with import <dotshabka/data/space.lama-corp> { }; {
             }
             {
               # hedgehog.lap.fly
-              inherit (fly.lap.hedgehog.wg) publicKey;
-              allowedIPs = with fly.lap.hedgehog.wg; [
+              inherit (rsn.lap.hedgehog.wg) publicKey;
+              allowedIPs = with rsn.lap.hedgehog.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];
             }
             {
               # trunck.lap.fly
-              inherit (fly.lap.trunck.wg) publicKey;
-              allowedIPs = with fly.lap.trunck.wg; [
+              inherit (drn.lap.trunck.wg) publicKey;
+              allowedIPs = with drn.lap.trunck.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];

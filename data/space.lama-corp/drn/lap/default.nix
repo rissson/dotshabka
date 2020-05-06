@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  trunck = import ./trunck { };
+}

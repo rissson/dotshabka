@@ -1,9 +1,9 @@
 { ... }:
 
 with import <dotshabka/data/space.lama-corp> { }; {
-  networking = with fly.lap.hedgehog; {
+  networking = with rsn.lap.hedgehog; {
     hostName = "hedgehog";
-    domain = "lap.fly.lama-corp.space";
+    domain = "lap.rsn.lama-corp.space";
 
     nameservers = [ "172.28.1.1" "1.1.1.1" ];
 
@@ -35,13 +35,13 @@ with import <dotshabka/data/space.lama-corp> { }; {
 
           peers = [
             {
-              # duck.srv.fsn
-              inherit (fsn.srv.duck.wg) publicKey;
-              allowedIPs = with fsn.srv.duck.wg; [
+              # kvm-1.srv.fsn
+              inherit (fsn.srv.kvm-1.wg) publicKey;
+              allowedIPs = with fsn.srv.kvm-1.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
               ];
-              endpoint = "${fsn.srv.duck.external.v4.ip}:51820";
+              endpoint = "${fsn.srv.kvm-1.external.v4.ip}:51820";
             }
             {
               # giraffe.srv.nbg

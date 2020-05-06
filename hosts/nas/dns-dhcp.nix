@@ -9,8 +9,7 @@ let
     executable = false;
     destination = "/share/hosts";
     text = with dotshabka.data.space.lama-corp.bar; ''
-      ${srv.cuckoo.internal.v4.ip}      cuckoo      cuckoo.srv.bar.lama-corp.space
-
+      ${mmd.cuckoo.internal.v4.ip}      cuckoo      cuckoo.mmd.bar.lama-corp.space
       ${mmd.loewe.internal.v4.ip}       loewe       loewe.mmd.bar.lama-corp.space
       ${mmd.bose.internal.v4.ip}        bose        bose.mmd.bar.lama-corp.space
       ${mmd.chromecast.internal.v4.ip}  chromecast  chromecast.mmd.bar.lama-corp.space
@@ -76,10 +75,8 @@ in {
       # range and lease time
       dhcp-range=${dhcp.start},${dhcp.end},${defaultLeaseTime}
 
-      domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
-      dhcp-host=${srv.cuckoo.internal.mac},cuckoo,${srv.cuckoo.internal.v4.ip},${defaultLeaseTime}
-
       domain=mmd.bar.lama-corp.space,${mmd.start},${mmd.end}
+      dhcp-host=${mmd.cuckoo.internal.mac},cuckoo,${mmd.cuckoo.internal.v4.ip},${defaultLeaseTime}
       dhcp-host=${mmd.loewe.internal.mac},loewe,${mmd.loewe.internal.v4.ip},${defaultLeaseTime}
       dhcp-host=${mmd.bose.internal.mac},bose,${mmd.bose.internal.v4.ip},${defaultLeaseTime}
       dhcp-host=${mmd.chromecast.internal.mac},chromecast,${mmd.chromecast.internal.v4.ip},${defaultLeaseTime}
@@ -91,7 +88,7 @@ in {
       dhcp-host=${wfi.floor0.internal.mac},floor0,${wfi.floor0.internal.v4.ip},${defaultLeaseTime}
       dhcp-host=${wfi.floor-1.internal.mac},floor-1,${wfi.floor-1.internal.v4.ip},${defaultLeaseTime}
 
-      domain=srv.bar.lama-corp.space,192.168.44.250,192.168.44.254
+      domain=srv.bar.lama-corp.space,${srv.start},${srv.end}
       dhcp-host=${srv.nas.internal.mac},nas,${srv.nas.internal.v4.ip},${defaultLeaseTime}
       dhcp-host=${srv.livebox.internal.mac},livebox,${srv.livebox.internal.v4.ip},${defaultLeaseTime}
     '';

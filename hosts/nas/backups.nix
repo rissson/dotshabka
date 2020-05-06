@@ -2,9 +2,9 @@
 
 {
   services.borgbackup.repos = {
-    "duck" = {
+    "kvm-1" = {
       allowSubRepos = true;
-      path = "/srv/backups/duck";
+      path = "/srv/backups/kvm-1";
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9GpUHP1WRgwsd8sXWUC5r5AL73lcIuRr7NPenLe9xt"
       ];

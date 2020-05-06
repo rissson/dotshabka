@@ -100,10 +100,10 @@
       programs.ssh = {
         matchBlocks = {
           ### Lama Corp.
-          "duck" = { hostname = "duck.srv.fsn.lama-corp.space"; };
-          "*.duck" = {
+          "kvm-1" = { hostname = "kvm-1.srv.fsn.lama-corp.space"; };
+          "*.vrt" = {
             user = "root";
-            hostname = "%h.srv.fsn.lama-corp.space";
+            hostname = "%h.fsn.lama-corp.space";
           };
           "nas" = {
             hostname = "nas.srv.bar.lama-corp.space";
@@ -113,7 +113,7 @@
             hostname = "giraffe.srv.nbg.lama-corp.space";
             user = "root";
           };
-          "*.duck.srv.fsn.lama-corp.space" = { user = "root"; };
+          "*.vrt.fsn.lama-corp.space" = { user = "root"; };
 
           ### CRI
           "goat" = {
