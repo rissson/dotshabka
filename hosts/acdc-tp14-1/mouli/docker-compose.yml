@@ -8,7 +8,7 @@ services:
       - backend
 
   tournament--frontend:
-    image: registry.synapze.fr/tournament:v1.0
+    image: registry.synapze.fr/tournament-frontend:v1.0
     hostname: tournament_front
     ports:
       - "3000:3000"
