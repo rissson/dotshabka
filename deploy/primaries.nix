@@ -3,14 +3,14 @@ let
     targetUser = "root";
     secrets = {
       "ssmtp-root_lama-corp_ovh_passwd" = {
-        source = "../secrets/files/ssmtp/root_lama-corp_ovh.passwd";
+        source = "../secrets/ssmtp/root_lama-corp_ovh.passwd";
         destination = config.services.ssmtp.authPassFile;
         owner.user = "root";
         owner.group = "root";
         permissions = "0444";
       };
       "wireguard/private.key" = {
-        source = "../secrets/files/hosts/${config.networking.hostName}/wireguard/private.key";
+        source = "../secrets/hosts/${config.networking.hostName}/wireguard/private.key";
         destination = config.networking.wireguard.interfaces.${wg.interface}.privateKeyFile;
         owner.user = "root";
         owner.group = "root";
@@ -31,7 +31,7 @@ in with import <dotshabka/data/space.lama-corp> {}; {
     deployment = defaultDeployment { inherit config wg; } // {
       secrets = {
         "borg/nas-system.ssh.key" = {
-          source = "../secrets/files/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
+          source = "../secrets/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
           destination = "/srv/secrets/borg/nas-system.ssh.key";
           owner.user = "root";
           owner.group = "root";

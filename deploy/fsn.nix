@@ -2,14 +2,14 @@ let
   defaultDeployment = { config }: {
     secrets = {
       "ssmtp-root_lama-corp_ovh_passwd" = {
-        source = "../secrets/files/ssmtp/root_lama-corp_ovh.passwd";
+        source = "../secrets/ssmtp/root_lama-corp_ovh.passwd";
         destination = config.services.ssmtp.authPassFile;
         owner.user = "root";
         owner.group = "root";
         permissions = "0444";
       };
       "borg/nas-system.ssh.key" = {
-        source = "../secrets/files/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
+        source = "../secrets/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
         destination = "/srv/secrets/borg/nas-system.ssh.key";
         owner.user = "root";
         owner.group = "root";
@@ -30,7 +30,7 @@ in {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "acme/dns-credentials" = {
-          source = "../secrets/files/acme/dns-credentials";
+          source = "../secrets/acme/dns-credentials";
           destination = "/srv/secrets/acme/dns-credentials";
           owner.user = "root";
           owner.group = "root";
@@ -70,14 +70,14 @@ in {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "uwsgi/cats.acdc.risson.space.settings.py" = {
-          source = "../secrets/files/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
+          source = "../secrets/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
           destination = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
           owner.user = "root";
           owner.group = "root";
           permissions = "0444";
         };
         "uwsgi/scoreboard-seedbox-cri.risson.space.settings.py" = {
-          source = "../secrets/files/hosts/web-2/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
+          source = "../secrets/hosts/web-2/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
           destination = "/srv/secrets/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
           owner.user = "root";
           owner.group = "root";
