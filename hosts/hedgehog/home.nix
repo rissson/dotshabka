@@ -103,7 +103,7 @@
           "kvm-1" = { hostname = "kvm-1.srv.fsn.lama-corp.space"; };
           "*.vrt" = {
             user = "root";
-            hostname = "%h.vrt.fsn.lama-corp.space";
+            hostname = "%h.fsn.lama-corp.space";
           };
           "nas" = {
             hostname = "nas.srv.bar.lama-corp.space";
