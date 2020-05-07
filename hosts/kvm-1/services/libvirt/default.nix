@@ -15,6 +15,8 @@ in {
   shabka.virtualisation.libvirtd.enable = true;
 
   systemd.services = {
+    libvirtd-guest-acdc-tp14-1 =
+      serviceBuilder (import ./guests/acdc-tp14-1.nix { inherit pkgs; });
     libvirtd-guest-ldap-1 =
       serviceBuilder (import ./guests/ldap-1.nix { inherit pkgs; });
     libvirtd-guest-mail-1 =

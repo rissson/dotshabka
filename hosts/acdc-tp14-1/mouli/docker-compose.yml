@@ -1,0 +1,128 @@
+version: '3.2'
+services:
+  tournament--redis:
+    image: redis:latest
+    hostname: redis
+    restart: always
+    networks:
+      - backend
+
+  tournament-frontend--minio:
+    image: webhippie/minio
+    hostname: minio
+    environment:
+      - MINIO_DOMAIN=minio
+    volumes:
+      - /srv/minio:/var/lib/minio
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+
+  tournament--frontend:
+    image: registry.synapze.fr/tournament-frontend:v1.0
+    hostname: tournament_front
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+      - backend
+    environment:
+      - TOURNAMENT_FRONTEND_API_HOST=tournamentapi:3000
+      - TOURNAMENT_FRONTEND_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
+    links:
+      - "tournament--api:tournamentapi"
+    secrets:
+      - api_secret_key
+
+  tournament--api:
+    image: registry.synapze.fr/tournament-api:v1.1
+    restart: always
+    hostname: tournament_api
+    ports:
+      - "3456:3000"
+    networks:
+      - backend
+    links:
+      - "tournament--redis:redis"
+      - "tournament-frontend--minio:minio"
+      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
+    environment:
+      - TOURNAMENT_API_REDIS_URI=redis://redis:6379
+      - TOURNAMENT_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
+      - TOURNAMENT_API_S3_URL=minio
+      - TOURNAMENT_API_S3_PORT=9000
+      - TOURNAMENT_API_S3_SECRET_KEY=/run/secrets/s3_secret_key
+      - TOURNAMENT_API_S3_ACCESS_KEY=/run/secrets/s3_access_key
+    secrets:
+      - api_secret_key
+      - s3_secret_key
+      - s3_access_key
+
+  tournament--dispatcher:
+    image: registry.synapze.fr/tournament-runner-dispatcher:v1.0
+    restart: always
+    hostname: dispatcher
+    networks:
+      - backend
+      - frontend
+    links:
+      - "tournament--redis:redis"
+    ports:
+      - "8080:3000"
+    environment:
+      - RUNNER_DISPATCHER_REDIS_URL=redis://redis:6379
+
+  tournament--tournament-core:
+    image: registry.synapze.fr/tournament-core:v1.0
+    hostname: tournament_core
+    restart: always
+    networks:
+      - backend
+    links:
+      - "tournament--redis:redis"
+      - "tournament--dispatcher:dispatcher"
+      - "tournament-frontend--minio:minio"
+      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
+    environment:
+      - TOURNAMENT_CORE_REMOTE_URL=git@git.cri.epita.fr:p/2024-s2-tp/csharp-tp14-
+      - TOURNAMENT_CORE_LOCK_DURATION=300
+      - TOURNAMENT_CORE_REDIS_URL=redis://redis:6379
+      - TOURNAMENT_CORE_S3_URL=minio
+      - TOURNAMENT_CORE_S3_PORT=9000
+      - TOURNAMENT_CORE_S3_SECRET_KEY=/run/secrets/s3_secret_key
+      - TOURNAMENT_CORE_S3_ACCESS_KEY=/run/secrets/s3_access_key
+      - TOURNAMENT_CORE_RUNNER_DISPATCHER_URL=http://dispatcher:3000
+      - TOURNAMENT_CORE_SLEEP_DURATION=5
+    secrets:
+      - s3_secret_key
+      - s3_access_key
+
+  tournament--runner:
+    image: registry.synapze.fr/tournament-runner:v1.0
+    hostname: tournament_core_runner
+    restart: always
+    networks:
+      - frontend
+    environment:
+      - RUNNER_DISPATCHER_URL=http://dispatcher:3000
+    links:
+      - "tournament--dispatcher:dispatcher"
+
+networks:
+  frontend:
+    external: false
+  backend:
+    external: false
+
+secrets:
+  host_ssh_key_priv:
+    file: /srv/secrets/tp14/tp14.ssh.key
+  host_ssh_key_pub:
+    file: /srv/secrets/tp14/tp14.ssh.pub
+  api_secret_key:
+    file: /srv/secrets/tp14/api.key
+  s3_secret_key:
+    file: /srv/secrets/tp14/s3_secret.key
+  s3_access_key:
+    file: /srv/secrets/tp14/s3_access.key

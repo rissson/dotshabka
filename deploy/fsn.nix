@@ -20,6 +20,35 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
+  "acdc-tp14-1.vrt.fsn.lama-corp.space" = { config, lib, ... }: {
+    deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
+      secrets = {
+        "tp14/tp14.ssh.key" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/tp14.ssh.key";
+          destination = "/srv/secrets/tp14/tp14.ssh.key";
+        };
+        "tp14/tp14.ssh.pub" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/tp14.ssh.pub";
+          destination = "/srv/secrets/tp14/tp14.ssh.pub";
+        };
+        "tp14/api.key" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/api.key";
+          destination = "/srv/secrets/tp14/api.key";
+        };
+        "tp14/s3_access.key" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/s3_access.key";
+          destination = "/srv/secrets/tp14/s3_access.key";
+        };
+        "tp14/s3_secret.key" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/s3_secret.key";
+          destination = "/srv/secrets/tp14/s3_secret.key";
+        };
+      };
+    }];
+
+    imports = [ "${<dotshabka>}/hosts/acdc-tp14-1/configuration.nix" ];
+  };
+
   "ldap-1.vrt.fsn.lama-corp.space" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 

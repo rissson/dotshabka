@@ -53,6 +53,9 @@ with import <dotshabka/data/space.lama-corp> { }; {
         local-data: "hub.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.hub.wg.v4.ip}"
         local-data-ptr: "${fsn.vrt.hub.wg.v4.ip} hub.vrt.fsn.lama-corp.space"
 
+        local-data: "acdc-tp14-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.acdc-tp14-1.internal.v4.ip}"
+        local-data-ptr: "${fsn.vrt.acdc-tp14-1.internal.v4.ip} acdc-tp14-1.vrt.fsn.lama-corp.space"
+
         local-data: "ldap-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.ldap-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.ldap-1.internal.v4.ip} ldap-1.vrt.fsn.lama-corp.space"
 
@@ -60,6 +63,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
         local-data-ptr: "${fsn.vrt.mail-1.internal.v4.ip} mail-1.vrt.fsn.lama-corp.space"
 
         local-data: "minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
+        local-data: "tp14.acdc.risson.space.minio-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.minio-1.internal.v4.ip}"
         local-data-ptr: "${fsn.vrt.minio-1.internal.v4.ip} minio-1.vrt.fsn.lama-corp.space"
 
         local-data: "postgres-1.vrt.fsn.lama-corp.space. IN A ${fsn.vrt.postgres-1.internal.v4.ip}"
