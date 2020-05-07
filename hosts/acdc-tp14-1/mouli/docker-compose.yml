@@ -7,6 +7,18 @@ services:
     networks:
       - backend
 
+  tournament-frontend--minio:
+    image: webhippie/minio
+    hostname: minio
+    environment:
+      - MINIO_DOMAIN=minio
+    volumes:
+      - /srv/minio:/var/lib/minio
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+
   tournament--frontend:
     image: registry.synapze.fr/tournament-frontend:v1.0
     hostname: tournament_front
@@ -33,11 +45,13 @@ services:
       - backend
     links:
       - "tournament--redis:redis"
+      - "tournament-frontend--minio:minio"
+      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
     environment:
       - TOURNAMENT_API_REDIS_URI=redis://redis:6379
       - TOURNAMENT_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
-      - TOURNAMENT_API_S3_URL=minio-1.vrt.fsn.lama-corp.space
-      - TOURNAMENT_API_S3_PORT=19001
+      - TOURNAMENT_API_S3_URL=minio
+      - TOURNAMENT_API_S3_PORT=9000
       - TOURNAMENT_API_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_API_S3_ACCESS_KEY=/run/secrets/s3_access_key
     secrets:
@@ -68,12 +82,14 @@ services:
     links:
       - "tournament--redis:redis"
       - "tournament--dispatcher:dispatcher"
+      - "tournament-frontend--minio:minio"
+      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
     environment:
       - TOURNAMENT_CORE_REMOTE_URL=git@git.cri.epita.fr:p/2024-s2-tp/csharp-tp14-
-      - TOURNAMENT_CORE_LOCK_DURATION=60
+      - TOURNAMENT_CORE_LOCK_DURATION=300
       - TOURNAMENT_CORE_REDIS_URL=redis://redis:6379
-      - TOURNAMENT_CORE_S3_URL=minio-1.vrt.fsn.lama-corp.space
-      - TOURNAMENT_CORE_S3_PORT=19001
+      - TOURNAMENT_CORE_S3_URL=minio
+      - TOURNAMENT_CORE_S3_PORT=9000
       - TOURNAMENT_CORE_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_CORE_S3_ACCESS_KEY=/run/secrets/s3_access_key
       - TOURNAMENT_CORE_RUNNER_DISPATCHER_URL=http://dispatcher:3000
