@@ -16,7 +16,7 @@ services:
       - frontend
       - backend
     environment:
-      - TOURNAMENT_FRONTEND_API_HOST=tournamentapi
+      - TOURNAMENT_FRONTEND_API_HOST=tournamentapi:3000
       - TOURNAMENT_FRONTEND_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
     links:
       - "tournament--api:tournamentapi"
@@ -24,7 +24,7 @@ services:
       - api_secret_key
 
   tournament--api:
-    image: registry.synapze.fr/tournament-api:v1.0
+    image: registry.synapze.fr/tournament-api:v1.1
     restart: always
     hostname: tournament_api
     ports:
@@ -37,7 +37,7 @@ services:
       - TOURNAMENT_API_REDIS_URI=redis://redis:6379
       - TOURNAMENT_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
       - TOURNAMENT_API_S3_URL=minio-1.vrt.fsn.lama-corp.space
-      - TOURNAMENT_API_S3_PORT=19000
+      - TOURNAMENT_API_S3_PORT=19001
       - TOURNAMENT_API_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_API_S3_ACCESS_KEY=/run/secrets/s3_access_key
     secrets:
@@ -73,7 +73,7 @@ services:
       - TOURNAMENT_CORE_LOCK_DURATION=60
       - TOURNAMENT_CORE_REDIS_URL=redis://redis:6379
       - TOURNAMENT_CORE_S3_URL=minio-1.vrt.fsn.lama-corp.space
-      - TOURNAMENT_CORE_S3_PORT=19000
+      - TOURNAMENT_CORE_S3_PORT=19001
       - TOURNAMENT_CORE_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_CORE_S3_ACCESS_KEY=/run/secrets/s3_access_key
       - TOURNAMENT_CORE_RUNNER_DISPATCHER_URL=http://dispatcher:3000
