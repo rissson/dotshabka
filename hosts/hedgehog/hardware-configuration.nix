@@ -6,64 +6,115 @@ with lib;
   imports = let shabka = import <shabka> { };
   in [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    "${shabka.external.nixos-hardware.path}/common/cpu/intel"
+    "${shabka.external.nixos-hardware.path}/common/cpu/amd"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
+    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad"
+    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad/t495"
   ];
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" "aes_x86_64" "aesni_amd" "cryptd" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "zfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModprobeConfig = ''
-    options iwlwifi power_save=0
+  boot.kernelParams = [ "elevator=none" ];
+
+  boot.initrd.postDeviceCommands = mkAfter ''
+    zfs rollback -r rpool/local/root@blank
   '';
 
   boot.loader.grub = {
-    configurationLimit = 30;
+    enable = true;
+    version = 2;
     device = "nodev";
     efiSupport = true;
-    enable = true;
     enableCryptodisk = true;
-    extraInitrd = /boot/initrd.keys.gz;
+    zfsSupport = true;
+    extraInitrd = /boot/initramfs.keys.gz;
   };
   boot.loader.efi = {
     canTouchEfiVariables = true;
-    efiSysMountPoint = "/boot/efi";
+    efiSysMountPoint = "/efi";
   };
 
   boot.initrd.luks.devices = {
-    cryptvgroot = {
-      device = "/dev/disk/by-uuid/4463e27b-5bd1-4945-b4be-b5ea86ac46dd";
+    cryptboot = {
+      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part2";
       preLVM = true;
-      keyFile = "/keyfile0.bin";
       allowDiscards = true;
+      keyFile = "/crypt.keyfile";
+    };
+    cryptroot = {
+      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part3";
+      preLVM = true;
+      allowDiscards = true;
+      keyFile = "/crypt.keyfile";
+    };
+    cryptswap = {
+      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part4";
+      preLVM = true;
+      allowDiscards = true;
+      keyFile = "/crypt.keyfile";
     };
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/5e2332dc-77c3-4b59-91d2-416b25f10e0e";
-      fsType = "ext4";
+  fileSystems."/" =
+    { device = "rpool/local/root";
+      fsType = "zfs";
     };
 
-    "/home" = {
-      device = "/dev/disk/by-uuid/2ffe6dbb-ec89-444a-8d22-0277eb02b0c7";
-      fsType = "ext4";
+  fileSystems."/nix" =
+    { device = "rpool/local/nix";
+      fsType = "zfs";
     };
 
-    "/boot/efi" = {
-      device = "/dev/disk/by-uuid/CB1A-AC4D";
+  fileSystems."/var/log" =
+    { device = "rpool/local/var/log";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home/risson" =
+    { device = "rpool/persist/home/risson";
+      fsType = "zfs";
+    };
+
+  fileSystems."/root" =
+    { device = "rpool/persist/home/root";
+      fsType = "zfs";
+    };
+
+  fileSystems."/srv" =
+    { device = "rpool/persist/srv";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/docker" =
+    { device = "rpool/persist/var/lib/docker";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/libvirt" =
+    { device = "rpool/persist/var/lib/libvirt";
+      fsType = "zfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "bpool/boot";
+      fsType = "zfs";
+    };
+
+  fileSystems."/efi" =
+    { device = "/dev/disk/by-uuid/B83E-3E69";
       fsType = "vfat";
     };
-  };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/9e42b003-dcee-4d78-a983-a278263916a9"; }];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/a76d0622-a8d2-42a6-87a6-ab24362deb02"; }
+  ];
 
-  nix.maxJobs = 6;
+  nix.maxJobs = 7;
 
   powerManagement = mkIf config.shabka.workstation.power.enable {
     cpuFreqGovernor = "powersave";

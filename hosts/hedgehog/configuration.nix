@@ -27,7 +27,7 @@ with lib;
   };
 
   shabka.workstation = {
-    teamviewer.enable = true;
+    teamviewer.enable = false;
     virtualbox.enable = mkForce false;
   };
 

@@ -79,8 +79,8 @@
               ram.enable = true;
               network = {
                 enable = true;
-                eth = [ "enp3s0" "enp0s20f0u2u2" "enp0s20f0u1u1" ];
-                wlan = [ "wlp5s0" ];
+                eth = [ "enp4s0" "enp3s0f0" "enp0s20f0u2u2" "enp0s20f0u1u1" ];
+                wlan = [ "wlp1s0" ];
               };
               volume.enable = true;
               spotify.enable = false;

@@ -14,7 +14,7 @@
         environment.BORG_RSH =
           "ssh -i /srv/secrets/root/backups/borg-nas-backups.ssh.key";
 
-        paths = [ "/home" "/root" ];
+        paths = [ "/home" "/root" "/srv" ];
 
         startAt = "*-*-* 02:02:54 UTC";
         prune = {

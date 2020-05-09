@@ -4,11 +4,13 @@ with import <dotshabka/data/space.lama-corp> { }; {
   networking = with rsn.lap.hedgehog; {
     hostName = "hedgehog";
     domain = "lap.rsn.lama-corp.space";
+    hostId = "daec192f";
 
     nameservers = [ "172.28.1.1" "1.1.1.1" ];
 
     useDHCP = true;
-    interfaces = { "enp3s0" = { useDHCP = true; }; };
+    interfaces.enp3s0f0.useDHCP = true;
+    interfaces.enp4s0.useDHCP = true;
 
     dhcpcd.extraConfig = ''
       nohook resolv.conf
@@ -16,7 +18,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
 
     wireless = {
       enable = true;
-      interfaces = [ "wlp5s0" ];
+      interfaces = [ "wlp1s0" ];
       extraConfig = ''
         ctrl_interface=/run/wpa_supplicant
         ctrl_interface_group=wheel
