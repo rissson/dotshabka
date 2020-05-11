@@ -162,4 +162,4 @@ secrets:
   s3_access_key:
     file: /srv/secrets/tp14/s3_access.key
   postgres-passwd:
-    file: /srv/secrets/tp14/postgres-passwd
+    file: /srv/secrets/tp14/postgres.passwd
