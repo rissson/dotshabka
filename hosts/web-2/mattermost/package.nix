@@ -11,7 +11,7 @@ let
       owner = "mattermost";
       repo = "mattermost-server";
       rev = "v${version}";
-      sha256 = "0jcprq01wyz91wwg7s5fznwjsvh6c42365i02c74kc2qxick41aq";
+      sha256 = "1l85jgnrzf36nj6lvy7yhv7slalp3c73biscnd862zwqb5fl27yz";
     };
 
     goPackagePath = "github.com/mattermost/mattermost-server";
