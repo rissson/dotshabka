@@ -1,5 +1,20 @@
 version: '3.2'
 services:
+  tournament--postgres:
+    image: postgres:latest
+    hostname: postgres
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - /srv/postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=tournament
+      - POSTGRES_DB=tournament
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-passwd
+    secrets:
+      - postgres-passwd
+
   tournament--redis:
     image: redis:latest
     hostname: redis
@@ -7,26 +22,25 @@ services:
     networks:
       - backend
 
-  tournament-frontend--minio:
+  tournament--minio:
     image: webhippie/minio
     hostname: minio
     environment:
       - MINIO_DOMAIN=minio
+      - MINIO_ACCESS_KEY=FixMeFixMe
+      - MINIO_SECRET_KEY=FixMeFixMe
     volumes:
       - /srv/minio:/var/lib/minio
-    ports:
-      - "9000:9000"
     networks:
       - backend
 
   tournament--frontend:
-    image: registry.synapze.fr/tournament-frontend:v1.0
+    image: registry.synapze.fr/tournament-frontend:v2.1
     hostname: tournament_front
     ports:
       - "3000:3000"
     networks:
       - frontend
-      - backend
     environment:
       - TOURNAMENT_FRONTEND_API_HOST=tournamentapi:3000
       - TOURNAMENT_FRONTEND_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
@@ -36,17 +50,19 @@ services:
       - api_secret_key
 
   tournament--api:
-    image: registry.synapze.fr/tournament-api:v1.1
+    image: registry.synapze.fr/tournament-api:v2.1
     restart: always
     hostname: tournament_api
     ports:
       - "3456:3000"
     networks:
+      - frontend
       - backend
     links:
       - "tournament--redis:redis"
-      - "tournament-frontend--minio:minio"
-      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
+      - "tournament--minio:minio"
+      - "tournament--minio:tp14.acdc.risson.space.minio"
+      - "tournament--postgres:postgres"
     environment:
       - TOURNAMENT_API_REDIS_URI=redis://redis:6379
       - TOURNAMENT_API_SECRET_KEY_FILE=/run/secrets/api_secret_key
@@ -54,13 +70,19 @@ services:
       - TOURNAMENT_API_S3_PORT=9000
       - TOURNAMENT_API_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_API_S3_ACCESS_KEY=/run/secrets/s3_access_key
+      - TOURNAMENT_API_S3_BUCKET=tp14.acdc.risson.space
+      - TOURNAMENT_API_PG_HOST=postgres
+      - TOURNAMENT_API_PG_USERNAME=tournament
+      - TOURNAMENT_API_PG_PASSWD_FILE=/run/secrets/postgres-passwd
+      - TOURNAMENT_API_PG_DB_NAME=tournament
     secrets:
       - api_secret_key
       - s3_secret_key
       - s3_access_key
+      - postgres-passwd
 
   tournament--dispatcher:
-    image: registry.synapze.fr/tournament-runner-dispatcher:v1.0
+    image: registry.synapze.fr/tournament-runner-dispatcher:v2.1
     restart: always
     hostname: dispatcher
     networks:
@@ -68,13 +90,21 @@ services:
       - frontend
     links:
       - "tournament--redis:redis"
-    ports:
-      - "8080:3000"
+      - "tournament--minio:minio"
+      - "tournament--minio:tp14.acdc.risson.space.minio"
     environment:
       - RUNNER_DISPATCHER_REDIS_URL=redis://redis:6379
+      - RUNNER_DISPATCHER_S3_URL=minio
+      - RUNNER_DISPATCHER_S3_PORT=9000
+      - RUNNER_DISPATCHER_S3_SECRET_KEY=/run/secrets/s3_secret_key
+      - RUNNER_DISPATCHER_S3_ACCESS_KEY=/run/secrets/s3_access_key
+      - RUNNER_DISPATCHER_S3_BUCKET=tp14.acdc.risson.space
+    secrets:
+      - s3_access_key
+      - s3_secret_key
 
-  tournament--tournament-core:
-    image: registry.synapze.fr/tournament-core:v1.0
+  tournament--core:
+    image: registry.synapze.fr/tournament-core:v2.1
     hostname: tournament_core
     restart: always
     networks:
@@ -82,24 +112,29 @@ services:
     links:
       - "tournament--redis:redis"
       - "tournament--dispatcher:dispatcher"
-      - "tournament-frontend--minio:minio"
-      - "tournament-frontend--minio:tp14.acdc.risson.space.minio"
+      - "tournament--minio:minio"
+      - "tournament--minio:tp14.acdc.risson.space.minio"
     environment:
       - TOURNAMENT_CORE_REMOTE_URL=git@git.cri.epita.fr:p/2024-s2-tp/csharp-tp14-
-      - TOURNAMENT_CORE_LOCK_DURATION=300
+      - TOURNAMENT_CORE_LOCK_DURATION=60
       - TOURNAMENT_CORE_REDIS_URL=redis://redis:6379
       - TOURNAMENT_CORE_S3_URL=minio
       - TOURNAMENT_CORE_S3_PORT=9000
       - TOURNAMENT_CORE_S3_SECRET_KEY=/run/secrets/s3_secret_key
       - TOURNAMENT_CORE_S3_ACCESS_KEY=/run/secrets/s3_access_key
+      - TOURNAMENT_CORE_S3_BUCKET=tp14.acdc.risson.space
       - TOURNAMENT_CORE_RUNNER_DISPATCHER_URL=http://dispatcher:3000
-      - TOURNAMENT_CORE_SLEEP_DURATION=5
+      - TOURNAMENT_CORE_SLEEP_DURATION=10
+      - TOURNAMENT_CORE_PRIVATE_KEY=/run/secrets/host_ssh_key_priv
+      - TOURNAMENT_CORE_PUBLIC_KEY=/run/secrets/host_ssh_key_pub
     secrets:
       - s3_secret_key
       - s3_access_key
+      - host_ssh_key_priv
+      - host_ssh_key_pub
 
   tournament--runner:
-    image: registry.synapze.fr/tournament-runner:v1.0
+    image: registry.synapze.fr/tournament-runner:v2.1
     hostname: tournament_core_runner
     restart: always
     networks:
@@ -126,3 +161,5 @@ secrets:
     file: /srv/secrets/tp14/s3_secret.key
   s3_access_key:
     file: /srv/secrets/tp14/s3_access.key
+  postgres-passwd:
+    file: /srv/secrets/tp14/postgres.passwd

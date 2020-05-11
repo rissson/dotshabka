@@ -43,6 +43,10 @@ in {
           source = "../secrets/hosts/acdc-tp14-1/tp14/s3_secret.key";
           destination = "/srv/secrets/tp14/s3_secret.key";
         };
+        "tp14/postgres.passwd" = {
+          source = "../secrets/hosts/acdc-tp14-1/tp14/postgres.passwd";
+          destination = "/srv/secrets/tp14/postgres.passwd";
+        };
       };
     }];
 
