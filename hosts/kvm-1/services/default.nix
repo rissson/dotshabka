@@ -3,7 +3,7 @@
 {
   imports = [
     ./gitlab-runners
-    ./hercules-ci.nix
+    #./hercules-ci.nix
     ./libvirt
     ./TheFractalBot.nix
   ];
