@@ -26,7 +26,7 @@ with lib;
   boot.kernelParams = [ "elevator=none" ];
 
   boot.initrd.postDeviceCommands = mkAfter ''
-    zfs rollback -r rpool/local/root@blank
+    zfs rollback -r lpool/root@blank
   '';
 
   boot.loader.grub = {
