@@ -1,8 +1,6 @@
 { ... }:
 
 {
-  acdc-tp14-1 = import ./acdc-tp14-1 { };
-
   ldap-1 = import ./ldap-1 { };
 
   mail-1 = import ./mail-1 { };
