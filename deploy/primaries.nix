@@ -2,13 +2,6 @@ let
   defaultDeployment = { config, wg }: {
     targetUser = "root";
     secrets = {
-      "ssmtp-root_lama-corp_ovh_passwd" = {
-        source = "../secrets/ssmtp/root_lama-corp_ovh.passwd";
-        destination = config.services.ssmtp.authPassFile;
-        owner.user = "root";
-        owner.group = "root";
-        permissions = "0444";
-      };
       "wireguard/private.key" = {
         source = "../secrets/hosts/${config.networking.hostName}/wireguard/private.key";
         destination = config.networking.wireguard.interfaces.${wg.interface}.privateKeyFile;

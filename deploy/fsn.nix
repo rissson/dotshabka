@@ -1,13 +1,6 @@
 let
   defaultDeployment = { config }: {
     secrets = {
-      "ssmtp-root_lama-corp_ovh_passwd" = {
-        source = "../secrets/ssmtp/root_lama-corp_ovh.passwd";
-        destination = config.services.ssmtp.authPassFile;
-        owner.user = "root";
-        owner.group = "root";
-        permissions = "0444";
-      };
       "borg/nas-system.ssh.key" = {
         source = "../secrets/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
         destination = "/srv/secrets/borg/nas-system.ssh.key";
