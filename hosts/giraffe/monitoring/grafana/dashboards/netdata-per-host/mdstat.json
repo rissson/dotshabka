@@ -25,10 +25,28 @@
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
-      "title": "netdata duck",
-      "tooltip": "Open Netdata monitoring for duck",
+      "title": "netdata kvm-1",
+      "tooltip": "Open Netdata monitoring for kvm-1",
       "type": "link",
-      "url": "http://duck.srv.fsn.lama-corp.space:19999"
+      "url": "https://netdata.lama-corp.space/kvm-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata nas",
+      "tooltip": "Open Netdata monitoring for nas",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/nas"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata giraffe",
+      "tooltip": "Open Netdata monitoring for giraffe",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/giraffe"
     },
     {
       "icon": "cloud",
@@ -43,19 +61,64 @@
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
-      "title": "netdata nas",
-      "tooltip": "Open Netdata monitoring for nas",
+      "title": "netdata mail-1",
+      "tooltip": "Open Netdata monitoring for mail-1",
       "type": "link",
-      "url": "http://nas.srv.bar.lama-corp.space:19999"
+      "url": "https://netdata.lama-corp.space/mail-1"
     },
     {
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
-      "title": "netdata duck",
-      "tooltip": "Open Netdata monitoring for giraffe",
+      "title": "netdata reverse-1",
+      "tooltip": "Open Netdata monitoring for reverse-1",
       "type": "link",
-      "url": "http://giraffe.srv.nbg.lama-corp.space:19999"
+      "url": "http://netdata.lama-corp.space/reverse-1/"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata ldap-1",
+      "tooltip": "Open Netdata monitoring for ldap-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/ldap-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata postgres-1",
+      "tooltip": "Open Netdata monitoring for postgres-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/postgres-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata minio-1",
+      "tooltip": "Open Netdata monitoring for minio-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/minio-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata web-1",
+      "tooltip": "Open Netdata monitoring for web-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/web-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata web-2",
+      "tooltip": "Open Netdata monitoring for web-2",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/web-2"
     }
   ],
   "panels": [
@@ -2121,9 +2184,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "duck",
+          "text": "kvm-1",
           "value": [
-            "duck"
+            "kvm-1"
           ]
         },
         "datasource": "InfluxDB",
