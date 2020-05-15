@@ -65,7 +65,7 @@ in {
     inherit hostname;
 
     # main.cf/mydomain
-    domain = "lama-corp.space";
+    domain = mkForce "lama-corp.space";
 
     # main.cf/mydestination
     # Domains for which postfix will deliver local mail. Does not apply to
