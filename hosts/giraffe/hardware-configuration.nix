@@ -2,7 +2,7 @@
 
 with lib;
 
-let bootHostSshKeyPath = /srv/secrets/root/initrd-ssh-key;
+let bootHostSshKeyPath = ../../secrets/hosts/giraffe/boot/host-ssh.key;
 in {
   warnings = (optional (!(builtins.pathExists bootHostSshKeyPath)) "${
       toString bootHostSshKeyPath
