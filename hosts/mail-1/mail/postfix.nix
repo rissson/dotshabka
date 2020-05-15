@@ -62,10 +62,10 @@ in {
     # main.cf/myhostname
     # Name of this mail server, used in the SMTP HELO for outgoing mail. Make
     # sure this resolves to the same IP as your reverse DNS hostname.
-    inherit hostname;
+    hostname = mkForce hostname;
 
     # main.cf/mydomain
-    domain = mkForce "lama-corp.space";
+    domain = "lama-corp.space";
 
     # main.cf/mydestination
     # Domains for which postfix will deliver local mail. Does not apply to
