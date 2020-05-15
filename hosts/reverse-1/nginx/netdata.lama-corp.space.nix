@@ -29,10 +29,6 @@ in {
       servers."kvm-1.srv.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
-    "netdata-acdc-tp14-1" = {
-      servers."acdc-tp14-1.vrt.fsn.lama-corp.space:19999" = {};
-      extraConfig = "keepalive 64;";
-    };
     "netdata-ldap-1" = {
       servers."ldap-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
