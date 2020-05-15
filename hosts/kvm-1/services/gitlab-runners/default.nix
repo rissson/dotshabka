@@ -9,7 +9,7 @@ with lib;
 
   services.gitlab-runner = {
     enable = true;
-    concurrent = 2;
+    concurrent = 4;
     services = {
       # runner for dotshabka
       # can be used for building via nix
@@ -56,6 +56,10 @@ with lib;
       lamacorp-default = {
         registrationConfigFile = "/srv/secrets/gitlab-runner-dotshabka";
         dockerImage = "nix";
+      };
+      risson-epita-chess = {
+        registrationConfigFile = "/srv/secrets/gitlab-runner-epita-chess";
+        dockerImage = "registry.gitlab.com/pierre.kelbert/docker-archlinux-criterion:9ff8657845e21a4493f62e67540dcb8c13994577";
       };
     };
   };

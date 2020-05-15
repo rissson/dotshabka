@@ -8,8 +8,8 @@ rec {
     src = ../xml/ynh.xml;
 
     name = vmName;
-    macaddress = vrt.lewdax.mac;
-    diskdevpath = "/dev/vg0/vm-${vmName}";
-    ifbridge = srv.kvm-1.external.bridge;
+    macAddress = vrt.lewdax.mac;
+    diskDevPath = "/dev/vg0/vm-${vmName}";
+    ifBridge = srv.kvm-1.external.bridge;
   };
 }
