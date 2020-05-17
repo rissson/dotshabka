@@ -1,14 +1,42 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
 {
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_11;
+    dataDir = "/srv/postgresql/11";
+    ensureDatabases = [ "grafana" ];
+    ensureUsers = [
+      {
+        name = "grafana";
+        ensurePermissions = { "DATABASE grafana" = "ALL PRIVILEGES"; };
+      }
+    ];
+  };
+
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
+    location = "/srv/backups";
+    startAt = "*-*-* 18:47:52 UTC";
+  };
+
   services.grafana = {
     enable = true;
     addr = "172.28.3.1";
     dataDir = "/srv/grafana";
     rootUrl = "https://grafana.lama-corp.space/";
     domain = "grafana.lama-corp.space";
+
+    database = {
+      type = "postgres";
+      host = "localhost:5432";
+      name = "grafana";
+      user = "grafana";
+      passwordFile = "/srv/secrets/grafana/database.passwd";
+    };
 
     auth.anonymous.enable = true;
 

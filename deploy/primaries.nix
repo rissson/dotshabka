@@ -30,6 +30,13 @@ in with import <dotshabka/data/space.lama-corp> {}; {
           owner.group = "root";
           permissions = "0400";
         };
+        "grafana/database.passwd" = {
+          source = "../secrets/hosts/${config.networking.hostName}/grafana/database.passwd";
+          destination = "/srv/secrets/grafana/database.passwd";
+          owner.user = "grafana";
+          owner.group = "grafana";
+          permissions = "0400";
+        };
       };
     };
 
