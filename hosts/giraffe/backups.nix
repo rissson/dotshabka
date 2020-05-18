@@ -3,6 +3,14 @@
 with lib;
 
 {
+  services.zfs.autoSnapshot = {
+    frequent = 4;
+    hourly = mkForce 12;
+    daily = mkForce 5;
+    weekly = mkForce 1;
+    monthly = mkForce 0;
+  };
+
   services.borgbackup = {
     jobs = {
       "nas-system" = {
