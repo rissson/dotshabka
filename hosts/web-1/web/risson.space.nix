@@ -7,7 +7,7 @@ let
   src = import (pkgs.fetchgit {
     url = "https://gitlab.com/risson/risson.space.git";
     rev = "644d71cbc4d6577050b7cf37f1fa09bf1b8f1f5d";
-    sha256 = "1g9560mssgqjkcyg6z2asmaqlj5x0zxyz5ig3vzg8nd9gqwixmwy";
+    sha256 = ""1f79dqrxqfh2l4lpzm8wakzir244jn7jiz8ccy67cyacwz0bkbcq"";
     leaveDotGit = true;
     deepClone = true;
   }) { baseURL = "https://risson.space/"; };
