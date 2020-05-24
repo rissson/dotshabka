@@ -117,7 +117,7 @@ with lib;
   nix.maxJobs = 7;
 
   powerManagement = mkIf config.shabka.workstation.power.enable {
-    cpuFreqGovernor = "powersave";
+    cpuFreqGovernor = "ondemand";
   };
 
   shabka.hardware.intel_backlight.enable = true;
