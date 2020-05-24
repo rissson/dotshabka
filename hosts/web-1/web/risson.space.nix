@@ -6,8 +6,8 @@ let
   # We need to use fetchgit as Hugo build system requires a git repository
   src = import (pkgs.fetchgit {
     url = "https://gitlab.com/risson/risson.space.git";
-    rev = "644d71cbc4d6577050b7cf37f1fa09bf1b8f1f5d";
-    sha256 = "1g9560mssgqjkcyg6z2asmaqlj5x0zxyz5ig3vzg8nd9gqwixmwy";
+    rev = "be2441b192fc6d8f3d578946748c205e7e6d3a45";
+    sha256 = "16xh0bq3w9jxmpw3ja582f9j3j7lfwgf9hzixkm2kmkgkjlpc05l";
     leaveDotGit = true;
     deepClone = true;
   }) { baseURL = "https://risson.space/"; };
