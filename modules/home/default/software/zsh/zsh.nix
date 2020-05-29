@@ -156,6 +156,12 @@ in {
         # use 'fc -il 1' for "yyyy-mm-dd"
         # use 'fc -fl 1' for mm/dd/yyyy
         history = "fc -il 1";
+
+        # Taskwarrior
+        t = "task";
+        eod = "task due:eod";
+        tomorrow = "task due:sod";
+        weekend = "task \\(due:saturday or due:sunday or due:mondayT00:00\\)";
       };
 
       history = {
