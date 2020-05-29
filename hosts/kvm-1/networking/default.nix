@@ -20,6 +20,7 @@ with srv.kvm-1; {
   networking = {
     hostName = "kvm-1";
     domain = "srv.fsn.lama-corp.space";
+    hostId = "007f0101";
 
     nameservers = with import <dotshabka/data> { };
       [ "127.0.0.1" "::1" ] ++ externalNameservers;

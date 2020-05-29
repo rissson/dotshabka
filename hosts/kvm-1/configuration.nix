@@ -8,8 +8,8 @@ let
 in {
   imports = [
     <shabka/modules/nixos>
-    <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
+    <dotshabka/profiles/nixos/primary>
+    <dotshabka/profiles/nixos/luks>
 
     ./hardware-configuration.nix
     ./networking

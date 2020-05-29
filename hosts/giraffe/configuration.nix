@@ -5,8 +5,9 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-    <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
+    <dotshabka/profiles/nixos/primary>
+    <dotshabka/profiles/nixos/vm>
+    <dotshabka/profiles/nixos/luks>
 
     ./hardware-configuration.nix
     ./networking
@@ -15,6 +16,8 @@ with lib;
 
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  shabka.users.enable = mkForce false;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

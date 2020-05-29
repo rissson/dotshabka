@@ -11,8 +11,8 @@ let
 in {
   imports = [
     <shabka/modules/nixos>
-    <dotshabka/modules/nixos>
     <dotshabka/modules/nixos/workstation>
+    <dotshabka/profiles/nixos/workstation>
 
     ./hardware-configuration.nix
     ./networking
@@ -28,7 +28,7 @@ in {
   nix.package = nixpkgs-flakes.nixFlakes;
 
   shabka.keyboard = {
-    layouts = [ "bepo" "qwerty_intl" ];
+    layouts = mkForce [ "bepo" "qwerty_intl" ];
     enableAtBoot = mkForce false;
   };
 
@@ -44,9 +44,9 @@ in {
   hardware.pulseaudio.zeroconf.discovery.enable = true;
 
   users.users.root = {
-    hashedPassword =
+    hashedPassword = mkForce
       "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-    openssh.authorizedKeys.keys = config.shabka.users.users.risson.sshKeys;
+    openssh.authorizedKeys.keys = mkForce config.shabka.users.users.risson.sshKeys;
   };
 
   shabka.users = with import <dotshabka/data/users> { }; {

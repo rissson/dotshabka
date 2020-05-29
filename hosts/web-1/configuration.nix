@@ -5,8 +5,7 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-    <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
+    <dotshabka/profiles/nixos/vm>
 
     ./hardware-configuration.nix
     ./networking.nix

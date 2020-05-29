@@ -3,14 +3,7 @@
 with lib;
 
 {
-  services.zfs.autoSnapshot = {
-    enable = mkForce false;
-    frequent = 4;
-    hourly = mkForce 12;
-    daily = mkForce 0;
-    weekly = mkForce 0;
-    monthly = mkForce 0;
-  };
+  services.zfs.autoSnapshot.enable = mkForce false;
 
   services.borgbackup = {
     jobs = {

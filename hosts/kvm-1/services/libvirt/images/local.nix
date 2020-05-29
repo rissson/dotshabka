@@ -24,8 +24,8 @@ let
     modules = [
       {
         imports = [
-          <dotshabka/modules/nixos/server/ssh.nix>
-          <dotshabka/modules/nixos/server/users.nix>
+          <dotshabka/profiles/nixos/ssh>
+          <dotshabka/profiles/nixos/server/root.nix>
         ];
 
         boot.initrd.availableKernelModules = [

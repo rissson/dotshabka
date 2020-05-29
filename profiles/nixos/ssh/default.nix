@@ -31,7 +31,8 @@ with lib;
     '';
   };
 
-  systemd.services.sshd.preStart = mkBefore ''
-    mkdir -m 0755 -p /srv/ssh
-  '';
+  systemd.services.sshd.preStart = mkIf config.services.openssh.enable
+    (mkBefore ''
+      mkdir -m 0700 -p /srv/ssh
+    '');
 }

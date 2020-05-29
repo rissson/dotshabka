@@ -1,5 +1,0 @@
-{ ... }:
-
-{
-  environment.homeBinInPath = true;
-}

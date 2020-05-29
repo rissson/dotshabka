@@ -3,13 +3,12 @@
 with lib;
 
 let
-  nixpkgs = import (import <shabka> {}).external.nixpkgs.release-unstable.path {};
+  shabka = import <shabka> { };
+  nixpkgs = import shabka.external.nixpkgs.release-unstable.path { };
 in {
-  nixpkgs.overlays = [
-    (self: super: {
-      netdata = nixpkgs.netdata;
-    })
-  ];
+  nixpkgs.overlays = [ (self: super: { netdata = nixpkgs.netdata; }) ];
+
+  imports = [ ../sendmail ];
 
   services.netdata = {
     enable = true;
