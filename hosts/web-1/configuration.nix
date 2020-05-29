@@ -15,6 +15,12 @@ with lib;
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
+  ###
+  # Backups
+  ###
+
+  services.borgbackup.jobs."nas-system".startAt = "*-*-* *:58:23 UTC";
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you

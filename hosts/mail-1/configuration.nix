@@ -9,7 +9,6 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
-    ./backups.nix
 
     ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
@@ -32,6 +31,19 @@ with lib;
     "L /var/lib/acme        - - - -   /srv/var/lib/acme"
     "L /var/spool/mail      - - - -   /srv/var/spool/mail"
   ];
+
+  ###
+  # Backups
+  ###
+
+  services.borgbackup.jobs."nas-system" = {
+    paths = [
+      "/var/lib/postfix"
+      "/var/lib/dovecot"
+    ];
+
+    startAt = "*-*-* *:04:27 UTC";
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

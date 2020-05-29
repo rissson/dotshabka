@@ -1,6 +1,4 @@
-{ config, pkgs, lib, ... }:
-
-with lib;
+{ ... }:
 
 {
   services.borgbackup = {
@@ -12,13 +10,8 @@ with lib;
         encryption.mode = "none";
         environment.BORG_RSH = "ssh -i /srv/secrets/borg/nas-system.ssh.key";
 
-        paths = [
-          "/root"
-          "/srv"
-          "/var/log"
-        ];
+        paths = [ "/root" "/srv" "/var/log" ];
 
-        startAt = "*-*-* *:00:06 UTC";
         prune = {
           keep = {
             within = "1d";

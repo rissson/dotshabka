@@ -9,11 +9,16 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
-    ./backups.nix
 
     ./minio
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  ###
+  # Backups
+  ###
+
+  services.borgbackup.jobs."nas-system".startAt = "*-*-* *:12:13 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
