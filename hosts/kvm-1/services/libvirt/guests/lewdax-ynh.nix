@@ -9,7 +9,6 @@ rec {
 
     name = vmName;
     macAddress = vrt.lewdax.mac;
-    diskDevPath = "/dev/vg0/vm-${vmName}";
     ifBridge = srv.kvm-1.external.bridge;
   };
 }

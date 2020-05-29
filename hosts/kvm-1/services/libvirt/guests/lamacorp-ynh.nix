@@ -9,7 +9,6 @@ rec {
 
     name = vmName;
     macAddress = vrt.hub.mac;
-    diskDevPath = "/dev/vg0/vm-${vmName}";
     ifBridge = srv.kvm-1.external.bridge;
   };
 }
