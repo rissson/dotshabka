@@ -3,12 +3,12 @@
 {
   services.borgbackup = {
     jobs = {
-      "nas-system" = {
+      "system" = {
         repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/system";
         compression = "zlib,1";
 
         encryption.mode = "none";
-        environment.BORG_RSH = "ssh -i /srv/secrets/borg/nas-system.ssh.key";
+        environment.BORG_RSH = "ssh -i /srv/secrets/borg/system.ssh.key";
 
         paths = [ "/root" "/srv" "/var/log" ];
 

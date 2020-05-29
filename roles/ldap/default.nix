@@ -29,4 +29,18 @@ with lib;
       };
     };
   };
+
+  ###
+  # Backups
+  ###
+
+  services.borgbackup.jobs."system" = {
+    preHook = concatStrings [
+      (optionalString config.services.openldap.enable ''
+        ${pkgs.openldap}/bin/slapcat -F ${config.services.openldap.configDir} -l /srv/ldap/ldap_backup.ldif
+      '')
+    ];
+
+    readWritePaths = [ "/srv/ldap" ];
+  };
 }

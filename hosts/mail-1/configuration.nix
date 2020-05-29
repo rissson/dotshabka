@@ -5,12 +5,13 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/vm>
+
+    <dotshabka/roles/mail>
 
     ./hardware-configuration.nix
     ./networking.nix
-
-    ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
@@ -36,7 +37,7 @@ with lib;
   # Backups
   ###
 
-  services.borgbackup.jobs."nas-system" = {
+  services.borgbackup.jobs."system" = {
     paths = [
       "/var/lib/postfix"
       "/var/lib/dovecot"

@@ -5,12 +5,13 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/vm>
+
+    <dotshabka/roles/minio>
 
     ./hardware-configuration.nix
     ./networking.nix
-
-    ./minio
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
@@ -18,7 +19,7 @@ with lib;
   # Backups
   ###
 
-  services.borgbackup.jobs."nas-system".startAt = "*-*-* *:12:13 UTC";
+  services.borgbackup.jobs."system".startAt = "*-*-* *:12:13 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

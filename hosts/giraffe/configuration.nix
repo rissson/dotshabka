@@ -25,7 +25,7 @@ with lib;
 
   services.zfs.autoSnapshot.enable = mkForce false;
 
-  services.borgbackup.jobs."nas-system" = {
+  services.borgbackup.jobs."system" = {
     preHook = concatStrings [
       (optionalString config.services.influxdb.enable ''
         ${pkgs.influxdb}/bin/influxd backup -portable /srv/influxdb/dump

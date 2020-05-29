@@ -19,7 +19,7 @@ with lib;
   # Backups
   ###
 
-  services.borgbackup.jobs."nas-system".startAt = "*-*-* *:55:58 UTC";
+  services.borgbackup.jobs."system".startAt = "*-*-* *:55:58 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

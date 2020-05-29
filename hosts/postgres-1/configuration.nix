@@ -5,20 +5,45 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/vm>
+
+    <dotshabka/roles/postgres>
 
     ./hardware-configuration.nix
     ./networking.nix
-
-    ./postgres
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  services.postgresql = {
+    ensureDatabases = [ "catcdc" "codimd" "pastebin" "scoreboard_seedbox_cri" ];
+    ensureUsers = [
+      {
+        name = "catcdc";
+        ensurePermissions = { "DATABASE catcdc" = "ALL PRIVILEGES"; };
+      }
+      {
+        name = "codimd";
+        ensurePermissions = { "DATABASE codimd" = "ALL PRIVILEGES"; };
+      }
+      {
+        name = "pastebin";
+        ensurePermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
+      }
+      {
+        name = "scoreboard_seedbox_cri";
+        ensurePermissions = {
+          "DATABASE scoreboard_seedbox_cri" = "ALL PRIVILEGES";
+        };
+      }
+    ];
+  };
 
   ###
   # Backups
   ###
 
-  services.borgbackup.jobs."nas-system".startAt = "*-*-* *:00:06 UTC";
+  services.borgbackup.jobs."system".startAt = "*-*-* *:00:06 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

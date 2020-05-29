@@ -5,12 +5,13 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/vm>
+
+    <dotshabka/roles/ldap>
 
     ./hardware-configuration.nix
     ./networking.nix
-
-    ./ldap
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
@@ -18,19 +19,7 @@ with lib;
   # Backups
   ###
 
-  services.borgbackup.jobs."nas-system" = {
-    preHook = concatStrings [
-      (optionalString config.services.openldap.enable ''
-                ${pkgs.openldap}/bin/slapcat -F ${config.services.openldap.configDir} -l /srv/ldap/ldap_backup.ldif
-      '')
-    ];
-
-    readWritePaths = [
-      "/srv/ldap"
-    ];
-
-    startAt = "*-*-* *:08:04 UTC";
-  };
+  services.borgbackup.jobs."system".startAt = "*-*-* *:08:04 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
