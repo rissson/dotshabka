@@ -232,5 +232,28 @@
           };
         };
       };
+
+      programs.taskwarrior = {
+        enable = true;
+        extraConfig = ''
+          # Urgency settings
+          urgency.user.tag.bug.coefficient=5.0
+          urgency.user.tag.problem.coefficient=4.5
+          urgency.user.tag.later.coefficient=-6.0
+          urgency.user.tag.waiting.coefficient=-12.0
+          urgency.user.tag.backlog.coefficient=-20.0
+
+          # UDA settings for tasksh
+          uda.reviewed.type=date
+          uda.reviewed.label=Reviewed
+        # Report settings
+          report._reviewed.description=Tasksh review report. Adjust the filter to your needs.
+          report._reviewed.columns=uuid
+          report._reviewed.sort=reviewed+,modified+
+          report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +PENDING or +WAITING )
+        '';
+      };
+
+      home.packages = [ pkgs.tasksh ];
     };
 }
