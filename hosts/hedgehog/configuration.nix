@@ -16,6 +16,11 @@ with lib;
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+  nix.package = pkgs.nixFlakes;
+
   shabka.keyboard = {
     layouts = [ "bepo" "qwerty_intl" ];
     enableAtBoot = mkForce false;
