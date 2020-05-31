@@ -23,7 +23,7 @@ in {
 
   script = ''
     if ! ${pkgs.libvirt}/bin/virsh vol-key '${vmName}-local.qcow2' --pool default &> /dev/null; then
-      ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 ${imageLocal}/image.qcow2 /srv/vm/${vmName}-local.qcow2
+      ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 -o preallocation=metadata ${imageLocal}/image.qcow2 /srv/vm/${vmName}-local.qcow2
       ${pkgs.libvirt}/bin/virsh pool-refresh default
       ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-local.qcow2' ${
         toString localDiskSize
@@ -31,7 +31,7 @@ in {
     fi
 
     if ! ${pkgs.libvirt}/bin/virsh vol-key '${vmName}-persist.qcow2' --pool default &> /dev/null; then
-      ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 ${imagePersist}/image.qcow2 /srv/vm/${vmName}-persist.qcow2
+      ${pkgs.qemu}/bin/qemu-img convert -f qcow2 -O qcow2 -o preallocation=metadata ${imagePersist}/image.qcow2 /srv/vm/${vmName}-persist.qcow2
       ${pkgs.libvirt}/bin/virsh pool-refresh default
       ${pkgs.libvirt}/bin/virsh vol-resize '${vmName}-persist.qcow2' ${
         toString persistDiskSize
