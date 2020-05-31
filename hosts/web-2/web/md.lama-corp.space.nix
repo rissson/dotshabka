@@ -5,7 +5,6 @@ in {
   networking.firewall.allowedTCPPorts = [ port ];
   services.codimd = {
     enable = false; # enabled by secrets
-    workDir = "/srv/codimd";
     configuration = {
       allowAnonymous = true;
       allowAnonymousEdits = true;
