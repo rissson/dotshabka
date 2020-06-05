@@ -12,9 +12,10 @@ with lib;
     ./networking.nix
     ./backups.nix
     ./monitoring
-    ./dns-dhcp.nix
     ./dyndns.nix
+
     ./dns
+    ./dhcp.nix
 
     ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
