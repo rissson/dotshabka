@@ -33,6 +33,7 @@ in {
     servers = dotshabka.data.externalNameservers;
     extraConfig = ''
       ### Global settings
+      port=0
 
       # Interface not to listen on
       no-dhcp-interface=${srv.nas.wg.interface}

@@ -14,6 +14,7 @@ with lib;
     ./monitoring
     ./dns-dhcp.nix
     ./dyndns.nix
+    ./dns
 
     ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
