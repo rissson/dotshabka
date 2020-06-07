@@ -35,6 +35,7 @@ with lib;
     teamviewer.enable = false;
     virtualbox.enable = mkForce false;
   };
+  hardware.pulseaudio.zeroconf.discovery.enable = true;
 
   users.users.root = {
     hashedPassword =

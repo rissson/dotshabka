@@ -16,6 +16,19 @@ with lib;
 
   shabka.workstation.sound.enable = true;
 
+  hardware.pulseaudio = {
+    systemWide = true;
+    tcp = {
+      enable = true;
+      anonymousClients = {
+        allowAll = true;
+        allowedIpRanges = [ "192.168.44.0/24" ];
+      };
+    };
+    zeroconf.publish.enable = true;
+  };
+  networking.firewall.allowedTCPPorts = [ 4713 ];
+
   services.spotifyd = {
     enable = true;
     config = ''
@@ -34,6 +47,8 @@ with lib;
     '';
   };
 
+  shabka.home-manager.config = { userName, uid, isAdmin, home, nixosConfig }:
+    { ... }: { };
   shabka.users = with import <dotshabka/data/users> { }; {
     enable = true;
     users = {
