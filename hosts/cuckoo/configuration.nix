@@ -14,8 +14,25 @@ with lib;
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  shabka.workstation.sound.enable = true;
+
+  services.spotifyd = {
+    enable = true;
+    config = ''
+      [global]
+      backend = alsa
+      volume_controller = softvol
+      device = front
+      control_device = 1
+      mixer = PCM
+      bitrate = 320
+
+      no_audio_cache = false
+
+      device_name = cuckoo
+      device_type = speaker
+    '';
+  };
 
   shabka.users = with import <dotshabka/data/users> { }; {
     enable = true;
