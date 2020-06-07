@@ -8,13 +8,13 @@ let
 
   data = with bar; {
     # bar
-    "cuckoo.mmd.bar" = mmd.cuckoo.internal;
     "loewe.mmd.bar" = mmd.loewe.internal;
     "bose.mmd.bar" = mmd.bose.internal;
     "chromecast.mmd.bar" = mmd.chromecast.internal;
     "hp.prt.bar" = prt.hp.internal;
     "floor0.wfi.bar" = wfi.floor0.internal;
     "floor-1.wfi.bar" = wfi.floor-1.internal;
+    "cuckoo.srv.bar" = srv.cuckoo.internal;
     # This is conflicting with the wg ip.
     # We will be able to remove it once we extract the primaries configuration
     #"nas.srv.bar" = srv.nas.internal;

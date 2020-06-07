@@ -8,7 +8,5 @@
 
   chromecast = import ./chromecast { };
 
-  cuckoo = import ./cuckoo { };
-
   loewe = import ./loewe { };
 }

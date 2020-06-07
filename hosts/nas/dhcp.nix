@@ -9,11 +9,6 @@ with space.lama-corp.bar;
     interfaces = [ srv.nas.internal.interface ];
     machines = [
       {
-        hostName = "cuckoo.mmd";
-        ipAddress = mmd.cuckoo.internal.v4.ip;
-        ethernetAddress = mmd.cuckoo.internal.mac;
-      }
-      {
         hostName = "loewe.mmd";
         ipAddress = mmd.loewe.internal.v4.ip;
         ethernetAddress = mmd.loewe.internal.mac;
@@ -46,6 +41,11 @@ with space.lama-corp.bar;
         ethernetAddress = wfi.floor-1.internal.mac;
       }
 
+      {
+        hostName = "cuckoo.srv";
+        ipAddress = srv.cuckoo.internal.v4.ip;
+        ethernetAddress = srv.cuckoo.internal.mac;
+      }
       {
         hostName = "nas.srv";
         ipAddress = srv.nas.internal.v4.ip;

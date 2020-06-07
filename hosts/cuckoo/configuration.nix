@@ -11,7 +11,8 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
-  ];
+  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
+    (singleton "${<dotshabka>}/secrets"));
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
