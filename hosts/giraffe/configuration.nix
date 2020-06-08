@@ -25,25 +25,7 @@ with lib;
 
   services.zfs.autoSnapshot.enable = mkForce false;
 
-  services.borgbackup.jobs."system" = {
-    preHook = concatStrings [
-      (optionalString config.services.influxdb.enable ''
-        ${pkgs.influxdb}/bin/influxd backup -portable /srv/influxdb/dump
-      '')
-    ];
-
-    postHook = concatStrings [
-      (optionalString config.services.influxdb.enable ''
-        rm -rf /srv/influxdb/dump
-      '')
-    ];
-
-    readWritePaths = [
-      "/srv/influxdb"
-    ];
-
-    startAt = "*-*-* *:33:53 UTC";
-  };
+  services.borgbackup.jobs."system".startAt = "*-*-* *:33:53 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
