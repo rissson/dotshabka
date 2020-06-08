@@ -7,33 +7,82 @@ let
   cfg = config.services.unbound;
 
   settingsSubmodule = let
-    validConfigTypes = with types; either int (either str (either bool float));
+    validSettingsPrimitiveTypes = with types; oneOf [ int str bool float ];
+    validSettingsTypes = with types; oneOf [ validSettingsPrimitiveTypes (listOf validSettingsPrimitiveTypes) ];
+    settingsType = with types; attrsOf validSettingsTypes
+      // { description = ''
+            unbound.conf configuration type. The format consist of an attribute
+            set of settings. Each settings can be either one value or a list of
+            values. The allowed values are integers, strings, booleans or
+            floats.
+           '';
+        };
   in {
     options = {
       server = mkOption {
-        type = with types; attrsOf (nullOr (either validConfigTypes (listOf validConfigTypes)));
+        type = settingsType;
         default = { };
-        description = "server: clause configuration";
+        description = ''
+          server: clause configuration.
+          See the <citerefentry><refentrytitle>unbound.conf</refentrytitle>
+          <manvolnum>5</manvolnum></citerefentry> manpage for a list of
+          available options.
+        '';
       };
       remote-control = mkOption {
-        type = with types; attrsOf (nullOr (either validConfigTypes (listOf validConfigTypes)));
+        type = settingsType;
         default = { };
-        description = "remote-control: clause configuration";
+        description = ''
+          remote-control: clause configuration.
+          See the <citerefentry><refentrytitle>unbound.conf</refentrytitle>
+          <manvolnum>5</manvolnum></citerefentry> manpage for a list of
+          available options.
+        '';
       };
       stub-zone = mkOption {
-        type = with types; listOf (attrsOf (nullOr (either validConfigTypes (listOf validConfigTypes))));
+        type = with types; listOf settingsType;
         default = [ ];
-        description = "stub-zone: clause configuration";
+        description = ''
+          stub-zone: clause configuration.
+          See the <citerefentry><refentrytitle>unbound.conf</refentrytitle>
+          <manvolnum>5</manvolnum></citerefentry> manpage for a list of
+          available options.
+        '';
       };
       forward-zone = mkOption {
-        type = with types; listOf (attrsOf (nullOr (either validConfigTypes (listOf validConfigTypes))));
+        type = with types; listOf settingsType;
         default = [ ];
-        description = "forward-zone: clauses configuration";
+        example = literalExample ''
+          [
+            {
+              name = ".";
+              forward-addr = "1.1.1.1@853#cloudflare-dns.com";
+            }
+            {
+              name = "example.org.";
+              forward-addr = [
+                "1.1.1.1@853#cloudflare-dns.com"
+                "1.0.0.1@853#cloudflare-dns.com"
+              ];
+            }
+          ];
+        '';
+        description = ''
+          forward-zone: clause configuration.
+          See the <citerefentry><refentrytitle>unbound.conf</refentrytitle>
+          <manvolnum>5</manvolnum></citerefentry> manpage for a list of
+          available options.
+        '';
       };
       python = mkOption {
-        type = with types; attrsOf (nullOr (either validConfigTypes (listOf validConfigTypes)));
+        type = settingsType;
         default = { };
-        description = "python: clause configuration";
+        description = ''
+          python: clause configuration.
+          See the <citerefentry><refentrytitle>unbound.conf</refentrytitle>
+          <manvolnum>5</manvolnum></citerefentry> manpage for a list of
+          available options.
+        '';
       };
     };
   };
@@ -43,12 +92,12 @@ let
   toOption = n: v: "${toString n}: ${v}";
 
   toConf = n: v:
-    if builtins.isFloat v then (toOption n (toString v))
+    if builtins.isFloat v then (toOption n (builtins.toJSON v))
     else if isInt v       then (toOption n (toString v))
     else if isBool v      then (toOption n (yesOrNo v))
     else if isString v    then (toOption n v)
     else if isList v      then (concatMapStringsSep "\n  " (toConf n) v)
-    else abort "unbound.toConf: unexpected type (n = ${n})";
+    else throw "services.unbound.settings: : unexpected type: ${traceSeq v}";
 
   clauseConf = clause: conf: if conf == { } then "" else
     (concatStringsSep "\n  " (
@@ -67,22 +116,6 @@ let
   ]));
 
   rootTrustAnchorFile = "${cfg.stateDir}/root.key";
-
-  unboundWrapped = pkgs.stdenv.mkDerivation {
-    name = "unbound-wrapped";
-
-    buildInputs = with pkgs; [ makeWrapper unbound ];
-
-    phases = [ "installPhase" ];
-
-    installPhase = ''
-      mkdir -p "$out/bin"
-      makeWrapper ${pkgs.unbound}/bin/unbound-control $out/bin/unbound-control \
-        --add-flags "-c ${cfg.stateDir}/unbound.conf"
-      makeWrapper ${pkgs.unbound}/bin/unbound-checkconf $out/bin/unbound-checkconf \
-        --add-flags "${cfg.stateDir}/unbound.conf"
-    '';
-  };
 
 in
 
@@ -133,8 +166,22 @@ in
         example = literalExample ''
           {
             server = {
-
+              interface = [ "127.0.0.1" ];
             };
+            forward-zone = [
+              {
+                name = ".";
+                forward-addr = "1.1.1.1@853#cloudflare-dns.com";
+              }
+              {
+                name = "example.org.";
+                forward-addr = [
+                  "1.1.1.1@853#cloudflare-dns.com"
+                  "1.0.0.1@853#cloudflare-dns.com"
+                ];
+              }
+            ];
+            remote-control.control-enable = true;
           };
         '';
         description = "Declarative Unbound configuration";
@@ -146,28 +193,27 @@ in
 
   config = mkIf cfg.enable {
 
-    environment.systemPackages = [ cfg.package (hiPrio unboundWrapped) ];
-
     services.unbound.settings = {
       server = {
-        directory = cfg.stateDir;
+        directory = mkDefault cfg.stateDir;
         username = cfg.user;
         chroot = cfg.stateDir;
         pidfile = ''""'';
         interface = mkDefault ([ "127.0.0.1" ] ++ (optional config.networking.enableIPv6 "::1"));
         access-control = mkDefault [ "127.0.0.0/24 allow" ];
-        auto-trust-anchor-file = if cfg.enableRootTrustAnchor then rootTrustAnchorFile else null;
+        auto-trust-anchor-file = mkDefault (if cfg.enableRootTrustAnchor then rootTrustAnchorFile else null);
       };
       remote-control = {
         control-enable = mkDefault false;
         control-interface = mkDefault ([ "127.0.0.1" ] ++ (optional config.networking.enableIPv6 "::1"));
-        control-port = mkDefault 8953;
         server-key-file = mkDefault "${cfg.stateDir}/unbound_server.key";
-        server-cert-file = mkDefault"${cfg.stateDir}/unbound_server.pem";
+        server-cert-file = mkDefault "${cfg.stateDir}/unbound_server.pem";
         control-key-file = mkDefault "${cfg.stateDir}/unbound_control.key";
         control-cert-file = mkDefault "${cfg.stateDir}/unbound_control.pem";
       };
     };
+
+    environment.systemPackages = [ cfg.package ];
 
     users.users = mkIf (cfg.user == "unbound") {
       unbound = {
@@ -202,7 +248,6 @@ in
       path = mkIf cfg.settings.remote-control.control-enable [ pkgs.openssl ];
 
       preStart = ''
-        cp ${confFile} ${cfg.stateDir}/unbound.conf
         ${optionalString cfg.enableRootTrustAnchor ''
           ${cfg.package}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
           chown unbound ${cfg.stateDir} ${rootTrustAnchorFile}
@@ -215,7 +260,7 @@ in
       '';
 
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/unbound -d -c ${cfg.stateDir}/unbound.conf";
+        ExecStart = "${cfg.package}/bin/unbound -d -c ${confFile}";
         ExecStopPost = "${pkgs.utillinux}/bin/umount ${cfg.stateDir}/dev/random";
 
         ProtectSystem = true;
