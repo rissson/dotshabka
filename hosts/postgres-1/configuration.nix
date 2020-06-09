@@ -8,7 +8,7 @@ with lib;
 
     <dotshabka/profiles/nixos/vm>
 
-    <dotshabka/roles/postgres>
+    <dotshabka/roles/nixos/postgres>
 
     ./hardware-configuration.nix
     ./networking.nix

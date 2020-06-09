@@ -8,7 +8,7 @@ with lib;
 
     <dotshabka/profiles/nixos/vm>
 
-    <dotshabka/roles/mail>
+    <dotshabka/roles/nixos/mail>
 
     ./hardware-configuration.nix
     ./networking.nix

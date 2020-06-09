@@ -8,6 +8,7 @@ let
 in {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/primary>
     <dotshabka/profiles/nixos/luks>
 

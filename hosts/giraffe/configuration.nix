@@ -5,6 +5,7 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/profiles/nixos/primary>
     <dotshabka/profiles/nixos/vm>
     <dotshabka/profiles/nixos/luks>

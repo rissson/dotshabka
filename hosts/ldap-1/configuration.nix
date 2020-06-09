@@ -8,7 +8,7 @@ with lib;
 
     <dotshabka/profiles/nixos/vm>
 
-    <dotshabka/roles/ldap>
+    <dotshabka/roles/nixos/ldap>
 
     ./hardware-configuration.nix
     ./networking.nix

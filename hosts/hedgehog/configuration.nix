@@ -11,6 +11,7 @@ let
 in {
   imports = [
     <shabka/modules/nixos>
+
     <dotshabka/modules/nixos/workstation>
     <dotshabka/profiles/nixos/workstation>
 

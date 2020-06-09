@@ -8,7 +8,7 @@ with lib;
 
     <dotshabka/profiles/nixos/vm>
 
-    <dotshabka/roles/minio>
+    <dotshabka/roles/nixos/minio>
 
     ./hardware-configuration.nix
     ./networking.nix
