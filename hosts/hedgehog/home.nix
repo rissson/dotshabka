@@ -17,12 +17,6 @@
 
       shabka.nixosConfig = nixosConfig;
 
-      /*home.file.".gnupg/scdaemon.conf".text = ''
-        reader-port Yubico YubiKey
-        disable-ccid
-        card-timeout 5
-      '';*/
-
       shabka.keyboard.layouts = [ "bepo" "qwerty_intl" ];
       home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];
 
