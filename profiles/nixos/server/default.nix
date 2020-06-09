@@ -2,10 +2,10 @@
 
 {
   imports = [
-    <dotshabka/roles/common>
-    <dotshabka/roles/netdata>
-    <dotshabka/roles/ssh>
-    <dotshabka/roles/zfs>
+    <dotshabka/roles/nixos/common>
+    <dotshabka/roles/nixos/netdata>
+    <dotshabka/roles/nixos/ssh>
+    <dotshabka/roles/nixos/zfs>
     ./root.nix
   ];
 }

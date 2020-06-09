@@ -2,7 +2,7 @@
 
 {
   imports = [
-    <dotshabka/profiles/server>
+    <dotshabka/profiles/nixos/server>
     ./users.nix
   ];
 }

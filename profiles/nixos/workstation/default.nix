@@ -2,8 +2,8 @@
 
 {
   imports = [
-    <dotshabka/roles/common>
-    <dotshabka/roles/luks>
-    <dotshabka/roles/zfs>
+    <dotshabka/roles/nixos/common>
+    <dotshabka/roles/nixos/luks>
+    <dotshabka/roles/nixos/zfs>
   ];
 }
