@@ -7,5 +7,6 @@
     <dotshabka/roles/nixos/ssh>
     <dotshabka/roles/nixos/zfs>
     ./root.nix
+    ./power.nix
   ];
 }

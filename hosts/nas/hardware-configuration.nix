@@ -8,8 +8,6 @@ with lib;
   boot.kernelModules = [ "kvm-intel" ];
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     devices = [ "/dev/sda" "/dev/sdb" "/dev/sdc" ];
   };
 
@@ -112,8 +110,4 @@ with lib;
   ];
 
   nix.maxJobs = 3;
-
-  powerManagement = mkIf config.shabka.workstation.power.enable {
-    cpuFreqGovernor = "ondemand";
-  };
 }

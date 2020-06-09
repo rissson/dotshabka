@@ -13,8 +13,6 @@ in {
   boot.kernelModules = [ "kvm-intel" ];
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     copyKernels = true;
     efiSupport = false;
     devices = [ "/dev/sda" "/dev/sdb" ];
