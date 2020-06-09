@@ -20,12 +20,5 @@ with lib;
       httpcheck: no
       logind: yes
     '';
-
-    "netdata/health_alarm_notify.conf".text = ''
-      sendmail="${pkgs.system-sendmail}/bin/sendmail"
-      curl="${pkgs.curl}/bin/curl"
-      SEND_EMAIL="YES"
-      DEFAULT_RECIPIENT_EMAIL="root@lama-corp.ovh"
-    '';
   };
 }
