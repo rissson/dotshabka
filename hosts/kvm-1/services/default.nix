@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -7,4 +7,11 @@
     ./libvirt
     ./TheFractalBot.nix
   ];
+
+  services.bitlbee = {
+    enable = true;
+    plugins = with pkgs; [
+      bitlbee-facebook
+    ];
+  };
 }
