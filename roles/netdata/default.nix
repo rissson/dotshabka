@@ -8,7 +8,7 @@ let
 in {
   nixpkgs.overlays = [ (self: super: { netdata = nixpkgs.netdata; }) ];
 
-  imports = [ ../sendmail ];
+  imports = [ <dotshabka/roles/sendmail> ];
 
   services.netdata = {
     enable = true;

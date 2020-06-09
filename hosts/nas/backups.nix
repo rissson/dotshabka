@@ -1,6 +1,10 @@
-{ ... }:
+{ lib, ... }:
+
+with lib;
 
 {
+  services.borgbackups.jobs = mkForce { };
+
   services.borgbackup.repos = {
     "kvm-1" = {
       allowSubRepos = true;
