@@ -10,7 +10,8 @@ in {
     <shabka/modules/nixos>
 
     <dotshabka/profiles/nixos/primary>
-    <dotshabka/profiles/nixos/luks>
+
+    <dotshabka/roles/nixos/luks>
 
     ./hardware-configuration.nix
     ./networking

@@ -6,6 +6,7 @@ with import <dotshabka/data/space.lama-corp/bar/srv/cuckoo> { };
   networking = {
     hostName = "cuckoo"; # Define your hostname.
     domain = "srv.bar.lama-corp.space";
+    hostId = "448ab20b";
 
     bridges = {
       "${internal.interface}" = {

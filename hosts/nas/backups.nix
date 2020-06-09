@@ -3,7 +3,7 @@
 with lib;
 
 {
-  services.borgbackups.jobs = mkForce { };
+  services.borgbackup.jobs = mkForce { };
 
   services.borgbackup.repos = {
     "kvm-1" = {

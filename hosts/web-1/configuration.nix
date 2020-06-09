@@ -10,7 +10,6 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
-    ./backups.nix
 
     ./web
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
