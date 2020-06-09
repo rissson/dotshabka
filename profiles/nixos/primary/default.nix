@@ -1,8 +1,5 @@
 { ... }:
 
 {
-  imports = [
-    <dotshabka/profiles/nixos/server>
-    ./users.nix
-  ];
+  imports = [ <dotshabka/profiles/nixos/server> ./users.nix ];
 }
