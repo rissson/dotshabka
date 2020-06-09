@@ -7,7 +7,7 @@
     extraConfig = {
       opentsdb = [{
         enabled = true;
-        bind-address = ":${toString port}";
+        bind-address = ":20042";
         database = "opentsdb_netdata";
       }];
     };
