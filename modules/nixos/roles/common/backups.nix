@@ -6,7 +6,14 @@ let
   cfg = config.lama-corp.common.backups;
 in {
   options = {
-    lama-corp.common.backups.enable = mkEnableOption "Enable backups to nas.srv.bar.lama-corp.space";
+    lama-corp.common.backups = {
+      enable = mkEnableOption "Enable backups to nas.srv.bar.lama-corp.space";
+
+      startAt = mkOption {
+        type = with types; either str (listOf str);
+        default = "daily";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -29,6 +36,8 @@ in {
               monthly = 12;
             };
           };
+
+          inherit (cfg) startAt;
 
           extraCreateArgs = "--stats --progress --checkpoint-interval 600";
           extraPruneArgs = "--stats --save-space --list --progress";

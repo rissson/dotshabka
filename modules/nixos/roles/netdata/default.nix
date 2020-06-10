@@ -3,31 +3,45 @@
 with lib;
 
 let
+  cfg = config.lama-corp.netdata;
+
   shabka = import <shabka> { };
   nixpkgs = import shabka.external.nixpkgs.release-unstable.path { };
 in {
-  nixpkgs.overlays = [ (self: super: { netdata = nixpkgs.netdata; }) ];
+  options = {
+    lama-corp.netdata.enable = mkEnableOption "Enable netdata";
+  };
 
-  imports = [ <dotshabka/roles/nixos/sendmail> ];
+  config = mkIf cfg.enable (mkMerge [
+    {
 
-  services.netdata = {
-    enable = true;
-    config = {
-      backend = {
-        enabled = "yes";
-        type = "opentsdb";
-        destination = "giraffe.srv.nbg.lama-corp.space:20042";
+      nixpkgs.overlays = [ (self: super: { netdata = nixpkgs.netdata; }) ];
+
+      services.netdata = {
+        enable = true;
+        config = {
+          backend = {
+            enabled = "yes";
+            type = "opentsdb";
+            destination = "giraffe.srv.nbg.lama-corp.space:20042";
+          };
+        };
       };
-    };
-  };
 
-  environment.etc = mkIf config.services.netdata.enable {
-    "netdata/health_alarm_notify.conf".text = ''
-      sendmail="${pkgs.system-sendmail}/bin/sendmail"
-      curl="${pkgs.curl}/bin/curl"
-      SEND_EMAIL="YES"
-      DEFAULT_RECIPIENT_EMAIL="root@lama-corp.ovh"
-      role_recipients_email[sysadmin]=root@lama-corp.ovh
-    '';
-  };
+      lama-corp.sendmail.enable = config.services.netdata.enable;
+
+      environment.etc = mkIf config.services.netdata.enable {
+        "netdata/health_alarm_notify.conf".text = ''
+          sendmail="${pkgs.system-sendmail}/bin/sendmail"
+          curl="${pkgs.curl}/bin/curl"
+          SEND_EMAIL="YES"
+          DEFAULT_RECIPIENT_EMAIL="${config.lama-corp.sendmail.recipientAddress}"
+          role_recipients_email[sysadmin]=${config.lama-corp.sendmail.recipientAddress}
+        '';
+      };
+    }
+    (optionalAttrs config.lama-corp.profiles.primary {
+
+    })
+  ]);
 }
