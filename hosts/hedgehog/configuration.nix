@@ -2,7 +2,13 @@
 
 with lib;
 
-{
+let
+  nixpkgs-flakes = import (builtins.fetchTarball {
+    name = "nixpkgs-unstable-flakes";
+    url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
+    sha256 = "16bp423mf6dlwsf4y3phf2p10lms0c7mygsdr31g0z2xp5a5n9i6";
+  }) {};
+in {
   imports = [
     <shabka/modules/nixos>
     <dotshabka/modules/nixos>
@@ -19,7 +25,7 @@ with lib;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-  nix.package = pkgs.nixFlakes;
+  nix.package = nixpkgs-flakes.nixFlakes;
 
   shabka.keyboard = {
     layouts = [ "bepo" "qwerty_intl" ];
