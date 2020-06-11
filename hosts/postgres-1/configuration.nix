@@ -21,7 +21,6 @@ with lib;
       };
     };
 
-    postgresql.enable = true;
     postgresql = {
       enable = true;
       ensureDatabasesAndUsers = [ "catcdc" "codimd" "pastebin" "scoreboard_seedbox_cri" ];
