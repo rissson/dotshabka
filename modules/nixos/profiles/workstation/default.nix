@@ -17,48 +17,45 @@ in {
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [
-    {
-      lama-corp.common.enable = true;
+  config = mkIf cfg.enable {
+    lama-corp.common.enable = true;
 
-      shabka.printing.enable = true;
+    shabka.printing.enable = true;
 
-      shabka.workstation = {
-        autorandr.enable = true;
-        bluetooth.enable = true;
-        fonts.enable = true;
-        gtk.enable = true;
-        power.enable = true;
-        sound.enable = true;
-        virtualbox.enable = lib.mkForce false;
-        xorg.enable = true;
-      };
+    shabka.workstation = {
+      autorandr.enable = true;
+      bluetooth.enable = true;
+      fonts.enable = true;
+      gtk.enable = true;
+      power.enable = true;
+      sound.enable = true;
+      virtualbox.enable = lib.mkForce false;
+      xorg.enable = true;
+    };
 
-      services.xserver.videoDrivers = [ "radeon" "cirrus" "vesa" "vmware" "modesetting" "intel" ];
+    services.xserver = {
+      videoDrivers = [ "radeon" "cirrus" "vesa" "vmware" "modesetting" "intel" ];
 
-      services.xserver.displayManager.lightdm.autoLogin = mkForce {
+      displayManager.lightdm.autoLogin = mkForce {
         enable = true;
         user = cfg.primaryUser;
       };
-    }
 
-    (optionalAttrs cfg.isLaptop {
-      services.logind = {
-        lidSwitch = "hybrid-sleep";
-        lidSwitchDocked = "ignore";
-        lidSwitchExternalPower = "hybrid-sleep";
-        extraConfig = ''
+      xkbOptions = mkForce (concatStringsSep "," (
+        (optionals (cfg.primaryUser == "risson") [ "grp:alt_caps_toggle" "caps:swapescape" ])
+        (optionals (cfg.primaryUser == "diego") [ "grp:alt_caps_toggle" ])
+      ));
+
+      libinput.naturalScrolling = mkForce false;
+    };
+
+    services.logind = mkIf cfg.isLaptop {
+      lidSwitch = "hybrid-sleep";
+      lidSwitchDocked = "ignore";
+      lidSwitchExternalPower = "hybrid-sleep";
+      extraConfig = ''
           HandlePowerKey=suspend
-        '';
-      };
-    })
-
-    (optionalAttrs (cfg.primaryUser == "risson") {
-      services.xserver.xkbOptions = mkForce (concatStringsSep "," [
-        "grp:alt_caps_toggle" "caps:swapescape"
-      ]);
-
-      services.xserver.libinput.naturalScrolling = mkForce false;
-    })
-  ]);
+      '';
+    };
+  };
 }

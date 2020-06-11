@@ -20,8 +20,5 @@ in {
   };
 
   config = mkIf cfg.enable {
-    imports = [
-      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-    ];
   };
 }

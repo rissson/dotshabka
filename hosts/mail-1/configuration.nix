@@ -9,6 +9,8 @@ with lib;
 
     ./hardware-configuration.nix
     ./networking.nix
+
+    ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
@@ -20,8 +22,6 @@ with lib;
         type = "kvm-1";
       };
     };
-
-    mail.enable = true;
 
     common.backups.startAt = "*-*-* *:04:27 UTC";
   };

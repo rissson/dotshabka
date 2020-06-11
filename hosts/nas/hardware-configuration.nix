@@ -3,6 +3,10 @@
 with lib;
 
 {
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  ];
+
   boot.initrd.availableKernelModules =
     [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.kernelModules = [ "kvm-intel" ];

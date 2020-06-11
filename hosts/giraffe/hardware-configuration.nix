@@ -8,6 +8,10 @@ in {
       toString bootHostSshKeyPath
     } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");*/
 
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  ];
+
   boot.initrd.postDeviceCommands = mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';

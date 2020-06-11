@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  ];
+
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     zfs rollback -r lpool/root@blank
   '';
