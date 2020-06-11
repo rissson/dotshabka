@@ -26,7 +26,7 @@ in {
       enable = true;
       primaryUser = "risson";
     };
-  }
+  };
 
   nix.extraOptions = ''
     experimental-features = nix-command flakes
