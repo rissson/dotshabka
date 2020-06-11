@@ -3,10 +3,10 @@
 with lib;
 
 let
-  cfg = config.lama-corp.profile.workstation;
+  cfg = config.lama-corp.profiles.workstation;
 in {
   options = {
-    lama-corp.profile.workstation = {
+    lama-corp.profiles.workstation = {
       enable = mkEnableOption "Enable profile for workstation hosts";
       primaryUser = mkOption {
         type = types.str;

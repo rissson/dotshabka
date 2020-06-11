@@ -15,8 +15,8 @@ in {
     };
   };
 
-  config = mkMerger [
-    (optionsAttrs cfg.enable {
+  config = mkMerge [
+    (optionalAttrs cfg.enable {
       lama-corp.common.enable = true;
       lama-corp.netdata.enable = true;
       lama-corp.ssh.enable = true;
