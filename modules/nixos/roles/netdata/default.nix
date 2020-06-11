@@ -40,7 +40,7 @@ in {
         '';
       };
     }
-    (optionalAttrs config.lama-corp.profiles.primary {
+    (optionalAttrs config.lama-corp.profiles.primary.enable {
 
     })
   ]);
