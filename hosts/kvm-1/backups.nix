@@ -15,8 +15,6 @@ with lib;
           "/srv/vm/*" # VMs backup themselves
           "/var/lib/docker/*" # Don't care
         ];
-
-        startAt = "*-*-* *:44:30 UTC";
       };
 
       "nas-homes" = {

@@ -11,9 +11,7 @@ let
 in {
   imports = [
     <shabka/modules/nixos>
-
-    <dotshabka/modules/nixos/workstation>
-    <dotshabka/profiles/nixos/workstation>
+    <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
     ./networking
@@ -22,6 +20,13 @@ in {
     ./home.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles.workstation = {
+      enable = true;
+      primaryUser = "risson";
+    };
+  }
 
   nix.extraOptions = ''
     experimental-features = nix-command flakes

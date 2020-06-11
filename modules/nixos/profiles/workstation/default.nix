@@ -19,6 +19,8 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
+      lama-corp.common.enable = true;
+
       shabka.printing.enable = true;
 
       shabka.workstation = {

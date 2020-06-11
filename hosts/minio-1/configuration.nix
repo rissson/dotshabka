@@ -5,21 +5,26 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-
-    <dotshabka/profiles/nixos/vm>
-
-    <dotshabka/roles/nixos/minio>
+    <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
-  ###
-  # Backups
-  ###
+  lama-corp = {
+    profiles = {
+      server.enable = true;
+      vm = {
+        enable = true;
+        type = "kvm-1";
+      };
+    };
 
-  services.borgbackup.jobs."system".startAt = "*-*-* *:12:13 UTC";
+    minio.enable = true;
+
+    common.backups.startAt = "*-*-* *:12:13 UTC";
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

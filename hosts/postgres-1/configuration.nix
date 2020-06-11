@@ -5,45 +5,30 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-
-    <dotshabka/profiles/nixos/vm>
-
-    <dotshabka/roles/nixos/postgres>
+    <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
-  services.postgresql = {
-    ensureDatabases = [ "catcdc" "codimd" "pastebin" "scoreboard_seedbox_cri" ];
-    ensureUsers = [
-      {
-        name = "catcdc";
-        ensurePermissions = { "DATABASE catcdc" = "ALL PRIVILEGES"; };
-      }
-      {
-        name = "codimd";
-        ensurePermissions = { "DATABASE codimd" = "ALL PRIVILEGES"; };
-      }
-      {
-        name = "pastebin";
-        ensurePermissions = { "DATABASE pastebin" = "ALL PRIVILEGES"; };
-      }
-      {
-        name = "scoreboard_seedbox_cri";
-        ensurePermissions = {
-          "DATABASE scoreboard_seedbox_cri" = "ALL PRIVILEGES";
-        };
-      }
-    ];
+  lama-corp = {
+    profiles = {
+      server.enable = true;
+      vm = {
+        enable = true;
+        type = "kvm-1";
+      };
+    };
+
+    postgresql.enable = true;
+    postgresql = {
+      enable = true;
+      ensureDatabasesAndUsers = [ "catcdc" "codimd" "pastebin" "scoreboard_seedbox_cri" ];
+    };
+
+    common.backups.startAt = "*-*-* *:00:06 UTC";
   };
-
-  ###
-  # Backups
-  ###
-
-  services.borgbackup.jobs."system".startAt = "*-*-* *:00:06 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

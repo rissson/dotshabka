@@ -29,8 +29,6 @@ with lib;
   '';
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     device = "nodev";
     efiSupport = true;
     extraInitrd = /boot/initramfs.keys.gz;

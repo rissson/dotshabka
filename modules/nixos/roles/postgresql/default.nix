@@ -12,6 +12,10 @@ in {
         type = types.str;
         default = "/srv/postgresql";
       };
+      ensureDatabasesAndUsers = mkOption {
+        type = with types; listOf str;
+        default = [];
+      };
       # TODO: allowedNetworks
     };
   };
@@ -31,6 +35,8 @@ in {
         host  all all 172.28.0.0/16         md5
         host  all all fd00:7fd7:e9a5::/48   md5
       '';
+      ensureDatabases = cfg.ensureDatabasesAndUsers;
+      ensureUsers = map (v: { name = v; ensurePermissions = { "DATABASE ${v}" = "ALL PRIVILEGES"; }; }) cfg.ensureDatabasesAndUsers;
     };
 
     services.postgresqlBackup = mkIf config.lama-corp.common.backups.enable {

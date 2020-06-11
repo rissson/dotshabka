@@ -5,15 +5,26 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-
-    <dotshabka/profiles/nixos/vm>
-
-    <dotshabka/roles/nixos/mail>
+    <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles = {
+      server.enable = true;
+      vm = {
+        enable = true;
+        type = "kvm-1";
+      };
+    };
+
+    mail.enable = true;
+
+    common.backups.startAt = "*-*-* *:04:27 UTC";
+  };
 
   security.dhparams = mkIf config.services.postfix.enable {
     enable = true;
@@ -42,8 +53,6 @@ with lib;
       "/var/lib/postfix"
       "/var/lib/dovecot"
     ];
-
-    startAt = "*-*-* *:04:27 UTC";
   };
 
   # This value determines the NixOS release with which your system is to be

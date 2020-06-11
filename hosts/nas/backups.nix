@@ -3,8 +3,6 @@
 with lib;
 
 {
-  services.borgbackup.jobs = mkForce { };
-
   services.borgbackup.repos = {
     "kvm-1" = {
       allowSubRepos = true;

@@ -21,7 +21,13 @@ with lib;
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
-  shabka.users.enable = true;
+  lama-corp = {
+    profiles = {
+      primary.enable = true;
+    };
+
+    common.backups.enable = mkForce false;
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

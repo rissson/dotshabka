@@ -5,11 +5,7 @@ with lib;
 {
   imports = [
     <shabka/modules/nixos>
-
-    <dotshabka/profiles/nixos/primary>
-    <dotshabka/profiles/nixos/vm>
-
-    <dotshabka/roles/nixos/luks>
+    <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
     ./networking
@@ -18,16 +14,23 @@ with lib;
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
+  lama-corp = {
+    profiles = {
+      primary.enable = true;
+      vm = {
+        enable = true;
+        vmType = "hetzner";
+      };
+    };
+
+    common.backups.startAt = "*-*-* *:33:53 UTC";
+    luks.enable = true;
+  };
+
   # No users needed as we have a console access to this host
   shabka.users.enable = mkForce false;
 
-  ###
-  # Backups
-  ###
-
   services.zfs.autoSnapshot.enable = mkForce false;
-
-  services.borgbackup.jobs."system".startAt = "*-*-* *:33:53 UTC";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
