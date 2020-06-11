@@ -4,7 +4,6 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
     <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix
@@ -19,7 +18,7 @@ with lib;
 
   lama-corp = {
     profiles = {
-      primary = true;
+      primary.enable = true;
     };
 
     luks.enable = true;

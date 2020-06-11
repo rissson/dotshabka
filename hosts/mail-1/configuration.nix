@@ -4,7 +4,6 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
     <dotshabka/modules/nixos>
 
     ./hardware-configuration.nix

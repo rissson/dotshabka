@@ -9,6 +9,10 @@ in {
     lama-corp.common.enable = mkEnableOption "Enable all options under lama-corp.common";
   };
 
+  imports = [
+    <shabka/modules/nixos>
+  ];
+
   config = mkIf cfg.enable {
     lama-corp.common = {
       backups.enable = true;

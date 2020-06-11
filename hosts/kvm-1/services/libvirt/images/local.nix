@@ -29,11 +29,12 @@ let
 
         lama-corp = {
           common = {
-            ssh.enable = true;
-            users.enable = true;
-            kernel.enable = true;
             boot.enable = true;
+            kernel.enable = true;
+            users.enable = true;
           };
+
+          ssh.enable = true;
           zfs.enable = true;
         };
 

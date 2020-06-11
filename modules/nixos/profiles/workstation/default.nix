@@ -41,10 +41,10 @@ in {
         user = cfg.primaryUser;
       };
 
-      xkbOptions = mkForce (concatStringsSep "," (
+      xkbOptions = mkForce (concatStringsSep "," (flatten [
         (optionals (cfg.primaryUser == "risson") [ "grp:alt_caps_toggle" "caps:swapescape" ])
         (optionals (cfg.primaryUser == "diego") [ "grp:alt_caps_toggle" ])
-      ));
+      ]));
 
       libinput.naturalScrolling = mkForce false;
     };
