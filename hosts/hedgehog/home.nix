@@ -12,6 +12,8 @@
         ./mail.nix
       ];
 
+      lama-corp.graphical = true;
+
       shabka.nixosConfig = nixosConfig;
 
       shabka.keyboard.layouts = [ "bepo" "qwerty_intl" ];
