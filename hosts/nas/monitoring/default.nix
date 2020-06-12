@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./netdata ./logrotate.nix ./smartd.nix ];
+  imports = [ ./logrotate.nix ./smartd.nix ];
 }

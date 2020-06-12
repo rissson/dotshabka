@@ -24,6 +24,7 @@ with lib;
 
     common.backups.startAt = "*-*-* *:33:53 UTC";
     luks.enable = true;
+    unbound.enable = mkForce false;
   };
 
   # No users needed as we have a console access to this host
