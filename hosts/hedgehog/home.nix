@@ -7,10 +7,7 @@
     {
       imports = [
         <shabka/modules/home>
-        <dotshabka/modules/home>
-        <dotshabka/modules/home/workstation>
-        <dotshabka/modules/home/risson>
-        <dotshabka/modules/home/risson/workstation>
+        <dotshabka/modules/risson>
 
         ./mail.nix
       ];

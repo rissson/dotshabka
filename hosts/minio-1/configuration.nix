@@ -7,7 +7,6 @@ with lib;
     <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     <dotshabka/modules/nixos>
 
-    ./hardware-configuration.nix
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));

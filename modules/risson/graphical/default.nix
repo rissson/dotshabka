@@ -5,7 +5,7 @@ with lib;
 with import <shabka/util>;
 
 {
-  config = mkIf config.shabka.workstation.enable {
+  config = mkIf config.lama-corp.graphical {
     home.packages = with pkgs; [
       thunderbird
     ];

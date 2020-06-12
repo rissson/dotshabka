@@ -1,3 +1,5 @@
+{ ... }:
+
 with import <shabka/util>;
 
 {

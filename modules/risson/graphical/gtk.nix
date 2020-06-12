@@ -3,7 +3,7 @@
 with lib;
 
 {
-  config = mkIf config.shabka.workstation.gtk.enable {
+  config = mkIf config.lama-corp.graphical {
     gtk = mkForce {
       enable = true;
       font = {
