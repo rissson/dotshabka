@@ -12,6 +12,8 @@ in {
   config = mkIf cfg.enable {
     lama-corp.profiles.server.enable = true;
 
+    lama-corp.unbound.enable = true;
+
     shabka.users = with import <dotshabka/data/users> { }; {
       enable = true;
       users = {

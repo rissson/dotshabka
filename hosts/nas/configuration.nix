@@ -12,7 +12,7 @@ with lib;
     ./monitoring
     ./dyndns.nix
 
-    ./dns
+    ./dns.nix
     ./dhcp.nix
 
     ./home
