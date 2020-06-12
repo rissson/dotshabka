@@ -18,7 +18,7 @@ with lib;
       server.enable = true;
       vm = {
         enable = true;
-        type = "kvm-1";
+        vmType = "kvm-1";
       };
     };
 
