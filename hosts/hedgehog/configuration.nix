@@ -21,10 +21,13 @@ in {
     (singleton "${<dotshabka>}/secrets"));
 
   lama-corp = {
+    common.keyboard.enable = mkForce false;
     profiles.workstation = {
       enable = true;
+      isLaptop = true;
       primaryUser = "risson";
     };
+    luks.enable = true;
   };
 
   nix.extraOptions = ''

@@ -14,6 +14,8 @@ in {
   ];
 
   config = mkIf cfg.enable {
+    environment.homeBinInPath = true;
+
     lama-corp.common = {
       backups.enable = true;
       boot.enable = true;
