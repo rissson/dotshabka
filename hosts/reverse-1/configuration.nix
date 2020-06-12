@@ -4,9 +4,9 @@ with lib;
 
 {
   imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     <dotshabka/modules/nixos>
 
-    ./hardware-configuration.nix
     ./networking.nix
     ./monitoring
 
@@ -25,6 +25,8 @@ with lib;
 
     common.backups.startAt = "*-*-* *:55:58 UTC";
   };
+
+  nix.maxJobs = 2;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
