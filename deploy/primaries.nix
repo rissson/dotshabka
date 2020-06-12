@@ -23,9 +23,9 @@ in with import <dotshabka/data/space.lama-corp> {}; {
   "giraffe.srv.nbg.lama-corp.space" = with nbg.srv.giraffe; { config, ... }: {
     deployment = defaultDeployment { inherit config wg; } // {
       secrets = {
-        "borg/nas-system.ssh.key" = {
-          source = "../secrets/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
-          destination = "/srv/secrets/borg/nas-system.ssh.key";
+        "borg/system.ssh.key" = {
+          source = "../secrets/hosts/${config.networking.hostName}/borg/system.ssh.key";
+          destination = "/srv/secrets/borg/system.ssh.key";
           owner.user = "root";
           owner.group = "root";
           permissions = "0400";

@@ -1,9 +1,9 @@
 let
   defaultDeployment = { config }: {
     secrets = {
-      "borg/nas-system.ssh.key" = {
-        source = "../secrets/hosts/${config.networking.hostName}/borg/nas-system.ssh.key";
-        destination = "/srv/secrets/borg/nas-system.ssh.key";
+      "borg/system.ssh.key" = {
+        source = "../secrets/hosts/${config.networking.hostName}/borg/system.ssh.key";
+        destination = "/srv/secrets/borg/system.ssh.key";
         owner.user = "root";
         owner.group = "root";
         permissions = "0400";

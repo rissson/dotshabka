@@ -24,9 +24,19 @@ let
     modules = [
       {
         imports = [
-          <dotshabka/modules/nixos/server/ssh.nix>
-          <dotshabka/modules/nixos/server/users.nix>
+          <dotshabka/modules/nixos>
         ];
+
+        lama-corp = {
+          common = {
+            boot.enable = true;
+            kernel.enable = true;
+            users.enable = true;
+          };
+
+          ssh.enable = true;
+          zfs.enable = true;
+        };
 
         boot.initrd.availableKernelModules = [
           "xhci_pci"
@@ -39,20 +49,9 @@ let
           "virtio_blk"
           "virtio_pci"
           "virtio_ring"
-          "aes_x86_64"
-          "aesni_intel"
-          "cryptd"
         ];
-        boot.supportedFilesystems = [ "zfs" ];
-        boot.kernelPackages = pkgs.linuxPackages_latest;
-        boot.kernelParams = [ "elevator=none" ];
 
-        boot.loader.grub = {
-          enable = true;
-          version = 2;
-          device = "/dev/vda";
-          zfsSupport = true;
-        };
+        boot.loader.grub.device = "/dev/vda";
 
         fileSystems = {
           "/" = {

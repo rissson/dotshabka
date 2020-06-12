@@ -7,15 +7,11 @@
     {
       imports = [
         <shabka/modules/home>
-        <dotshabka/modules/home>
-        <dotshabka/modules/home/server>
       ] ++ (optionals (userName == "risson") [
-        <dotshabka/modules/home/risson>
-        <dotshabka/modules/home/risson/server>
+        <dotshabka/modules/risson>
         ./risson.nix
       ]) ++ (optionals (userName == "diego") [
-        <dotshabka/modules/home/diego>
-        <dotshabka/modules/home/diego/server>
+        <dotshabka/modules/diego>
         ./diego.nix
       ]);
 

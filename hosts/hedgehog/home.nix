@@ -7,21 +7,14 @@
     {
       imports = [
         <shabka/modules/home>
-        <dotshabka/modules/home>
-        <dotshabka/modules/home/workstation>
-        <dotshabka/modules/home/risson>
-        <dotshabka/modules/home/risson/workstation>
+        <dotshabka/modules/risson>
 
         ./mail.nix
       ];
 
-      shabka.nixosConfig = nixosConfig;
+      lama-corp.graphical = true;
 
-      /*home.file.".gnupg/scdaemon.conf".text = ''
-        reader-port Yubico YubiKey
-        disable-ccid
-        card-timeout 5
-      '';*/
+      shabka.nixosConfig = nixosConfig;
 
       shabka.keyboard.layouts = [ "bepo" "qwerty_intl" ];
       home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];

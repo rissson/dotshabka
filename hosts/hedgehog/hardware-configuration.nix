@@ -13,25 +13,24 @@ with lib;
     "${shabka.external.nixos-hardware.path}/lenovo/thinkpad/t495"
   ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" "aes_x86_64" "aesni_amd" "cryptd" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "ehci_pci"
+    "xhci_pci"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
+
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "elevator=none" ];
 
   boot.initrd.postDeviceCommands = mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     device = "nodev";
     efiSupport = true;
-    enableCryptodisk = true;
-    zfsSupport = true;
     extraInitrd = /boot/initramfs.keys.gz;
   };
   boot.loader.efi = {

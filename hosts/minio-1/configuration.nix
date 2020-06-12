@@ -4,17 +4,28 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
 
-    ./hardware-configuration.nix
     ./networking.nix
-    ./backups.nix
-
-    ./minio
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles = {
+      server.enable = true;
+      vm = {
+        enable = true;
+        vmType = "kvm-1";
+      };
+    };
+
+    minio.enable = true;
+
+    common.backups.startAt = "*-*-* *:12:13 UTC";
+  };
+
+  nix.maxJobs = 1;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

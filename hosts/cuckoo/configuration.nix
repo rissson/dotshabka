@@ -4,15 +4,14 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
-
     <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
 
     ./hardware-configuration.nix
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp.profiles.server.enable = true;
 
   shabka.workstation.sound.enable = true;
 

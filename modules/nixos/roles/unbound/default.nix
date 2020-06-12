@@ -1,0 +1,118 @@
+{ config, pkgs, lib, ... }:
+
+with lib;
+
+let
+  cfg = config.lama-corp.unbound;
+
+  zonesData = with import <dotshabka/data/space.lama-corp> { }; {
+    "bar.lama-corp.space" = bar.srv.nas.wg.v4.ip;
+    "2.28.172.in-addr.arpa" = bar.srv.nas.wg.v4.ip;
+    "44.168.192.in-addr.arpa" = bar.srv.nas.wg.v4.ip;
+    "drn.lama-corp.space" = drn.lap.trunck.wg.v4.ip;
+    "102.28.172.in-addr.arpa" = drn.lap.trunck.wg.v4.ip;
+    "fsn.lama-corp.space" = fsn.srv.kvm-1.wg.v4.ip;
+    "1.28.172.in-addr.arpa" = fsn.srv.kvm-1.wg.v4.ip;
+    "nbg.lama-corp.space" = nbg.srv.giraffe.wg.v4.ip;
+    "3.28.172.in-addr.arpa" = nbg.srv.giraffe.wg.v4.ip;
+    "rsn.lama-corp.space" = rsn.lap.hedgehog.wg.v4.ip;
+    "101.28.172.in-addr.arpa" = rsn.lap.hedgehog.wg.v4.ip;
+  };
+
+  primariesData = with import <dotshabka/data/space.lama-corp> { }; {
+    "nas.srv.bar" = bar.srv.nas.wg.v4.ip;
+    "trunck.lap.drn" = drn.lap.trunck.wg.v4.ip;
+    "kvm-1.srv.fsn" = fsn.srv.kvm-1.wg.v4.ip;
+    "giraffe.srv.nbg" = nbg.srv.giraffe.wg.v4.ip;
+    "hedgehog.lap.rsn" = rsn.lap.hedgehog.wg.v4.ip;
+  };
+
+in {
+  options = {
+    lama-corp.unbound = {
+      enable = mkEnableOption "Enable unbound";
+      addPrimariesDnsEntries = mkOption {
+        type = types.bool;
+        default = true;
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    services.unbound = {
+      enable = true;
+
+      resolveLocalQueries = true;
+      enableRootTrustAnchor = true;
+
+      settings = {
+        server = rec {
+          interface = [ "127.0.0.1" "::1" ];
+          access-control = [ "0.0.0.0/0 allow" "::0/0 allow" ];
+          statistics-cumulative = true;
+          extended-statistics = true;
+
+          tls-cert-bundle = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+          # Do not query the following addresses. No DNS queries are sent there.
+          # List one address per entry. List classless netblocks with /size,
+          # do-not-query-address = "127.0.0.1/8";
+          # do-not-query-address = "::1";
+          # the following makes the above default do-not-query-address entries
+          # present.
+          do-not-query-localhost = true;
+
+          private-address = [
+            ''"10.0.0.0/8"''
+            ''"172.16.0.0/12"''
+            ''"192.168.0.0/16"''
+            ''"169.254.0.0/16"''
+            ''"fd00::/8"''
+            ''"fe80::/10"''
+            ''"::ffff:0:0/96"''
+          ];
+
+          unblock-lan-zones = true;
+          insecure-lan-zones = true;
+
+          private-domain = mapAttrsToList (n: v: ''"${n}"'') zonesData;
+          domain-insecure = private-domain;
+
+          local-zone = mapAttrsToList (n: v: ''"${n}." transparent'') zonesData;
+
+          local-data =
+            mapAttrsToList (n: v: ''"${n}.lama-corp.space. IN A ${v}"'')
+            primariesData;
+          local-data-ptr =
+            mapAttrsToList (n: v: ''"${v} ${n}.lama-corp.space"'')
+            primariesData;
+        };
+
+        forward-zone = (mapAttrsToList (n: v: {
+          name = "${n}.";
+          forward-addr = v;
+        }) zonesData) ++ [{
+          name = ".";
+          forward-tls-upstream = true;
+          forward-addr = [
+            "45.90.28.0#61ba3a.dns1.nextdns.io"
+            "2a07:a8c0::#61ba3a.dns1.nextdns.io"
+            "45.90.30.0#61ba3a.dns2.nextdns.io"
+            "2a07:a8c1::#61ba3a.dns2.nextdns.io"
+            "1.1.1.1@853#cloudflare-dns.com"
+            "1.0.0.1@853#cloudflare-dns.com"
+          ];
+        }];
+
+        remote-control = {
+          control-enable = true;
+          control-interface = [ "127.0.0.1" "::1" ];
+          control-port = 8953;
+          control-use-cert = false;
+        };
+      };
+    };
+  };
+
+  disabledModules = [ "services/networking/unbound.nix" ];
+  imports = [ ./unbound.lib.nix ];
+}

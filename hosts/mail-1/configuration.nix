@@ -4,17 +4,26 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
 
-    ./hardware-configuration.nix
     ./networking.nix
-    ./backups.nix
 
     ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles = {
+      server.enable = true;
+      vm = {
+        enable = true;
+        vmType = "kvm-1";
+      };
+    };
+
+    common.backups.startAt = "*-*-* *:04:27 UTC";
+  };
 
   security.dhparams = mkIf config.services.postfix.enable {
     enable = true;
@@ -33,6 +42,19 @@ with lib;
     "L /var/lib/acme        - - - -   /srv/var/lib/acme"
     "L /var/spool/mail      - - - -   /srv/var/spool/mail"
   ];
+
+  ###
+  # Backups
+  ###
+
+  services.borgbackup.jobs."system" = {
+    paths = [
+      "/var/lib/postfix"
+      "/var/lib/dovecot"
+    ];
+  };
+
+  nix.maxJobs = 2;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

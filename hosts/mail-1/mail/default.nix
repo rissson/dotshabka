@@ -1,8 +1,10 @@
-{ ... }:
+{ config, lib, ... }:
+
+with lib;
 
 /* TODO
 
-   Look into postsrsd, see if it affects sending with one of a user's aliases
+Look into postsrsd, see if it affects sending with one of a user's aliases
 */
 {
   imports =

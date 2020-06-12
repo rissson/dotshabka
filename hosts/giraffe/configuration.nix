@@ -4,17 +4,33 @@ with lib;
 
 {
   imports = [
-    <shabka/modules/nixos>
     <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
 
     ./hardware-configuration.nix
     ./networking
     ./monitoring
-    ./backups.nix
 
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles = {
+      primary.enable = true;
+      vm = {
+        enable = true;
+        vmType = "hetzner";
+      };
+    };
+
+    common.backups.startAt = "*-*-* *:33:53 UTC";
+    luks.enable = true;
+    unbound.enable = mkForce false;
+  };
+
+  # No users needed as we have a console access to this host
+  shabka.users.enable = mkForce false;
+
+  services.zfs.autoSnapshot.enable = mkForce false;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

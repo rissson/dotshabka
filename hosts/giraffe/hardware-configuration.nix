@@ -4,40 +4,20 @@ with lib;
 
 let bootHostSshKeyPath = ../../secrets/hosts/giraffe/boot/host-ssh.key;
 in {
-  warnings = (optional (!(builtins.pathExists bootHostSshKeyPath)) "${
+  /*warnings = (optional (!(builtins.pathExists bootHostSshKeyPath)) "${
       toString bootHostSshKeyPath
-    } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");
+    } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");*/
 
-  imports = [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix> ];
-
-  boot.initrd.availableKernelModules = [
-    "ata_piix"
-    "virtio_pci"
-    "xhci_pci"
-    "sd_mod"
-    "sr_mod"
-    "aes_x86_64"
-    "aesni_intel"
-    "cryptd"
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  boot.kernelParams = [ "elevator=none" ];
 
   boot.initrd.postDeviceCommands = mkAfter ''
     zfs rollback -r rpool/local/root@blank
   '';
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     device = "/dev/sda";
-    enableCryptodisk = true;
-    zfsSupport = true;
   };
 
   boot.initrd.luks.devices = {
@@ -48,7 +28,7 @@ in {
     };
   };
 
-  boot.initrd.network = mkIf (builtins.pathExists bootHostSshKeyPath) {
+  /*boot.initrd.network = mkIf (builtins.pathExists bootHostSshKeyPath) {
     enable = true;
     ssh = {
       enable = true;
@@ -59,12 +39,7 @@ in {
     postCommands = ''
       echo 'cryptsetup-askpass' >> /root/.profile
     '';
-  };
-
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "*-*-24 05:24:14 UTC";
-  };
+  };*/
 
   fileSystems = {
     "/" = {
@@ -97,8 +72,4 @@ in {
     [{ device = "/dev/disk/by-uuid/dd184cf2-21db-486b-a810-37991b6586eb"; }];
 
   nix.maxJobs = 1;
-
-  powerManagement = mkIf config.shabka.workstation.power.enable {
-    cpuFreqGovernor = "performance";
-  };
 }

@@ -5,39 +5,16 @@ with lib;
 {
   services.borgbackup = {
     jobs = {
-      "nas-system" = {
-        repo = "ssh://borg@nas.srv.bar.lama-corp.space/./backups/system";
-        compression = "zlib,1";
-
-        encryption.mode = "none";
-        environment.BORG_RSH =
-          "ssh -i /srv/secrets/root/backups/borg-nas-backups-system.ssh.key";
-
+      "system" = {
         paths = [
-          "/srv"
           "/var/db"
           "/var/lib"
-          "/var/log"
         ];
 
         exclude = [
-          "/srv/http/thefractal.space/imgs/*" # they can get recreated
           "/srv/vm/*" # VMs backup themselves
           "/var/lib/docker/*" # Don't care
         ];
-
-        startAt = "*-*-* *:44:30 UTC";
-        prune = {
-          keep = {
-            within = "1d";
-            daily = 7;
-            weekly = 4;
-            monthly = 12;
-          };
-        };
-
-        extraCreateArgs = "--stats --progress --checkpoint-interval 600";
-        extraPruneArgs = "--stats --save-space --list --progress";
       };
 
       "nas-homes" = {

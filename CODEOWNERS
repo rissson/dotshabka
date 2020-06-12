@@ -5,9 +5,11 @@
 /default.nix @risson
 /shell.nix @risson
 
-/data/ @risson
-/scripts/ @risson
+/rfcs/ @risson @diego
 
+/data/ @risson @diego
+
+/hosts/cuckoo/ @risson
 /hosts/giraffe/ @risson
 /hosts/hedgehog/ @risson
 /hosts/kvm-1/ @risson @diego
@@ -20,13 +22,10 @@
 /hosts/web-1/ @risson @ddorn
 /hosts/web-2/ @risson @ddorn
 
-/modules/* @risson @ddorn
 /modules/nixos/ @risson @ddorn
+/modules/risson/ @risson
+/modules/diego/ @ddorn
 
-/modules/home/* @risson @ddorn
-/modules/home/default/ @risson @ddorn
-/modules/home/server/ @risson @ddorn
-/modules/home/workstation/ @risson @ddorn
-
-/modules/home/risson/ @risson
-/modules/home/diego/ @ddorn
+/deploy/bar.nix @risson
+/deploy/fsn.nix @risson @ddorn
+/deploy/primaries.nix @risson @ddorn

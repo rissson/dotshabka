@@ -1,62 +1,29 @@
-{ ... }:
+{ lib, ... }:
+
+with lib;
 
 with import <dotshabka/data> { };
 with space.lama-corp.bar;
 
-{
+let
+  data = {
+    "loewe.mmd" = mmd.loewe;
+    "bose.mmd" = mmd.bose;
+    "chromecast.mmd" = mmd.chromecast;
+    "hp.prt" = prt.hp;
+    "floor0.wfi" = wfi.floor0;
+    "floor-1.wfi" = wfi.floor-1;
+    "cuckoo.srv" = srv.cuckoo;
+    "nas.srv" = srv.nas;
+    "livebox.srv" = srv.livebox;
+  };
+in {
   services.dhcpd4 = {
     enable = true;
     interfaces = [ srv.nas.internal.interface ];
-    machines = [
-      {
-        hostName = "loewe.mmd";
-        ipAddress = mmd.loewe.internal.v4.ip;
-        ethernetAddress = mmd.loewe.internal.mac;
-      }
-      {
-        hostName = "bose.mmd";
-        ipAddress = mmd.bose.internal.v4.ip;
-        ethernetAddress = mmd.bose.internal.mac;
-      }
-      {
-        hostName = "chromecast.mmd";
-        ipAddress = mmd.chromecast.internal.v4.ip;
-        ethernetAddress = mmd.chromecast.internal.mac;
-      }
 
-      {
-        hostName = "hp.prt";
-        ipAddress = prt.hp.internal.v4.ip;
-        ethernetAddress = prt.hp.internal.mac;
-      }
+    machines = mapAttrsToList (n: v: { hostName = n; ipAddress = v.internal.v4.ip; ethernetAddress = v.internal.mac; }) data;
 
-      {
-        hostName = "floor0.wfi";
-        ipAddress = wfi.floor0.internal.v4.ip;
-        ethernetAddress = wfi.floor0.internal.mac;
-      }
-      {
-        hostName = "floor-1.wfi";
-        ipAddress = wfi.floor-1.internal.v4.ip;
-        ethernetAddress = wfi.floor-1.internal.mac;
-      }
-
-      {
-        hostName = "cuckoo.srv";
-        ipAddress = srv.cuckoo.internal.v4.ip;
-        ethernetAddress = srv.cuckoo.internal.mac;
-      }
-      {
-        hostName = "nas.srv";
-        ipAddress = srv.nas.internal.v4.ip;
-        ethernetAddress = srv.nas.internal.mac;
-      }
-      {
-        hostName = "livebox.srv";
-        ipAddress = srv.livebox.internal.v4.ip;
-        ethernetAddress = srv.livebox.internal.mac;
-      }
-    ];
     extraConfig = ''
       authoritative;
 

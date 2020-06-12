@@ -3,31 +3,16 @@
 with lib;
 
 {
-  imports = let shabka = import <shabka> { };
-  in [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    "${shabka.external.nixos-hardware.path}/common/cpu/intel"
-    "${shabka.external.nixos-hardware.path}/common/pc/hdd"
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
   ];
 
   boot.initrd.availableKernelModules =
     [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     devices = [ "/dev/sda" "/dev/sdb" "/dev/sdc" ];
-    zfsSupport = true;
-  };
-
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "*-*-24 05:24:14 UTC";
   };
 
   fileSystems = {
@@ -129,8 +114,4 @@ with lib;
   ];
 
   nix.maxJobs = 3;
-
-  powerManagement = mkIf config.shabka.workstation.power.enable {
-    cpuFreqGovernor = "ondemand";
-  };
 }

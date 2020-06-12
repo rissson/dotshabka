@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./netdata ./influxdb.nix ./grafana ];
+  imports = [ ./influxdb.nix ./grafana ];
 }

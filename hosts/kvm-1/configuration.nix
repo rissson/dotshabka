@@ -2,14 +2,9 @@
 
 with lib;
 
-let
-  shabka = import <shabka> { };
-  dotshabka = import <dotshabka> { };
-in {
+{
   imports = [
-    <shabka/modules/nixos>
     <dotshabka/modules/nixos>
-    <dotshabka/modules/nixos/server>
 
     ./hardware-configuration.nix
     ./networking
@@ -20,6 +15,15 @@ in {
     ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  lama-corp = {
+    profiles = {
+      primary.enable = true;
+    };
+
+    luks.enable = true;
+    common.backups.startAt = "*-*-* *:44:30 UTC";
+  };
 
   shabka.virtualisation.docker.enable = true;
 

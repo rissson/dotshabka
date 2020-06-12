@@ -8,20 +8,13 @@ in {
       toString bootHostSshKeyPath
     } does not exists. You will not be able to decrypt the disks through SSH after a reboot.");
 
-  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
-
   boot.initrd.availableKernelModules = [ "ahci" "igb" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.grub = {
-    enable = true;
-    version = 2;
     copyKernels = true;
     efiSupport = false;
-    enableCryptodisk = true;
     devices = [ "/dev/sda" "/dev/sdb" ];
   };
 
@@ -143,4 +136,5 @@ in {
   ];
 
   nix.maxJobs = mkDefault 12;
+  hardware.enableRedistributableFirmware = true;
 }

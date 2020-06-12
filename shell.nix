@@ -5,6 +5,7 @@ with pkgs;
 mkShell {
   buildInputs = [
     morph
+    nixfmt
   ];
 
   # Export the location of the SSL CA bundle
