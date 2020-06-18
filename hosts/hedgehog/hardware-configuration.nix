@@ -60,8 +60,8 @@ with lib;
   };
 
   fileSystems."/" =
-    { device = "rpool/local/root";
-      fsType = "zfs";
+    {
+      fsType = "tmpfs";
     };
 
   fileSystems."/nix" =
