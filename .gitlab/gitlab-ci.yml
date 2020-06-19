@@ -70,16 +70,13 @@ stages:
   variables:
     <<: *global-variables
 
-cuckoo:
-  <<: *linux-host-template
-
 kvm-1:
   <<: *linux-host-template
 
-giraffe:
+nas:
   <<: *linux-host-template
 
-hedgehog:
+giraffe:
   <<: *linux-host-template
 
 ldap-1:
@@ -89,9 +86,6 @@ mail-1:
   <<: *linux-host-template
 
 minio-1:
-  <<: *linux-host-template
-
-nas:
   <<: *linux-host-template
 
 postgres-1:
@@ -104,4 +98,13 @@ web-1:
   <<: *linux-host-template
 
 web-2:
+  <<: *linux-host-template
+
+hedgehog:
+  <<: *linux-host-template
+
+goat:
+  <<: *linux-host-template
+
+cuckoo:
   <<: *linux-host-template
