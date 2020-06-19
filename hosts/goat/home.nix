@@ -9,7 +9,7 @@
         <shabka/modules/home>
         <dotshabka/modules/risson>
 
-        ./mail.nix
+        #./mail.nix
       ];
 
       lama-corp.graphical = true;
