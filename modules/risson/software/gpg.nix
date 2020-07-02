@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       throw-keyids = true;
-      keyserver = "hkp://pool.sks-keyservers.net";
+      keyserver = "hkps://keys.openpgp.org";
     };
   };
 }
