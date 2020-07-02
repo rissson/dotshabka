@@ -19,13 +19,16 @@ with lib;
     };
 
     programs.git.extraConfig = {
-
       branch = {
         autosetuprebase = "always";
       };
 
       core = {
         editor = "vim";
+      };
+
+      format = {
+        signOff = true;
       };
 
       push = {
