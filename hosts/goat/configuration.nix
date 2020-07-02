@@ -28,6 +28,7 @@ in {
     luks.enable = true;
   };
 
+  nix.gc.automatic = mkForce false;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
