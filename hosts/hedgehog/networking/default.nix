@@ -64,7 +64,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
                 # Local networks
                 #bar.subnet
               ];
-              endpoint = "90.126.230.161:51820";
+              endpoint = "92.148.141.200:51820";
             }
           ];
         };
