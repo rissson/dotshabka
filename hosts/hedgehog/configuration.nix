@@ -34,6 +34,7 @@ in {
     experimental-features = nix-command flakes
   '';
   nix.package = nixpkgs-flakes.nixFlakes;
+  nix.gc.automatic = mkForce false;
 
   shabka.keyboard = {
     layouts = mkForce [ "bepo" "qwerty_intl" ];
