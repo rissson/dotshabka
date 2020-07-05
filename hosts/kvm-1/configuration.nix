@@ -25,6 +25,8 @@ with lib;
     common.backups.startAt = "*-*-* *:44:30 UTC";
   };
 
+  nix.gc.automatic = mkForce false;
+
   shabka.virtualisation.docker.enable = true;
 
   # This value determines the NixOS release with which your system is to be
