@@ -3,6 +3,9 @@
 with lib;
 
 let
+  shabka = import <shabka> { };
+  nixpkgs = import shabka.external.nixpkgs.release-unstable.path { };
+
   nixpkgs-flakes = import (builtins.fetchTarball {
     name = "nixpkgs-unstable-flakes";
     url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
@@ -51,6 +54,13 @@ in {
     virtualbox.enable = mkForce false;
   };
   hardware.pulseaudio.zeroconf.discovery.enable = true;
+
+  nixpkgs.overlays = [
+    (self: super: { fprintd = nixpkgs.fprintd; })
+    (self: super: { libfprint = nixpkgs.libfprint; })
+    (self: super: { libpam-wrapper = nixpkgs.libpam-wrapper; })
+  ];
+  services.fprintd.enable = true;
 
   users.users.root = {
     hashedPassword = mkForce
