@@ -7,6 +7,7 @@ rec {
   xml = pkgs.substituteAll {
     src = ../xml/ynh.xml;
 
+    inherit vmName;
     name = vmName;
     macAddress = vrt.lewdax.mac;
     ifBridge = srv.kvm-1.external.bridge;
