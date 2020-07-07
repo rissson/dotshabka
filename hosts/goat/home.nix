@@ -19,7 +19,7 @@
       shabka.keyboard.layouts = [ "bepo" "qwerty_intl" ];
       home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];
 
-      home.sessionVariables.DOTSHABKA_PATH = "/home/risson/code/dotshabka";
+      home.sessionVariables.DOTSHABKA_PATH = "/home/risson/lama-corp/infra/dotshabka";
 
       shabka.batteryNotifier.enable = true;
       shabka.git.enable = true;
