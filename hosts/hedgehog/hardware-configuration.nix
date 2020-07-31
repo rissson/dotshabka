@@ -2,16 +2,30 @@
 
 with lib;
 
-{
-  imports = let shabka = import <shabka> { };
-  in [
+let
+  impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
+in {
+  imports = let shabka = import <shabka> { }; in[
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     "${shabka.external.nixos-hardware.path}/common/cpu/amd"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop"
     "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
     "${shabka.external.nixos-hardware.path}/lenovo/thinkpad"
     "${shabka.external.nixos-hardware.path}/lenovo/thinkpad/t495"
+
+    "${impermanence}/nixos.nix"
   ];
+
+  environment.persistence."/srv" = {
+    directories = [
+      "/var/lib/bluetooth"
+      "/var/lib/fprint"
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
 
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -23,10 +37,6 @@ with lib;
   ];
 
   boot.kernelModules = [ "kvm-amd" ];
-
-  boot.initrd.postDeviceCommands = mkAfter ''
-    zfs rollback -r rpool/local/root@blank
-  '';
 
   boot.loader.grub = {
     device = "nodev";
@@ -59,55 +69,52 @@ with lib;
     };
   };
 
-  fileSystems."/" =
-    {
+  fileSystems = {
+    "/" = {
       fsType = "tmpfs";
     };
 
-  fileSystems."/nix" =
-    { device = "rpool/local/nix";
+    "/nix" = {
+      device = "rpool/local/nix";
       fsType = "zfs";
     };
 
-  fileSystems."/var/log" =
-    { device = "rpool/local/var/log";
+    "/home/risson" = {
+      device = "rpool/persist/home/risson";
       fsType = "zfs";
     };
 
-  fileSystems."/home/risson" =
-    { device = "rpool/persist/home/risson";
+    "/root" = {
+      device = "rpool/persist/home/root";
       fsType = "zfs";
     };
 
-  fileSystems."/root" =
-    { device = "rpool/persist/home/root";
+    "/srv" = {
+      device = "rpool/persist/srv";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+
+    "/var/lib/docker" = {
+      device = "rpool/persist/var/lib/docker";
       fsType = "zfs";
     };
 
-  fileSystems."/srv" =
-    { device = "rpool/persist/srv";
+    "/var/lib/libvirt" = {
+      device = "rpool/persist/var/lib/libvirt";
       fsType = "zfs";
     };
 
-  fileSystems."/var/lib/docker" =
-    { device = "rpool/persist/var/lib/docker";
+    "/boot" = {
+      device = "bpool/boot";
       fsType = "zfs";
     };
 
-  fileSystems."/var/lib/libvirt" =
-    { device = "rpool/persist/var/lib/libvirt";
-      fsType = "zfs";
-    };
-
-  fileSystems."/boot" =
-    { device = "bpool/boot";
-      fsType = "zfs";
-    };
-
-  fileSystems."/efi" =
-    { device = "/dev/disk/by-uuid/B83E-3E69";
+    "/efi" = {
+      device = "/dev/disk/by-uuid/B83E-3E69";
       fsType = "vfat";
     };
+  };
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/a76d0622-a8d2-42a6-87a6-ab24362deb02"; }
