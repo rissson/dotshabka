@@ -39,5 +39,35 @@ with lib;
         rebase = true;
       };
     };
+
+   programs.git.includes = [
+     {
+       condition = "gitdir:~/cri/";
+       contents = {
+         user = {
+           email = "risson@cri.epita.fr";
+           signingkey = "risson@cri.epita.fr";
+         };
+       };
+     }
+     {
+       condition = "gitdir:~/prologin/";
+       contents = {
+         user = {
+           email = "marc.schmitt@prologin.org";
+           signingkey = "marc.schmitt@prologin.org";
+         };
+       };
+     }
+     {
+       condition = "gitdir:~/lama-corp/";
+       contents = {
+         user = {
+           email = "marc.schmitt@lama-corp.space";
+           signingkey = "marc.schmitt@lama-corp.space";
+         };
+       };
+     }
+   ];
   };
 }
