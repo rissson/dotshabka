@@ -14,8 +14,8 @@ with lib;
     programs.git.package = mkForce pkgs.gitAndTools.gitFull;
     programs.git.aliases = {
       b         = "branch";
-      coke      = "commit -a -m";
-      cokewogpg = "commit --no-gpg-sign -a -m";
+      coke      = "commit -a -s -m";
+      cokewogpg = "commit --no-gpg-sign -a -s -m";
     };
 
     programs.git.extraConfig = {
