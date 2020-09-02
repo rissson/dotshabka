@@ -93,20 +93,24 @@
       programs.ssh = {
         matchBlocks = {
           ### Lama Corp.
-          "kvm-1" = { hostname = "kvm-1.srv.fsn.lama-corp.space"; };
-          "*.vrt" = {
-            user = "root";
-            hostname = "%h.fsn.lama-corp.space";
+          "kvm-1" = {
+            hostname = "kvm-1.srv.fsn.lama-corp.space";
           };
-          "nas" = {
-            hostname = "nas.srv.bar.lama-corp.space";
+          "*.fsn" = {
             user = "root";
+            hostname = "%h.lama-corp.space";
+            proxyJump = "kvm-1";
           };
-          "giraffe" = {
-            hostname = "giraffe.srv.nbg.lama-corp.space";
+          "*.bar" = {
             user = "root";
+            hostname = "%h.lama-corp.space";
+            proxyJump = "kvm-1";
           };
-          "*.vrt.fsn.lama-corp.space" = { user = "root"; };
+          "*.nbg" = {
+            user = "root";
+            hostname = "%h.lama-corp.space";
+            proxyJump = "kvm-1";
+          };
 
           ### CRI
           "goat" = {

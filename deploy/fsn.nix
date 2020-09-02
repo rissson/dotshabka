@@ -13,13 +13,13 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
-  "ldap-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+  "ldap-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
   };
 
-  "mail-1.vrt.fsn.lama-corp.space" = { config, lib, ... }: {
+  "mail-1.vrt.fsn" = { config, lib, ... }: {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "acme/dns-credentials" = {
@@ -35,31 +35,31 @@ in {
     imports = [ "${<dotshabka>}/hosts/mail-1/configuration.nix" ];
   };
 
-  "minio-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+  "minio-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/minio-1/configuration.nix" ];
   };
 
-  "postgres-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+  "postgres-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/postgres-1/configuration.nix" ];
   };
 
-  "reverse-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+  "reverse-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/reverse-1/configuration.nix" ];
   };
 
-  "web-1.vrt.fsn.lama-corp.space" = { config, ... }: {
+  "web-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
     imports = [ "${<dotshabka>}/hosts/web-1/configuration.nix" ];
   };
 
-  "web-2.vrt.fsn.lama-corp.space" = { config, lib, ... }: {
+  "web-2.vrt.fsn" = { config, lib, ... }: {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "uwsgi/cats.acdc.risson.space.settings.py" = {
