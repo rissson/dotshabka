@@ -4,7 +4,12 @@ with lib;
 
 let
   serviceBuilder = args:
-    import ./services ({
+    import ./services/deployed.nix ({
+      inherit config pkgs lib;
+      system = builtins.currentSystem;
+    } // args);
+  toBeDeployedServiceBuilder = args:
+    import ./services/to-be-deployed.nix ({
       inherit config pkgs lib;
       system = builtins.currentSystem;
     } // args);
