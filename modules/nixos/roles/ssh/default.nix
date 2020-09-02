@@ -19,7 +19,7 @@ in {
     services.openssh = {
       enable = true;
       passwordAuthentication = false;
-      permitRootLogin = "no";
+      permitRootLogin = "prohibit-password";
       hostKeys = [
         {
           type = "rsa";
@@ -37,11 +37,6 @@ in {
           comment = with config.networking; "${hostName}.${domain}";
         }
       ];
-
-      extraConfig = ''
-        Match Address 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,169.254.0.0/16,fe80::/10,fd00::/8
-          PermitRootLogin prohibit-password
-      '';
     };
 
     systemd.services.sshd.preStart = mkIf config.services.openssh.enable
