@@ -34,12 +34,43 @@ in {
   '';
   nix.package = nixpkgs-flakes.nixFlakes;
 
-  networking.hostName = "goat";
-  networking.domain = "wrk.rsn.lama-corp.space";
-  networking.hostId = "8425e349";
-  networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = true;
-  networking.interfaces.enp2s0.useDHCP = true;
+  networking = {
+    hostName = "goat";
+    domain = "cri.rsn.lama-corp.space";
+    hostId = "8425e349";
+    useDHCP = false;
+
+    bridges = {
+      br0 = {
+        interfaces = [ ];
+      };
+    };
+    interfaces = {
+      eno1 = {
+        useDHCP = true;
+        ipv4.addresses = [{
+          address = "192.168.240.130";
+          prefixLength = 24;
+        }];
+      };
+      br0 = {
+        ipv4.routes = [
+          {
+            address = "192.168.240.132";
+            prefixLength = 32;
+          }
+        ];
+      };
+      enp2s0 = {
+        useDHCP = true;
+      };
+    };
+    /*nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "eno1";
+    };*/
+  };
 
   shabka.keyboard = {
     layouts = mkForce [ "bepo" "qwerty_intl" ];
@@ -74,6 +105,27 @@ in {
       };
     };
   };
+
+  /*containers."nginx-test" = {
+    autoStart = true;
+    bindMounts."persist" = {
+      hostPath = "/srv/containers/nginx-test/persist";
+      mountPoint = "/persist";
+      isReadOnly = false;
+    };
+    ephemeral = true;
+    privateNetwork = true;
+    hostBridge = "br0";
+    localAddress = "192.168.240.132/32";
+
+    config = {
+      services.nginx.enable = true;
+      networking.defaultGateway = {
+        address = "192.168.240.130";
+        interface = "eth0";
+      };
+    };
+  };*/
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
