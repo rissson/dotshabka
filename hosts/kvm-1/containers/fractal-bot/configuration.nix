@@ -38,8 +38,6 @@ in {
       "Brocoli, a bot that posts a new random fractal everyday on Twitter.";
     script = "exec ${brocoli}/bin/brocoli bot";
     startAt = "07:42";
-
-    serviceConfig.User = "diego";
-    serviceConfig.Group = "mine";
+    serviceConfig.EnvironmentFile = "/persist/secrets/TheFractalBot.service.env";
   };
 }

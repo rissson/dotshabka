@@ -31,6 +31,14 @@ with import <dotshabka/data/space.lama-corp/fsn/srv/kvm-1> { }; {
     ];
 
     interfaces = {
+      "ve-+" = {
+        allowedTCPPorts = [
+          53 # DNS
+        ];
+        allowedUDPPorts = [
+          53 # DNS
+        ];
+      };
       "${internal.interface}" = {
         allowedTCPPorts = [
           53 # DNS

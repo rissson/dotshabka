@@ -104,7 +104,7 @@ with srv.kvm-1; {
     nat = {
       enable = true;
       externalInterface = external.interface;
-      internalInterfaces = [ internal.interface wg.interface ];
+      internalInterfaces = [ internal.interface wg.interface "ve-+" ];
     };
   };
 }

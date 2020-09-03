@@ -3,6 +3,5 @@
 {
   imports = [
     ./libvirt
-    ./TheFractalBot.nix
   ];
 }
