@@ -13,12 +13,6 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
-  "ldap-1.vrt.fsn" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; };
-
-    imports = [ "${<dotshabka>}/hosts/ldap-1/configuration.nix" ];
-  };
-
   "mail-1.vrt.fsn" = { config, lib, ... }: {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {

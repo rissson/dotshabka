@@ -79,9 +79,6 @@ nas:
 giraffe:
   <<: *linux-host-template
 
-ldap-1:
-  <<: *linux-host-template
-
 mail-1:
   <<: *linux-host-template
 
