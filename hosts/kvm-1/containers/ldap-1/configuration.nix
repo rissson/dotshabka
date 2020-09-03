@@ -5,6 +5,7 @@ with lib;
 let
   openldapStateDir = "/persist/openldap";
 in {
+  networking.firewall.allowedTCPPorts = [ 389 ];
   services.openldap = {
     enable = true;
     dataDir = "${openldapStateDir}/db";
