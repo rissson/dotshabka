@@ -18,6 +18,18 @@
     hostBridge = "br-local";
     localAddress = with vrt.gitlab-ci-1.internal.v4; "${ip}/${toString prefixLength}";
 
+    # Needed for docker
+    additionalCapabilities = [ "all" ];
+    extraFlags = [
+      "--system-call-filter=add_key"
+      "--system-call-filter=keyctl"
+    ];
+    bindMounts."cgroup" = {
+      hostPath = "/sys/fs/cgroup";
+      mountPoint = "/sys/fs/cgroup";
+      isReadOnly = false;
+    };
+
     config = { ... }: ({
       imports = [
         ./configuration.nix
@@ -32,4 +44,5 @@
       };
     });
   };
+  systemd.services."container@gitlab-ci-1".environment.SYSTEMD_NSPAWN_USE_CGNS = "0";
 }
