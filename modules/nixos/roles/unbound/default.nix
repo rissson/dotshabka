@@ -47,7 +47,7 @@ in {
 
       settings = {
         server = rec {
-          interface = [ "127.0.0.1" "::1" ];
+          interface = mkForce [ "0.0.0.0" ];
           access-control = [ "0.0.0.0/0 allow" "::0/0 allow" ];
           statistics-cumulative = true;
           extended-statistics = true;
