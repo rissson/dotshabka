@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  gitlab-ci-1 = import ./gitlab-ci-1 { };
+
   ldap-1 = import ./ldap-1 { };
 
   mail-1 = import ./mail-1 { };

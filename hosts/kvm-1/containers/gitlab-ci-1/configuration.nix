@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 with lib;
 
@@ -8,13 +8,13 @@ with lib;
   imports = [ ./gitlab-runner.nix ];
 
   services.gitlab-runner = {
-    enable = false;
+    enable = true;
     concurrent = 4;
     services = {
       # runner for dotshabka
       # can be used for building via nix
       lamacorp-nix = {
-        registrationConfigFile = "/srv/secrets/gitlab-runner-dotshabka";
+        registrationConfigFile = "/persist/secrets/gitlab-runner-dotshabka";
         dockerImage = "nix";
         dockerVolumes = [
           "/nix/store:/nix/store:ro"
@@ -54,12 +54,8 @@ with lib;
         tagList = [ "nix-store" ];
       };
       lamacorp-default = {
-        registrationConfigFile = "/srv/secrets/gitlab-runner-dotshabka";
+        registrationConfigFile = "/persist/secrets/gitlab-runner-dotshabka";
         dockerImage = "nix";
-      };
-      risson-epita-chess = {
-        registrationConfigFile = "/srv/secrets/gitlab-runner-epita-chess";
-        dockerImage = "registry.gitlab.com/pierre.kelbert/docker-archlinux-criterion:9ff8657845e21a4493f62e67540dcb8c13994577";
       };
     };
   };
