@@ -32,6 +32,7 @@ in {
     };
     luks.enable = true;
   };
+  services.openssh.passwordAuthentication = mkForce false;
 
   nix.extraOptions = ''
     experimental-features = nix-command flakes
