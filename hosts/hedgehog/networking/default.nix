@@ -12,9 +12,9 @@ with import <dotshabka/data/space.lama-corp> { }; {
     interfaces.enp3s0f0.useDHCP = true;
     interfaces.enp4s0.useDHCP = true;
 
-    dhcpcd.extraConfig = ''
+    /*dhcpcd.extraConfig = ''
       nohook resolv.conf
-    '';
+    '';*/
 
     wireless = {
       enable = true;
