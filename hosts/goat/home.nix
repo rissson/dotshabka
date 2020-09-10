@@ -1,3 +1,5 @@
+{ ... }:
+
 {
   shabka.home-manager.config = { userName, uid, isAdmin, home, nixosConfig }:
     { config, lib, pkgs, ... }:
@@ -5,10 +7,8 @@
     with lib;
 
     {
+      home.stateVersion = "20.09";
       imports = [
-        <shabka/modules/home>
-        <dotshabka/modules/risson>
-
         #./mail.nix
       ];
 

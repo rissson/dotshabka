@@ -1,22 +1,13 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 with lib;
 
-let
-  nixpkgs-flakes = import (builtins.fetchTarball {
-    name = "nixpkgs-unstable-flakes";
-    url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
-    sha256 = "16bp423mf6dlwsf4y3phf2p10lms0c7mygsdr31g0z2xp5a5n9i6";
-  }) {};
-in {
+{
   imports = [
-    <dotshabka/modules/nixos>
-
     ./hardware-configuration.nix
 
     ./home.nix
-  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
-    (singleton "${<dotshabka>}/secrets"));
+  ];
 
   lama-corp = {
     common.keyboard.enable = mkForce false;
@@ -29,10 +20,10 @@ in {
   };
 
   nix.gc.automatic = mkForce false;
-  nix.extraOptions = ''
+  /*nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-  nix.package = nixpkgs-flakes.nixFlakes;
+  nix.package = nixpkgs-flakes.nixFlakes;*/
 
   networking = {
     hostName = "goat";
@@ -95,7 +86,7 @@ in {
     openssh.authorizedKeys.keys = mkForce config.shabka.users.users.risson.sshKeys;
   };
 
-  shabka.users = with import <dotshabka/data/users> { }; {
+  shabka.users = with inputs.self.vars.users; {
     enable = true;
     users = {
       risson = {
@@ -131,5 +122,5 @@ in {
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 }

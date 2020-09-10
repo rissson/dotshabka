@@ -1,0 +1,13 @@
+[
+  ./graphical/graphical.nix
+  ./graphical/gtk.nix
+  ./graphical/i3/i3.nix
+  ./graphical/locker.nix
+  ./services/gnupg.nix
+  ./software/fzf.nix
+  ./software/git.nix
+  ./software/gpg.nix
+  ./software/neovim.nix
+  ./software/software.nix
+  ./software/zsh/zsh.nix
+]

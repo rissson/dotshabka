@@ -1,0 +1,155 @@
+{
+  "nodes": {
+    "home": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1599428266,
+        "narHash": "sha256-qrZwxleVK9pcXzv9kvxkUP6jabEiPo4VOX2WEM9CBXU=",
+        "owner": "rycee",
+        "repo": "home-manager",
+        "rev": "249650a07ee2d949fa599f3177a8c234adbd1bee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1598811325,
+        "narHash": "sha256-NwZ/07R7BXejliKYpIY5N9fWwKlSi06VZfFcwevP0+U=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "f2b06f530e0df77a32dcc2a154e59193c0e96fc3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1599701608,
+        "narHash": "sha256-7hV0z/J45fINw0zicI6oMKIM7OgMnHg7fH05135TFE0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "50feed19a620cd67d41e039f13cfac47b75ef002",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs-stable": {
+      "locked": {
+        "lastModified": 1599765567,
+        "narHash": "sha256-8/Fc734OdXsMrv797SVYfm0cv9YK9AZMOhS0+XhiMAg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e6bc03bea05914de1c14812ccebdd914bf106c0d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-20.03",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable_2": {
+      "locked": {
+        "lastModified": 1599765567,
+        "narHash": "sha256-8/Fc734OdXsMrv797SVYfm0cv9YK9AZMOhS0+XhiMAg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e6bc03bea05914de1c14812ccebdd914bf106c0d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-20.03",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1599767305,
+        "narHash": "sha256-flM6E88lLjTU1IWb6mxRpA3VqjaYawmuGtNVspB2oPA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8483d29d6010e173a558f370452b4784ea9bc34f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable_2": {
+      "locked": {
+        "lastModified": 1599694665,
+        "narHash": "sha256-+U6vd+DP8qM6LYRpJkPyUpohCSbnyTbGF8a81CywuGs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c413f10dafa7c9581d62757865059e86da30a9b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nur": {
+      "locked": {
+        "lastModified": 1599677659,
+        "narHash": "sha256-8ArF3X4Ez2rdasJR024xLth7TmhEucVnTVphamb4STw=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "4ef1a594e5525f2cb1747d3982fdc72fbb50b3f7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs-stable": "nixpkgs-stable",
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "shabka": "shabka"
+      }
+    },
+    "shabka": {
+      "inputs": {
+        "home": "home",
+        "nixpkgs-stable": "nixpkgs-stable_2",
+        "nixpkgs-unstable": "nixpkgs-unstable_2",
+        "nur": "nur"
+      },
+      "locked": {
+        "narHash": "sha256-rGC8ZJSaj5ZACKxA4mGemY0UTtRfX3S+xSFgsC5Z4LI=",
+        "path": "/home/risson/code/shabka",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/risson/code/shabka",
+        "type": "path"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

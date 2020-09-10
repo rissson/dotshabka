@@ -1,15 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nixos-hardware, ... }:
 
 with lib;
 
 {
-  imports = let shabka = import <shabka> { };
-  in [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    "${shabka.external.nixos-hardware.path}/common/cpu/intel"
-    "${shabka.external.nixos-hardware.path}/common/pc"
-    "${shabka.external.nixos-hardware.path}/common/pc/ssd"
+  # Configuration from nixos-hardware
+  boot.initrd.kernelModules = [ "i915" ];
+  hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+  hardware.opengl.extraPackages = with pkgs; [
+    vaapiIntel
+    vaapiVdpau
+    libvdpau-va-gl
+    intel-media-driver
   ];
+
+  services.xserver.libinput.enable = lib.mkDefault true;
+  services.fstrim.enable = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.kernel.sysctl = {
