@@ -1,27 +1,21 @@
-{ self
-, nixpkgs-unstable
-, nixpkgs-stable
-, shabka
-, nixos-hardware
-, lib
+{ lib
+, nixos
+, master
 , pkgset
+, shabka
+, self
 , system
 , utils
 , ...
-}@inputs:
-
+}:
 let
   inherit (utils) recImport;
   inherit (builtins) attrValues removeAttrs;
   inherit (pkgset) osPkgs pkgs;
 
   config = hostName:
-    lib.nixosSystem {
+    shabka.lib.nixosSystem {
       inherit system;
-
-      specialArgs = {
-        inherit inputs;
-      };
 
       modules =
         let
@@ -31,28 +25,24 @@ let
             networking.hostName = hostName;
             nix.nixPath = let path = toString ../.; in
               [
-                "nixpkgs=${nixpkgs-unstable}"
-                "nixos=${nixpkgs-stable}"
+                "nixpkgs=${master}"
+                "nixos=${nixos}"
                 "nixos-config=${path}/configuration.nix"
                 "nixpkgs-overlays=${path}/overlays"
               ];
 
-            nixpkgs = {
-              pkgs = osPkgs;
-              config.allowBroken = true;
-            };
+            nixpkgs = { pkgs = osPkgs; };
 
             nix.registry = {
-              nixos.flake = nixpkgs-stable;
-              shabka.flake = shabka;
-              dotshabka.flake = self;
-              nixpkgs.flake = nixpkgs-unstable;
+              nixos.flake = nixos;
+              nixflk.flake = self;
+              nixpkgs.flake = master;
             };
           };
 
           overrides = {
             # use latest systemd
-            #systemd.package = pkgs.systemd;
+            systemd.package = pkgs.systemd;
 
             nixpkgs.overlays =
               let
@@ -67,14 +57,12 @@ let
 
           local = import "${toString ./.}/${hostName}/configuration.nix";
 
-          shabkaModules = attrValues shabka.nixosModules;
-
           # Everything in `./modules/list.nix`.
           flakeModules =
             attrValues (removeAttrs self.nixosModules [ "profiles" ]);
 
         in
-        shabkaModules ++ flakeModules ++ [ core global local overrides ];
+        flakeModules ++ [ core global local overrides ];
 
     };
 
