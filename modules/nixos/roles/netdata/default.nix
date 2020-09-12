@@ -28,6 +28,11 @@ in {
       };
     };
 
+    systemd.services.netdata.serviceConfig = {
+      Restart = mkForce "always";
+      RuntimeMaxSec = "1d";
+    };
+
     lama-corp.sendmail.enable = config.services.netdata.enable;
 
     environment.etc = mkIf config.services.netdata.enable (mkMerge [
