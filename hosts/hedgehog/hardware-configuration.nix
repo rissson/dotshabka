@@ -1,20 +1,16 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nixos-hardware, ... }:
 
 with lib;
 
-let
-  impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
-in {
-  imports = let shabka = import <shabka> { }; in[
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    "${shabka.external.nixos-hardware.path}/common/cpu/amd"
-    "${shabka.external.nixos-hardware.path}/common/pc/laptop"
-    "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
-    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad"
-    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad/t495"
-
-    "${impermanence}/nixos.nix"
+{
+  imports = [
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-pc-laptop
+    nixos-hardware.nixosModules.common-pc-laptop-ssd
+    nixos-hardware.nixosModules.lenovo-thinkpad-t495
   ];
+
+  hardware.enableRedistributableFirmware = true;
 
   environment.persistence."/srv" = {
     directories = [
@@ -41,7 +37,8 @@ in {
   boot.loader.grub = {
     device = "nodev";
     efiSupport = true;
-    extraInitrd = /boot/initramfs.keys.gz;
+    # TODO: migrate to new config option
+    #extraInitrd = /boot/initramfs.keys.gz;
   };
   boot.loader.efi = {
     canTouchEfiVariables = true;
@@ -53,19 +50,19 @@ in {
       device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part2";
       preLVM = true;
       allowDiscards = true;
-      keyFile = "/crypt.keyfile";
+      # keyFile = "/crypt.keyfile";
     };
     cryptroot = {
       device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part3";
       preLVM = true;
       allowDiscards = true;
-      keyFile = "/crypt.keyfile";
+      # keyFile = "/crypt.keyfile";
     };
     cryptswap = {
       device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part4";
       preLVM = true;
       allowDiscards = true;
-      keyFile = "/crypt.keyfile";
+      # keyFile = "/crypt.keyfile";
     };
   };
 
@@ -122,9 +119,15 @@ in {
 
   nix.maxJobs = 7;
 
-  powerManagement = mkIf config.shabka.workstation.power.enable {
+  powerManagement = {
+    enable = true;
     cpuFreqGovernor = mkForce "ondemand";
   };
 
-  shabka.hardware.intel_backlight.enable = true;
+
+  # Give people part of the video group access to adjust the backlight
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
+  '';
 }

@@ -1,29 +1,19 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, soxincfg, ... }:
 
 with lib;
 
-let
-  shabka = import <shabka> { };
-  nixpkgs = import shabka.external.nixpkgs.release-unstable.path { };
-
-  nixpkgs-flakes = import (builtins.fetchTarball {
-    name = "nixpkgs-unstable-flakes";
-    url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
-    sha256 = "16bp423mf6dlwsf4y3phf2p10lms0c7mygsdr31g0z2xp5a5n9i6";
-  }) {};
-in {
+{
   imports = [
-    <dotshabka/modules/nixos>
-
+    # TODO: lama-corp modules
     ./hardware-configuration.nix
     ./networking
     ./backups.nix
 
-    ./home.nix
-  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
-    (singleton "${<dotshabka>}/secrets"));
+    #./home.nix
+  ];
+  # TODO: add secrets
 
-  lama-corp = {
+  /*lama-corp = {
     common.keyboard.enable = mkForce false;
     profiles.workstation = {
       enable = true;
@@ -31,53 +21,185 @@ in {
       primaryUser = "risson";
     };
     luks.enable = true;
+  };*/
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+    extraConfig = ''
+      StreamLocalBindUnlink yes
+    '';
   };
-  services.openssh.passwordAuthentication = mkForce false;
+  networking.firewall.allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-  nix.package = nixpkgs-flakes.nixFlakes;
-  nix.gc.automatic = mkForce false;
+  nix = {
+    autoOptimiseStore = true;
+    buildCores = 0;
+    daemonIONiceLevel = 7;
+    daemonNiceLevel = 10;
+    distributedBuilds = true;
+    useSandbox = true;
+    gc.automatic = mkForce false;
 
-  shabka.keyboard = {
-    layouts = mkForce [ "bepo" "qwerty_intl" ];
-    enableAtBoot = mkForce false;
+    extraOptions = ''
+      auto-optimise-store = true
+    '';
+
+    optimise = {
+      automatic = true;
+      dates = [ "12:00" ];
+    };
+
+    trustedUsers = [
+      "root" "@wheel" "@builders"
+    ];
   };
 
-  shabka.virtualisation = {
+  security.hideProcessInformation = true;
+
+  console = {
+    earlySetup = false;
+    keyMap = "fr-bepo";
+  };
+
+  virtualisation = {
     docker.enable = true;
-    libvirtd.enable = true;
+    libvirtd = {
+      enable = true;
+      qemuRunAsRoot = false;
+    };
   };
 
-  shabka.workstation = {
-    teamviewer.enable = false;
-    virtualbox.enable = mkForce false;
+  services.pcscd.enable = true;
+  security.pam.u2f = {
+    enable = true;
+    cue = true;
   };
+
+  environment.variables.EDITOR = "nvim";
+  environment.variables.BROWSER = "${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser";
+  home-manager.useUserPackages = true;
+
+  services.xserver = {
+    autorun = true;
+    enable = true;
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 30;
+    layout = "fr,us";
+    xkbVariant = "bepo,intl";
+    xkbOptions = concatStringsSep "," [
+      "ctrl:nocaps"
+    ];
+    libinput.enable = true;
+    libinput.naturalScrolling = true;
+    displayManager.defaultSession = "none+i3";
+    displayManager.lightdm.enable = true;
+
+    displayManager.autoLogin = {
+      enable = true;
+      user = "risson";
+    };
+
+    windowManager.i3.enable = true;
+  };
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.pulseaudio.zeroconf.discovery.enable = true;
 
-  nixpkgs.overlays = [
-    (self: super: { fprintd = nixpkgs.fprintd; })
-    (self: super: { libfprint = nixpkgs.libfprint; })
-    (self: super: { libpam-wrapper = nixpkgs.libpam-wrapper; })
-  ];
-  services.fprintd.enable = true;
+  services.fwupd.enable = true;
 
-  users.users.root = {
-    hashedPassword = mkForce
-      "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-    openssh.authorizedKeys.keys = mkForce config.shabka.users.users.risson.sshKeys;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      epson-escpr
+      hplip
+    ];
   };
 
-  shabka.users = with import <dotshabka/data/users> { }; {
+  services.avahi = {
     enable = true;
-    users = {
+    nssmdns = true;
+  };
+
+  # install all completions libraries for system packages
+  environment.pathsToLink = [ "/share/zsh" ];
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+  };
+
+  services.autorandr.enable = true;
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      powerline-fonts
+      twemoji-color-font
+      noto-fonts
+      noto-fonts-extra
+      noto-fonts-emoji
+      noto-fonts-cjk
+      symbola
+      vegur
+      b612
+    ];
+  };
+
+  # GTK
+  services.dbus.packages = with pkgs; [ gnome3.dconf ];
+
+  environment.systemPackages = with pkgs; [
+    git
+    (curl.override {
+      brotliSupport = true;
+    })
+    tmux
+    mosh
+    pavucontrol pa_applet
+    yubico-piv-tool yubikey-manager yubikey-neo-manager yubikey-personalization
+    yubikey-personalization-gui yubioath-desktop
+  ];
+
+  # TODO: neovim, tmux
+
+  users = {
+    mutableUsers = false;
+    groups = {
+      builders = { gid = 1999; };
+      mine = { gid = 2000; };
+    };
+    users = with soxincfg.vars.users; {
+      root = {
+        hashedPassword = mkForce "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
+        openssh.authorizedKeys.keys = mkForce config.users.users.risson.openssh.authorizedKeys.keys;
+      };
       risson = {
-        inherit (risson) uid hashedPassword sshKeys;
-        isAdmin = true;
+        inherit (risson) uid hashedPassword;
         home = "/home/risson";
+        group = "mine";
+        extraGroups = [
+          "builders"
+          "dialout"
+          "fuse"
+          "users"
+          "video"
+          "docker"
+          "wheel"
+          "libvirtd"
+        ];
+        shell = pkgs.zsh;
+        isNormalUser = true;
+        openssh.authorizedKeys.keys = risson.sshKeys;
       };
     };
+  };
+
+  home-manager.users = {
+    # TODO
+    #risson = import ./home;
   };
 
   # This value determines the NixOS release with which your system is to be

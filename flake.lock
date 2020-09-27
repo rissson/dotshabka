@@ -1,0 +1,123 @@
+{
+  "nodes": {
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1600992519,
+        "narHash": "sha256-Y9wlciB/g1QUquVpTZXQq23I5r8qJ4nZArfczTYBo24=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "abfb4cde51856dbee909f373b59cd941f51c2170",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "impermanence": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1597683207,
+        "narHash": "sha256-unJu6q70NzYiKJvsWU5w20woIb4UaCSq5Em2nkt4gus=",
+        "owner": "danieldk",
+        "repo": "impermanence",
+        "rev": "6aa90182a2a851aeafeab312cc8c0892a9f23647",
+        "type": "github"
+      },
+      "original": {
+        "owner": "danieldk",
+        "ref": "flake",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1600019032,
+        "narHash": "sha256-o/PxAWx2O85NyQRDuhZ5QbAACA5yyglmA7hN9GSI27g=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "684eaddf74109b2bedb8b585a25714eb9ea5c54e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1601237684,
+        "narHash": "sha256-W3MLtaJPkEFzdwQhn504SqW96EirbBQEC0Fmdyu4mj8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "491ac6006ad60d42521e3ef11f5418988204cd79",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-20.09",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nur": {
+      "locked": {
+        "lastModified": 1601237925,
+        "narHash": "sha256-QiMc5y23qA3hB1nR+4jsC6LPPirVdg3ObfuWe+JKPw0=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "91b034442910449912da2d8f3e709982c5a7ebe7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "impermanence": "impermanence",
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs",
+        "nur": "nur",
+        "soxin": "soxin"
+      }
+    },
+    "soxin": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1601237907,
+        "narHash": "sha256-9R1zuv/LYXjPvaf5I40eEX/dMxVMN450QGy+00xEMTo=",
+        "ref": "PoC-mode-arg",
+        "rev": "1279108a3c1dd43ccddfe7df29af61400bd0ae5b",
+        "revCount": 11,
+        "type": "git",
+        "url": "file:///home/risson/code/soxin"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/risson/code/soxin"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

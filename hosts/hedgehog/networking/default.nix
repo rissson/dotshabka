@@ -1,6 +1,6 @@
-{ ... }:
+{ soxincfg, ... }:
 
-with import <dotshabka/data/space.lama-corp> { }; {
+with soxincfg.vars.space.lama-corp; {
   networking = with rsn.lap.hedgehog; {
     hostName = "hedgehog";
     domain = "lap.rsn.lama-corp.space";
