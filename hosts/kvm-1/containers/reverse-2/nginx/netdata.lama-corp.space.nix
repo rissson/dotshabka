@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   awkFormatNginx = builtins.toFile "awkFormat-nginx.awk" ''
@@ -45,10 +45,6 @@ in {
       servers."postgres-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
-    "netdata-reverse-1" = {
-      servers."reverse-1.vrt.fsn.lama-corp.space:19999" = {};
-      extraConfig = "keepalive 64;";
-    };
     "netdata-web-1" = {
       servers."web-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
@@ -71,7 +67,8 @@ in {
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
-      access_log /var/log/nginx/access-netdata.lama-corp.space.log netdata;
+      access_log ${config.services.nginx.logsDirectory}/access-netdata.lama-corp.space.log netdata;
+      error_log ${config.services.nginx.logsDirectory}/error-netdata.lama-corp.space.log;
     '';
     locations = {
       "~ /(?<behost>.*)/(?<ndpath>.*)" = {

@@ -69,8 +69,8 @@ with srv.kvm-1; {
             prefixLength = lewdax.external.v4.prefixLength;
           }
           {
-            address = reverse-1.external.v4.ip;
-            prefixLength = reverse-1.external.v4.prefixLength;
+            address = reverse-2.external.v4.ip;
+            prefixLength = reverse-2.external.v4.prefixLength;
           }
           {
             address = mail-1.external.v4.ip;

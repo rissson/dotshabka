@@ -41,12 +41,6 @@ in {
     imports = [ "${<dotshabka>}/hosts/postgres-1/configuration.nix" ];
   };
 
-  "reverse-1.vrt.fsn" = { config, ... }: {
-    deployment = defaultDeployment { inherit config; };
-
-    imports = [ "${<dotshabka>}/hosts/reverse-1/configuration.nix" ];
-  };
-
   "web-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 

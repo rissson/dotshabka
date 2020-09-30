@@ -70,15 +70,6 @@
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
-      "title": "netdata reverse-1",
-      "tooltip": "Open Netdata monitoring for reverse-1",
-      "type": "link",
-      "url": "http://netdata.lama-corp.space/reverse-1/"
-    },
-    {
-      "icon": "cloud",
-      "tags": [],
-      "targetBlank": true,
       "title": "netdata ldap-1",
       "tooltip": "Open Netdata monitoring for ldap-1",
       "type": "link",

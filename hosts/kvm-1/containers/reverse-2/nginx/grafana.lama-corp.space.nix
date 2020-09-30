@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   services.nginx = {
@@ -10,7 +10,8 @@
       forceSSL = true;
       enableACME = true;
       extraConfig = ''
-        access_log /var/log/nginx/access-grafana.lama-corp.space.log netdata;
+        access_log ${config.services.nginx.logsDirectory}/access-grafana.lama-corp.space.log netdata;
+        error_log ${config.services.nginx.logsDirectory}/error-grafana.lama-corp.space.log;
       '';
       locations."/".proxyPass = "http://grafana-lama-corp-space";
     };
