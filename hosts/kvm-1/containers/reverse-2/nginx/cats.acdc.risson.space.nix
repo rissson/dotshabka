@@ -13,7 +13,8 @@ with lib;
       forceSSL = true;
       enableACME = true;
       extraConfig = ''
-        access_log /var/log/nginx/access-cats.acdc.risson.space.log netdata;
+        access_log ${config.services.nginx.logsDirectory}/access-cats.acdc.risson.space.log netdata;
+        error_log ${config.services.nginx.logsDirectory}/error-cats.acdc.risson.space.log;
       '';
       locations = {
         "/" = {

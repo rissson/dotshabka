@@ -28,8 +28,6 @@ in {
       serviceBuilder (import ./guests/minio-1.nix { inherit pkgs; });
     libvirtd-guest-postgres-1 =
       serviceBuilder (import ./guests/postgres-1.nix { inherit pkgs; });
-    libvirtd-guest-reverse-1 =
-      serviceBuilder (import ./guests/reverse-1.nix { inherit pkgs; });
     libvirtd-guest-web-1 =
       serviceBuilder (import ./guests/web-1.nix { inherit pkgs; });
     libvirtd-guest-web-2 =

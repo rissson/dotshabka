@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   services.nginx.upstreams."md-lama-corp-space" = {
@@ -15,7 +15,8 @@
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
-      access_log /var/log/nginx/access-md.lama-corp.space.log netdata;
+      access_log ${config.services.nginx.logsDirectory}/access-md.lama-corp.space.log netdata;
+      error_log ${config.services.nginx.logsDirectory}/error-md.lama-corp.space.log;
     '';
     locations = {
       "/" = {

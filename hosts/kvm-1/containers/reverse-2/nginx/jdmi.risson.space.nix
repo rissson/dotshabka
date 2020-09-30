@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   services.nginx = {
@@ -12,7 +12,8 @@
       forceSSL = true;
       enableACME = true;
       extraConfig = ''
-        access_log /var/log/nginx/access-jdmi.risson.space.log netdata;
+        access_log ${config.services.nginx.logsDirectory}/access-jdmi.risson.space.log netdata;
+        error_log ${config.services.nginx.logsDirectory}/error-jdmi.risson.space.log;
       '';
       locations."/".proxyPass = "http://jdmi-risson-space";
     };

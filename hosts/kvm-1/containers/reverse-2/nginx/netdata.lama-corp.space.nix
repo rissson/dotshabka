@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   awkFormatNginx = builtins.toFile "awkFormat-nginx.awk" ''
@@ -71,7 +71,8 @@ in {
     forceSSL = true;
     enableACME = true;
     extraConfig = ''
-      access_log /var/log/nginx/access-netdata.lama-corp.space.log netdata;
+      access_log ${config.services.nginx.logsDirectory}/access-netdata.lama-corp.space.log netdata;
+      error_log ${config.services.nginx.logsDirectory}/error-netdata.lama-corp.space.log;
     '';
     locations = {
       "~ /(?<behost>.*)/(?<ndpath>.*)" = {

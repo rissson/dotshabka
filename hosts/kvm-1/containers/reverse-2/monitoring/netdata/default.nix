@@ -12,10 +12,5 @@ with lib;
 
     "netdata/go.d/nginx.conf".text = builtins.readFile ./go.d/nginx.conf;
     "netdata/go.d/web_log.conf".text = builtins.readFile ./go.d/web_log.conf;
-
-    "netdata/python.d.conf".text = ''
-      example: no
-      logind: yes
-    '';
   };
 }
