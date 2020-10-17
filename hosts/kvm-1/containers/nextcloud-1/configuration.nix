@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  networking.firewall.allowedTCPPorts = [ 80 ];
+
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud18;
