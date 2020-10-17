@@ -8,8 +8,8 @@ let
 
   nixpkgs-flakes = import (builtins.fetchTarball {
     name = "nixpkgs-unstable-flakes";
-    url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
-    sha256 = "16bp423mf6dlwsf4y3phf2p10lms0c7mygsdr31g0z2xp5a5n9i6";
+    url = "https://github.com/NixOS/nixpkgs/archive/cc739e1c67c31fec7483137f352d32e093e40b28.tar.gz";
+    sha256 = "135n5lxyh24bvsfcx1zlhzd9ciqn83plqmzv8jkxg773w8bm5smk";
   }) {};
 in {
   imports = [
@@ -23,6 +23,14 @@ in {
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
+  services.kubernetes = {
+    roles = [ "master" "node" ];
+    masterAddress = "hedgehog";
+    easyCerts = true;
+    kubelet.extraOpts = "--fail-swap-on=false";
+  };
+  services.tlp.enable = mkForce false;
+
   lama-corp = {
     common.keyboard.enable = mkForce false;
     profiles.workstation = {
@@ -35,7 +43,7 @@ in {
   services.openssh.passwordAuthentication = mkForce false;
 
   nix.extraOptions = ''
-    experimental-features = nix-command flakes
+    experimental-features = nix-command flakes ca-references
   '';
   nix.package = nixpkgs-flakes.nixFlakes;
   nix.gc.automatic = mkForce false;

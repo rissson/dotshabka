@@ -198,6 +198,9 @@ in {
       "${defaultModifier}+${secondModifier}+slash" = "move container to workspace ${ws9}; workspace ${ws9}";
       "${defaultModifier}+${secondModifier}+asterisk" = "move container to workspace ${ws10}; workspace ${ws10}";
       "${defaultModifier}+${secondModifier}+equal" = "move container to workspace ${ws11}; workspace ${ws11}";
+      # move workspace between monitors
+      "${defaultModifier}+Ctrl+g" = "move workspace to output left";
+      "${defaultModifier}+Ctrl+h" = "move workspace to output right";
       # reload the configuration file
       "${defaultModifier}+${secondModifier}+X" = "reload";
       # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
