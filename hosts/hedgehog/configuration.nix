@@ -1,84 +1,223 @@
-{ config, pkgs, lib, ... }:
+{ soxincfg, config, lib, pkgs, ... }:
 
-with lib;
-
-let
-  shabka = import <shabka> { };
-  nixpkgs = import shabka.external.nixpkgs.release-unstable.path { };
-
-  nixpkgs-flakes = import (builtins.fetchTarball {
-    name = "nixpkgs-unstable-flakes";
-    url = "https://github.com/NixOS/nixpkgs/archive/b953766507552d50b9baa59dbc712f52c25609fd.tar.gz";
-    sha256 = "16bp423mf6dlwsf4y3phf2p10lms0c7mygsdr31g0z2xp5a5n9i6";
-  }) {};
-in {
+{
   imports = [
-    <dotshabka/modules/nixos>
-
     ./hardware-configuration.nix
-    ./networking
+    ./networking.nix
     ./backups.nix
+    ./k8s.nix
+  ] ++ (lib.optionals (builtins.pathExists ../../secrets)
+    (lib.singleton ../../secrets));
 
-    ./home.nix
-  ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
-    (singleton "${<dotshabka>}/secrets"));
+  home-manager.users.risson = import ./home.nix { inherit soxincfg; };
+
+  #### From lama-corp modules
+
+  # Shabka stuff
+
+  soxin.hardware.bluetooth.enable = true;
 
   lama-corp = {
-    common.keyboard.enable = mkForce false;
-    profiles.workstation = {
-      enable = true;
-      isLaptop = true;
-      primaryUser = "risson";
+    settings = {
+      fonts.enable = true;
+      gtk.enable = true;
+      keyboard = {
+        layouts = [
+          { layout = "fr"; variant = "bepo"; keyMap = "fr-bepo"; }
+          { layout = "us"; variant = "intl"; }
+        ];
+      };
     };
-    luks.enable = true;
-  };
-  services.openssh.passwordAuthentication = mkForce false;
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-  nix.package = nixpkgs-flakes.nixFlakes;
-  nix.gc.automatic = mkForce false;
+    services = {
+      gpgAgent.enable = true;
+      openssh.enable = true;
+      printing = {
+        enable = true;
+        brands = [ "hp" ];
+      };
+      xserver.enable = true;
+    };
 
-  shabka.keyboard = {
-    layouts = mkForce [ "bepo" "qwerty_intl" ];
-    enableAtBoot = mkForce false;
-  };
+    programs = {
+      autorandr.enable = true;
+      git.enable = true;
+      htop.enable = true;
+      mosh.enable = true;
+      neovim = {
+        enable = true;
+        extraRC = ''
+          set background=dark
+          colorscheme gruvbox
+          let g:airline_theme='gruvbox'
 
-  shabka.virtualisation = {
-    docker.enable = true;
-    libvirtd.enable = true;
-  };
+          " set the mapleader
+          let mapleader = " "
+          " Whitespace
+          set expandtab    " don't use tabs
+          set shiftwidth=4 " Number of spaces to use for each step of (auto)indent.
+          set softtabstop=8    " Number of spaces that a <Tab> in the file counts for.
+          autocmd Filetype make setlocal noexpandtab " don't expand in makefiles
 
-  shabka.workstation = {
-    teamviewer.enable = false;
-    virtualbox.enable = mkForce false;
-  };
-  hardware.pulseaudio.zeroconf.discovery.enable = true;
+          set listchars=tab:»·              " a tab should display as "»·"
+          set listchars+=trail:·            " show trailing spaces as dots
+        '';
+      };
+      ssh.enable = true;
+      starship.enable = true;
+      tmux.enable = true;
+      zsh.enable = true;
+    };
 
-  nixpkgs.overlays = [
-    (self: super: { fprintd = nixpkgs.fprintd; })
-    (self: super: { libfprint = nixpkgs.libfprint; })
-    (self: super: { libpam-wrapper = nixpkgs.libpam-wrapper; })
-  ];
-  services.fprintd.enable = true;
+    virtualisation = {
+      docker.enable = true;
+      libvirtd.enable = true;
+    };
 
-  users.users.root = {
-    hashedPassword = mkForce
-      "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-    openssh.authorizedKeys.keys = mkForce config.shabka.users.users.risson.sshKeys;
-  };
+    hardware = {
+      enable = true;
+      intelBacklight.enable = true;
+      sound.enable = true;
+      yubikey.enable = true;
+    };
 
-  shabka.users = with import <dotshabka/data/users> { }; {
-    enable = true;
     users = {
-      risson = {
-        inherit (risson) uid hashedPassword sshKeys;
-        isAdmin = true;
-        home = "/home/risson";
+      enable = true;
+      users = {
+        risson = {
+          inherit (soxincfg.vars.users.risson) uid hashedPassword sshKeys;
+          isAdmin = true;
+          home = "/home/risson";
+        };
       };
     };
   };
+
+  console.keyMap = lib.mkForce "us";
+
+  # Other stuff
+
+  hardware.pulseaudio.zeroconf.discovery.enable = true;
+
+  services.logind = {
+    lidSwitch = "hybrid-sleep";
+    lidSwitchDocked = "ignore";
+    lidSwitchExternalPower = "hybrid-sleep";
+    extraConfig = ''
+        HandlePowerKey=suspend
+    '';
+  };
+
+  environment.homeBinInPath = true;
+
+  users.users.root = {
+    hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
+    openssh.authorizedKeys.keys = config.lama-corp.users.users.risson.sshKeys;
+  };
+
+  services.openssh.passwordAuthentication = lib.mkForce false;
+  nix.gc.automatic = lib.mkForce false;
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    { hostName = "kvm-1.srv.fsn.lama-corp.space"; system = "x86_64-linux"; maxJobs = 2; speedFactor = 2; supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]; }
+  ];
+  nix.extraOptions = ''
+    builders-use-substitutes = true
+  '';
+
+  environment.systemPackages = with pkgs; [
+    htop
+    iotop
+    jq
+    killall
+    ldns
+    minio-client
+    ncdu
+    tcpdump
+    traceroute
+    tree
+    unzip
+    wget
+    zip
+  ];
+
+  #### TESTING
+
+  services.tlp.enable = lib.mkForce false;
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "lama-corp.cri.epita.net" = {
+        extraConfig = ''
+          # Redirect the user to the login page when they are not logged in
+          error_page 401 = @error401;
+        '';
+        locations = {
+          "/" = {
+            root = "/home/risson/lama-corp";
+            extraConfig = ''
+              autoindex on;
+
+              # Protect this location using the auth_request
+              auth_request /auth_request;
+
+              # Automatically renew SSO cookie on request
+              auth_request_set $cookie $upstream_http_set_cookie;
+              add_header Set-Cookie $cookie;
+            '';
+          };
+          "/infra" = {
+            root = "/home/risson/lama-corp";
+            extraConfig = ''
+              autoindex on;
+            '';
+          };
+          "= /auth_request" = {
+            proxyPass = "http://cri.epita.net:8000/auth/request/";
+            extraConfig = ''
+              # Do not allow requests from outside
+              #internal;
+
+              # Do not forward the request body (the intranet does not care about it)
+              proxy_pass_request_body off;
+              proxy_set_header Content-Length "";
+
+              # Set custom information for ACL matching
+              proxy_set_header X-Origin-Scheme $scheme;
+              proxy_set_header X-Origin-Host "lama-corp.cri.epita.net";
+              proxy_set_header X-Origin-URI $request_uri;
+
+              # Standard proxy information
+              proxy_set_header Host cri.epita.net;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header X-Forwarded-Host $host;
+              proxy_set_header X-Forwarded-Server $host;
+              proxy_set_header Accept-Encoding "";
+            '';
+          };
+          "@error401" = {
+            extraConfig = ''
+              # Automatically renew SSO cookie on request
+              auth_request_set $cookie $upstream_http_set_cookie;
+              add_header Set-Cookie $cookie;
+
+              return 307 http://cri.epita.net:8000/auth/login/;
+            '';
+          };
+        };
+      };
+    };
+  };
+
+  services.netdata.enable = true;
+
+  networking.extraHosts = ''
+    127.0.0.1 cri.epita.net
+    127.0.0.1 lama-corp.cri.epita.net
+    127.0.0.1 code.cri.epita.net
+  '';
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

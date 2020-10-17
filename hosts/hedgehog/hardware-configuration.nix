@@ -1,23 +1,30 @@
-{ config, pkgs, lib, ... }:
+{ nixos-hardware, lib, pkgs, ... }:
 
-with lib;
-
-let
-  impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
-in {
-  imports = let shabka = import <shabka> { }; in[
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    "${shabka.external.nixos-hardware.path}/common/cpu/amd"
-    "${shabka.external.nixos-hardware.path}/common/pc/laptop"
-    "${shabka.external.nixos-hardware.path}/common/pc/laptop/ssd"
-    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad"
-    "${shabka.external.nixos-hardware.path}/lenovo/thinkpad/t495"
-
-    "${impermanence}/nixos.nix"
+{
+  imports = [
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-pc-laptop
+    nixos-hardware.nixosModules.common-pc-laptop-ssd
+    nixos-hardware.nixosModules.lenovo-thinkpad-t495
   ];
+
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
+
+  nix.maxJobs = 7;
+
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = lib.mkForce "ondemand";
+    powertop.enable = lib.mkForce false;
+  };
 
   environment.persistence."/srv" = {
     directories = [
+      "/var/lib/kubernetes"
+      "/var/lib/etcd"
+      "/var/lib/cfssl"
+      "/var/lib/kubelet"
+
       "/var/lib/bluetooth"
       "/var/lib/fprint"
       "/var/log"
@@ -34,18 +41,31 @@ in {
     "usb_storage"
     "sd_mod"
     "rtsx_pci_sdmmc"
+    # luks stuff
+    "aes_x86_64"
+    "aesni_intel"
+    "aesni_amd"
+    "cryptd"
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-amd" ];
 
   boot.loader.grub = {
+    enable = true;
+    version = 2;
     device = "nodev";
     efiSupport = true;
-    extraInitrd = /boot/initramfs.keys.gz;
+    enableCryptodisk = true;
   };
+
   boot.loader.efi = {
     canTouchEfiVariables = true;
     efiSysMountPoint = "/efi";
+  };
+
+  boot.initrd.secrets = {
+    "/crypt.keyfile" = "/srv/secrets/initrd/crypt.keyfile";
   };
 
   boot.initrd.luks.devices = {
@@ -119,12 +139,4 @@ in {
   swapDevices = [
     { device = "/dev/disk/by-uuid/a76d0622-a8d2-42a6-87a6-ab24362deb02"; }
   ];
-
-  nix.maxJobs = 7;
-
-  powerManagement = mkIf config.shabka.workstation.power.enable {
-    cpuFreqGovernor = mkForce "ondemand";
-  };
-
-  shabka.hardware.intel_backlight.enable = true;
 }

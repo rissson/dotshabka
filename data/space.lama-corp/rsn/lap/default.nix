@@ -1,5 +1,0 @@
-{ ... }:
-
-{
-  hedgehog = import ./hedgehog { };
-}
