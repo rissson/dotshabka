@@ -2,9 +2,10 @@
 
 {
   imports = [
+    ./fractal-bot
     ./gitlab-ci-1
     ./ldap-1
-    ./fractal-bot
+    ./nextcloud-1
     ./reverse-2
   ];
 }
