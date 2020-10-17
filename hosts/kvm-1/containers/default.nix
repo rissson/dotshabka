@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./acdc-1
     ./fractal-bot
     ./gitlab-ci-1
     ./ldap-1
