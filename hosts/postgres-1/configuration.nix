@@ -22,7 +22,13 @@ with lib;
 
     postgresql = {
       enable = true;
-      ensureDatabasesAndUsers = [ "catcdc" "codimd" "pastebin" "scoreboard_seedbox_cri" ];
+      ensureDatabasesAndUsers = [
+        "catcdc"
+        "codimd"
+        "pastebin"
+        "scoreboard_seedbox_cri"
+        "nextcloud"
+      ];
     };
 
     common.backups.startAt = "*-*-* *:00:06 UTC";
