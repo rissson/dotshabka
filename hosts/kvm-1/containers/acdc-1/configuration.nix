@@ -1,13 +1,19 @@
 { config, pkgs, lib, ... }:
 
 {
-  networking.firewall.allowedTCPPorts = [ config.services.lighttpd.port ];
+  networking.firewall.allowedTCPPorts = [ 80 ];
 
-  services.lighttpd = {
+  services.nginx = {
     enable = true;
-    document-root = "/persist/acdc.risson.space";
-    extraConfig = ''
-      $HTTP["url"] =~ "^/photos($|/)" { server.dir-listing = "enable" }
-    '';
+    virtualHosts."acdc.risson.space" = {
+      root = "/persist/acdc.risson.space";
+      locations = {
+        "/photos" = {
+          extraConfig = ''
+            autoindex on;
+          '';
+        };
+      };
+    };
   };
 }
