@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./beauflard.risson.space.nix
     ./bin.lama-corp.space.nix
     ./jdmi.risson.space.nix
     ./lama-corp.space.nix
