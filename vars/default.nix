@@ -1,7 +1,7 @@
 {
-  space.lama-corp = import ./space.lama-corp { };
+  space.lama-corp = import ./space.lama-corp;
 
-  users = import ./users { };
+  users = import ./users;
 
   externalNameservers = [
     "1.1.1.1"

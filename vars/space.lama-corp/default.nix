@@ -1,13 +1,7 @@
-{ }:
-
 {
-  bar = import ./bar { };
-
-  drn = import ./drn { };
-
-  fsn = import ./fsn { };
-
-  nbg = import ./nbg { };
-
-  rsn = import ./rsn { };
+  bar = import ./bar.nix;
+  drn = import ./drn.nix;
+  fsn = import ./fsn.nix;
+  nbg = import ./nbg.nix;
+  rsn = import ./rsn.nix;
 }

@@ -1,5 +1,0 @@
-{ ... }:
-
-{
-  giraffe = import ./giraffe { };
-}

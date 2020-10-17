@@ -52,9 +52,10 @@
         in
         {
           devShell = pkgs.mkShell {
-            builtInputs = with pkgs; [
+            buildInputs = with pkgs; [
               git
               morph
+              osPkgs.nixfmt
               nixpkgs-fmt
               pre-commit
             ];
@@ -69,14 +70,22 @@
       );
 
       outputs = {
-        lib = nixos.lib.extend (import ./lib);
+        lib = soxin.lib.extend (import ./lib);
 
         vars = import ./vars;
 
-        # TODO
-        nixosConfigurations = {};
+        nixosConfigurations =
+          let
+            system = "x86_64-linux";
+            pkgset' = pkgset system;
+          in
+          import ./hosts (
+            lib.recursiveUpdate inputs {
+              inherit lib system;
+              pkgset = pkgset';
+            }
+          );
 
-        # TODO
         nixosModules =
           let
             modulesAttrs = {
