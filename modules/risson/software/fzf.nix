@@ -1,5 +1,0 @@
-{ ... }:
-
-{
-  shabka.fzf.enable = true;
-}

@@ -80,14 +80,10 @@
         nixosModules =
           let
             modulesAttrs = {
-              lama-corp = import ./modules/nixos/list.nix;
-              shabka = import ./shabka-modules/nixos/list.nix;
+              shabka = import ./shabka/nixos/list.nix;
             };
-            # profiles
-            profilesList = import ./profiles/nixos/list.nix;
-            profilesAttrs = { profiles = lib.pathsToImportedAttrs profilesList; };
           in
-          lib.recursiveUpdate modulesAttrs profilesAttrs;
+          modulesAttrs;
 
         overlay = import ./pkgs;
 

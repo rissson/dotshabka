@@ -1,5 +1,0 @@
-{ ... }:
-
-{
-  imports = [ ./influxdb.nix ./grafana ];
-}
