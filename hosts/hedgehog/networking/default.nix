@@ -6,7 +6,7 @@ with import <dotshabka/data/space.lama-corp> { }; {
     domain = "lap.rsn.lama-corp.space";
     hostId = "daec192f";
 
-    nameservers = [ "172.28.1.1" "1.1.1.1" ];
+    nameservers = [ "1.1.1.1" ];
 
     useDHCP = true;
     interfaces.enp3s0f0.useDHCP = true;

@@ -18,6 +18,11 @@ in {
 
   environment.persistence."/srv" = {
     directories = [
+      "/var/lib/kubernetes"
+      "/var/lib/etcd"
+      "/var/lib/cfssl"
+      "/var/lib/kubelet"
+
       "/var/lib/bluetooth"
       "/var/lib/fprint"
       "/var/log"
@@ -122,8 +127,12 @@ in {
 
   nix.maxJobs = 7;
 
-  powerManagement = mkIf config.shabka.workstation.power.enable {
+  hardware.enableRedistributableFirmware = true;
+
+  powerManagement = {
+    enable = true;
     cpuFreqGovernor = mkForce "ondemand";
+    powertop.enable = mkForce false;
   };
 
   shabka.hardware.intel_backlight.enable = true;
