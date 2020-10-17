@@ -14,6 +14,7 @@ in {
     ./nginx/cats.acdc.risson.space.nix
     ./nginx/chat.lama-corp.space.nix
     ./nginx/cloud.lama-corp.space.nix
+    ./nginx/devoups.online.nix
     ./nginx/grafana.lama-corp.space.nix
     ./nginx/jdmi.risson.space.nix
     ./nginx/lama-corp.space.nix

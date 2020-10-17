@@ -44,5 +44,7 @@
       };
     });
   };
+
+  # Needed for docker
   systemd.services."container@gitlab-ci-1".environment.SYSTEMD_NSPAWN_USE_CGNS = "0";
 }
