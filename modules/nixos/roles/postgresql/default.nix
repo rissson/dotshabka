@@ -33,6 +33,7 @@ in {
         host  all all 127.0.0.1/32          md5
         host  all all ::1/128               md5
         host  all all 172.28.0.0/16         md5
+        host  all all 10.231.0.0/16         md5
         host  all all fd00:7fd7:e9a5::/48   md5
       '';
       ensureDatabases = cfg.ensureDatabasesAndUsers;

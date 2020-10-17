@@ -3,7 +3,7 @@
 {
   services.nginx = {
     upstreams."jdmi-risson-space" = {
-      servers."web-1.vrt.fsn.lama-corp.space:8002" = {};
+      servers."jdmi-1.containers:80" = {};
     };
 
     virtualHosts."jdmi.risson.space" = {

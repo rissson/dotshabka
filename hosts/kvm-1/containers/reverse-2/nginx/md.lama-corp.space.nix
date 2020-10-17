@@ -2,7 +2,7 @@
 
 {
   services.nginx.upstreams."md-lama-corp-space" = {
-    servers."web-2.vrt.fsn.lama-corp.space:8003" = {};
+    servers."web-2.containers:8003" = {};
   };
 
   services.nginx.virtualHosts."md.lama-corp.space" = {

@@ -4,7 +4,7 @@
   services.nginx = {
     upstreams."acdc-risson-space" = {
       servers = {
-        "web-1.vrt.fsn.lama-corp.space:8000" = {};
+        "acdc-1.containers:80" = {};
       };
     };
 

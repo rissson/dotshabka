@@ -8,15 +8,10 @@
       mountPoint = "/persist";
       isReadOnly = false;
     };
-    bindMounts."root" = {
-      hostPath = "/srv/containers/gitlab-ci-1/root/";
-      mountPoint = "/root";
-      isReadOnly = false;
-    };
     ephemeral = true;
     privateNetwork = true;
-    hostBridge = "br-local";
-    localAddress = with vrt.gitlab-ci-1.internal.v4; "${ip}/${toString prefixLength}";
+    hostAddress = "10.231.0.1";
+    localAddress = "10.231.0.12";
 
     # Needed for docker
     additionalCapabilities = [ "all" ];
@@ -36,13 +31,11 @@
       ];
     } // {
       environment.etc."resolv.conf".text = ''
-        nameserver ${srv.kvm-1.internal.v4.ip}
+        nameserver 10.231.0.1
       '';
-      networking.defaultGateway = {
-        address = vrt.gitlab-ci-1.internal.v4.gw;
-        interface = vrt.gitlab-ci-1.internal.interface;
-      };
     });
   };
+
+  # Needed for docker
   systemd.services."container@gitlab-ci-1".environment.SYSTEMD_NSPAWN_USE_CGNS = "0";
 }

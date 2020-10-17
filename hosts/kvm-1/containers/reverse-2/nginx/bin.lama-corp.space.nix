@@ -3,7 +3,7 @@
 {
   services.nginx = {
     upstreams."bin-lama-corp-space" = {
-      servers."web-1.vrt.fsn.lama-corp.space:8006" = {};
+      servers."pastebin-1.containers:80" = {};
     };
 
     virtualHosts."bin.lama-corp.space" = {

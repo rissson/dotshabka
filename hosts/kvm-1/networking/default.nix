@@ -17,6 +17,23 @@ with srv.kvm-1; {
     "net.ipv6.conf.all.forwarding" = true;
   };
 
+  services.dhcpd4 = {
+    enable = true;
+    interfaces = [ "br-k8s" ];
+    extraConfig = ''
+      authoritative;
+
+      option subnet-mask 255.255.255.0;
+      option broadcast-address 172.28.4.255;
+      option routers 172.28.4.254;
+      option domain-name-servers 172.28.4.254;
+      option domain-name "k8s.fsn.lama-corp.space";
+      subnet 172.28.4.0 netmask 255.255.255.0 {
+        range 172.28.4.230 172.28.4.240;
+      }
+    '';
+  };
+
   networking = {
     hostName = "kvm-1";
     domain = "srv.fsn.lama-corp.space";
@@ -35,6 +52,10 @@ with srv.kvm-1; {
       "${internal.interface}" = {
         interfaces = [ ];
         rstp = false;
+      };
+      "br-k8s" = {
+        interfaces = [ ];
+        rstp = true;
       };
     };
 
@@ -72,11 +93,30 @@ with srv.kvm-1; {
             address = reverse-2.external.v4.ip;
             prefixLength = reverse-2.external.v4.prefixLength;
           }
-          {
-            address = mail-1.external.v4.ip;
-            prefixLength = mail-1.external.v4.prefixLength;
-          }
         ];
+      };
+
+      "br-k8s" = {
+        ipv4 = {
+          addresses = [{
+            address = "172.28.4.254";
+            prefixLength = 24;
+          }];
+          routes = [
+            {
+              address = "148.251.148.234";
+              prefixLength = 32;
+            }
+            {
+              address = "148.251.148.235";
+              prefixLength = 32;
+            }
+            {
+              address = "172.28.8.0";
+              prefixLength = 24;
+            }
+          ];
+        };
       };
 
       "${internal.interface}" = {
@@ -104,7 +144,8 @@ with srv.kvm-1; {
     nat = {
       enable = true;
       externalInterface = external.interface;
-      internalInterfaces = [ internal.interface wg.interface "ve-+" ];
+      internalInterfaces = [ internal.interface wg.interface "ve-+" "br-k8s" ];
+      internalIPs = [ "172.28.0.0/16" "10.0.0.0/8" ];
     };
   };
 }
