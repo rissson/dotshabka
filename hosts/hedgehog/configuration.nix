@@ -82,6 +82,13 @@
 
   services.openssh.passwordAuthentication = lib.mkForce false;
   nix.gc.automatic = lib.mkForce false;
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    { hostName = "kvm-1.srv.fsn.lama-corp.space"; system = "x86_64-linux"; maxJobs = 2; speedFactor = 2; supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]; }
+  ];
+  nix.extraOptions = ''
+    builders-use-substitutes = true
+  '';
 
   environment.systemPackages = with pkgs; [
     htop

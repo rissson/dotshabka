@@ -1,11 +1,9 @@
 { config, pkgs, lib, ... }:
 
-with lib;
 with pkgs;
+with lib;
 
 let
-  shabka = import <shabka> { };
-
   myFunctions = stdenvNoCC.mkDerivation rec {
     name = "zsh-functions-${version}";
     version = "0.0.1";
@@ -19,10 +17,31 @@ let
       rm -f $out/default.nix
 
       substituteInPlace $out/c \
-        --subst-var-by archiver_bin ${getBin shabka.external.nixpkgs.release-unstable.archiver}/bin/arc
+        --subst-var-by archiver_bin ${getBin archiver}/bin/arc
 
       substituteInPlace $out/gcim \
         --subst-var-by git_bin ${getBin git}/bin/git
+
+      substituteInPlace $out/gorder \
+        --subst-var-by git_bin ${getBin git}/bin/git \
+        --subst-var-by sed_bin ${getBin gnused}/bin/sed
+
+      substituteInPlace $out/gtime \
+        --subst-var-by git_bin ${getBin git}/bin/git \
+        --subst-var-by sed_bin ${getBin gnused}/bin/sed
+
+      substituteInPlace $out/get_pr \
+        --subst-var-by curl_bin ${getBin curl}/bin/curl \
+        --subst-var-by git_bin ${getBin git}/bin/git \
+        --subst-var-by jq_bin ${getBin jq}/bin/jq \
+        --subst-var-by xsel_bin ${getBin xsel}/bin/xsel
+
+      substituteInPlace $out/git_require_clean_work_tree \
+        --subst-var-by git_bin ${getBin git}/bin/git
+
+      substituteInPlace $out/git_gopath_formatted_repo_path \
+        --subst-var-by git_bin ${getBin git}/bin/git \
+        --subst-var-by perl_bin ${getBin perl}/bin/perl
 
       substituteInPlace $out/jsonpp \
         --subst-var-by python_bin ${getBin python37Full}/bin/python \
@@ -37,8 +56,19 @@ let
       substituteInPlace $out/kcn \
         --subst-var-by kubectl ${getBin kubectl}/bin/kubectl
 
+      substituteInPlace $out/new_pr \
+        --subst-var-by curl_bin ${getBin curl}/bin/curl \
+        --subst-var-by git_bin ${getBin git}/bin/git \
+        --subst-var-by jq_bin ${getBin jq}/bin/jq \
+        --subst-var-by xsel_bin ${getBin xsel}/bin/xsel
+
       substituteInPlace $out/sapg \
         --subst-var-by apg_bin ${getBin apg}/bin/apg
+
+      substituteInPlace $out/tmycli \
+        --subst-var-by mycli_bin ${getBin mycli}/bin/mycli \
+        --subst-var-by netstat_bin ${getBin nettools}/bin/netstat \
+        --subst-var-by ssh_bin ${getBin openssh}/bin/ssh
 
       substituteInPlace $out/ulimit_usage \
         --subst-var-by paste_bin ${getBin coreutils}/bin/paste \
@@ -48,11 +78,14 @@ let
         --subst-var-by sed_bin ${getBin gnused}/bin/sed \
         --subst-var-by bc_bin ${getBin bc}/bin/bc
 
+      substituteInPlace $out/pr \
+        --subst-var-by git_bin ${getBin git}/bin/git
+
       substituteInPlace $out/vim_clean_swap \
         --subst-var-by vim_bin ${getBin vim}/bin/vim
 
       substituteInPlace $out/x \
-        --subst-var-by archiver_bin ${getBin shabka.external.nixpkgs.release-unstable.archiver}/bin/arc
+        --subst-var-by archiver_bin ${getBin archiver}/bin/arc
 
       substituteInPlace $out/xmlpp \
         --subst-var-by xmllint_bin ${getBin libxml2Python}/bin/xmllint
@@ -78,16 +111,14 @@ let
       rm -f $out/mkfs.enc $out/mount.enc $out/umount.enc $out/register_u2f
     '';
   };
-
 in {
-
-  programs.zsh = mkMerge [
+  programs.zsh = mkForce (mkMerge [
     ({ initExtra = optionalString stdenv.isDarwin ''
-        # source the nix profiles
-        if [[ -r "${config.home.homeDirectory}/.nix-profile/etc/profile.d/nix.sh" ]]; then
-          source "${config.home.homeDirectory}/.nix-profile/etc/profile.d/nix.sh"
-        fi
-      '';})
+      # source the nix profiles
+      if [[ -r "${config.home.homeDirectory}/.nix-profile/etc/profile.d/nix.sh" ]]; then
+        source "${config.home.homeDirectory}/.nix-profile/etc/profile.d/nix.sh"
+      fi
+    '';})
 
     {
       enable = true;
@@ -100,38 +131,18 @@ in {
       # avoid ambiguity.
       autocd = true;
 
-      enableCompletion = true;
-      enableAutosuggestions = true;
-
       shellAliases = {
         cat = "${bat}/bin/bat";
         e = "\${EDITOR:-nvim}";
-        gl = "github_commit_link";
-        http = "http --print=HhBb";
-        kc = "kubectl";
-        ll = "ls -la";
+        k = "kubectl";
+        ll = mkForce "ls -lha";
         pw = "ps aux | grep -v grep | grep -e";
         rot13 = "tr \"[A-Za-z]\" \"[N-ZA-Mn-za-m]\"";
         serve_this = "${python3}/bin/python -m http.server";
         utf8test = "${curl}/bin/curl -L https://github.com/tmux/tmux/raw/master/tools/UTF-8-demo.txt";
+        v = "nvim";
         vi = "nvim";
         vim = "nvim";
-
-        # for enabling and disabling the current theme. This means go back to a very basic theme
-        zsh_theme_enable = "prompt_powerlevel9k_teardown";
-        zsh_theme_disable = "prompt_powerlevel9k_setup";
-
-        # TODO: move this to the swm package
-        s = "swm tmux switch-client";
-        sb = "swm --story base tmux switch-client";
-        vim_ready = "sleep 1";
-
-        # TODO: move to docker-config, how to tell ZSH to import them?
-        remove_created_containers = "docker rm -v \$(docker ps -a -q -f status=created)";
-        remove_dangling_images = "docker rmi \$(docker images -f dangling=true -q)";
-        remove_dead_containers = "docker rm -v \$(docker ps -a -q -f status=exited)";
-
-        shabka = "t project:shabka";
 
         # Always enable colored `grep` output
         # Note: `GREP_OPTIONS = "--color = auto"` is deprecated, hence the alias usage.
@@ -139,25 +150,17 @@ in {
         fgrep = "fgrep --color=auto";
         grep = "grep --color=auto";
 
-        # send_code sends the code to apollo
-        send_code = "${rsync}/bin/rsync -avuz --rsync-path=/usr/bin/rsync --delete --exclude=.snapshots/ --exclude=pkg/ --exclude=bin/ \"$CODE_PATH/\" apollo:/volume1/Code/active/";
-        # get_code gets code from apollo
-        get_code = "${rsync}/bin/rsync -avuz --rsync-path=/usr/bin/rsync --delete --exclude=.snapshots/ --exclude=pkg/ --exclude=bin/ apollo:/volume1/Code/active/ \"$CODE_PATH/\"";
-
-        # OS-Specific aliases
-        # TODO: install this only on Mac
-        #if [[ "$OSTYPE" = darwin* ]]; then  # Mac only
-        #	alias mac_install_cert='sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain'
-        #fi
-
         # use 'fc -El 1' for "dd.mm.yyyy"
         # use 'fc -il 1' for "yyyy-mm-dd"
         # use 'fc -fl 1' for mm/dd/yyyy
         history = "fc -il 1";
-      } // (optionalAttrs stdenv.isDarwin {
-        # TODO: swm should parse a configuration file in order to ignore these
-        swm = ''swm --ignore-pattern ".Spotlight-V100|.Trashes|.fseventsd"'';
-      });
+
+        # Taskwarrior
+        t = "task";
+        eod = "task due:eod";
+        tomorrow = "task due:sod";
+        weekend = "task \\(due:saturday or due:sunday or due:mondayT00:00\\)";
+      };
 
       history = {
         expireDuplicatesFirst = true;
@@ -168,17 +171,21 @@ in {
       initExtra = ''
         # source in the LS_COLORS
         source "${nur.repos.kalbasit.ls-colors}/ls-colors/bourne-shell.sh"
-      '' + (builtins.readFile (substituteAll {
-        src = ./init-extra.zsh;
+        '' + (builtins.readFile (substituteAll {
+          src = ./init-extra.zsh;
 
-        bat_bin      = "${getBin bat}/bin/bat";
-        fortune_bin  = "${getBin fortune}/bin/fortune";
-        fzf_bin      = "${getBin fzf}/bin/fzf-tmux";
-        home_path    = "${config.home.homeDirectory}";
-        jq_bin       = "${getBin jq}/bin/jq";
-        less_bin     = "${getBin less}/bin/less";
-        tput_bin     = "${getBin ncurses}/bin/tput";
-      }));
+          bat_bin      = "${getBin bat}/bin/bat";
+          fortune_bin  = "${getBin fortune}/bin/fortune";
+          fzf_bin      = "${getBin fzf}/bin/fzf-tmux";
+          home_path    = "${config.home.homeDirectory}";
+          jq_bin       = "${getBin jq}/bin/jq";
+          less_bin     = "${getBin less}/bin/less";
+          tput_bin     = "${getBin ncurses}/bin/tput";
+        })) + ''
+          if [ -z "$INSIDE_EMACS" ]; then
+            eval "$(${pkgs.starship}/bin/starship init zsh)"
+          fi
+        '';
 
       oh-my-zsh = {
         enable = true;
@@ -202,7 +209,6 @@ in {
             sha256 = "0pc19dkp5qah2iv92pzrgfygq83vjq1i26ny97p8dw6hfgpyg04l";
           };
         }
-
         {
           name = "gitit";
           src = fetchFromGitHub {
@@ -212,7 +218,6 @@ in {
             sha256 = "01xsqhygbxmv38vwfzvs7b16iq130d2r917a5dnx8l4aijx282j2";
           };
         }
-
         {
           name = "solarized-man";
           src = fetchFromGitHub {
@@ -222,18 +227,6 @@ in {
             sha256 = "04gm4qm17s49s6h9klbifgilxv8i45sz3rg521dwm599gl3fgmnv";
           };
         }
-
-        {
-          name = "powerlevel9k";
-          file = "powerlevel9k.zsh-theme";
-          src = fetchFromGitHub {
-            owner = "bhilburn";
-            repo = "powerlevel9k";
-            rev = "571a859413866897cf962396f02f65a288f677ac";
-            sha256 = "0xwa1v3c4p3cbr9bm7cnsjqvddvmicy9p16jp0jnjdivr6y9s8ax";
-          };
-        }
-
         {
           name = "zsh-completions";
           src = fetchFromGitHub {
@@ -243,7 +236,6 @@ in {
             sha256 = "1c2xx9bkkvyy0c6aq9vv3fjw7snlm0m5bjygfk5391qgjpvchd29";
           };
         }
-
         {
           name = "zsh-history-substring-search";
           src = fetchFromGitHub {
@@ -253,7 +245,6 @@ in {
             sha256 = "1mvilqivq0qlsvx2rqn6xkxyf9yf4wj8r85qrxizkf0biyzyy4hl";
           };
         }
-
         {
           name = "zsh-syntax-highlighting";
           src = fetchFromGitHub {
@@ -263,7 +254,6 @@ in {
             sha256 = "0d9nf3aljqmpz2kjarsrb5nv4rjy8jnrkqdlalwm2299jklbsnmw";
           };
         }
-
         {
           name = "nix-shell";
           src = fetchFromGitHub {
@@ -273,11 +263,19 @@ in {
             sha256 = "1avnmkjh0zh6wmm87njprna1zy4fb7cpzcp8q7y03nw3aq22q4ms";
           };
         }
-
         {
           name = "functions";
           src = myFunctions;
         }
       ];
-  }];
+    }
+  ]);
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      add_newline = false;
+    };
+  };
 }

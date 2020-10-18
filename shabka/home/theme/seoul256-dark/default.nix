@@ -9,44 +9,6 @@ let
 in {
   # TODO(medium): offer the light version of this theme.
   config = mkIf (config.shabka.theme == "seoul256") {
-    shabka.workstation.alacritty.extraRC = ''
-      # When true, bold text is drawn using the bright variant of colors.
-      draw_bold_text_with_bright_colors: true
-
-      # Use custom cursor colors. If true, display the cursor in the cursor.foreground
-      # and cursor.background colors, otherwise invert the colors of the cursor.
-      custom_cursor_colors: false
-
-      # Colors (Seoul256)
-      colors:
-        # Default colors
-        primary:
-          background: '0x3a3a3a'
-          foreground: '0xd0d0d0'
-
-        # Normal colors
-        normal:
-          black:   '0x4e4e4e'
-          red:     '0xd68787'
-          green:   '0x5f865f'
-          yellow:  '0xd8af5f'
-          blue:    '0x85add4'
-          magenta: '0xd7afaf'
-          cyan:    '0x87afaf'
-          white:   '0xd0d0d0'
-
-        # Bright colors
-        bright:
-          black:   '0x626262'
-          red:     '0xd75f87'
-          green:   '0x87af87'
-          yellow:  '0xffd787'
-          blue:    '0xadd4fb'
-          magenta: '0xffafaf'
-          cyan:    '0x87d7d7'
-          white:   '0xe4e4e4'
-    '';
-
     shabka.neovim = {
       extraRC = ''
         colorscheme seoul256

@@ -2,9 +2,12 @@
 
 with lib;
 
-with import <shabka/util>;
-
 let
+  /*symlink = src: dst: lib.hm.dagEntryAfter ["installPackages"] ''
+    mkdir -p ${builtins.dirOf dst}
+    ln -Tsf ${src} ${dst}
+  '';*/
+
   mimeList =
     let
       mimeTypes =
@@ -55,16 +58,14 @@ in {
 
         xsel
 
-        # zoom for meetings
-        # TODO: it's not building
-        # zoom-us
+        thunderbird
       ];
 
-      activation = {
+      /*activation = {
         rbrowser-desktop-link = symlink
           "${pkgs.nur.repos.kalbasit.rbrowser}/share/applications/rbrowser.desktop"
           "${config.home.homeDirectory}/.local/share/applications/rbrowser.desktop";
-      };
+      };*/
 
       file = {
         ".local/share/applications/mimeapps.list".text = mimeList;
@@ -76,18 +77,5 @@ in {
       # Set the browser to my relay browser
       export BROWSER="${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser"
     '';
-
-    shabka.workstation = enableMultiple [
-      "alacritty"
-      "bluetooth"
-      "dunst"
-      "firefox"
-      "greenclip"
-      "gtk"
-      "locker"
-      "mysql-workbench"
-      "rofi"
-      "termite"
-    ];
   };
 }

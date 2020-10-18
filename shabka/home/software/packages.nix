@@ -2,10 +2,7 @@
 
 with pkgs;
 
-let
-  shabka = import <shabka> { };
-  release = builtins.getEnv "RELEASE";
-in {
+{
   home.packages = [
     amazon-ecr-credential-helper
     docker-credential-gcr
@@ -39,11 +36,6 @@ in {
     # curses-based file manager
     lf
 
-    swm
-
-    shabka.external.nixpkgs.release-unstable.corgi
-    shabka.external.nixpkgs.release-unstable.vgo2nix
-
     unzip
 
     nix-zsh-completions
@@ -72,10 +64,4 @@ in {
 
   programs.bat.enable = true;
   programs.direnv.enable = true;
-
-  # install home-manager but only if it's darwin
-  programs.home-manager = if stdenv.isDarwin then {
-    enable = true;
-    path = builtins.toString shabka.external.home-manager."${release}".path;
-  } else {};
 }
