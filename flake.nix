@@ -4,7 +4,7 @@
   description = "Lama Corp. infrastructure configurations.";
 
   inputs = {
-    nixos.url = "nixpkgs/release-20.03";
+    nixos.url = "nixpkgs/release-20.09";
     master.url = "nixpkgs/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -28,7 +28,7 @@
 
   outputs = { self, nixos, master, home-manager, soxin, impermanence, nixos-hardware, nur, futils } @ inputs:
     let
-      inherit (self) lib;
+      inherit (nixos) lib;
       inherit (nixos.lib) recursiveUpdate;
       inherit (futils.lib) eachDefaultSystem;
 
@@ -55,7 +55,6 @@
             buildInputs = with pkgs; [
               git
               morph
-              osPkgs.nixfmt
               nixpkgs-fmt
               pre-commit
             ];
@@ -65,12 +64,12 @@
             '';
           };
 
-          packages = lib.overlaysToPkgs self.overlays osPkgs;
+          packages = self.lib.overlaysToPkgs self.overlays osPkgs;
         }
       );
 
       outputs = {
-        lib = soxin.lib.extend (import ./lib);
+        lib = import ./lib { inherit lib; };
 
         vars = import ./vars;
 
@@ -89,10 +88,18 @@
         nixosModules =
           let
             modulesAttrs = {
+              profiles = self.lib.pathsToImportedAttrs (import ./profiles/list.nix);
               shabka = import ./shabka/nixos/list.nix;
             };
           in
           modulesAttrs;
+
+        homeModules =
+          let
+            modulesAttrs = {
+              shabka = import ./shabka/home/list.nix;
+            };
+          in modulesAttrs;
 
         overlay = import ./pkgs;
 
@@ -102,7 +109,7 @@
             fullPath = name: overlayDir + "/${name}";
             overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
           in
-          lib.pathsToImportedAttrs overlayPaths;
+          self.lib.pathsToImportedAttrs overlayPaths;
       };
     in
     recursiveUpdate multiSystemOutputs outputs;

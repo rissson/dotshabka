@@ -11,12 +11,14 @@
 , nur
 , futils
 }:
+
 let
   config = hostName:
-    lib.nixosSystem {
+    soxin.lib.nixosSystem {
       inherit system;
 
       specialArgs = {
+        inherit nixos-hardware;
         soxincfg = self;
       };
 
@@ -56,7 +58,7 @@ let
                   "${pkg.pname}" = pkg;
                 };
               in
-              map overlay override;
+              lib.concat [ nur.overlay ] (map overlay override);
           };
 
           local = import "${toString ./.}/${hostName}/configuration.nix";
@@ -65,10 +67,17 @@ let
             builtins.attrValues (removeAttrs self.nixosModules [ "profiles" ]);
 
         in
-        lib.concat flakeModules [ core global overrides local ];
+        lib.concat flakeModules [
+          impermanence.nixosModules.impermanence
+          core
+          global
+          overrides
+          local
+        ];
     };
 
   hosts = lib.genAttrs [
+    "hedgehog"
   ]
     config;
 in

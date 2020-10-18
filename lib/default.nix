@@ -1,5 +1,6 @@
-final: prev:
+{ lib }:
+
 {
-  overlaysToPkgs = import ./overlays-to-pkgs.nix { lib = prev; };
-  pathsToImportedAttrs = import ./paths-to-imported-attrs.nix { lib = prev; };
+  overlaysToPkgs = import ./overlays-to-pkgs.nix { inherit lib; };
+  pathsToImportedAttrs = import ./paths-to-imported-attrs.nix { inherit lib; };
 }

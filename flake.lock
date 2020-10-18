@@ -73,11 +73,11 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1602953925,
-        "narHash": "sha256-MOhG7HTMHdOYKkRq7ZC4i19pBJ9QFtYJqoDt6IAhQWQ=",
+        "lastModified": 1602964985,
+        "narHash": "sha256-vV70SKPxL+Zn72JFL+aWIhYIZ24sBwi7mkkj46UsbL4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "29bc54311f7c71a2ad3fb524c8031f6f96aeef74",
+        "rev": "4fb4b69d9b1c3e6a70c7083888e546fdc8a42f3e",
         "type": "github"
       },
       "original": {
@@ -88,16 +88,16 @@
     },
     "nixos": {
       "locked": {
-        "lastModified": 1602879733,
-        "narHash": "sha256-3XIAVw06Y0LL7UbESCvC4KcaobhEOymbrG0aawbUEdU=",
+        "lastModified": 1602967669,
+        "narHash": "sha256-4AoFikG4GiSHMjMPrELiLTSLOVkWpL5wkRD+y/q0z1Q=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "90813d6e12674c82bb554d515d082c7e7ef83c87",
+        "rev": "33f067f9f3fbc61f34c7c87b6867b1d4a4711212",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "release-20.03",
+        "ref": "release-20.09",
         "type": "indirect"
       }
     },
@@ -117,11 +117,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1602951916,
-        "narHash": "sha256-dSadLmXnM3Rly7Rg5fLEaALtKUanD3UE7t0s7sBnNPk=",
+        "lastModified": 1602955259,
+        "narHash": "sha256-NqTZsrS+g55Q7MyqZK5L1QowWCU15MDqsBQbE9wio5Q=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "cdf87143ce7668cec6a07641cbbad641faf04d13",
+        "rev": "b25dc04d6748e5da15f5491788321ac6ace46a2a",
         "type": "github"
       },
       "original": {
@@ -152,11 +152,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1602928406,
-        "narHash": "sha256-AfM28ePHKL7GLQ+XEeVVetsPKA3EFYGvQspkKKp8aYI=",
-        "ref": "PoC",
-        "rev": "36913a6d8b69789113cabc07c3c9fedf2c2bae77",
-        "revCount": 17,
+        "lastModified": 1602970614,
+        "narHash": "sha256-dCyieQ/EPeDyNgsbLigSJVscESl5OldmGkFOS2OEkZk=",
         "type": "git",
         "url": "file:///home/risson/code/soxin"
       },

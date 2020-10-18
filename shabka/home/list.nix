@@ -1,0 +1,45 @@
+{
+  imports = [
+    ./generic/keyboard.nix
+    ./generic/nixos.nix
+    #./services/gnupg.nix
+    #./services/lowbatt.nix
+    #./services/weechat.nix
+    #./software/fzf.nix
+    #./software/git.nix
+    #./software/hammerspoon
+    #./software/htop.nix
+    #./software/keybase.nix
+    #./software/less.nix
+    #./software/neovim.nix
+    #./software/nodejs.nix
+    #./software/packages.nix
+    #./software/pet.nix
+    #./software/ssh.nix
+    #./software/syncthing.nix
+    #./software/taskwarrior.nix
+    #./software/tmux.nix
+    #./software/zsh
+    #./theme
+    #./theme/gruvbox
+    #./theme/seoul256-dark
+    #./workstation/alacritty
+    #./workstation/autorandr.nix
+    #./workstation/bluetooth.nix
+    #./workstation
+    #./workstation/dropbox.nix
+    #./workstation/dunst.nix
+    #./workstation/email.nix
+    #./workstation/firefox.nix
+    #./workstation/greenclip.nix
+    #./workstation/gtk.nix
+    #./workstation/i3/bar
+    #./workstation/i3
+    #./workstation/locker.nix
+    #./workstation/mysql-workbench.nix
+    #./workstation/rofi
+    #./workstation/termite.nix
+    #./workstation/urxvt.nix
+    #./workstation/window-manager.nix
+  ];
+}

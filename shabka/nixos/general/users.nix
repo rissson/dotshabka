@@ -27,13 +27,6 @@ let
       openssh.authorizedKeys.keys = sshKeys;
     };
 
-  makeHM = userName: { uid, isAdmin, home ? "/home/${userName}", ... }: nameValuePair
-    userName
-    (config.shabka.home-manager.config {
-      inherit userName uid isAdmin home;
-      nixosConfig = config;
-    });
-
 in {
   options.shabka.users = {
     enable = mkOption {
@@ -75,7 +68,5 @@ in {
 
       users = mapAttrs' makeUser config.shabka.users.users;
     };
-
-    home-manager.users = mapAttrs' makeHM config.shabka.users.users; # XXX: This should be gated by an option
   };
 }

@@ -3,27 +3,13 @@
     ./general/editor.nix
     ./general/home-manager.nix
     ./general/keyboard.nix
-    ./general/location.nix
-    ./general/nix.nix
-    ./general/nixpkgs.nix
     ./general/security.nix
     ./general/users.nix
-    ./general/version.nix
     ./hardware/fwupd.nix
-    ./hardware/hetzner_cloud.nix
-    ./hardware/hetzner_sb36.nix
-    ./hardware/hetzner_sb53.nix
     ./hardware/intel_backlight.nix
-    ./hardware/machine.nix
-    ./hardware/precision-7530.nix
     ./hardware/serial_console.nix
-    ./hardware/thinkpad-e580.nix
-    ./hardware/thinkpad-p1.nix
-    ./hardware/xps-13.nix
-    ./hardware/zeus.nix
     ./services/docker.nix
     ./services/libvirt.nix
-    ./services/plex.nix
     ./services/printers.nix
     ./services/ssh.nix
     ./software/curl.nix
@@ -34,15 +20,9 @@
     ./workstation/autorandr.nix
     ./workstation/bluetooth.nix
     ./workstation/fonts.nix
-    ./workstation/gnome-keyring.nix
     ./workstation/gtk.nix
-    ./workstation/keeptruckin.nix
-    ./workstation/networking.nix
     ./workstation/power.nix
-    ./workstation/redshift.nix
     ./workstation/sound.nix
-    ./workstation/teamviewer.nix
-    ./workstation/virtualbox.nix
     ./workstation/xorg.nix
     ./workstation/yubikey.nix
   ];
