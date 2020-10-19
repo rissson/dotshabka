@@ -24,9 +24,10 @@
     nixos-hardware.url = "nixos-hardware";
     nur.url = "nur";
     futils.url = "github:numtide/flake-utils";
+    nixops.url = "nixops";
   };
 
-  outputs = { self, nixos, master, home-manager, soxin, impermanence, nixos-hardware, nur, futils } @ inputs:
+  outputs = { self, nixos, master, home-manager, soxin, impermanence, nixos-hardware, nur, futils, nixops } @ inputs:
     let
       inherit (nixos) lib;
       inherit (nixos.lib) recursiveUpdate;
@@ -35,7 +36,6 @@
       pkgImport = pkgs: system:
         import pkgs {
           inherit system;
-          overlays = lib.attrValues self.overlays;
           config = { allowUnfree = true; };
         };
 
@@ -52,27 +52,20 @@
         in
         {
           devShell = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              git
-              morph
-              nixpkgs-fmt
-              pre-commit
+            name = "soxincfg";
+
+            buildInputs = [
+              nixops.defaultPackage.${system}
+              pkgs.git
+              pkgs.morph
+              pkgs.nixpkgs-fmt
+              pkgs.pre-commit
             ];
-
-            shellHook = ''
-              export DOTSHABKA_PATH="$(pwd)"
-            '';
           };
-
-          packages = self.lib.overlaysToPkgs self.overlays osPkgs;
         }
       );
 
       outputs = {
-        lib = import ./lib { inherit lib; };
-
-        vars = import ./vars;
-
         nixosConfigurations =
           let
             system = "x86_64-linux";
@@ -85,31 +78,20 @@
             }
           );
 
-        nixosModules =
+        nixopsConfigurations.default =
           let
-            modulesAttrs = {
-              profiles = self.lib.pathsToImportedAttrs (import ./profiles/list.nix);
-              shabka = import ./shabka/nixos/list.nix;
-            };
+            system = "x86_64-linux";
+            pkgset' = pkgset system;
           in
-          modulesAttrs;
-
-        homeModules =
-          let
-            modulesAttrs = {
-              shabka = import ./shabka/home/list.nix;
-            };
-          in modulesAttrs;
-
-        overlay = import ./pkgs;
-
-        overlays =
-          let
-            overlayDir = ./overlays;
-            fullPath = name: overlayDir + "/${name}";
-            overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
-          in
-          self.lib.pathsToImportedAttrs overlayPaths;
+        {
+          nixpkgs = nixos;
+        } // (import ./hosts (
+          lib.recursiveUpdate inputs {
+            inherit lib system;
+            pkgset = pkgset';
+            deployment = true;
+          }
+        ));
       };
     in
     recursiveUpdate multiSystemOutputs outputs;

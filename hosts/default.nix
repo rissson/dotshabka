@@ -10,70 +10,54 @@
 , nixos-hardware
 , nur
 , futils
+, nixops
+, deployment ? false
 }:
 
 let
-  config = hostName:
-    soxin.lib.nixosSystem {
-      inherit system;
+  modules = hostName:
+    let
+      global = {
+        networking.hostName = hostName;
+        nix.nixPath =
+          let
+            path = toString ../.;
+          in
+          [
+            "nixos=${nixos}"
+            "nixpkgs=${master}"
+            "nixpkgs-overlays=${path}/overlays"
+          ];
 
-      specialArgs = {
-        inherit nixos-hardware;
-        soxincfg = self;
+        nixpkgs = { pkgs = pkgset.nixos; };
+
+        nix.registry = {
+          nixos.flake = nixos;
+          nixpkgs.flake = master;
+          soxincfg.flake = self;
+        };
+
+        system.configurationRevision = lib.mkIf (self ? rev) self.rev;
       };
 
-      modules =
-        let
-          core = self.nixosModules.profiles.core;
+      local = import "${toString ./.}/${hostName}/configuration.nix";
 
-          global = {
-            networking.hostName = hostName;
-            nix.nixPath =
-              let
-                path = toString ../.;
-              in
-              [
-                "nixos=${nixos}"
-                "nixpkgs=${master}"
-                "nixpkgs-overlays=${path}/overlays"
-              ];
+    in
+    [
+      impermanence.nixosModules.impermanence
+      global
+      local
+    ];
 
-            nixpkgs = { pkgs = pkgset.nixos; };
+  specialArgs = {
+    inherit nixos-hardware;
+  };
 
-            nix.registry = {
-              nixos.flake = nixos;
-              nixpkgs.flake = master;
-              soxincfg.flake = self;
-            };
+  config = hostName:
+    soxin.lib.nixosSystem {
+      inherit system specialArgs;
 
-            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-          };
-
-          overrides = {
-            nixpkgs.overlays =
-              let
-                override = import ../pkgs/override.nix pkgset.master;
-
-                overlay = pkg: _: _: {
-                  "${pkg.pname}" = pkg;
-                };
-              in
-              lib.concat [ nur.overlay ] (map overlay override);
-          };
-
-          local = import "${toString ./.}/${hostName}/configuration.nix";
-
-          flakeModules =
-            builtins.attrValues (removeAttrs self.nixosModules [ "profiles" ]);
-
-        in
-        lib.concat flakeModules [
-          impermanence.nixosModules.impermanence
-          core
-          global
-          overrides
-          local
-        ];
+      modules = modules hostName;
     };
 
   hosts = lib.genAttrs [
@@ -81,4 +65,9 @@ let
   ]
     config;
 in
-hosts
+  if !deployment then hosts else {
+    hedgehog = {
+      _module.args = specialArgs;
+      imports = modules "hedgehog";
+    };
+  }

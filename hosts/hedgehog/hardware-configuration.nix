@@ -8,51 +8,6 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-t495
   ];
 
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
-
-  nix.maxJobs = 7;
-
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = lib.mkForce "ondemand";
-    powertop.enable = lib.mkForce false;
-  };
-
-  #shabka.hardware.intel_backlight.enable = true;
-
-  environment.persistence."/srv" = {
-    directories = [
-      "/var/lib/kubernetes"
-      "/var/lib/etcd"
-      "/var/lib/cfssl"
-      "/var/lib/kubelet"
-
-      "/var/lib/bluetooth"
-      "/var/lib/fprint"
-      "/var/log"
-    ];
-    files = [
-      "/etc/machine-id"
-    ];
-  };
-
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "ehci_pci"
-    "xhci_pci"
-    "usb_storage"
-    "sd_mod"
-    "rtsx_pci_sdmmc"
-    # luks stuff
-    "aes_x86_64"
-    "aesni_intel"
-    "aesni_amd"
-    "cryptd"
-  ];
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = [ "kvm-amd" ];
-
   boot.loader.grub = {
     enable = true;
     version = 2;
@@ -64,31 +19,6 @@
   boot.loader.efi = {
     canTouchEfiVariables = true;
     efiSysMountPoint = "/efi";
-  };
-
-  boot.initrd.secrets = {
-    "/crypt.keyfile" = "/srv/secrets/initrd/crypt.keyfile";
-  };
-
-  boot.initrd.luks.devices = {
-    cryptboot = {
-      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part2";
-      preLVM = true;
-      allowDiscards = true;
-      keyFile = "/crypt.keyfile";
-    };
-    cryptroot = {
-      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part3";
-      preLVM = true;
-      allowDiscards = true;
-      keyFile = "/crypt.keyfile";
-    };
-    cryptswap = {
-      device = "/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNG-L5B0B_FD02N5572108Y2J6D-part4";
-      preLVM = true;
-      allowDiscards = true;
-      keyFile = "/crypt.keyfile";
-    };
   };
 
   fileSystems = {
