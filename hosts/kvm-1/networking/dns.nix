@@ -7,7 +7,7 @@ with import <dotshabka/data/space.lama-corp/fsn> { };
 let
   data = {
     "ldap-1" = vrt.ldap-1;
-    "mail-1" = vrt.mail-1;
+    "k8s-master-11" = vrt.k8s-master-11;
     "minio-1" = vrt.minio-1;
     "postgres-1" = vrt.postgres-1;
     "reverse-2" = vrt.reverse-2;

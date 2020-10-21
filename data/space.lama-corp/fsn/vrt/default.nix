@@ -5,7 +5,7 @@
 
   ldap-1 = import ./ldap-1 { };
 
-  mail-1 = import ./mail-1 { };
+  k8s-master-11 = import ./k8s-master-11 { };
 
   minio-1 = import ./minio-1 { };
 

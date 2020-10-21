@@ -8,8 +8,6 @@ with lib;
     <dotshabka/modules/nixos>
 
     ./networking.nix
-
-    ./mail
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
 
@@ -25,33 +23,10 @@ with lib;
     common.backups.startAt = "*-*-* *:04:27 UTC";
   };
 
-  security.dhparams = mkIf config.services.postfix.enable {
-    enable = true;
-    defaultBitSize = 2048;
-    stateful = true;
-    path = "/srv/var/lib/dhparams";
-  };
-
-  security.acme =
-    mkIf (config.services.postfix.enable || config.services.dovecot.enable) {
-      acceptTerms = true;
-      email = "caa@lama-corp.space";
-    };
-
-  systemd.tmpfiles.rules = [
-    "L /var/lib/acme        - - - -   /srv/var/lib/acme"
-    "L /var/spool/mail      - - - -   /srv/var/spool/mail"
-  ];
-
-  ###
-  # Backups
-  ###
-
-  services.borgbackup.jobs."system" = {
-    paths = [
-      "/var/lib/postfix"
-      "/var/lib/dovecot"
-    ];
+  services.kubernetes = {
+    roles = [ "master" "node" ];
+    masterAddress = "k8s-master-11.vrt.fsn.lama-corp.space";
+    easyCerts = true;
   };
 
   nix.maxJobs = 2;

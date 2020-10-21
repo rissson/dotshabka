@@ -79,7 +79,7 @@ nas:
 giraffe:
   <<: *linux-host-template
 
-mail-1:
+k8s-master-11:
   <<: *linux-host-template
 
 minio-1:

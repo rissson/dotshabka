@@ -72,10 +72,6 @@ with srv.kvm-1; {
             address = reverse-2.external.v4.ip;
             prefixLength = reverse-2.external.v4.prefixLength;
           }
-          {
-            address = mail-1.external.v4.ip;
-            prefixLength = mail-1.external.v4.prefixLength;
-          }
         ];
       };
 
@@ -88,6 +84,16 @@ with srv.kvm-1; {
           address = internal.v6.ip;
           prefixLength = internal.v6.prefixLength;
         }];
+        ipv4.routes = [
+          {
+            address = "148.251.148.234";
+            prefixLength = 32;
+          }
+          {
+            address = "148.251.148.235";
+            prefixLength = 32;
+          }
+        ];
         proxyARP = true; # CRITICAL TO ACCESS THE WIREGUARD
       };
     };
@@ -105,6 +111,7 @@ with srv.kvm-1; {
       enable = true;
       externalInterface = external.interface;
       internalInterfaces = [ internal.interface wg.interface "ve-+" ];
+      internalIPs = [ "172.28.0.0/16" "10.0.0.0/8" ];
     };
   };
 }
