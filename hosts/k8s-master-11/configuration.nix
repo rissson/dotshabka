@@ -2,14 +2,28 @@
 
 with lib;
 
-{
+let
+  impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
+in {
   imports = [
     <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     <dotshabka/modules/nixos>
+    "${impermanence}/nixos.nix"
 
     ./networking.nix
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));
+
+  environment.persistence."/srv" = {
+    directories = [
+      "/var/lib/kubernetes"
+      "/var/lib/docker"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+  fileSystems."/srv".neededForBoot = true;
 
   lama-corp = {
     profiles = {

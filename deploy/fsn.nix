@@ -13,7 +13,7 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
-  "mail-1.vrt.fsn" = { config, lib, ... }: {
+  "k8s-master-11.vrt.fsn" = { config, lib, ... }: {
     deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
       secrets = {
         "acme/dns-credentials" = {
@@ -26,7 +26,7 @@ in {
       };
     }];
 
-    imports = [ "${<dotshabka>}/hosts/mail-1/configuration.nix" ];
+    imports = [ "${<dotshabka>}/hosts/k8s-master-11/configuration.nix" ];
   };
 
   "minio-1.vrt.fsn" = { config, ... }: {
