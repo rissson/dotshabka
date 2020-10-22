@@ -12,5 +12,6 @@
     ./nextcloud-1
     ./pastebin-1
     ./reverse-2
+    ./risson-1
   ];
 }
