@@ -7,6 +7,7 @@
     ./fractal-bot
     ./gitlab-ci-1
     ./jdmi-1
+    ./lama-corp-1
     ./minecraft-1
     ./nextcloud-1
     ./pastebin-1
