@@ -6,6 +6,7 @@
     ./devoups-1
     ./fractal-bot
     ./gitlab-ci-1
+    ./jdmi-1
     ./ldap-1
     ./minecraft-1
     ./nextcloud-1
