@@ -40,27 +40,4 @@ in {
 
     imports = [ "${<dotshabka>}/hosts/postgres-1/configuration.nix" ];
   };
-
-  "web-2.vrt.fsn" = { config, lib, ... }: {
-    deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
-      secrets = {
-        "uwsgi/cats.acdc.risson.space.settings.py" = {
-          source = "../secrets/hosts/web-2/uwsgi/cats.acdc.risson.space.settings.py";
-          destination = "/srv/secrets/uwsgi/cats.acdc.risson.space.settings.py";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0444";
-        };
-        "uwsgi/scoreboard-seedbox-cri.risson.space.settings.py" = {
-          source = "../secrets/hosts/web-2/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
-          destination = "/srv/secrets/uwsgi/scoreboard-seedbox-cri.risson.space.settings.py";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0444";
-        };
-      };
-    }];
-
-    imports = [ "${<dotshabka>}/hosts/web-2/configuration.nix" ];
-  };
 }

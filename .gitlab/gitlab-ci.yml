@@ -88,9 +88,6 @@ minio-1:
 postgres-1:
   <<: *linux-host-template
 
-web-2:
-  <<: *linux-host-template
-
 hedgehog:
   <<: *linux-host-template
 

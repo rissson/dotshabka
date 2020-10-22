@@ -12,7 +12,6 @@ let
     mail-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINwJpYOirGecmEd+tO7E8qNLQ4iTIkh7zn+L0OVyrmDo";
     minio-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAtPgrdOwkfjh1Gk8A/sFC+GkwoC9kBQRwYj3RRp2Cl1";
     postgres-1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/bYtJW7JXvit66uDckJ+NhoroTodLvg0MCq2pozdAm";
-    web-2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdzrzL0JJZFc9v2eA8Q5bPQv7hSJ5SPEbQP9M8BIM/D";
   };
 
   mkRepo = n: v: {

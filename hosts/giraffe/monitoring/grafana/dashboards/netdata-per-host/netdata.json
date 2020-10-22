@@ -74,15 +74,6 @@
       "tooltip": "Open Netdata monitoring for minio-1",
       "type": "link",
       "url": "https://netdata.lama-corp.space/minio-1"
-    },
-    {
-      "icon": "cloud",
-      "tags": [],
-      "targetBlank": true,
-      "title": "netdata web-2",
-      "tooltip": "Open Netdata monitoring for web-2",
-      "type": "link",
-      "url": "https://netdata.lama-corp.space/web-2"
     }
   ],
   "panels": [],

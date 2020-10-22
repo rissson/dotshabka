@@ -11,8 +11,6 @@
 
   reverse-2 = import ./reverse-2 { };
 
-  web-2 = import ./web-2 { };
-
   virt = import ./virt { };
 
   hub = import ./hub { };
