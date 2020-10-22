@@ -12,7 +12,6 @@ in {
     ./haproxy.nix
 
     ./nginx/acdc.risson.space.nix
-    ./nginx/beauflard.risson.space.nix
     ./nginx/bin.lama-corp.space.nix
     ./nginx/cats.acdc.risson.space.nix
     ./nginx/chat.lama-corp.space.nix

@@ -79,15 +79,6 @@
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
-      "title": "netdata web-1",
-      "tooltip": "Open Netdata monitoring for web-1",
-      "type": "link",
-      "url": "https://netdata.lama-corp.space/web-1"
-    },
-    {
-      "icon": "cloud",
-      "tags": [],
-      "targetBlank": true,
       "title": "netdata web-2",
       "tooltip": "Open Netdata monitoring for web-2",
       "type": "link",

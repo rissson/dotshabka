@@ -10,7 +10,6 @@ let
     "minio-1" = vrt.minio-1;
     "postgres-1" = vrt.postgres-1;
     "reverse-2" = vrt.reverse-2;
-    "web-1" = vrt.web-1;
     "web-2" = vrt.web-2;
   };
 in {
