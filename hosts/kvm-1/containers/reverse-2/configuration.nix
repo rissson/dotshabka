@@ -8,6 +8,9 @@ in {
   # TODO: score an A+ at SSLlabs
   imports = [
     "${impermanence}/nixos.nix"
+
+    ./haproxy.nix
+
     ./nginx/acdc.risson.space.nix
     ./nginx/beauflard.risson.space.nix
     ./nginx/bin.lama-corp.space.nix
@@ -31,7 +34,7 @@ in {
   };
 
   config = {
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [ 80 443 25505 ];
 
     environment.persistence."/persist" = {
       directories = [
