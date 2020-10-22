@@ -13,5 +13,6 @@
     ./pastebin-1
     ./reverse-2
     ./risson-1
+    ./web-2
   ];
 }

@@ -4,7 +4,7 @@
   services.nginx = {
     upstreams."chat-lama-corp-space" = {
       servers = {
-        "web-2.vrt.fsn.lama-corp.space:19065" = {};
+        "web-2.containers:19065" = {};
       };
     };
 

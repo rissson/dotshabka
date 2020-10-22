@@ -37,10 +37,6 @@ in {
       servers."postgres-1.vrt.fsn.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
     };
-    "netdata-web-2" = {
-      servers."web-2.vrt.fsn.lama-corp.space:19999" = {};
-      extraConfig = "keepalive 64;";
-    };
     "netdata-nas" = {
       servers."nas.srv.bar.lama-corp.space:19999" = {};
       extraConfig = "keepalive 64;";
