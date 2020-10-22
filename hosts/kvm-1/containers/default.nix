@@ -9,6 +9,7 @@
     ./ldap-1
     ./minecraft-1
     ./nextcloud-1
+    ./pastebin-1
     ./reverse-2
   ];
 }
