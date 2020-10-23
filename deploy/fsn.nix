@@ -13,22 +13,6 @@ let
 in {
   network = { description = "Lama Corp. servers"; };
 
-  "k8s-master-11.vrt.fsn" = { config, lib, ... }: {
-    deployment = lib.mkMerge [ (defaultDeployment { inherit config; }) {
-      secrets = {
-        "acme/dns-credentials" = {
-          source = "../secrets/acme/dns-credentials";
-          destination = "/srv/secrets/acme/dns-credentials";
-          owner.user = "root";
-          owner.group = "root";
-          permissions = "0444";
-        };
-      };
-    }];
-
-    imports = [ "${<dotshabka>}/hosts/k8s-master-11/configuration.nix" ];
-  };
-
   "minio-1.vrt.fsn" = { config, ... }: {
     deployment = defaultDeployment { inherit config; };
 
