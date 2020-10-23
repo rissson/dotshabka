@@ -1,0 +1,51 @@
+<domain type='kvm'>
+  <name>@vmName@</name>
+  <uuid>UUID</uuid>
+  <memory unit='GiB'>@ram@</memory>
+  <currentMemory unit='GiB'>@ram@</currentMemory>
+  <vcpu>@cpus@</vcpu>
+  <os>
+    <type arch='x86_64'>hvm</type>
+    <bootmenu enable='no'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <vmport state='off'/>
+  </features>
+  <cpu mode='host-model' />
+  <clock offset='utc'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <devices>
+    <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
+    <disk type='file' device='disk'>
+      <driver name="qemu" type="qcow2"/>
+      <source file="/srv/vm/@vmName@-local.qcow2"/>
+      <target dev="vda" bus="virtio"/>
+      <serial>7377239801</serial>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name="qemu" type="qcow2"/>
+      <source file="/srv/vm/@vmName@-persist.qcow2"/>
+      <target dev="vdb" bus="virtio"/>
+      <serial>7377239802</serial>
+    </disk>
+    <interface type='bridge' trustGuestRxFilters='yes'>
+      <mac address='@macAddressLocal@'/>
+      <source bridge='@ifBridgeLocal@'/>
+      <model type='virtio'/>
+    </interface>
+    <channel type='spicevmc'>
+      <target type='virtio' name='com.redhat.spice.0'/>
+    </channel>
+    <graphics type='spice' autoport='yes' listen='127.0.0.1'/>
+    <video>
+      <model type='qxl'/>
+    </video>
+    <redirdev bus='usb' type='spicevmc'/>
+    <redirdev bus='usb' type='spicevmc'/>
+  </devices>
+</domain>
