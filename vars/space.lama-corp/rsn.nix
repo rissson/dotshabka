@@ -17,4 +17,16 @@
       };
     };
   };
+
+  cri = {
+    goat = {
+      hostId = "8425e349";
+      internal = {
+        v4 = {
+          ip = "192.168.240.130";
+          prefixLength = 24;
+        };
+      };
+    };
+  };
 }
