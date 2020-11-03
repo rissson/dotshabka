@@ -61,4 +61,20 @@
     hideProcessInformation = true;
     protectKernelImage = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    htop
+    iftop
+    iotop
+    jq
+    killall
+    ldns
+    ncdu
+    tcpdump
+    traceroute
+    tree
+    unzip
+    wget
+    zip
+  ];
 }
