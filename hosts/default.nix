@@ -86,6 +86,7 @@ let
   hosts = lib.genAttrs [
     "hedgehog"
     "goat"
+    "kvm-2"
   ]
     config;
 in
