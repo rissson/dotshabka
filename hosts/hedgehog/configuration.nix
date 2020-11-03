@@ -11,13 +11,10 @@
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
 
-  #### From lama-corp modules
 
-  # Shabka stuff
+  soxin = {
+    hardware.bluetooth.enable = true;
 
-  soxin.hardware.bluetooth.enable = true;
-
-  lama-corp = {
     settings = {
       fonts.enable = true;
       gtk.enable = true;
@@ -112,7 +109,7 @@
 
   users.users.root = {
     hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-    openssh.authorizedKeys.keys = config.lama-corp.users.users.risson.sshKeys;
+    openssh.authorizedKeys.keys = config.soxin.users.users.risson.sshKeys;
   };
 
   services.openssh.passwordAuthentication = lib.mkForce false;

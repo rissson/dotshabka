@@ -83,6 +83,7 @@
 
         nixosModules = (import ./modules) // {
           profiles = self.lib.pathsToImportedAttrs (import ./profiles/list.nix);
+          soxin = import ./soxin/soxin.nix;
           soxincfg = import ./modules/soxincfg.nix;
         };
 

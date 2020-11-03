@@ -6,7 +6,7 @@
     ./networking
   ];
 
-  lama-corp = {
+  soxin = {
     services = {
       openssh.enable = true;
     };

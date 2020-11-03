@@ -4,9 +4,9 @@
 with lib;
 
 {
-  soxin.hardware.bluetooth.enable = true;
+  soxin = {
+    hardware.bluetooth.enable = true;
 
-  lama-corp = {
     settings = {
       fonts.enable = true;
       gtk.enable = true;

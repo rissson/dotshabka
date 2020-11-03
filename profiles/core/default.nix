@@ -6,7 +6,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  lama-corp = {
+  soxin = {
     settings = {
       keyboard = {
         layouts = lib.mkAfter (lib.singleton {
