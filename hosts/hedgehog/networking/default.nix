@@ -1,4 +1,4 @@
-{ soxincfg, ... }:
+{ soxincfg, config, pkgs, lib, ... }:
 
 with soxincfg.vars.space.lama-corp; {
   networking = with rsn.lap.hedgehog; {
@@ -27,10 +27,6 @@ with soxincfg.vars.space.lama-corp; {
     wireless = {
       enable = true;
       interfaces = [ "wlp1s0" ];
-      extraConfig = ''
-        ctrl_interface=/run/wpa_supplicant
-        ctrl_interface_group=wheel
-      '';
     };
 
     wireguard = {
@@ -41,7 +37,7 @@ with soxincfg.vars.space.lama-corp; {
             "${v4.ip}/${toString v4.prefixLength}"
             "${v6.ip}/${toString v6.prefixLength}"
           ];
-          privateKeyFile = "/srv/secrets/root/wireguard.key";
+          privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
 
           peers = [
             {
@@ -50,6 +46,8 @@ with soxincfg.vars.space.lama-corp; {
               allowedIPs = with fsn.srv.kvm-1.wg; [
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
+                "172.28.4.0/24"
+                "172.28.8.0/24"
               ];
               endpoint = "${fsn.srv.kvm-1.external.v4.ip}:51820";
             }
@@ -78,7 +76,11 @@ with soxincfg.vars.space.lama-corp; {
         };
       };
     };
-
-    networkmanager.enable = false;
   };
+
+  sops.secrets.wpa_supplicant = {
+    sopsFile = ./wpa_supplicant.yml;
+    path = "/etc/wpa_supplicant.conf";
+  };
+  sops.secrets.wireguard_wg0_private_key.sopsFile = ./wireguard.yml;
 }

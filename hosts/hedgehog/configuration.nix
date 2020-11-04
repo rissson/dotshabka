@@ -3,14 +3,13 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./networking.nix
+    ./networking
     ./backups.nix
-    ./k8s.nix
+    #./k8s.nix
   ] ++ (lib.optionals (builtins.pathExists ../../secrets)
     (lib.singleton ../../secrets));
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
-
 
   soxin = {
     hardware.bluetooth.enable = true;
@@ -112,15 +111,14 @@
     openssh.authorizedKeys.keys = config.soxin.users.users.risson.sshKeys;
   };
 
-  services.openssh.passwordAuthentication = lib.mkForce false;
   nix.gc.automatic = lib.mkForce false;
-  nix.distributedBuilds = true;
+  /*nix.distributedBuilds = true;
   nix.buildMachines = [
     { hostName = "kvm-1.srv.fsn.lama-corp.space"; system = "x86_64-linux"; maxJobs = 2; speedFactor = 2; supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]; }
   ];
   nix.extraOptions = ''
     builders-use-substitutes = true
-  '';
+  '';*/
 
   environment.systemPackages = with pkgs; [
     htop
@@ -209,6 +207,28 @@
   };
 
   services.netdata.enable = true;
+
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+    hostKeys = [
+      {
+        type = "rsa";
+        bits = 4096;
+        path = "/srv/etc/ssh/ssh_host_rsa_key";
+        rounds = 100;
+        openSSHFormat = true;
+        comment = with config.networking; "${hostName}.${domain}";
+      }
+      {
+        type = "ed25519";
+        path = "/srv/etc/ssh/ssh_host_ed25519_key";
+        rounds = 100;
+        openSSHFormat = true;
+        comment = with config.networking; "${hostName}.${domain}";
+      }
+    ];
+  };
 
   networking.extraHosts = ''
     127.0.0.1 cri.epita.net

@@ -1,0 +1,42 @@
+wireguard_wg0_private_key: ENC[AES256_GCM,data:nVKzvww391IDxnVQj0KBBYy2BbQCd7Be7EOVNyq9PeLXmmvjZ7YYyCTSygY=,iv:VVsCoUj2JvW01170yEUrB7526D9/YI9bIGK1gyeZlUU=,tag:W8bzTKTBasW7mfR/pDqU+Q==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    lastmodified: '2020-11-04T00:28:21Z'
+    mac: ENC[AES256_GCM,data:Nyt3bPwDIMZpSu1ZfZkZlbV/qbETxPAvMmCcJHU6IcKrUTjkp7Gt70Jss08DqG3Ea0aEjzO6bZ0ncMfexgiJn/051B9/YQxcMxa39y7E42UKqPfLO8fhr14w3feETpqdsGwOXXfTOo4e4Nhg7gwbD6yAGmkpkfS1+C9UpdxBblo=,iv:iwrImck5VF1EldFUQyX5jdro40/5J99+iUHA/PDY5vA=,tag:PpgNhP7432O7UgRH7nWZAA==,type:str]
+    pgp:
+    -   created_at: '2020-11-04T00:26:12Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwAAAAAAAAAAAQ/+OvCUj6OCeY2+Y7cGsSHPXhNbEbMryB8t4TNPXAZZyVPN
+            lTE/C1VNMzYhrejl2YICm5hNBs8j2MhzH+qVkz38ZnA8DP7B9ladOGfCLYTOE6/Y
+            ozFPB2VKc1S51WgiJNbZWo70kAa+B/IpCGK3FPLOXRFbNhP+6lsZBFWPHfxMqEAz
+            edC/IBIkv7LQX1p4IcGalL8/GAf3s1ca/un41aBzUML5lRhuo9g/cchC33oyoqWk
+            x6wjA5I5KD6F3Ps39AzwQyCs04qF49MoAQwn//9+CPP1ENFNssR5hbWAYC0Zqd2o
+            RCytjuFrLClNPfW8c5LtdMwpDCp4Y5GV0DFtP5VxL+IIhaxlrJojDEO8PjGuZpC1
+            2yX3nC1wlLQkQvOhDw8cZ1rDikns+FsvXzmQDuhEi4YB28dmm+4XWgC5XqNKxHPQ
+            LPDmeS2yHJZALKiYZu91F8uuPUODhDoRIlnLM0RcMDw2THMUHv/1xExZw6qvkA91
+            O0+IjA6Q5ZQsbsMw9lEhH90VloOnliqKmrf0dPYMk/bg50tiUMuoLQiqMvbAzo68
+            vsLIOlwDAQlcpHNw26EhLi3k9KV+cbpUSMlUlsikwTkRyXWLl5Ynk0S551uXN8Ti
+            JFd1I5ApF64Fvt+uf7ZVKPtmfWNABxs/kM621Baq9MNQ2NqYNHWZRrum6n2l0m3S
+            UAHL3XozZDTi5AKTiL/kf+JQyJ8WVR0Xzkdc54FhUQOWmqoj1GmZkDQS0PoMRV7b
+            x/65osSZAj5VvggKUiBVqqiiFY22dRQNXIJAb6U7o23+
+            =XdYU
+            -----END PGP MESSAGE-----
+        fp: EED7A3509314287766F55F329D0227DF3EB74D74
+    -   created_at: '2020-11-04T00:26:12Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hF4DAAAAAAAAAAASAQdAHhnz9/jeujiEkHCEQ43HBjRDTAKuv4gbMazH462rklAw
+            pADfpN+4Nlw/CZY2VlHe0ga9nsqHa5+3Y0l82OYpZ1UQtD4GhtpcaxDsMyhzb0Yj
+            0l4Bts/fj9lyavCVQluGops4+Q490VcD7SOVHP+LNmk/krzB1BqlKG6dKue1MTeB
+            lIqhd454CGhcxrXFkGLjTzTgyfkP+3KpYDAG8C8eUUcUNXJvDl5BWUYyExPtNCZd
+            =Q0gG
+            -----END PGP MESSAGE-----
+        fp: 8A0E6A7C08ABB9DE67DE2A13F6FD87B15C263EC9
+    unencrypted_suffix: _unencrypted
+    version: 3.6.0
