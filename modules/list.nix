@@ -1,1 +1,3 @@
-{ }
+{
+  libvirt = ./virtualisation/libvirtd.nix;
+}

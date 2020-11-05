@@ -11,6 +11,15 @@
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
 
+  lama-corp = {
+    virtualisation = {
+      libvirtd = {
+        enable = true;
+        images = [ "nixos" ];
+      };
+    };
+  };
+
   soxin = {
     hardware.bluetooth.enable = true;
 
@@ -67,7 +76,6 @@
 
     virtualisation = {
       docker.enable = true;
-      libvirtd.enable = true;
     };
 
     hardware = {
