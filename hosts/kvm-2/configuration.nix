@@ -6,6 +6,15 @@
     ./networking
   ];
 
+  lama-corp = {
+    virtualisation = {
+      libvirtd = {
+        enable = true;
+        images = [ "nixos" ];
+      };
+    };
+  };
+
   soxin = {
     services = {
       openssh.enable = true;
@@ -38,10 +47,6 @@
       starship.enable = true;
       tmux.enable = true;
       zsh.enable = true;
-    };
-
-    virtualisation = {
-      libvirtd.enable = true;
     };
 
     hardware = {
