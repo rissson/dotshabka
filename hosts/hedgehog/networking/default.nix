@@ -1,6 +1,10 @@
 { soxincfg, config, pkgs, lib, ... }:
 
 with soxincfg.vars.space.lama-corp; {
+  imports = [
+    ./bird.nix
+  ];
+
   networking = with rsn.lap.hedgehog; {
     hostName = "hedgehog";
     domain = "lap.rsn.lama-corp.space";

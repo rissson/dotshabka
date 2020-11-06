@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./bird.nix
     ./firewall.nix
     ./wireguard.nix
   ];
