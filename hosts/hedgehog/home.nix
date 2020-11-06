@@ -193,6 +193,9 @@ with lib;
   ];
 
   programs.ssh = {
+    extraConfig = ''
+      Include ~/.ssh/ssh_config_cri
+    '';
     matchBlocks = {
       ### Lama Corp.
       "kvm-1" = {
