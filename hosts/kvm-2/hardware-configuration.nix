@@ -12,6 +12,10 @@
     ];
   };
 
+  environment.etc."modprobe.d/zfs.conf".text = ''
+    options zfs zfs_arc_max=17179869184
+  '';
+
   boot = {
     initrd = {
       availableKernelModules = [
@@ -27,6 +31,8 @@
       luks.devices = {
         cryptroot1.device = "/dev/disk/by-uuid/5c459e4c-3e12-4c73-a531-2f010c12b822";
         cryptroot2.device = "/dev/disk/by-uuid/ddc35067-a0cf-44ac-9514-3bf273c2109d";
+        cryptnvme0n1.device = "/dev/disk/by-uuid/2bbbab60-1318-4e12-933b-c42cee6c9332";
+        cryptnvme1n1.device = "/dev/disk/by-uuid/f5f33c50-7443-43e1-b579-2852d143eac5";
       };
 
       network = {
@@ -65,6 +71,7 @@
         ];
         enableCryptodisk = true;
         copyKernels = true;
+        zfsSupport = true;
       };
     };
   };
