@@ -4,6 +4,7 @@
   imports = [
     ./bird.nix
     ./dhcpd.nix
+    ./dns.nix
     ./firewall.nix
     ./wireguard.nix
   ];

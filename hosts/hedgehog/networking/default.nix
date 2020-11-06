@@ -94,6 +94,7 @@ with soxincfg.vars.space.lama-corp; {
                 "172.28.7.0/24"
               ];
               endpoint = "168.119.71.47:51820";
+              persistentKeepalive = 60;
             }
           ];
         };
