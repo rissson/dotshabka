@@ -3,7 +3,7 @@
 {
   imports = [
     ./firewall.nix
-    #./wireguard.nix
+    ./wireguard.nix
   ];
 
   boot.kernelParams = [

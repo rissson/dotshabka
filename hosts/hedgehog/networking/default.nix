@@ -74,6 +74,25 @@ with soxincfg.vars.space.lama-corp; {
             }
           ];
         };
+        "wg1" = {
+          ips = [
+            "172.28.254.101/24"
+          ];
+          privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
+          allowedIPsAsRoutes = false;
+
+          peers = [
+            {
+              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
+              allowedIPs = [
+                "172.28.254.6"
+                "172.28.6.0/24"
+                "172.28.7.0/24"
+              ];
+              endpoint = "168.119.71.47:51820";
+            }
+          ];
+        };
       };
     };
   };
