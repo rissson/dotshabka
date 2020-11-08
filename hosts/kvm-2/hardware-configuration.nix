@@ -56,9 +56,6 @@
       '';
     };
 
-    kernelParams = [
-      "elevator=none"
-    ];
     kernelModules = [ "kvm-amd" ];
 
     loader = {
@@ -71,7 +68,6 @@
         ];
         enableCryptodisk = true;
         copyKernels = true;
-        zfsSupport = true;
       };
     };
   };

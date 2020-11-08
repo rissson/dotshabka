@@ -1,4 +1,9 @@
-{
+rec {
+  root = {
+    hashedPassword = "$6$S6p2F9bVh$kPWZhtZ2gvlcn5G4L5iU3lujzEyCPa8XxPz2TGgsudpOz3O/.dRqh4le6qNKCBmlIDzlox19S7k2ehFPZqGto.";
+    sshKeys = risson.sshKeys ++ diego.sshKeys;
+  };
+
   diego = {
     hashedPassword = "$6$QMhH.GTGHaI3FgjF$DFKr7yQujSyv2bPjgVdWGmqwgP5ArGmoBcAR9E9P/f9JTD2PRUtRGhOKymyWswB.Dh4JW9Vd4JZ.wz0iOOIPS/";
     sshKeys = [
