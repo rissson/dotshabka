@@ -1,12 +1,12 @@
 { ... }:
 
 {
-  networking.firewall.interfaces.wg1.allowedTCPPorts = [ 179 ];
+  networking.firewall.interfaces.wg0.allowedTCPPorts = [ 179 ];
 
   services.bird2 = {
     enable = true;
     config = ''
-      router id 172.28.254.101;
+      router id 172.28.254.2;
 
       log stderr all;
       debug protocols all;
@@ -39,7 +39,8 @@
           preference 110;
         };
 
-        route 172.28.101.0/24 via "wg0";
+        route 192.168.44.0/24 via "bond0";
+        route 172.28.2.0/24 via "wg1";
       }
 
       protocol static STATIC6 {
@@ -57,15 +58,15 @@
       }
 
       filter export_subnets {
-        if net ~ [ 172.28.101.0/24 ] then {
+        if net ~ [ 172.28.2.0/24, 192.168.44.0/24 ] then {
           accept;
         }
         reject;
       }
 
       template bgp bgp_tpl {
-        interface "wg1";
-        local as 65101;
+        interface "wg0";
+        local as 65002;
         error wait time 30, 60;
 
         ipv4 {
@@ -81,6 +82,10 @@
 
       protocol bgp 'kvm-2.srv.fsn' from bgp_tpl {
         neighbor 172.28.254.6 as 65006;
+      }
+
+      protocol bgp 'hedgehog.lap.rsn' from bgp_tpl {
+        neighbor 172.28.254.101 as 65101;
       }
     '';
   };

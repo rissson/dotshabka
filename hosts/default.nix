@@ -117,6 +117,7 @@ let
     "hedgehog"
     "goat"
     "kvm-2"
+    "nas-1"
   ]
     config;
 in

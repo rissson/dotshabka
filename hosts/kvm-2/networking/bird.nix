@@ -12,12 +12,6 @@
       debug protocols all;
 
       protocol device {
-        scan time 600;
-      }
-
-      protocol direct {
-        ipv4;
-        ipv6;
       }
 
       protocol kernel KERNEL4 {
@@ -83,6 +77,10 @@
           import none;
           export none;
         };
+      }
+
+      protocol bgp 'nas.srv.bar' from bgp_tpl {
+        neighbor 172.28.254.2 as 65002;
       }
 
       protocol bgp 'hedgehog.lap.rsn' from bgp_tpl {

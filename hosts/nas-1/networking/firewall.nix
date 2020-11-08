@@ -5,22 +5,26 @@
     enable = true;
     allowPing = true;
 
+    allowedTCPPorts = [
+      22 # ssh
+      53 # dns
+      67 # dhcp
+    ];
+
+    allowedUDPPorts = [
+      53 # dns
+      67 # dhcp
+    ];
+
     interfaces = {
-      "br-k8s" = {
+      wg0 = {
         allowedTCPPorts = [
-          53 # DNS
-        ];
-        allowedUDPPorts = [
-          53 # DNS
-        ];
-      };
-      "wg0" = {
-        allowedTCPPorts = [
-          53 # DNS
           19999 # Netdata
         ];
-        allowedUDPPorts = [
-          53 # DNS
+      };
+      wg1 = {
+        allowedTCPPorts = [
+          19999 # Netdata
         ];
       };
     };
