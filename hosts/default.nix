@@ -14,7 +14,10 @@
 }:
 
 let
-  config = hostName:
+  config = path:
+    let
+      hostName = lib.lists.last (lib.splitString "/" path);
+    in
     soxin.lib.nixosSystem {
       inherit system;
 
@@ -88,7 +91,7 @@ let
               '');
           };
 
-          local = import "${toString ./.}/${hostName}/configuration.nix";
+          local = import "${toString ./.}/${path}/configuration.nix";
 
           flakeModules =
             builtins.attrValues (removeAttrs self.nixosModules [ "profiles" "soxincfg" ]);
@@ -116,7 +119,7 @@ let
   hosts = lib.genAttrs [
     "hedgehog"
     "goat"
-    "kvm-2"
+    "fsn/kvm-2"
     "nas-1"
   ]
     config;
