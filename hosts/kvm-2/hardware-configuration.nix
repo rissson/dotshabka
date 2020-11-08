@@ -108,6 +108,10 @@
       fsType = "zfs";
       neededForBoot = true;
     };
+    "/persist/nfs-k8s.fsn" = {
+      device = "rpool/persist/persist/nfs-k8s.fsn";
+      fsType = "zfs";
+    };
   };
 
   swapDevices = [ ];
