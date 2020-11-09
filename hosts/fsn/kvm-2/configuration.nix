@@ -8,6 +8,8 @@
     ./hardware-configuration.nix
     ./networking
     ./nfs.nix
+    #./nginx.nix
+    ./vault.nix
   ];
 
   lama-corp = {
