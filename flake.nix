@@ -100,13 +100,9 @@
 
         overlay = import ./pkgs;
 
-        overlays =
-          let
-            overlayDir = ./overlays;
-            fullPath = name: overlayDir + "/${name}";
-            overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
-          in
-          self.lib.pathsToImportedAttrs overlayPaths;
+        overlays = {
+          flannel = import ./overlays/flannel.nix;
+        };
       };
     in
     recursiveUpdate multiSystemOutputs outputs;

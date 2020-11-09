@@ -2,8 +2,6 @@
 
 let
   nodeIP = (lib.head config.networking.interfaces.ens3.ipv4.addresses).address;
-
-  owner = config.systemd.services.etcd.serviceConfig.User;
 in
 {
   networking.firewall.allowedTCPPorts = [ 2379 2380 ];
@@ -48,19 +46,21 @@ in
       inherit (config.networking) fqdn;
       owner = config.systemd.services.etcd.serviceConfig.User;
       sopsFile = "${toString ../certs}/etcd-${fqdn}.yml";
-      commonEtcdSopsConfig = {
+      commonSopsConfig = {
         inherit owner sopsFile;
       };
     in
     {
       etcd_ca_cert = {
         inherit owner;
+        group = config.users.groups.keys.name;
+        mode = "0440";
         sopsFile = ../certs/etcd-ca-cert.yml;
       };
-      etcd_server_cert = commonEtcdSopsConfig;
-      etcd_server_key = commonEtcdSopsConfig;
-      etcd_peer_cert = commonEtcdSopsConfig;
-      etcd_peer_key = commonEtcdSopsConfig;
+      etcd_server_cert = commonSopsConfig;
+      etcd_server_key = commonSopsConfig;
+      etcd_peer_cert = commonSopsConfig;
+      etcd_peer_key = commonSopsConfig;
     };
 
   systemd.services.etcd = {

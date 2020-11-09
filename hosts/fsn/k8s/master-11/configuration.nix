@@ -1,4 +1,4 @@
-{ soxincfg, ... }:
+{ soxincfg, lib, ... }:
 
 {
   imports = [
@@ -26,6 +26,14 @@
       address = "172.28.7.254";
       interface = "ens3";
     };
+  };
+
+  services.keepalived.vrrpInstances."VI_01" = {
+    priority = lib.mkForce 150;
+    unicastPeers = [
+      "172.28.7.12"
+      "172.28.7.13"
+    ];
   };
 
   # This value determines the NixOS release with which your system is to be

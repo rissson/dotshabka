@@ -1,0 +1,31 @@
+commit 5f751cf4e3605aee0caf8d13b7dd91f79528ae86
+Author: Knic Knic <knic.knic@gmail.com>
+Date:   Tue Jun 16 17:31:06 2020 -0700
+
+    add crash when failure in list or watch
+
+diff --git a/subnet/kube/kube.go b/subnet/kube/kube.go
+index fe6629de..cdd41462 100644
+--- a/subnet/kube/kube.go
++++ b/subnet/kube/kube.go
+@@ -142,10 +142,18 @@ func newKubeSubnetManager(c clientset.Interface, sc *subnet.Config, nodeName, pr
+ 	indexer, controller := cache.NewIndexerInformer(
+ 		&cache.ListWatch{
+ 			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
+-				return ksm.client.CoreV1().Nodes().List(options)
++				obj, err := ksm.client.CoreV1().Nodes().List(options)
++				if err != nil {
++					glog.Exit(err, "failed to list nodes in newKubeSubnetManager")
++				}
++				return obj, err
+ 			},
+ 			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
+-				return ksm.client.CoreV1().Nodes().Watch(options)
++				iface, err := ksm.client.CoreV1().Nodes().Watch(options)
++				if err != nil {
++					glog.Exit(err, "failed to watch nodes in newKubeSubnetManager")
++				}
++				return iface, err
+ 			},
+ 		},
+ 		&v1.Node{},
