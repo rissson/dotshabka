@@ -35,6 +35,13 @@
       };
     };
 
+    vlans = {
+      "enp35s0.4004" = {
+        id = 4004;
+        interface = "enp35s0";
+      };
+    };
+
     interfaces = {
       enp35s0 = {
         ipv4.addresses = [{
@@ -44,6 +51,14 @@
         ipv6.addresses = [{
           address = "2a01:4f8:242:1910::1";
           prefixLength = 128;
+        }];
+      };
+
+      "enp35s0.4004" = {
+        mtu = 1400;
+        ipv4.addresses = [{
+          address = "172.29.1.2";
+          prefixLength = 30;
         }];
       };
 
@@ -70,5 +85,11 @@
       internalInterfaces = [ "br-k8s" "wg0" ];
       internalIPs = [ "172.28.0.0/16" ];
     };
+
+    localCommands = ''
+      ip route flush 10
+      ip route add table 10 to default via 172.29.1.1 dev enp35s0.4004
+      ip rule add from 148.251.148.234/31 table 10 priority 10
+    '';
   };
 }
