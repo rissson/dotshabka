@@ -11,7 +11,7 @@
       inputs.nixpkgs.follows = "nixos";
     };
     soxin = {
-      url = "git+file:///home/risson/code/soxin";
+      url = "github:SoxinOS/soxin";
       inputs = {
         nixpkgs.follows = "nixos";
         home-manager.follows = "home-manager";

@@ -185,17 +185,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1603123505,
-        "narHash": "sha256-3wR/LdsQF+sJGkXGvEe7r5aUZQMPMrOyezVU+H7E/Ag=",
-        "ref": "PoC",
-        "rev": "5adf3e8a87f828134cf2a967e8a397592057a302",
-        "revCount": 21,
-        "type": "git",
-        "url": "file:///home/risson/code/soxin"
+        "lastModified": 1604966269,
+        "narHash": "sha256-OKjWsF/A8SCUyDGlWgehOl722ilq4/z8VQsPGbGBZq8=",
+        "owner": "SoxinOS",
+        "repo": "soxin",
+        "rev": "1d6f56b0eb69a1405f82895e8e9eb422307ccc4c",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/risson/code/soxin"
+        "owner": "SoxinOS",
+        "repo": "soxin",
+        "type": "github"
       }
     }
   },
