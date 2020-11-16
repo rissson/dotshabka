@@ -9,5 +9,4 @@ with pkgs;
   discord
   slack
   nixpkgs-fmt
-  netdata
 ]

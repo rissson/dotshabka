@@ -71,7 +71,7 @@
             ];
           };
 
-          packages = self.lib.overlaysToPkgs self.overlays osPkgs;
+          packages = self.lib.overlaysToPkgs self.overlays pkgs;
         }
       );
 
@@ -98,9 +98,10 @@
           soxincfg = import ./modules/soxincfg.nix;
         };
 
-        overlay = import ./pkgs;
+        overlay = self.overlays.packages;
 
         overlays = {
+          packages = import ./pkgs;
           flannel = import ./overlays/flannel.nix;
         };
       };
