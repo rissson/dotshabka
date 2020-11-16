@@ -11,6 +11,22 @@
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
 
+  krb5 = {
+    enable = true;
+    libdefaults = {
+      default_realm = "LAMA-CORP.SPACE";
+      dns_fallback = true;
+      dns_canonicalize_hostname = false;
+      rnds = false;
+    };
+
+    realms = {
+      "LAMA-CORP.SPACE" = {
+        admin_server = "kerberos.lama-corp.space";
+      };
+    };
+  };
+
   lama-corp = {
     virtualisation = {
       libvirtd = {
