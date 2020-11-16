@@ -348,6 +348,7 @@ with lib;
     xsel
     nur.repos.kalbasit.rbrowser
     minecraft
+    jetbrains.datagrip
   ];
 
   programs.zsh.initExtra = ''
