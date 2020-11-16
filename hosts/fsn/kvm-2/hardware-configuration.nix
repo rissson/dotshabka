@@ -13,7 +13,7 @@
   };
 
   environment.etc."modprobe.d/zfs.conf".text = ''
-    options zfs zfs_arc_max=17179869184
+    options zfs zfs_arc_max=8589934592
   '';
 
   boot = {
