@@ -82,8 +82,8 @@
     nat = {
       enable = true;
       externalInterface = "enp35s0";
-      internalInterfaces = [ "br-k8s" "wg0" ];
-      internalIPs = [ "172.28.0.0/16" ];
+      internalInterfaces = [ "br-k8s" ];
+      internalIPs = [ "172.28.7.0/24" ];
     };
 
     localCommands = ''

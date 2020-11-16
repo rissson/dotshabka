@@ -58,7 +58,7 @@
       }
 
       filter export_subnets {
-        if net ~ [ 172.28.7.0/24 ] then {
+        if net ~ [ 172.28.7.0/24, 172.28.8.10/32, 172.28.8.11/32 ] then {
           accept;
         }
         reject;
@@ -67,7 +67,7 @@
       template bgp bgp_tpl {
         interface "wg0";
         local as 65006;
-        error wait time 1, 2;
+        error wait time 30, 60;
 
         ipv4 {
           import filter accept_all;
@@ -91,7 +91,7 @@
       template bgp bgp_k8s {
         interface "br-k8s";
         local as 67254;
-        error wait time 30, 60;
+        error wait time 1, 2;
 
         ipv4 {
           import all;

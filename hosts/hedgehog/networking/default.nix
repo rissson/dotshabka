@@ -51,7 +51,6 @@ with soxincfg.vars.space.lama-corp; {
                 "${v4.subnet}/${toString v4.prefixLength}"
                 "${v6.subnet}/${toString v6.prefixLength}"
                 "172.28.4.0/24"
-                "172.28.8.0/24"
               ];
               endpoint = "${fsn.srv.kvm-1.external.v4.ip}:51820";
             }
@@ -92,6 +91,7 @@ with soxincfg.vars.space.lama-corp; {
                 "172.28.254.6"
                 "172.28.6.0/24"
                 "172.28.7.0/24"
+                "172.28.8.0/24"
               ];
               endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
