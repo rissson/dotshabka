@@ -31,6 +31,7 @@
 
   networking.firewall.allowedTCPPorts = [
     7946 7472 # metallb
+    19999 # Netdata
   ];
 
   sops.validateSopsFiles = false;

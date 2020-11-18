@@ -3,9 +3,11 @@
 {
   environment.persistence."/persist" = {
     directories = [
-      "/var/log"
+      "/var/lib/acme"
+      "/var/lib/dhparams"
       "/var/lib/libvirt"
       "/var/lib/netdata"
+      "/var/log"
     ];
     files = [
       "/etc/machine-id"

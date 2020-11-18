@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
   security.dhparams = {
     enable = true;
     defaultBitSize = 2048;
@@ -17,7 +19,7 @@
     enable = true;
     package = pkgs.nginxMainline;
     commonHttpConfig = ''
-      log_format netdata '$host:$server_port $remote_addr - $remote_user [$time_local]
+      log_format netdata '$host:$server_port $remote_addr - $remote_user [$time_local] '
                          '"$request" $status $body_bytes_sent '
                          '"$http_referer" "$http_user_agent" '
                          '$request_length $request_time $upstream_response_time';
@@ -32,10 +34,40 @@
 
     sslDhparam = config.security.dhparams.params."nginx".path;
 
-    virtualHosts."vault.lama-corp.space" = {
+    /*virtualHosts."vault.lama-corp.space" = {
       forceSSL = true;
       enableACME = true;
       locations."/".proxyPass = "http://localhost:8200";
+    };*/
+
+    virtualHosts."netdata.lama-corp.space" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://localhost:19999";
+      locations."~ /(netdata|host)/(?<behost>[^/\\s]+)/(?<ndpath>.*)" = {
+        proxyPass = "http://$behost:19999/$ndpath$is_args$args";
+      };
+    };
+
+    resolver = {
+      addresses = [ "127.0.0.1" "[::1]" ];
     };
   };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      gixy = prev.pkgs.stdenv.mkDerivation {
+        name = "gixy-wrapped";
+        buildInputs = [ prev.makeWrapper prev.gixy ];
+
+        phases = [ "installPhase" ];
+
+        installPhase = ''
+          mkdir -p $out/bin
+          makeWrapper ${prev.gixy}/bin/gixy $out/bin/gixy \
+            --add-flags "--skips ssrf"
+        '';
+      };
+    })
+  ];
 }
