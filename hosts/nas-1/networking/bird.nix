@@ -39,8 +39,7 @@
           preference 110;
         };
 
-        route 192.168.44.0/24 via "bond0";
-        route 172.28.2.0/24 via "wg1";
+        route 172.28.2.0/24 via "bond0";
       }
 
       protocol static STATIC6 {
@@ -58,7 +57,7 @@
       }
 
       filter export_subnets {
-        if net ~ [ 172.28.2.0/24, 192.168.44.0/24 ] then {
+        if net ~ [ 172.28.2.0/24 ] then {
           accept;
         }
         reject;

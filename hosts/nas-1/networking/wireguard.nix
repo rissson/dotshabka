@@ -2,7 +2,7 @@
 
 {
   networking.firewall.allowedUDPPorts = [
-    config.networking.wireguard.interfaces.wg1.listenPort
+    #config.networking.wireguard.interfaces.wg1.listenPort
     config.networking.wireguard.interfaces.wg0.listenPort
   ];
 
@@ -10,11 +10,11 @@
     enable = true;
 
     interfaces = {
-      wg1 = {
+      /*wg1 = {
         ips = [
-          "172.28.2.1/24"
+          "172.28.2.1/32"
         ];
-        listenPort = 51820;
+        listenPort = 51821;
         privateKeyFile = config.sops.secrets.wireguard_wg1_private_key.path;
 
         peers = with soxincfg.vars.space.lama-corp; [
@@ -45,14 +45,14 @@
             ];
           }
         ];
-      };
+      };*/
 
       wg0 = {
         ips = [
           "172.28.254.2/24"
         ];
         privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
-        listenPort = 51821;
+        listenPort = 51820;
 
         allowedIPsAsRoutes = false;
         peers = [

@@ -35,14 +35,14 @@
     interfaces = {
       bond0 = {
         ipv4.addresses = [{
-          address = "192.168.44.253";
+          address = "172.28.2.253";
           prefixLength = 24;
         }];
       };
     };
 
     defaultGateway = {
-      address = "192.168.44.254";
+      address = "172.28.2.254";
       interface = "bond0";
     };
   };

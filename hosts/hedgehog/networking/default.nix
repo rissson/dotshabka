@@ -63,18 +63,6 @@ with soxincfg.vars.space.lama-corp; {
               ];
               endpoint = "${nbg.srv.giraffe.external.v4.ip}:51820";
             }
-            {
-              # nas.srv.bar
-              inherit (bar.srv.nas.wg) publicKey;
-              allowedIPs = with bar.srv.nas.wg; [
-                # Wireguard networks
-                "${v4.subnet}/${toString v4.prefixLength}"
-                "${v6.subnet}/${toString v6.prefixLength}"
-                # Local networks
-                #bar.subnet
-              ];
-              endpoint = "92.148.141.200:51820";
-            }
           ];
         };
         "wg1" = {
