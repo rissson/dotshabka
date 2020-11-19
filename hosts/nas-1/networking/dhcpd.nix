@@ -7,11 +7,7 @@
     extraConfig = ''
       authoritative;
 
-      default-lease-time 60;
-      max-lease-time 60;
-
-
-      #option routers 172.28.2.254;
+      option routers 172.28.2.254;
       option broadcast-address 172.28.2.255;
       option subnet-mask 255.255.255.0;
       option domain-name-servers 172.28.2.253, 1.1.1.1;
