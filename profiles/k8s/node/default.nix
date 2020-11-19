@@ -34,6 +34,12 @@
     19999 # Netdata
   ];
 
+  virtualisation.docker.autoPrune = {
+    enable = true;
+    dates = "daily";
+    flags = [ "--all" ];
+  };
+
   sops.validateSopsFiles = false;
   sops.secrets.kubernetes_ca_cert = {
     sopsFile = ../certs/kubernetes-ca-cert.yml;
