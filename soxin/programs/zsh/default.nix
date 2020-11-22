@@ -189,7 +189,7 @@ in
           enable = true;
         };
         histSize = 1000000000;
-        inherit ohMyZsh shellInit;
+        inherit ohMyZsh;
       };
     })
 

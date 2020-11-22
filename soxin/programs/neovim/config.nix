@@ -67,6 +67,7 @@ with pkgs.lib;
             "vim-airline"
             "vim-airline-themes"
             "vim-better-whitespace"
+            "vim-clang-format"
             "vim-eunuch"
             "vim-fugitive"
             "vim-markdown"

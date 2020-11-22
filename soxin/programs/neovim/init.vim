@@ -132,7 +132,11 @@ nmap <silent> <C-i> <Plug>(ale_previous_wrap)
 nmap <silent> <C-e> <Plug>(ale_next_wrap)
 
 " change the linters
-let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
+let g:ale_linters = {'go': ['gometalinter', 'gofmt'], 'cpp': ['cc', 'clangcheck', 'clang-format']}
+
+let g:ale_cpp_cc_options = '-std=c18 -Wall -Werror -Wextra -pedantic'
+let g:clang_format#detect_style_file = 1
+let g:clang_format#auto_format = 1
 
 " run only fast linters
 let g:ale_go_gometalinter_options = "--fast"
