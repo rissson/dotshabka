@@ -29,6 +29,11 @@
     useDHCP = false;
 
     bridges = {
+      br-vms = {
+        interfaces = [ ];
+        rstp = true;
+      };
+
       br-k8s = {
         interfaces = [ ];
         rstp = true;
@@ -62,6 +67,13 @@
         }];
       };
 
+      br-vms = {
+        ipv4.addresses = [{
+          address = "172.28.6.254";
+          prefixLength = 24;
+        }];
+      };
+
       br-k8s = {
         ipv4.addresses = [{
           address = "172.28.7.254";
@@ -82,14 +94,15 @@
     nat = {
       enable = true;
       externalInterface = "enp35s0";
-      internalInterfaces = [ "br-k8s" ];
-      internalIPs = [ "172.28.7.0/24" ];
+      internalInterfaces = [ "br-vms" "br-k8s" ];
+      internalIPs = [ "172.28.6.0/24" "172.28.7.0/24" ];
     };
 
     localCommands = ''
       ip route flush 10
       ip route add table 10 to default via 172.29.1.1 dev enp35s0.4004
       ip rule add from 148.251.148.234/31 table 10 priority 10
+      ip rule add from 148.251.148.238/31 table 10 priority 10
     '';
   };
 }

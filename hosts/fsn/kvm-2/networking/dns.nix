@@ -4,6 +4,8 @@
   lama-corp.services.unbound = {
     enable = true;
     extraData = {
+      "mail-1.vrt.fsn" = "172.28.6.11";
+
       "master-11.k8s.fsn" = "172.28.7.11";
       "master-12.k8s.fsn" = "172.28.7.12";
       "master-13.k8s.fsn" = "172.28.7.13";

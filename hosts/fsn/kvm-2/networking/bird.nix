@@ -40,6 +40,7 @@
           preference 110;
         };
 
+        route 172.28.6.0/24 via "br-vms";
         route 172.28.7.0/24 via "br-k8s";
       }
 
@@ -58,7 +59,7 @@
       }
 
       filter export_subnets {
-        if net ~ [ 172.28.7.0/24, 172.28.8.10/32, 172.28.8.11/32 ] then {
+        if net ~ [ 172.28.6.0/24, 172.28.7.0/24, 172.28.8.10/32, 172.28.8.11/32 ] then {
           accept;
         }
         reject;

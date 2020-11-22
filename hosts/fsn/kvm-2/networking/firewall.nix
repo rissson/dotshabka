@@ -6,6 +6,15 @@
     allowPing = true;
 
     interfaces = {
+      "br-vms" = {
+        allowedTCPPorts = [
+          53 # DNS
+        ];
+        allowedUDPPorts = [
+          53 # DNS
+        ];
+      };
+
       "br-k8s" = {
         allowedTCPPorts = [
           53 # DNS
@@ -14,6 +23,7 @@
           53 # DNS
         ];
       };
+
       "wg0" = {
         allowedTCPPorts = [
           53 # DNS
