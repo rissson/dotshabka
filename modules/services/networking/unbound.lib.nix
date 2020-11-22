@@ -1,11 +1,8 @@
 { mode, config, lib, pkgs, ... }:
 
 with lib;
-
 let
-
   cfg = config.services.unbound;
-
 
   yesOrNo = v: if v then "yes" else "no";
 
@@ -24,7 +21,6 @@ let
                                 ))
     else throw (traceSeq v "services.unbound.settings: : unexpected type");
 
-
   confFile = pkgs.writeText "unbound.conf" (concatStringsSep "\n" ((mapAttrsToList (toConf "") cfg.settings) ++ [""]));
 
   rootTrustAnchorFile = "${cfg.stateDir}/root.key";
@@ -41,7 +37,7 @@ in {
       package = mkOption {
         type = types.package;
         default = pkgs.unbound;
-        defaultText = "pkgs.unbound";
+        defaultText = "pkgs.unbound-with-systemd";
         description = "The unbound package to use";
       };
 
@@ -49,6 +45,12 @@ in {
         type = types.str;
         default = "unbound";
         description = "User account under which unbound runs.";
+      };
+
+      group = mkOption {
+        type = types.str;
+        default = "unbound";
+        description = "Group under which unbound runs.";
       };
 
       stateDir = mkOption {
@@ -69,6 +71,28 @@ in {
         default = true;
         type = types.bool;
         description = "Use and update root trust anchor for DNSSEC validation.";
+      };
+
+      localControlSocketPath = mkOption {
+        default = null;
+        # FIXME: What is the proper type here so users can specify strings,
+        # paths and null?
+        # My guess would be `types.nullOr (types.either types.str types.path)`
+        # but I haven't verified yet.
+        type = types.nullOr types.str;
+        example = "/run/unbound/unbound.ctl";
+        description = ''
+          When not set to <literal>null</literal> this option defines the path
+          at which the unbound remote control socket should be created at. The
+          socket will be owned by the unbound user (<literal>unbound</literal>)
+          and group will be <literal>nogroup</literal>.
+
+          Users that should be permitted to access the socket must be in the
+          <literal>config.services.unbound.group</literal> group.
+
+          If this option is <literal>null</literal> remote control will not be
+          enabled. Unbounds default values apply.
+        '';
       };
 
       settings = mkOption {
@@ -129,14 +153,16 @@ in {
 
   ###### implementation
 
-  config = mkIf cfg.enable (mkMerge (singleton (optionalAttrs (mode == "NixOS") {
+  config = mkIf cfg.enable (mkMerge [ (optionalAttrs (mode == "NixOS") {
 
     services.unbound.settings = {
       server = {
         directory = mkDefault cfg.stateDir;
         username = cfg.user;
-        chroot = cfg.stateDir;
+        chroot = ''""'';
         pidfile = ''""'';
+        # when running under systemd there is no need to daemonize
+        do-daemonize = false;
         interface = mkDefault ([ "127.0.0.1" ] ++ (optional config.networking.enableIPv6 "::1"));
         access-control = mkDefault ([ "127.0.0.0/8 allow" ] ++ (optional config.networking.enableIPv6 "::1/128 allow"));
         auto-trust-anchor-file = mkIf cfg.enableRootTrustAnchor rootTrustAnchorFile;
@@ -158,18 +184,25 @@ in {
       unbound = {
         description = "unbound daemon user";
         isSystemUser = true;
+        group = cfg.group;
       };
     };
 
-    networking = mkIf cfg.resolveLocalQueries {
-      nameservers = optional cfg.resolveLocalQueries "127.0.0.1";
+    users.groups = mkIf (cfg.group == "unbound") {
+      unbound = {};
+    };
 
-      resolvconf = mkIf cfg.resolveLocalQueries {
+    networking = mkIf cfg.resolveLocalQueries {
+      nameservers = [ "127.0.0.1" ] ++ (optional config.networking.enableIPv6 "::1");
+
+      resolvconf = {
         useLocalResolver = mkDefault true;
       };
 
       networkmanager.dns = "unbound";
     };
+
+    environment.etc."unbound/unbound.conf".source = confFile;
 
     systemd.tmpfiles.rules = [
       "d '${cfg.stateDir}' 0755 ${cfg.user} nogroup - -"
@@ -181,35 +214,76 @@ in {
       description = "Unbound recursive Domain Name Server";
       after = [ "network.target" ];
       before = [ "nss-lookup.target" ];
-      wants = [ "nss-lookup.target" ];
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = [ "multi-user.target" "nss-lookup.target" ];
 
       path = mkIf cfg.settings.remote-control.control-enable [ pkgs.openssl ];
 
       preStart = ''
         ${optionalString cfg.enableRootTrustAnchor ''
           ${cfg.package}/bin/unbound-anchor -a ${rootTrustAnchorFile} || echo "Root anchor updated!"
-          chown unbound ${cfg.stateDir} ${rootTrustAnchorFile}
         ''}
-        touch ${cfg.stateDir}/dev/random
-        ${pkgs.utillinux}/bin/mount --bind -n /dev/urandom ${cfg.stateDir}/dev/random
         ${optionalString cfg.settings.remote-control.control-enable ''
           ${cfg.package}/bin/unbound-control-setup -d ${cfg.stateDir}
         ''}
       '';
 
-      serviceConfig = {
-        ExecStart = "${cfg.package}/bin/unbound -d -c ${confFile}";
-        ExecStopPost = "${pkgs.utillinux}/bin/umount ${cfg.stateDir}/dev/random";
+      restartTriggers = [
+        "/etc/unbound/unbound.conf"
+      ];
 
-        ProtectSystem = true;
-        ProtectHome = true;
+      serviceConfig = {
+        ExecStart = "${cfg.package}/bin/unbound -p -d -c /etc/unbound/unbound.conf";
+        ExecReload = "+/run/current-system/sw/bin/kill -HUP $MAINPID";
+
+        NotifyAccess = "main";
+        Type = "notify";
+
+        # FIXME: Which of these do we actualy need, can we drop the chroot flag?
+        AmbientCapabilities = [
+          "CAP_NET_BIND_SERVICE"
+          "CAP_NET_RAW"
+          "CAP_SETGID"
+          "CAP_SETUID"
+          "CAP_SYS_CHROOT"
+          "CAP_SYS_RESOURCE"
+        ];
+
+        User = cfg.user;
+        Group = cfg.group;
+
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
         PrivateDevices = true;
+        PrivateTmp = true;
+        ProtectHome = true;
+        ProtectControlGroups = true;
+        ProtectKernelModules = true;
+        ProtectSystem = "strict";
+        RuntimeDirectory = "unbound";
+        ConfigurationDirectory = "unbound";
+        StateDirectory = "unbound";
+        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+        RestrictRealtime = true;
+        SystemCallArchitectures = "native";
+        SystemCallFilter = [
+          "~@clock"
+          "@cpu-emulation"
+          "@debug"
+          "@keyring"
+          "@module"
+          "mount"
+          "@obsolete"
+          "@resources"
+        ];
+        RestrictNamespaces = true;
+        LockPersonality = true;
+        RestrictSUIDSGID = true;
+
         Restart = "always";
         RestartSec = "5s";
       };
     };
-  })));
+  })]);
 
   imports = [
     (mkRenamedOptionModule [ "services" "unbound" "interfaces" ] [ "services" "unbound" "settings" "server" "interface" ])
