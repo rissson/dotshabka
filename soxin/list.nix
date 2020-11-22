@@ -2,7 +2,6 @@
   # settings
   fonts = ./settings/fonts.nix;
   gtk = ./settings/gtk.nix;
-  keyboard = ./settings/keyboard.nix;
   theme = ./settings/theme;
   users = ./settings/users.nix;
 

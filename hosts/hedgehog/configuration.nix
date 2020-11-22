@@ -44,8 +44,13 @@
       gtk.enable = true;
       keyboard = {
         layouts = [
-          { layout = "fr"; variant = "bepo"; keyMap = "fr-bepo"; }
-          { layout = "us"; variant = "intl"; }
+          {
+            x11 = { layout = "fr"; variant = "bepo"; };
+            console.keyMap = "fr-bepo";
+          }
+          {
+            x11 = { layout = "us"; variant = "intl"; };
+          }
         ];
       };
     };

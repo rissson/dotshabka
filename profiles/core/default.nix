@@ -10,9 +10,11 @@
     settings = {
       keyboard = {
         layouts = lib.mkAfter (lib.singleton {
-          layout = "us";
-          variant = "";
-          keyMap = "us";
+          x11 = {
+            layout = "us";
+            variant = "";
+          };
+          console.keyMap = "us";
         });
         enableAtBoot = true;
       };
