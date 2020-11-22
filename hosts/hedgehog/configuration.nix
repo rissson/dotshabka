@@ -263,7 +263,13 @@
     127.0.0.1 cri.epita.net
     127.0.0.1 lama-corp.cri.epita.net
     127.0.0.1 code.cri.epita.net
+    172.28.8.11 ldap.k8s.fsn.lama-corp.space
   '';
+
+  documentation = {
+    dev.enable = true;
+    man.generateCaches = true;
+  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

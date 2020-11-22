@@ -13,16 +13,6 @@ with soxincfg.vars.space.lama-corp; {
     nameservers = [ "172.28.1.1" "1.1.1.1" ];
 
     useDHCP = true;
-    interfaces.enp3s0f0.useDHCP = true;
-    interfaces.br0 = {
-      ipv4.addresses = [{
-        address = "192.168.1.101";
-        prefixLength = 24;
-      }];
-    };
-
-    bridges.br0.interfaces = [ "enp6s0f3u1u2" ];
-    bridges.br0.rstp = true;
 
     /*dhcpcd.extraConfig = ''
       nohook resolv.conf
@@ -88,6 +78,39 @@ with soxincfg.vars.space.lama-corp; {
         };
       };
     };
+
+    localCommands = let ethtool = "${pkgs.ethtool}/bin/ethtool"; in ''
+      ip link del myfw-in-nsin
+      ip link del myfw-in-nsfw
+      ip link del myfw-out-nsout
+      ip link del myfw-out-nsfw
+
+      ip netns delete nsin
+      ip netns delete nsfw
+      ip netns delete nsout
+
+      ip netns add nsin
+      ip netns add nsfw
+      ip netns add nsout
+
+      ip link add myfw-in-nsin type veth peer name myfw-in-nsfw
+      ip link set dev myfw-in-nsin netns nsin up
+      ip link set dev myfw-in-nsfw netns nsfw up
+
+      ip netns exec nsin ${ethtool} -K myfw-in-nsin tx off
+      ip netns exec nsfw ${ethtool} -K myfw-in-nsfw tx off
+
+      ip netns exec nsin ip addr add fd00::0/127 dev myfw-in-nsin
+
+      ip link add myfw-out-nsout type veth peer name myfw-out-nsfw
+      ip link set dev myfw-out-nsout netns nsout up
+      ip link set dev myfw-out-nsfw netns nsfw up
+
+      ip netns exec nsout ${ethtool} -K myfw-out-nsout tx off
+      ip netns exec nsfw ${ethtool} -K myfw-out-nsfw tx off
+
+      ip netns exec nsout ip addr add fd00::1/127 dev myfw-out-nsout
+    '';
   };
 
   sops.secrets.wpa_supplicant = {
