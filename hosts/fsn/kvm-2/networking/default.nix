@@ -72,6 +72,13 @@
           address = "172.28.6.254";
           prefixLength = 24;
         }];
+        ipv4.routes = [
+          {
+            address = "148.251.148.239";
+            prefixLength = 32;
+            via = "172.28.6.11";
+          }
+        ];
       };
 
       br-k8s = {
