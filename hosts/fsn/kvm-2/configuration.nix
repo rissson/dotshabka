@@ -12,6 +12,8 @@
     ./vault.nix
   ];
 
+  home-manager.users.risson = import ./home.nix { inherit soxincfg; };
+
   lama-corp = {
     virtualisation = {
       libvirtd = {
