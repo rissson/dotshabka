@@ -44,6 +44,10 @@
     enable = true;
   };
 
+  networking.firewall.allowedTCPPorts = [
+    19999 # Netdata
+  ];
+
   users = with soxincfg.vars.users; {
     mutableUsers = false;
     users.root = with soxincfg.vars.users.root; {

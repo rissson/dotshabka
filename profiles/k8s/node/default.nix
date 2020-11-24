@@ -29,10 +29,13 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [
-    7946 7472 # metallb
-    19999 # Netdata
-  ];
+  networking = {
+    useDHCP = false;
+    dhcpcd.enable = false;
+    firewall.allowedTCPPorts = [
+      7946 7472 # metallb
+    ];
+  };
 
   virtualisation.docker.autoPrune = {
     enable = true;
