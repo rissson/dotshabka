@@ -1,4 +1,4 @@
-{ mode, config, lib, pkgs, ... }:
+{ mode, config, lib, pkgs, nixpkgs, ... }:
 
 with lib;
 let
@@ -19,7 +19,7 @@ let
                                     mapAttrsToList (toConf "${indent}  ") v
                                   )
                                 ))
-    else throw (traceSeq v "services.unbound.settings: : unexpected type");
+    else throw (traceSeq v "services.unbound.settings: unexpected type");
 
   confFile = pkgs.writeText "unbound.conf" (concatStringsSep "\n" ((mapAttrsToList (toConf "") cfg.settings) ++ [""]));
 
@@ -36,7 +36,7 @@ in {
 
       package = mkOption {
         type = types.package;
-        default = pkgs.unbound;
+        default = nixpkgs.unbound-with-systemd;
         defaultText = "pkgs.unbound-with-systemd";
         description = "The unbound package to use";
       };
@@ -103,7 +103,7 @@ in {
             validSettingsPrimitiveTypes = oneOf [ int str bool float ];
             validSettingsTypes = oneOf [ validSettingsPrimitiveTypes (listOf validSettingsPrimitiveTypes) ];
             settingsType = (attrsOf validSettingsTypes);
-          in attrsOf (oneOf [ settingsType (listOf settingsType) ])
+          in attrsOf (oneOf [ string settingsType (listOf settingsType) ])
               // { description = ''
                 unbound.conf configuration type. The format consist of an attribute
                 set of settings. Each settings can be either one value, a list of
@@ -116,10 +116,10 @@ in {
             remote-control.control-enable = mkOption {
               type = bool;
               default = false;
-              description = "";
+              internal = true;
             };
           };
-       };
+        };
         example = literalExample ''
           {
             server = {
@@ -175,6 +175,9 @@ in {
         server-cert-file = mkDefault "${cfg.stateDir}/unbound_server.pem";
         control-key-file = mkDefault "${cfg.stateDir}/unbound_control.key";
         control-cert-file = mkDefault "${cfg.stateDir}/unbound_control.pem";
+      } // optionalAttrs (cfg.localControlSocketPath != null) {
+        control-enable = true;
+        control-interface = cfg.localControlSocketPath;
       };
     };
 
@@ -193,8 +196,6 @@ in {
     };
 
     networking = mkIf cfg.resolveLocalQueries {
-      nameservers = [ "127.0.0.1" ] ++ (optional config.networking.enableIPv6 "::1");
-
       resolvconf = {
         useLocalResolver = mkDefault true;
       };
@@ -203,12 +204,6 @@ in {
     };
 
     environment.etc."unbound/unbound.conf".source = confFile;
-
-    systemd.tmpfiles.rules = [
-      "d '${cfg.stateDir}' 0755 ${cfg.user} nogroup - -"
-      "d '${cfg.stateDir}/dev' 0755 ${cfg.user} nogroup - -"
-      "Z '${cfg.stateDir}' - ${cfg.user} nogroup - -"
-    ];
 
     systemd.services.unbound = {
       description = "Unbound recursive Domain Name Server";
@@ -228,7 +223,7 @@ in {
       '';
 
       restartTriggers = [
-        "/etc/unbound/unbound.conf"
+        confFile
       ];
 
       serviceConfig = {
