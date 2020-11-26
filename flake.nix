@@ -25,9 +25,10 @@
     nur.url = "nur";
     futils.url = "github:numtide/flake-utils";
     sops-nix.url = "github:Mic92/sops-nix";
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, } @ inputs:
+  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, deploy-rs } @ inputs:
     let
       inherit (nixos) lib;
       inherit (nixos.lib) recursiveUpdate;
@@ -68,6 +69,7 @@
               sops-nix.packages.${system}.ssh-to-pgp
               nixpkgs-fmt
               pre-commit
+              deploy-rs.packages.${system}.deploy-rs
             ];
           };
 

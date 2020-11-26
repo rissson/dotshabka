@@ -11,6 +11,7 @@
 , nur
 , futils
 , sops-nix
+, deploy-rs
 }:
 
 let
