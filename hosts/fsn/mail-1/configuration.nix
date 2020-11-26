@@ -4,6 +4,13 @@
   imports = [
     soxincfg.nixosModules.profiles.server
     soxincfg.nixosModules.profiles.kvm-2-vm
+
+    ./acme.nix
+    ./postfix.nix
+    ./postsrsd.nix
+    ./rspamd.nix
+    ./opendkim.nix
+    ./dovecot.nix
   ];
 
   boot.kernel.sysctl = {
@@ -14,6 +21,15 @@
 
   environment.persistence."/persist" = {
     directories = [
+      "/var/lib/acme"
+      "/var/lib/dovecot"
+      "/var/lib/opendkim"
+      "/var/lib/postfix"
+      "/var/lib/postsrsd"
+      "/var/lib/redis"
+      "/var/lib/rspamd"
+      "/var/spool/mail"
+      "/var/vmail"
     ];
   };
 

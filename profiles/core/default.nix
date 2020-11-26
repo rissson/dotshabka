@@ -62,6 +62,7 @@
     ldns
     ncdu
     tcpdump
+    telnet
     traceroute
     tree
     unzip
