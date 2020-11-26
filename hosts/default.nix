@@ -3,7 +3,7 @@
 , pkgset
 , self
 , nixos
-, master
+, nixpkgs
 , home-manager
 , soxin
 , impermanence
@@ -23,8 +23,8 @@ let
 
       specialArgs = {
         inherit nixos-hardware;
+        inherit (pkgset) nixpkgs;
         soxincfg = self;
-        nixpkgs = pkgset.master;
       };
 
       modules =
@@ -39,7 +39,7 @@ let
               in
               [
                 "nixos=${nixos}"
-                "nixpkgs=${master}"
+                "nixpkgs=${nixpkgs}"
                 "nixpkgs-overlays=${path}/overlays"
               ];
 
@@ -47,7 +47,7 @@ let
 
             nix.registry = {
               nixos.flake = nixos;
-              nixpkgs.flake = master;
+              nixpkgs.flake = nixpkgs;
               soxincfg.flake = self;
             };
 
@@ -57,7 +57,7 @@ let
           overrides = {
             nixpkgs.overlays =
               let
-                override = import ../pkgs/override.nix pkgset.master;
+                override = import ../pkgs/override.nix pkgset.nixpkgs;
 
                 overlay = pkg: _: _: {
                   "${pkg.pname}" = pkg;

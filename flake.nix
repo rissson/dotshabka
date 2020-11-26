@@ -3,9 +3,9 @@
 
   description = "Lama Corp. infrastructure configurations.";
 
-  inputs = {
+  inputs = rec {
     nixos.url = "nixpkgs/nixos-20.09";
-    master.url = "nixpkgs/master";
+    nixpkgs.url = "nixpkgs/master";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixos";
@@ -27,7 +27,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixos, master, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix } @ inputs:
+  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, } @ inputs:
     let
       inherit (nixos) lib;
       inherit (nixos.lib) recursiveUpdate;
@@ -42,13 +42,13 @@
 
       pkgset = system: {
         nixos = pkgImport nixos system;
-        master = pkgImport master system;
+        nixpkgs = pkgImport nixpkgs system;
       };
 
       multiSystemOutputs = eachDefaultSystem (system:
       let
           pkgset' = pkgset system;
-          pkgs = pkgset'.master;
+          pkgs = pkgset'.nixpkgs;
           osPkgs = pkgset'.nixos;
         in
         {

@@ -71,21 +71,6 @@
         "type": "github"
       }
     },
-    "master": {
-      "locked": {
-        "lastModified": 1606177789,
-        "narHash": "sha256-11aI36A85ejkNcbxkCQgR0g2OESbWcEXYB5lUb5FfjA=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "abfd29cace6fbfdc2a13dd4fc3b48db95973d05d",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "master",
-        "type": "indirect"
-      }
-    },
     "nixos": {
       "locked": {
         "lastModified": 1602363692,
@@ -116,6 +101,21 @@
       }
     },
     "nixpkgs": {
+      "locked": {
+        "lastModified": 1606399523,
+        "narHash": "sha256-0Odn+lFalBaIgUy3TIV4HtR4l8wA7YyoMLTWZBX6B5U=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9c6a75e379b8f2e11c1b00e49a8c392a083df9c6",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "master",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1596792298,
         "narHash": "sha256-DM1fPvyRKneMihzALrguof78FxzBfRw243EFggkpog0=",
@@ -148,9 +148,9 @@
         "futils": "futils",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
-        "master": "master",
         "nixos": "nixos",
         "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs",
         "nur": "nur",
         "sops-nix": "sops-nix",
         "soxin": "soxin"
@@ -158,7 +158,7 @@
     },
     "sops-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1598620579,
