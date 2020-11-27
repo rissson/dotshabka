@@ -82,6 +82,19 @@
 
         vars = import ./vars;
 
+        overlay = self.overlays.packages;
+
+        overlays = {
+          packages = import ./pkgs;
+          flannel = import ./overlays/flannel.nix;
+        };
+
+        nixosModules = (import ./modules) // {
+          profiles = import ./profiles;
+          soxin = import ./soxin/soxin.nix;
+          soxincfg = import ./modules/soxincfg.nix;
+        };
+
         nixosConfigurations =
           let
             system = "x86_64-linux";
@@ -94,18 +107,21 @@
             }
           );
 
-        nixosModules = (import ./modules) // {
-          profiles = import ./profiles;
-          soxin = import ./soxin/soxin.nix;
-          soxincfg = import ./modules/soxincfg.nix;
+        deploy = {
+          nodes =
+            builtins.mapAttrs
+            (n: v: {
+              hostname = v.config.networking.fqdn;
+              profiles.system = {
+                sshUser = "root";
+                user = "root";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos v;
+              };
+            })
+            (removeAttrs self.nixosConfigurations [ "goat" "hedgehog" ]);
         };
 
-        overlay = self.overlays.packages;
-
-        overlays = {
-          packages = import ./pkgs;
-          flannel = import ./overlays/flannel.nix;
-        };
+        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       };
     in
     recursiveUpdate multiSystemOutputs outputs;
