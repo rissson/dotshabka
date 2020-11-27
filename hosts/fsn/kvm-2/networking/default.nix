@@ -74,6 +74,11 @@
         }];
         ipv4.routes = [
           {
+            address = "148.251.148.232";
+            prefixLength = 32;
+            via = "172.28.6.11";
+          }
+          {
             address = "148.251.148.239";
             prefixLength = 32;
             via = "172.28.6.11";
@@ -108,6 +113,7 @@
     localCommands = ''
       ip route flush 10
       ip route add table 10 to default via 172.29.1.1 dev enp35s0.4004
+      ip rule add from 148.251.148.232/32 table 10 priority 10
       ip rule add from 148.251.148.234/31 table 10 priority 10
       ip rule add from 148.251.148.238/31 table 10 priority 10
     '';

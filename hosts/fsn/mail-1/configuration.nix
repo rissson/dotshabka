@@ -49,10 +49,16 @@
         }];
       };
       public = {
-        ipv4.addresses = [{
-          address = "148.251.148.239";
-          prefixLength = 32;
-        }];
+        ipv4.addresses = [
+          {
+            address = "148.251.148.232";
+            prefixLength = 32;
+          }
+          {
+            address = "148.251.148.239";
+            prefixLength = 32;
+          }
+        ];
         virtual = true;
       };
     };

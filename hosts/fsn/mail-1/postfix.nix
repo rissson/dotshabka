@@ -179,7 +179,7 @@ in
       # IP address used by postfix to send outgoing mail. You only need this if
       # your machine has multiple IP addresses - set it to your MX address to
       # satisfy your SPF record.
-      smtp_bind_address = "148.251.148.239";
+      smtp_bind_address = "148.251.148.232";
       # smtp_bind_address6 = "TODO";
 
       # I have two certificates - one is RSA, the other uses the newer ECC. ECC
