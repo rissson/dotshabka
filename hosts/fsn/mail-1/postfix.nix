@@ -15,6 +15,13 @@ let
     result_attribute = dc
   '';
 
+  ldap-virtual-sender-maps = pkgs.writeText "ldap-virtual-sender-maps.cf" ''
+    ${ldap-common-settings}
+    search_base = dc=lama-corp,dc=space
+    query_filter = (&(objectClass=mailAccount)(mailhidden=%s))
+    result_attribute = uid
+  '';
+
   ldap-virtual-mailbox-maps = pkgs.writeText "ldap-virtual-mailbox-maps.cf" ''
     ${ldap-common-settings}
     search_base = dc=lama-corp,dc=space
@@ -349,7 +356,7 @@ in
       virtual_mailbox_domains = "ldap:${ldap-virtual-mailbox-domains}";
       # LDAP query to find which email addresses we accept mail for
       virtual_mailbox_maps = "ldap:${ldap-virtual-mailbox-maps}";
-      smtpd_sender_login_maps = "ldap:${ldap-virtual-mailbox-maps}";
+      smtpd_sender_login_maps = "ldap:${ldap-virtual-sender-maps}";
       # LDAP query to find a user's email aliases
       virtual_alias_maps = "ldap:${ldap-virtual-alias-maps}";
 
@@ -360,4 +367,6 @@ in
       recipient_canonical_classes= "envelope_recipient,header_recipient";
     };
   };
+
+  users.users.postfix.extraGroups = [ "acme" ];
 }

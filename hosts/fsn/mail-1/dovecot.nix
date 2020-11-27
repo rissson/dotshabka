@@ -61,7 +61,6 @@ in
 
     mailLocation = "maildir:~/Maildir:LAYOUT=fs";
 
-    sslCACert = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     sslServerCert = "${certRsa}/fullchain.pem";
     sslServerKey = "${certRsa}/key.pem";
 
@@ -259,6 +258,8 @@ in
 
           # location of users' sieve directory and their "active" sieve script
           sieve = file:~/sieve;active=~/.dovecot.sieve
+          sieve_default = file:~/default.sieve
+          sieve_default_name = default
 
           # make sieve aware of user+tag@domain.tld aliases
           recipient_delimiter = +
@@ -301,4 +302,6 @@ in
     after = [ "dovecot2.service" ];
     requires = [ "dovecot2.service" ];
   };
+
+  users.users.dovecot2.extraGroups = [ "acme" ];
 }
