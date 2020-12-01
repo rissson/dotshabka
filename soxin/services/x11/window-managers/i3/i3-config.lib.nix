@@ -45,7 +45,6 @@ let
     ${pkgs.coreutils}/bin/sleep 2
     # Workspace 8
     ${pkgs.i3}/bin/i3-msg "workspace ${ws8}"
-    ${getBin pkgs.thunderbird}/bin/thunderbird &
     # Workspace 9
     ${pkgs.i3}/bin/i3-msg "workspace ${ws9}"
     ${pkgs.i3}/bin/i3-msg "layout tabbed"
@@ -231,7 +230,7 @@ in {
       # sleep
       "XF86PowerOff" = "exec ${nosid} ${locker} && systemctl suspend";
       # clipboard history
-      "${defaultModifier}+${thirdModifier}+x" = "exec ${getBin pkgs.rofi}/bin/rofi -modi \"clipboard:${getBin pkgs.haskellPackages.greenclip}/bin/greenclip print\" -show clipboard";
+      #"${defaultModifier}+${thirdModifier}+x" = "exec ${getBin pkgs.rofi}/bin/rofi -modi \"clipboard:${getBin pkgs.haskellPackages.greenclip}/bin/greenclip print\" -show clipboard";
     };
   };
   extraConfig = ''

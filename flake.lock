@@ -131,17 +131,17 @@
     },
     "nixos": {
       "locked": {
-        "lastModified": 1602363692,
-        "narHash": "sha256-9V8jl1Lzgw+QMqpEWz4+TjRmXktBWLZjqr3yBWBLL1g=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "51aaa3fa1b69559456f9bd4968bd5b179a784f67",
-        "type": "github"
+        "lastModified": 1606823130,
+        "narHash": "sha256-GSAVrxphG/Ssm24xd3S+15PuRPBpwVw99bRtS8ojmZo=",
+        "ref": "nixos-pam",
+        "rev": "e36c614688f96ec824c22abc50326b849e8f3a8f",
+        "revCount": 255219,
+        "type": "git",
+        "url": "file:///home/risson/code/nixpkgs"
       },
       "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-20.09",
-        "type": "indirect"
+        "type": "git",
+        "url": "file:///home/risson/code/nixpkgs"
       }
     },
     "nixos-hardware": {
@@ -176,17 +176,14 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1606399523,
-        "narHash": "sha256-0Odn+lFalBaIgUy3TIV4HtR4l8wA7YyoMLTWZBX6B5U=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "9c6a75e379b8f2e11c1b00e49a8c392a083df9c6",
-        "type": "github"
+        "lastModified": 1599585696,
+        "narHash": "sha256-3gnRgZ6YJ3Flk0u66ggwz9thBhViuwHBcHMS1cwEZVs=",
+        "type": "git",
+        "url": "file:///home/risson/code/nixpkgs"
       },
       "original": {
-        "id": "nixpkgs",
-        "ref": "master",
-        "type": "indirect"
+        "type": "git",
+        "url": "file:///home/risson/code/nixpkgs"
       }
     },
     "nixpkgs_3": {

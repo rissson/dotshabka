@@ -1,5 +1,7 @@
 { soxincfg, config, lib, pkgs, ... }:
 
+with lib;
+
 {
   imports = [
     ./hardware-configuration.nix
@@ -7,7 +9,7 @@
     ./backups.nix
     #./k8s.nix
   ] ++ (lib.optionals (builtins.pathExists ../../secrets)
-    (lib.singleton ../../secrets));
+  (lib.singleton ../../secrets));
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
 
@@ -31,7 +33,7 @@
     virtualisation = {
       libvirtd = {
         enable = true;
-        images = [ "nixos" ];
+        #images = [ "nixos" ];
       };
     };
   };
@@ -143,10 +145,10 @@
   nix.gc.automatic = lib.mkForce false;
   /*nix.distributedBuilds = true;
   nix.buildMachines = [
-    { hostName = "kvm-1.srv.fsn.lama-corp.space"; system = "x86_64-linux"; maxJobs = 2; speedFactor = 2; supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]; }
+  { hostName = "kvm-1.srv.fsn.lama-corp.space"; system = "x86_64-linux"; maxJobs = 2; speedFactor = 2; supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ]; }
   ];
   nix.extraOptions = ''
-    builders-use-substitutes = true
+  builders-use-substitutes = true
   '';*/
 
   environment.systemPackages = with pkgs; [
@@ -259,6 +261,7 @@
     ];
   };
 
+  networking.firewall.enable = lib.mkForce false;
   networking.extraHosts = ''
     127.0.0.1 cri.epita.net
     127.0.0.1 lama-corp.cri.epita.net
@@ -267,8 +270,25 @@
   '';
 
   documentation = {
-    dev.enable = true;
-    man.generateCaches = true;
+    enable = false;
+    #dev.enable = true;
+    #man.generateCaches = true;
+    nixos.enable = false;
+  };
+
+  users.motd = "bite";
+
+  security.pam = {
+    services.myService = {
+      excludeDefaults = [ "auth" "session" "account" ];
+      account = {
+        myEntry = {
+          control = "optional";
+          path = "my_entry.so";
+          order = 200;
+        };
+      };
+    };
   };
 
   # This value determines the NixOS release with which your system is to be

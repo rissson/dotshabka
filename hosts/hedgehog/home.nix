@@ -353,7 +353,7 @@ with lib;
     unzip
     nix-zsh-completions
     slack
-    thunderbird
+    #thunderbird
     xsel
     nur.repos.kalbasit.rbrowser
     minecraft

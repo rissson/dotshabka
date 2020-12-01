@@ -25,7 +25,7 @@ in
       services.pcscd.enable = true;
 
       # TODO: option
-      security.pam.u2f = {
+      security.pam.modules.u2f = {
         enable = true;
         cue = true;
       };

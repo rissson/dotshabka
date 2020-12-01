@@ -4,8 +4,8 @@
   description = "Lama Corp. infrastructure configurations.";
 
   inputs = rec {
-    nixos.url = "nixpkgs/nixos-20.09";
-    nixpkgs.url = "nixpkgs/master";
+    nixos.url = "git+file:///home/risson/code/nixpkgs";
+    nixpkgs.url = "git+file:///home/risson/code/nixpkgs";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixos";
