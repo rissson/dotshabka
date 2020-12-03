@@ -34,11 +34,11 @@
 
     sslDhparam = config.security.dhparams.params."nginx".path;
 
-    /*virtualHosts."vault.lama-corp.space" = {
+    virtualHosts."vault.lama-corp.space" = {
       forceSSL = true;
       enableACME = true;
       locations."/".proxyPass = "http://localhost:8200";
-    };*/
+    };
 
     virtualHosts."netdata.lama-corp.space" = {
       forceSSL = true;

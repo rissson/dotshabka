@@ -5,7 +5,7 @@
   services.vault = {
     enable = true;
     package = pkgs.vault-bin; # includes web interface
-    address = "172.29.1.2:8200";
+    address = "127.0.0.1:8200";
     storagePath = "/persist/vault";
     storageBackend = "file";
     extraConfig = ''
