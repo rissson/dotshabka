@@ -59,14 +59,6 @@
         }];
       };
 
-      "enp35s0.4004" = {
-        mtu = 1400;
-        ipv4.addresses = [{
-          address = "172.29.1.2";
-          prefixLength = 30;
-        }];
-      };
-
       br-vms = {
         ipv4.addresses = [{
           address = "172.28.6.254";
@@ -109,13 +101,5 @@
       internalInterfaces = [ "br-vms" "br-k8s" ];
       internalIPs = [ "172.28.6.0/24" "172.28.7.0/24" ];
     };
-
-    localCommands = ''
-      ip route flush 10
-      ip route add table 10 to default via 172.29.1.1 dev enp35s0.4004
-      ip rule add from 148.251.148.232/32 table 10 priority 10
-      ip rule add from 148.251.148.234/31 table 10 priority 10
-      ip rule add from 148.251.148.238/31 table 10 priority 10
-    '';
   };
 }
