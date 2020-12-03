@@ -8,6 +8,7 @@ let
     bind = no
   '';
 
+  # Domains managed by us
   ldap-virtual-mailbox-domains = pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
     ${ldap-common-settings}
     search_base = ou=domains,dc=lama-corp,dc=space
@@ -18,7 +19,7 @@ let
   ldap-virtual-sender-maps = pkgs.writeText "ldap-virtual-sender-maps.cf" ''
     ${ldap-common-settings}
     search_base = dc=lama-corp,dc=space
-    query_filter = (&(objectClass=mailAccount)(mailhidden=%s))
+    query_filter = (&(objectClass=mailAccount)(|(mailhidden=%s)(mailalias=%s)))
     result_attribute = uid
   '';
 
