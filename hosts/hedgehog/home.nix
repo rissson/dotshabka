@@ -4,6 +4,10 @@
 with lib;
 
 {
+  imports = [
+    ./mail.nix
+  ];
+
   soxin = {
     hardware.bluetooth.enable = true;
 
@@ -354,6 +358,7 @@ with lib;
     nur.repos.kalbasit.rbrowser
     minecraft
     jetbrains.datagrip
+    bitwarden-cli
   ];
 
   programs.zsh.initExtra = ''
