@@ -206,7 +206,7 @@ in
         mail_attachment_min_size = 64k
 
         recipient_delimiter = +
-        lmtp_save_to_detail_mailbox = yes
+        lmtp_save_to_detail_mailbox = no
       ''
 
       # SSL/TLS
