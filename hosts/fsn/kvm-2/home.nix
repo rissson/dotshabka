@@ -53,6 +53,10 @@ with lib;
       tmux.enable = true;
       zsh.enable = true;
     };
+
+    services = {
+      weechat.enable = true;
+    };
   };
 
   programs.command-not-found.enable = true;
@@ -186,6 +190,4 @@ with lib;
 
   programs.bat.enable = true;
   programs.direnv.enable = true;
-
-  home.sessionVariables.DOTSHABKA_PATH = "/home/risson/lama-corp/infra/dotshabka";
 }
