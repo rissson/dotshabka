@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   htmlDir = "/var/www/html/";
@@ -13,7 +13,8 @@ let
         --subst-var-by htmlDir ${htmlDir} \
         --subst-var-by coreutils ${pkgs.coreutils} \
         --subst-var-by fswebcam ${pkgs.fswebcam} \
-        --subst-var-by imagemagick ${pkgs.imagemagick}
+        --subst-var-by imagemagick ${pkgs.imagemagick} \
+        --subst-var-by curl ${pkgs.curl}
     '';
   };
 in
@@ -30,11 +31,18 @@ in
 
     startAt = "*:*:0,30"; # every 30 seconds
 
+    preStart = ''
+      mkdir -p ${htmlDir}
+    '';
+
     serviceConfig = {
       Type = "oneshot";
       ExecStart = toString chaudiered;
+      EnvironmentFile = config.sops.secrets.chaudiered_env.path;
     };
   };
+
+  sops.secrets.chaudiered_env.sopsFile = ./chaudiered.yml;
 
   networking.firewall.allowedTCPPorts = [ 80 ];
 }
