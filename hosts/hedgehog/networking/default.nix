@@ -10,7 +10,7 @@ with soxincfg.vars.space.lama-corp; {
     domain = "lap.rsn.lama-corp.space";
     hostId = "daec192f";
 
-    nameservers = [ "172.28.1.1" "1.1.1.1" ];
+    nameservers = [ "172.28.254.6" "1.1.1.1" ];
 
     useDHCP = true;
 
