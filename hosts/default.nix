@@ -119,6 +119,7 @@ let
     };
 
   hosts = lib.genAttrs [
+    "cuckoo"
     "hedgehog"
     "goat"
     "fsn/kvm-2"

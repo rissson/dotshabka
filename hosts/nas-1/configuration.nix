@@ -8,7 +8,20 @@
     ./hardware-configuration.nix
     ./networking
     ./backups
+    ./nginx.nix
+    ./prometheus.nix
+    ./grafana.nix
   ];
+
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/lib/${config.services.prometheus.stateDir}"
+      config.services.grafana.dataDir
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
 
   soxin = {
     users = {

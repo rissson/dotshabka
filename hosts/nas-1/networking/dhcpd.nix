@@ -49,7 +49,7 @@
         ipAddress = "172.28.2.242";
       }
       {
-        ethernetAddress = "12:e0:00:d1:5d:c7";
+        ethernetAddress = "6c:71:d9:25:c4:83";
         hostName = "cuckoo.srv";
         ipAddress = "172.28.2.245";
       }
