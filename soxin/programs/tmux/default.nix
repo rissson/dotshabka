@@ -71,6 +71,7 @@ in
             logging
             prefix-highlight
             fzf-tmux-url
+            resurrect
           ];
 
           clock24 = true;
@@ -128,6 +129,8 @@ in
             ${optionalString pkgs.stdenv.isLinux ''set  -g default-terminal "tmux-256color"''}
 
             ${cfg.extraConfig}
+
+            set -g @resurrect-capture-pane-contents 'on'
           '';
         };
     };
