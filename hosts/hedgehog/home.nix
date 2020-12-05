@@ -359,6 +359,7 @@ with lib;
     minecraft
     jetbrains.datagrip
     bitwarden-cli
+    urlview
   ];
 
   programs.zsh.initExtra = ''

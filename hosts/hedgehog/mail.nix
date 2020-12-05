@@ -7,6 +7,11 @@ let
     sha256 = "13q1fx7man61f2qadwnm81r0pxxwhhva4frcy9856six8k0jnar8";
   };
 
+  mailcap = pkgs.writeText "mailcap" ''
+    text/html; ${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser %s
+    application/pdf; ${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser %s
+  '';
+
   muttGruvbox = "${shutils}/dotfiles/mutt/colors-gruvbox-shuber.muttrc";
   neomuttGruvBox = "${shutils}/dotfiles/mutt/colors-gruvbox-shuber-extended.muttrc";
 in
@@ -36,7 +41,7 @@ in
         flavor = "plain";
         folders.inbox = "INBOX";
         userName = "risson";
-        passwordCommand = "cat /home/risson/.secrets/mail/lama-corp";
+        passwordCommand = "${pkgs.coreutils}/bin/cat /home/risson/.secrets/mail/lama-corp";
         imap = {
           host = "mail.lama-corp.space";
           port = 993;
@@ -54,9 +59,9 @@ in
         msmtp.enable = true;
         mbsync = {
           enable = true;
-          create = "maildir";
-          expunge = "none";
-          remove = "none";
+          create = "both";
+          expunge = "both";
+          remove = "both";
         };
         neomutt.enable = true;
       };
@@ -115,7 +120,7 @@ in
       date_format = ''"%Y/%m/%d %H:%M"'';
       index_format = ''"%4C %Z %D %-15.15L (%?l?%4l&%4c?) %s"'';
 
-      pager_index_lines = "5";
+      pager_index_lines = "10";
       pager_context = "3";
       pager_stop = "yes";
       menu_scroll = "yes";
@@ -123,10 +128,36 @@ in
 
       send_charset = ''"utf-8:iso-8859-1:us-ascii"'';
       charset = ''"utf-8"'';
+
+      mailcap_path = toString mailcap;
     };
 
     extraConfig = ''
-      mailboxes `find ${config.accounts.email.maildirBasePath} -type d -name cur | sort | sed -e 's:/cur/*$::' -e 's/ /\\ /g' | tr '\n' ' '`
+      mailboxes `find ${config.accounts.email.maildirBasePath} -type d -name cur | sed -e 's:/cur/*$::' -e 's/ /\\ /g' | sort | tr '\n' ' '`
+
+      unset mime_forward
+      ignore *
+      unignore from: to: cc: bcc: date: subject:
+      unhdr_order *
+      hdr_order from: to: cc: bcc: date: subject:
+      alternative_order text/plain text/enriched text/html
+      auto_view text/html
+
+      # some sane vim-like keybindings
+      bind index,pager k previous-entry
+      bind index,pager j next-entry
+      bind index,pager g noop
+      bind index,pager \Cu half-up
+      bind index,pager \Cd half-down
+      bind pager gg top
+      bind index gg first-entry
+      bind pager G bottom
+      bind index G last-entry
+
+      # Sidebar Navigation
+      bind index,pager <pagedown> sidebar-next
+      bind index,pager <pageup> sidebar-prev
+      bind index,pager <right> sidebar-open
 
       source ${muttGruvbox}
       source ${neomuttGruvBox}
