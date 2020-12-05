@@ -7,14 +7,6 @@ with lib;
 
   imports = [ ./gitlab-runner.nix ];
 
-  virtualisation.docker = {
-    extraOptions = "--data-root /persist/var/lib/docker";
-    autoPrune = {
-      enable = true;
-      dates = "daily";
-    };
-  };
-
   services.gitlab-runner = {
     enable = true;
     concurrent = 4;

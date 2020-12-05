@@ -5,7 +5,7 @@ with lib;
 {
   services.nginx = {
     upstreams."cats-acdc-risson-space" = {
-      servers."web-2.containers:8005" = {};
+      servers."web-2.vrt.fsn.lama-corp.space:8005" = {};
     };
 
     virtualHosts."cats.acdc.risson.space" = {

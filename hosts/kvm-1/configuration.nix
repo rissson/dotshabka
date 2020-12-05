@@ -13,7 +13,6 @@ with lib;
     ./monitoring
     ./services
     ./containers
-    ./vms
     ./home
   ] ++ (optionals (builtins.pathExists "${<dotshabka>}/secrets")
     (singleton "${<dotshabka>}/secrets"));

@@ -3,7 +3,7 @@
 {
   services.nginx = {
     upstreams."risson-space" = {
-      servers."risson-1.containers:80" = {};
+      servers."web-1.vrt.fsn.lama-corp.space:8004" = {};
     };
 
     virtualHosts."risson.space" = {

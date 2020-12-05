@@ -61,6 +61,24 @@
       "icon": "cloud",
       "tags": [],
       "targetBlank": true,
+      "title": "netdata mail-1",
+      "tooltip": "Open Netdata monitoring for mail-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/mail-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata ldap-1",
+      "tooltip": "Open Netdata monitoring for ldap-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/ldap-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
       "title": "netdata postgres-1",
       "tooltip": "Open Netdata monitoring for postgres-1",
       "type": "link",
@@ -74,6 +92,24 @@
       "tooltip": "Open Netdata monitoring for minio-1",
       "type": "link",
       "url": "https://netdata.lama-corp.space/minio-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata web-1",
+      "tooltip": "Open Netdata monitoring for web-1",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/web-1"
+    },
+    {
+      "icon": "cloud",
+      "tags": [],
+      "targetBlank": true,
+      "title": "netdata web-2",
+      "tooltip": "Open Netdata monitoring for web-2",
+      "type": "link",
+      "url": "https://netdata.lama-corp.space/web-2"
     }
   ],
   "panels": [

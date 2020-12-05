@@ -5,7 +5,7 @@ with lib;
 {
   services.nginx = {
     upstreams."scoreboard-seedbox-cri-risson-space" = {
-      servers."web-2.containers:8004" = {};
+      servers."web-2.vrt.fsn.lama-corp.space:8004" = {};
     };
 
     virtualHosts."scoreboard-seedbox-cri.risson.space" = {

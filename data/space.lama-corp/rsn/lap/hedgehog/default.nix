@@ -3,7 +3,7 @@
 {
   wg = {
     interface = "wg0";
-    publicKey = "KathtV0tLnk08nxuO4GkynDQi149zRg5UDMsSAdb9n8=";
+    publicKey = "hedGeVSMmjfeMsLgTEz8da1iL/cTuFI8co2CdOih83A=";
     v4 = {
       subnet = "172.28.101.0";
       ip = "172.28.101.1";

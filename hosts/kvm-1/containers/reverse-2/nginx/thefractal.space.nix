@@ -5,7 +5,7 @@ with lib;
 {
   services.nginx = {
     upstreams."thefractal-space" = {
-      servers."web-2.containers:8002" = {};
+      servers."web-2.vrt.fsn.lama-corp.space:8002" = {};
     };
 
     virtualHosts."thefractal.space" = {
