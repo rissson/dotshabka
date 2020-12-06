@@ -33,7 +33,7 @@ isWorking=0
 
 luminosity="$(@imagemagick@/bin/identify -format %[mean] "${imageFile}" | @coreutils@/bin/cut -d'.' -f1)"
 
-if [[ "${luminosity}" > 6000 ]]; then
+if [[ "${luminosity}" > 6300 ]]; then
   isWorking=1
 else
   isWorking=0
