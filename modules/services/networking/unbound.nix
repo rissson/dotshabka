@@ -6,8 +6,12 @@ let
   cfg = config.lama-corp.services.unbound;
 
   zonesData = {
+    "2.254.28.172.in-addr.arpa" = "172.28.254.2";
     "6.254.28.172.in-addr.arpa" = "172.28.254.6";
     "101.254.28.172.in-addr.arpa" = "172.28.254.101";
+
+    "bar.lama-corp.space" = "172.28.254.2";
+    "2.28.172.in-addr.arpa" = "172.28.254.2";
 
     "fsn.lama-corp.space" = "172.28.254.6";
     "6.28.172.in-addr.arpa" = "172.28.254.6";
@@ -19,6 +23,7 @@ let
   };
 
   primariesData = {
+    "nas-1.srv.bar" = "172.28.254.2";
     "kvm-2.srv.fsn" = "172.28.254.6";
     "hedgehog.lap.rsn" = "172.28.254.101";
   };
