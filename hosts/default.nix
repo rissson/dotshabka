@@ -121,7 +121,7 @@ let
   hosts = lib.genAttrs [
     "cuckoo"
     "hedgehog"
-    "goat"
+    #"goat"
     "fsn/kvm-2"
     "fsn/mail-1"
     "fsn/k8s/master-11"
