@@ -207,23 +207,23 @@ with lib;
     '';
     matchBlocks = {
       ### Lama Corp.
-      "kvm-1" = {
-        hostname = "kvm-1.srv.fsn.lama-corp.space";
+      "kvm-2" = {
+        hostname = "kvm-2.srv.fsn.lama-corp.space";
       };
       "*.fsn" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+        proxyJump = "kvm-2";
       };
       "*.bar" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+        proxyJump = "kvm-2";
       };
       "*.nbg" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+        proxyJump = "kvm-2";
       };
 
       ### CRI
