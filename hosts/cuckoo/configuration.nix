@@ -8,6 +8,16 @@
     ./chaudiered.nix
   ];
 
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/log"
+      "/var/www/html"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+
   networking = {
     hostName = "cuckoo";
     domain = "srv.bar.lama-corp.space";

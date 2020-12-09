@@ -58,6 +58,7 @@
     "/persist" = {
       device = "rpool/persist/persist";
       fsType = "zfs";
+      neededForBoot = true;
     };
   };
 
