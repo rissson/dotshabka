@@ -29,6 +29,7 @@ in
 
       neovimConfig = mkOption {
         type = types.attrs;
+        default = {};
         internal = true;
         description = "NeoVim configuration passed to pkgs.wrapNeovim.";
       };

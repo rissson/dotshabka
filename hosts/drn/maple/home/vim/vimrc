@@ -1,0 +1,182 @@
+" Activate wakatime here since it makes noevim fail at startup somehow
+
+packadd vim-wakatime
+
+"""""""""""""""""
+"  Nvim global  "
+"""""""""""""""""
+
+let mapleader=" "
+let maplocalleader="\\"
+set shiftwidth=4 tabstop=4 expandtab
+set scrolloff=3  " Keep the cursor N lines from the top or the bottom of the screen
+set mouse=nv " Activate mouse support in normal and visual mode
+set clipboard+=unnamed " Yanks/cut/deletes are put in the selection clipboard
+" Quit with Q<CR>
+nnoremap Q :qa
+
+set title  " Set the title of the window with the file name
+
+"""""""""""""""""
+" Custom mappings "
+"""""""""""""""""
+
+" To go back in normal mode with escape in a terminal
+tnoremap <ESC> <C-\><C-n>
+
+" To use `ALT+{h,j,k,l}` to navigate windows from any mode:
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+" To add a semicolon at the end of a line
+nnoremap ;; A;<ESC>
+"""""""""""""""""
+"   Jedi vim    "
+"""""""""""""""""
+
+let g:jedi#completions_enabled = 0
+
+"""""""""""""""""
+"   Deoplete    "
+"""""""""""""""""
+
+let g:deoplete#enable_at_startup = 1
+" Close the completion window once a completion is inserted
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" Use tab to cycle completions
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" Python
+let g:deoplete#sources#jedi#show_docstring = 1
+
+
+"""""""""""""""""
+"   UltiSnips   "
+"""""""""""""""""
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+"""""""""""""""""
+"   NERDTree    "
+"""""""""""""""""
+
+map <C-t> :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen = 1
+
+"""""""""""""""""
+" Vim-Workspace "
+"""""""""""""""""
+
+" Put Session fils in a dir to avoid clutter
+let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+" Only load the workspace on argumentless vim
+let g:workspace_session_disable_on_args = 1
+" Don't trim white space on autosave (I can do it manually with <space>w)
+let g:workspace_autosave_untrailspaces = 0
+
+"""""""""""""""""
+" smooth scroll "
+"""""""""""""""""
+
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+let g:comfortable_motion_friction = 60
+let g:comfortable_motion_air_drag = 1
+
+""""""""""""""""
+" Visual stuff "
+""""""""""""""""
+
+set number
+set relativenumber
+" Colorsheme.
+colorscheme monokai
+let g:airline_powerline_fonts = 1
+let g:airline_theme='minimalist'
+" Indent guides.
+let g:indentguides_spacechar = '│'
+let g:indentguides_tabchar = '┆'
+
+""""""""""""""""
+"  Utilities   "
+""""""""""""""""
+
+" Strip trailing whitespace with <leader>w
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    keepp %s/\s\+$//e
+    call cursor(l, c)
+endfun
+nnoremap <leader>w :call <SID>StripTrailingWhitespaces()<CR>
+
+" Reindent with <leader>=
+nnoremap <leader>= gg=G
+
+
+""""""""""""""""
+"    Matlab    "
+""""""""""""""""
+
+augroup matlab
+    autocmd!
+    autocmd FileType matlab setlocal commentstring=%\ %s
+    autocmd FileType matlab nnoremap <F5> ?^%%jV/%%ky100lGphn
+augroup END
+
+
+""""""""""""""""
+"    Python    "
+""""""""""""""""
+
+augroup python
+    autocmd!
+    autocmd FileType python nnoremap <F5> :w<CR>:exec '!python' shellescape(@%, 1)<CR>
+    autocmd FileType python setlocal foldmethod=indent
+augroup END
+
+""""""""""""""""
+"    LaTeX     "
+""""""""""""""""
+
+let g:tex_flavor  = 'latex'
+let g:tex_conceal = ''
+let g:vimtex_fold_manual = 1
+let g:vimtex_latexmk_continuous = 1
+let g:vimtex_compiler_progname = 'nvr'
+
+let g:vimtex_view_method = 'okular'
+
+" Setup completion with deoplete
+call deoplete#custom#var('omni', 'input_patterns', {
+      \ 'tex': g:vimtex#re#deoplete
+      \})
+
+
+""""""""""""""""
+"   Assembly   "
+""""""""""""""""
+
+augroup asm
+    autocmd!
+    autocmd FileType asm nnoremap <F5> :w<CR>:!make clean && make run<CR>
+    autocmd FileType asm
+                \ set shiftwidth=2
+                \ set tabstop=2
+                \ set expandtab
+                \ set nowrap
+augroup END
