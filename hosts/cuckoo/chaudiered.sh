@@ -14,7 +14,7 @@ fi
 
 doNotify() {
   lastNotified="$(cat "${lastNotifiedFile}")"
-  if [[ "$(( ${nowTs} - ${lastNotified} ))" < "$(( 10 * 60 ))" ]]; then
+  if [[ "$(( ${nowTs} - ${lastNotified} ))" > "$(( 10 * 60 ))" ]]; then
     @curl@/bin/curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "'"The boiler broke down ${nowFormatted} :/"'"}' "${MATTERMOST_WEBHOOK}"
     echo "${nowTs}" > "${lastNotifiedFile}"
   fi
