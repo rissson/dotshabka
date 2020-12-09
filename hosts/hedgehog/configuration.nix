@@ -11,6 +11,11 @@
 
   home-manager.users.risson = import ./home.nix { inherit soxincfg; };
 
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
   krb5 = {
     enable = true;
     libdefaults = {
