@@ -1,0 +1,56 @@
+default:
+  image: nixpkgs/nix-flakes
+
+before_script:
+  - mkdir -p /etc/nix
+  - echo "substituters = http://cache.nixos.org http://cache.nix.lama-corp.space" >> /etc/nix/nix.conf
+  - echo "trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= cache.nix.lama-corp.space:misx92jY35JokN65BUL41zEjBg2x7fggWmtZBS14N4k=" >> /etc/nix/nix.conf
+  - echo "experimental-features = nix-command flakes ca-references" >> /etc/nix/nix.conf
+  - mkdir -p ~/.aws
+  - echo "[default]" > ~/.aws/config
+
+.build-image-job: &build-image-job
+  stage: build
+  needs: []
+  script:
+    - cat "${AWS_NIX_CACHE_CREDENTIALS_FILE}" > ~/.aws/credentials
+    - export buildExpression=".#nixosConfigurations.${CI_JOB_NAME}.config.system.build.toplevel"
+    - nix -vL build "$buildExpression"
+    - nix sign-paths --recursive --key-file "${NIX_CACHE_PRIV_KEY_FILE}" --all
+    - nix -vL copy --to "s3://${AWS_NIX_CACHE_BUCKET}?scheme=https&endpoint=${AWS_NIX_CACHE_ENDPOINT}" --all
+
+stages:
+  - build
+
+cuckoo:
+  <<: *build-image-job
+
+hedgehog:
+  <<: *build-image-job
+
+nas-1:
+  <<: *build-image-job
+
+fsn/kvm-2:
+  <<: *build-image-job
+
+fsn/mail-1:
+  <<: *build-image-job
+
+fsn/k8s/master-11:
+  <<: *build-image-job
+
+fsn/k8s/master-12:
+  <<: *build-image-job
+
+fsn/k8s/master-13:
+  <<: *build-image-job
+
+fsn/k8s/worker-11:
+  <<: *build-image-job
+
+fsn/k8s/worker-12:
+  <<: *build-image-job
+
+fsn/k8s/worker-13:
+  <<: *build-image-job
