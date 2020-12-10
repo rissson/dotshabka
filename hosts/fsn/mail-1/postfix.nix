@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ modulesPath, config, pkgs, ... }:
 
 let
   ldap-common-settings = ''
@@ -72,6 +72,14 @@ let
   };
 in
 {
+  disabledModules = [
+    "services/mail/postfix.nix"
+  ];
+
+  imports = [
+    ./postfix.lib.nix
+  ];
+
   networking.firewall.allowedTCPPorts = [
     25
     465
@@ -151,6 +159,13 @@ in
         maxproc = 0;
         command = "cleanup";
         args = ["-o" "header_checks=pcre:${submissionHeaderCleanupRules}"];
+      };
+      postlog = {
+        type = "unix-dgram";
+        private = false;
+        chroot = false;
+        maxproc = 1;
+        command = "postlogd";
       };
     };
 
@@ -366,6 +381,10 @@ in
       sender_canonical_classes = "envelope_sender";
       recipient_canonical_maps = "tcp:localhost:10002";
       recipient_canonical_classes= "envelope_recipient,header_recipient";
+
+      # Logs
+      maillog_file = "/var/log/mail/postfix.log";
+      maillog_file_compressor = "${pkgs.gzip}/bin/gzip";
     };
   };
 
