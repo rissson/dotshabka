@@ -360,6 +360,7 @@ with lib;
     jetbrains.datagrip
     bitwarden-cli
     urlview
+    discord
   ];
 
   programs.zsh.initExtra = ''
