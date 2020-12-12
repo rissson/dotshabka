@@ -124,6 +124,7 @@ let
     #"goat"
     "fsn/kvm-2"
     "fsn/mail-1"
+    "fsn/pine"
     "fsn/k8s/master-11"
     "fsn/k8s/master-12"
     "fsn/k8s/master-13"

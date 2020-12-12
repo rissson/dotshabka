@@ -4,13 +4,6 @@
   imports = [
     soxincfg.nixosModules.profiles.server
     soxincfg.nixosModules.profiles.kvm-2-vm
-
-    ./acme.nix
-    ./postfix.nix
-    ./postsrsd.nix
-    ./rspamd.nix
-    ./opendkim.nix
-    ./dovecot.nix
   ];
 
   boot.kernel.sysctl = {
@@ -19,22 +12,8 @@
     "net.ipv6.conf.all.forwarding" = true;
   };
 
-  environment.persistence."/persist" = {
-    directories = [
-      "/var/lib/acme"
-      "/var/lib/dovecot"
-      "/var/lib/opendkim"
-      "/var/lib/postfix"
-      "/var/lib/postsrsd"
-      "/var/lib/redis"
-      "/var/lib/rspamd"
-      "/var/spool/mail"
-      "/var/vmail"
-    ];
-  };
-
   networking = {
-    hostName = "mail-1";
+    hostName = "pine";
     domain = "vrt.fsn.lama-corp.space";
     nameservers = [ "172.28.6.254" ];
 
@@ -44,14 +23,14 @@
     interfaces = {
       ens3 = {
         ipv4.addresses = [{
-          address = "172.28.6.11";
+          address = "172.28.6.201";
           prefixLength = 24;
         }];
       };
       public = {
         ipv4.addresses = [
           {
-            address = "148.251.148.232";
+            address = "148.251.148.233";
             prefixLength = 32;
           }
         ];

@@ -19,9 +19,9 @@
 
     machines = [
       {
-        ethernetAddress = "52:54:00:00:06:0a";
-        hostName = "mail-1";
-        ipAddress = "172.28.6.11";
+        ethernetAddress = "52:54:00:00:06:c9";
+        hostName = "pine";
+        ipAddress = "172.28.6.201";
       }
     ];
   };
