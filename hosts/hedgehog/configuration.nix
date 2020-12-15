@@ -276,6 +276,37 @@
     man.generateCaches = true;
   };
 
+  services.spotifyd = {
+    enable = true;
+    config = ''
+      [global]
+      username = marcschmitt2@gmail.com
+      password_cmd = ${pkgs.coreutils}/bin/cat ${config.sops.secrets.spotify_password.path}
+      device_name = hedgehog
+      device_type = computer
+
+      bitrate = 320
+    '';
+  };
+
+  systemd.services.spotifyd = let spotifydConf = pkgs.writeText "spotifyd.conf" config.services.spotifyd.config; in{
+    serviceConfig = {
+      User = "pulse";
+      DynamicUser = lib.mkForce false;
+      SupplementaryGroups = [ config.users.groups.keys.name "pulse" ];
+    };
+    environment = {
+      SHELL = "${pkgs.bash}/bin/bash";
+      PULSE_COOKIE = "/run/pulse/.config/pulse/cookie";
+    };
+  };
+
+  sops.secrets.spotify_password = {
+    mode = "440";
+    group = config.users.groups.keys.name;
+    sopsFile = ./spotifyd.yml;
+  };
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you

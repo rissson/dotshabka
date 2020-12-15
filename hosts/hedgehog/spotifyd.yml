@@ -1,0 +1,42 @@
+spotify_password: ENC[AES256_GCM,data:ITBZPK7H/RUfucUWdA==,iv:fY9UWllq5SBmPo0Fu6RPKyBVEbR84KsXlMEr2rs17ac=,tag:87YLxVadNZ/h+daNUyq1UQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    lastmodified: '2020-12-14T09:59:53Z'
+    mac: ENC[AES256_GCM,data:unrkA8n3RaET/PKnmhr6i8WXO+9J5Jxg3oe+8FV7VnBdJ7PuE6142keAVtBP8KX4G5KTVKUDN4u/nsiJ9uFMglqgxC8vu1gFg0Ds/tZC0KuRwDbXifeL04qFk3+2htQyuF3e4eY82Dv5Z4+2XY51Fk5Zzdfq6MYsdI+rhX86AHY=,iv:Hj1FPdV7NOSMHt+zzrk8rg9M3E9KHdikK0Mk1iNSobY=,tag:PTQy1z6+EKCdE74258NMMw==,type:str]
+    pgp:
+    -   created_at: '2020-12-14T09:44:09Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hF4DAAAAAAAAAAASAQdAqMP4wE7IHOAyQXIP/yZF6tSx2yhi/RYLhFhTYNqGLwYw
+            fY3tsEa9b+mgaNkjmtdLP4RZEjv219Ki+TDk3jPO2jJXfw2TN17SQpVnZVhvVZYa
+            0l4Bnc/vs3X6FcCQ4+53yOJUXtBfXDp0TV+hSFxiIOL0jfxWzdGsrYC4663qdC/Z
+            VCIYVoW3dtVeGJY42oQlxKOAwu+IEoRVQkcoZ+2gcPRAYKdon5lMltswUb1EbtL7
+            =maXj
+            -----END PGP MESSAGE-----
+        fp: 8A0E6A7C08ABB9DE67DE2A13F6FD87B15C263EC9
+    -   created_at: '2020-12-14T09:44:09Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwAAAAAAAAAAAQ//bALM/2aev4pSu8qkPly+wOW3yijsSss5lzQZBSr7Eouj
+            SDvMV+rxpT3RT8+dQ8s1iEYPfW/E6JAP+rtD7bxCoxQru9C8lZ3CXEJD0FlYxDTn
+            9eXJLWBr7/ykQgaBE66LFldGSlhJBXccN1CxASKy0ZQ8YQhyQYt8lIFGQFXYqqbn
+            lSN3YNNOLVKz3jeCWEG+bAR4DfRPTFvPnEUBTp90KulFXjRuimSUO7DXxhUebZ9e
+            1C5xXWa/sBFY4AqpIu74DaqF3RN1FsFJeFdR9NG84zGU/2xMTLIFbPDmkFFxSK+8
+            vE1s6gBZIn6u0FFoIeD9OUr+KHbQyvbrp0rfkROQohC8IGNAThSK16ShjBUoZ+tR
+            Yf1xcU9SeybTR5bRAFtDO3y770MqkguTKL0HvbMTkkhpiafqqgU7pMP26BcqbuCb
+            YBPnA3gv5SSIudtbdlRNw1vzPQOsgaQyBzJSevWQPDeNuFV/tgq7DrrjN7DEDZq6
+            8Cuzg6n68s/PC/MXV8t9qP+/PVyd6kJ8BxZlP3z59tp8IKMvs2ZsTguLXsNiT/92
+            MDS2mJsML+rlRxGbKTqcbMuj4ZJKjdXdcN/pjvKTFjh/gGHLScpKLVYahZiExRdR
+            LKogfzQVnExKYWfKafpFdmOdsIOzLMlJMJEEmPDLxQAgGiAX2CxTngfFA8wEK9HS
+            UAGuPwNbYg/c7kANX79B4vP+sOOYoHShW4hd2ypnIgsEkxM6WiUAoGiOvYRg5CCu
+            yXyskBC1JFjawL6AKgQs0SH3G7qKfWpPptvip/UDZygg
+            =UTxs
+            -----END PGP MESSAGE-----
+        fp: EED7A3509314287766F55F329D0227DF3EB74D74
+    unencrypted_suffix: _unencrypted
+    version: 3.6.0
