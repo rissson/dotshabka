@@ -1,11 +1,11 @@
 { soxincfg, config, pkgs, lib, ... }:
 
-with soxincfg.vars.space.lama-corp; {
+{
   imports = [
-    ./bird.nix
+    #./bird.nix
   ];
 
-  networking = with rsn.lap.hedgehog; {
+  networking = {
     hostName = "hedgehog";
     domain = "lap.rsn.lama-corp.space";
     hostId = "daec192f";
@@ -18,6 +18,28 @@ with soxincfg.vars.space.lama-corp; {
       nohook resolv.conf
     '';*/
 
+    interfaces = {
+      wg0 = {
+        ipv4.routes = [
+          {
+            address = "172.28.6.0";
+            prefixLength = 24;
+            via = "172.28.254.6";
+          }
+          {
+            address = "172.28.7.0";
+            prefixLength = 24;
+            via = "172.28.254.6";
+          }
+          {
+            address = "172.28.8.0";
+            prefixLength = 24;
+            via = "172.28.254.6";
+          }
+        ];
+      };
+    };
+
     wireless = {
       enable = true;
       interfaces = [ "wlp1s0" ];
@@ -25,37 +47,8 @@ with soxincfg.vars.space.lama-corp; {
 
     wireguard = {
       enable = true;
-      interfaces = with wg; {
-        "${interface}" = {
-          ips = [
-            "${v4.ip}/${toString v4.prefixLength}"
-            "${v6.ip}/${toString v6.prefixLength}"
-          ];
-          privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
-
-          peers = [
-            {
-              # kvm-1.srv.fsn
-              inherit (fsn.srv.kvm-1.wg) publicKey;
-              allowedIPs = with fsn.srv.kvm-1.wg; [
-                "${v4.subnet}/${toString v4.prefixLength}"
-                "${v6.subnet}/${toString v6.prefixLength}"
-                "172.28.4.0/24"
-              ];
-              endpoint = "${fsn.srv.kvm-1.external.v4.ip}:51820";
-            }
-            {
-              # giraffe.srv.nbg
-              inherit (nbg.srv.giraffe.wg) publicKey;
-              allowedIPs = with nbg.srv.giraffe.wg; [
-                "${v4.subnet}/${toString v4.prefixLength}"
-                "${v6.subnet}/${toString v6.prefixLength}"
-              ];
-              endpoint = "${nbg.srv.giraffe.external.v4.ip}:51820";
-            }
-          ];
-        };
-        "wg1" = {
+      interfaces = {
+        wg0 = {
           ips = [
             "172.28.254.101/24"
           ];
@@ -66,10 +59,7 @@ with soxincfg.vars.space.lama-corp; {
             {
               publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
               allowedIPs = [
-                "172.28.254.6"
-                "172.28.6.0/24"
-                "172.28.7.0/24"
-                "172.28.8.0/24"
+                "172.28.0.0/16"
               ];
               endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
