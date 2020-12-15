@@ -2,22 +2,11 @@
 
 set -xeuo pipefail
 
-lastNotifiedFile="@htmlDir@/last_notified"
-
 now="$(@coreutils@/bin/date --iso=seconds)"
-nowTs="$(@coreutils@/bin/date +"%s")"
 nowFormatted="$(@coreutils@/bin/date +"on %F, at %T")"
 
-if [[ ! -f "${lastNotifiedFile}" ]]; then
-  echo "${nowTs}" > "${lastNotifiedFile}"
-fi
-
 doNotify() {
-  lastNotified="$(cat "${lastNotifiedFile}")"
-  if [[ "$(( ${nowTs} - ${lastNotified} ))" > "$(( 10 * 60 ))" ]]; then
-    @curl@/bin/curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "'"The boiler broke down ${nowFormatted} :/"'"}' "${MATTERMOST_WEBHOOK}"
-    echo "${nowTs}" > "${lastNotifiedFile}"
-  fi
+  @curl@/bin/curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "'"The boiler broke down ${nowFormatted} :/"'"}' "${MATTERMOST_WEBHOOK}"
 }
 
 imageFilename="chaudiered-${now}.jpg"
