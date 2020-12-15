@@ -1,4 +1,4 @@
-{ soxincfg, ... }:
+{ soxincfg, lib, ... }:
 
 {
   imports = [
@@ -53,10 +53,10 @@
           address = "168.119.71.47";
           prefixLength = 26;
         }];
-        ipv6.addresses = [{
+        /*ipv6.addresses = [{
           address = "2a01:4f8:242:1910::1";
           prefixLength = 128;
-        }];
+        }];*/
       };
 
       br-vms = {
@@ -84,6 +84,15 @@
           prefixLength = 24;
         }];
       };
+
+      he-ipv6 = {
+        ipv6.addresses = [{
+          address = "2001:470:1f0a:1308::2";
+          prefixLength = 64;
+        }];
+        mtu = 1480;
+        virtual = true;
+      };
     };
 
     defaultGateway = {
@@ -91,8 +100,8 @@
       interface = "enp35s0";
     };
     defaultGateway6 = {
-      address = "fe80::1";
-      interface = "enp35s0";
+      address = "2001:470:1f0a:1308::1";
+      interface = "he-ipv6";
     };
 
     nat = {
@@ -100,6 +109,15 @@
       externalInterface = "enp35s0";
       internalInterfaces = [ "br-vms" "br-k8s" ];
       internalIPs = [ "172.28.6.0/24" "172.28.7.0/24" ];
+    };
+
+    sits = {
+      he-ipv6 = {
+        dev = "enp35s0";
+        remote = "216.66.80.30";
+        local = "168.119.71.47";
+        ttl = 255;
+      };
     };
   };
 }
