@@ -10,9 +10,11 @@ let
 
       group = "mine";
       extraGroups = [
+        "audio"
         "builders"
         "dialout"
         "fuse"
+        "pulse"
         "users"
         "video"
       ]

@@ -20,6 +20,7 @@ in
         pulseaudio = {
           enable = true;
           package = mkIf config.soxin.hardware.bluetooth.enable pkgs.pulseaudioFull;
+          systemWide = true;
         };
       };
 
