@@ -5,8 +5,10 @@
 pkgs:
 with pkgs;
 [
-  element-desktop
   discord
-  slack
+  element-desktop
+  mr
   nixpkgs-fmt
+  slack
+  tmuxp
 ]

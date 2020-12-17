@@ -361,6 +361,8 @@ with lib;
     bitwarden-cli
     urlview
     discord
+    tmuxp
+    vcspull
   ];
 
   programs.zsh.initExtra = ''
