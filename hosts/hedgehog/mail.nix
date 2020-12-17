@@ -20,6 +20,61 @@ in
     maildirBasePath = "${config.home.homeDirectory}/mail";
 
     accounts = {
+      epita = {
+        realName = "Marc 'risson' Schmitt";
+        address = "marc.schmitt@epita.fr";
+        aliases = [
+          "marc@cri.epita.fr"
+          "risson@cri.epita.fr"
+        ];
+        signature = {
+          showSignature = "append";
+          text = import ./signature.nix {
+            extraLines = ''
+              Bon camarade du BL/GANG
+              CRI - ACDC 2022
+              EPITA
+            '';
+          };
+        };
+
+        flavor = "plain";
+        folders = {
+          inbox = "INBOX";
+          sent = "Sent Items";
+          trash = "Deleted Items";
+        };
+        userName = "marc.schmitt@epita.fr";
+        passwordCommand = "${pkgs.coreutils}/bin/cat /home/risson/.secrets/mail/epita";
+        imap = {
+          host = "outlook.office365.com";
+          port = 993;
+          tls.enable = true;
+        };
+        smtp = {
+          host = "outlook.office365.com";
+          port = 587;
+          tls = {
+            enable = true;
+            useStartTls = true;
+          };
+        };
+
+        msmtp.enable = true;
+        mbsync = {
+          enable = true;
+          create = "both";
+          expunge = "both";
+          remove = "both";
+        };
+        neomutt = {
+          enable = true;
+          extraConfig = ''
+            mailboxes `find ${config.accounts.email.maildirBasePath}/epita -type d -name cur | sed -e 's:/cur/*$::' -e 's/ /\\ /g' | sort | tr '\n' ' '`
+          '';
+        };
+      };
+
       lama-corp = {
         primary = true;
         realName = "Marc 'risson' Schmitt";
@@ -63,7 +118,12 @@ in
           expunge = "both";
           remove = "both";
         };
-        neomutt.enable = true;
+        neomutt = {
+          enable = true;
+          extraConfig = ''
+            mailboxes `find ${config.accounts.email.maildirBasePath}/lama-corp -type d -name cur | sed -e 's:/cur/*$::' -e 's/ /\\ /g' | sort | tr '\n' ' '`
+          '';
+        };
       };
     };
   };
@@ -133,8 +193,6 @@ in
     };
 
     extraConfig = ''
-      mailboxes `find ${config.accounts.email.maildirBasePath} -type d -name cur | sed -e 's:/cur/*$::' -e 's/ /\\ /g' | sort | tr '\n' ' '`
-
       unset mime_forward
       ignore *
       unignore from: to: cc: bcc: date: subject:
