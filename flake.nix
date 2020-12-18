@@ -87,6 +87,7 @@
         overlays = {
           packages = import ./pkgs;
           flannel = import ./overlays/flannel.nix;
+          warsow = import ./overlays/warsow.nix;
         };
 
         nixosModules = (import ./modules) // {

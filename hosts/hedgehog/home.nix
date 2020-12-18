@@ -363,6 +363,7 @@ with lib;
     discord
     tmuxp
     vcspull
+    warsow
   ];
 
   programs.zsh.initExtra = ''
