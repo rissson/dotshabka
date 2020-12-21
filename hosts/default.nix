@@ -41,7 +41,6 @@ let
               [
                 "nixos=${nixos}"
                 "nixpkgs=${nixpkgs}"
-                "nixpkgs-overlays=${path}/overlays"
               ];
 
             nixpkgs = { pkgs = pkgset.nixos; };
