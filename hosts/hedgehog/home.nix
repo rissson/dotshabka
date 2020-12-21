@@ -121,6 +121,15 @@ with lib;
           set listchars+=trail:·            " show trailing spaces as dots
         '';
       };
+      rbrowser = {
+        enable = true;
+        browsers = {
+          firefox.enable = true;
+          brave.enable = false;
+          chromium.enable = false;
+        };
+        setMimeList = true;
+      };
       rofi.enable = true;
       ssh.enable = true;
       starship.enable = true;
@@ -355,7 +364,6 @@ with lib;
     slack
     thunderbird
     xsel
-    nur.repos.kalbasit.rbrowser
     minecraft
     jetbrains.datagrip
     bitwarden-cli
@@ -366,47 +374,8 @@ with lib;
     warsow
   ];
 
-  programs.zsh.initExtra = ''
-    export BROWSER="${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser"
-  '';
-
   home.file =
-    let
-      mimeList =
-        let
-          mimeTypes = [
-            "application/pdf"
-            "application/x-extension-htm"
-            "application/x-extension-html"
-            "application/x-extension-shtml"
-            "application/x-extension-xht"
-            "application/x-extension-xhtml"
-            "application/xhtml+xml"
-            "text/html"
-            "x-scheme-handler/about"
-            "x-scheme-handler/chrome"
-            "x-scheme-handler/ftp"
-            "x-scheme-handler/http"
-            "x-scheme-handler/https"
-            "x-scheme-handler/irc"
-            "x-scheme-handler/ircs"
-            "x-scheme-handler/mailto"
-            "x-scheme-handler/unknown"
-            "x-scheme-handler/webcal"
-          ];
-
-          rbrowser = builtins.concatStringsSep
-            "\n"
-            (map (typ: "${typ}=rbrowser.desktop") mimeTypes);
-
-        in ''
-          [Default Applications]
-          ${rbrowser}
-        '';
-    in
     {
-      ".local/share/applications/mimeapps.list".text = mimeList;
-      ".config/mimeapps.list".text = mimeList;
       ## TODO: use options in home-manager and make a soxin module
       ".mozilla/firefox/profiles/epita/.keep".text = "";
       ".mozilla/firefox/profiles/lamacorp/.keep".text = "";

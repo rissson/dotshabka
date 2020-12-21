@@ -14,8 +14,6 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     (optionalAttrs (mode == "NixOS") {
-      environment.variables.BROWSER = "${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser";
-
       services.xserver = {
         enable = true;
         autorun = true;

@@ -8,8 +8,8 @@ let
   };
 
   mailcap = pkgs.writeText "mailcap" ''
-    text/html; ${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser %s
-    application/pdf; ${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser %s
+    text/html; ${config.soxin.programs.rbrowser.package}/bin/rbrowser %s
+    application/pdf; ${config.soxin.programs.rbrowser.package}/bin/rbrowser %s
   '';
 
   muttGruvbox = "${shutils}/dotfiles/mutt/colors-gruvbox-shuber.muttrc";
