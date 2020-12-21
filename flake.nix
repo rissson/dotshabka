@@ -37,7 +37,7 @@
       pkgImport = pkgs: system:
         import pkgs {
           inherit system;
-          overlays = lib.attrValues self.overlays;
+          overlays = (lib.attrValues self.overlays) ++ [ soxin.overlay ];
           config = { allowUnfree = true; };
         };
 
