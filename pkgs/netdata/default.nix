@@ -17,14 +17,14 @@ let
   go-d-plugin = callPackage ./go.d.plugin.nix {};
   mosquitto = callPackage ./mosquitto.nix {};
 in stdenv.mkDerivation rec {
-  version = "1.26.0-master";
+  version = "1.28.0";
   pname = "netdata";
 
   src = fetchFromGitHub {
     owner = "netdata";
     repo = "netdata";
-    rev = "593e1b6dbc6c979955e503d431d32c0dce1a2e09";
-    sha256 = "0b57gkbslnkpayszinyq3v61nr15xb72py184pcrswbqcy1sj80y";
+    rev = "v${version}";
+    sha256 = "sha256-xCVvnauIEgCzQeYsXSHiMGknJEjMxA4A/CGXwt2Sxog=";
   };
 
   nativeBuildInputs = [ autoreconfHook pkgconfig makeWrapper ];

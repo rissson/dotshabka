@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   pname = "mosquitto";
-  version = "1.6.8_Netdata-4";
+  version = "1.6.8_Netdata-5";
 
   src = fetchFromGitHub {
     owner = "netdata";
     repo = "mosquitto";
     rev = "v.${version}";
-    sha256 = "06vb9pndw3zwfnh4a8rwafdkrz00kq01vngl0zq32y74h16pp2zb";
+    sha256 = "sha256-VN1a6AfRp/sh6rdepDUClc3/hbFKH2WVKNgGxYGz3Ss=";
   };
 
   buildInputs = [ c-ares libwebsockets_3_2 openssl ];
