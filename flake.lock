@@ -74,15 +74,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1602535872,
-        "narHash": "sha256-5dnSqYNzwuL2tiQfSFCbX97Hfl4Lf6q4nghQBwm9pD8=",
+        "lastModified": 1609010567,
+        "narHash": "sha256-N6WslRAtrvCPCpQnxQqo+VlSivX/KylL9Xy/OZr0kMg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e7d5531cfa770afc591f8dc5542eb4fba9962885",
+        "rev": "22f6736e628958f05222ddaadd7df7818fe8f59d",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
+        "ref": "release-20.09",
         "repo": "home-manager",
         "type": "github"
       }
@@ -260,11 +261,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1608516684,
-        "narHash": "sha256-AGa3UcC/54NZVvMdRu5xudIW6Jt29onflOecQKsCB18=",
+        "lastModified": 1608932071,
+        "narHash": "sha256-JN3xL6YpYqf4R+JEkmrCXJGr+7ahs4XVbv3DMeIe+44=",
         "owner": "SoxinOS",
         "repo": "soxin",
-        "rev": "55fbf459bf75b28fdbd6014f265980c77705de24",
+        "rev": "25b47015d04e474196fb35317232c9ab5e107f8b",
         "type": "github"
       },
       "original": {

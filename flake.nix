@@ -7,7 +7,7 @@
     nixos.url = "nixpkgs/nixos-20.09";
     nixpkgs.url = "nixpkgs/master";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-20.09";
       inputs.nixpkgs.follows = "nixos";
     };
     soxin = {

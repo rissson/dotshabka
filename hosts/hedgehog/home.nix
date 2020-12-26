@@ -124,9 +124,9 @@ with lib;
       rbrowser = {
         enable = true;
         browsers = {
-          firefox.enable = true;
-          brave.enable = false;
-          chromium.enable = false;
+          "firefox@personal" = {};
+          "firefox@epita" = {};
+          "firefox@lama-corp" = {};
         };
         setMimeList = true;
       };
