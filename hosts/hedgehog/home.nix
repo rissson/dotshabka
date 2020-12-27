@@ -135,6 +135,7 @@ with lib;
       starship.enable = true;
       tmux.enable = true;
       urxvt.enable = true;
+      urxvt.transparency = true;
       zsh.enable = true;
     };
   };
