@@ -10,5 +10,6 @@ with pkgs;
   mr
   nixpkgs-fmt
   slack
+  thunderbird
   tmuxp
 ]
