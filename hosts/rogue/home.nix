@@ -1,0 +1,320 @@
+{ soxincfg }:
+{ nixosConfig, config, lib, pkgs, ... }:
+
+with lib;
+
+{
+  soxin = {
+    hardware.bluetooth.enable = true;
+
+    settings = {
+      fonts.enable = true;
+      gtk.enable = true;
+      keyboard = {
+        layouts = [
+          {
+            x11 = { layout = "fr"; variant = "bepo"; };
+            console.keyMap = "fr-bepo";
+          }
+          {
+            x11 = { layout = "us"; variant = "intl"; };
+          }
+        ];
+      };
+    };
+
+    services = {
+      caffeine.enable = true;
+      dunst.enable = true;
+      gpgAgent.enable = true;
+      locker = {
+        enable = true;
+        color = "ffa500";
+        extraArgs = [
+          "--clock"
+          "--show-failed-attempts"
+          "--bar-indicator"
+          "--datestr='%A %Y-%m-%d'"
+          "-i $(${pkgs.coreutils}/bin/shuf -n1 -e /home/risson/.lock-images/*.jpg)"
+        ];
+      };
+      xserver.windowManager = {
+        i3.enable = true;
+        bar = {
+          enable = true;
+          location = "top";
+          modules = {
+            backlight.enable = true;
+            cpu.enable = true;
+            time = {
+              enable = true;
+              timezones = [
+                {
+                  timezone = "Europe/Paris";
+                  prefix = "FR";
+                  format = "%a %Y-%m-%d %H:%M:%S";
+                }
+                {
+                  timezone = "UTC";
+                  prefix = "UTC";
+                  format = "%H:%M:%S";
+                }
+              ];
+            };
+            ram.enable = true;
+            network = {
+              enable = true;
+              eth = [ "enp4s0" "enp3s0f0" "enp0s20f0u2u2" "enp0s20f0u1u1" ];
+              wlan = [ "wlp1s0" ];
+            };
+            volume.enable = true;
+            spotify.enable = false;
+            keyboardLayout.enable = true;
+          };
+        };
+      };
+    };
+
+    programs = {
+      autorandr.enable = true;
+      fzf.enable = true;
+      git = {
+        enable = true;
+        userName = "Marc 'risson' Schmitt";
+        userEmail = "marc.schmitt@risson.space";
+        gpgSigningKey = "marc.schmitt@risson.space";
+      };
+      htop.enable = true;
+      keybase.enable = true;
+      mosh.enable = true;
+      neovim = {
+        enable = true;
+        extraRC = ''
+          set background=dark
+          colorscheme gruvbox
+          let g:airline_theme='gruvbox'
+
+          " set the mapleader
+          let mapleader = " "
+          " Whitespace
+          set expandtab    " don't use tabs
+          set shiftwidth=4 " Number of spaces to use for each step of (auto)indent.
+          set softtabstop=8    " Number of spaces that a <Tab> in the file counts for.
+          autocmd Filetype make setlocal noexpandtab " don't expand in makefiles
+
+          set listchars=tab:»·              " a tab should display as "»·"
+          set listchars+=trail:·            " show trailing spaces as dots
+        '';
+      };
+      rbrowser = {
+        enable = true;
+        browsers = {
+          "firefox@personal" = {};
+          "firefox@epita" = {};
+          "firefox@lama-corp" = {};
+        };
+        setMimeList = true;
+      };
+      rofi.enable = true;
+      ssh.enable = true;
+      starship.enable = true;
+      tmux.enable = true;
+      urxvt.enable = true;
+      urxvt.transparency = true;
+      zsh.enable = true;
+    };
+  };
+
+  programs.command-not-found.enable = true;
+
+  programs.gpg = {
+    enable = true;
+    settings = {
+      throw-keyids = true;
+      keyserver = "hkps://keys.openpgp.org";
+    };
+  };
+
+  programs.git.aliases = {
+    b         = "branch";
+    ci        = mkForce "commit -s";
+    ciam      = mkForce "commit -a -s -m";
+    cim       = mkForce "commit -s -m";
+    coke      = "commit -a -s -m";
+    cokewogpg = "commit --no-gpg-sign -a -s -m";
+  };
+
+  programs.git.extraConfig = {
+    branch = {
+      autosetuprebase = "always";
+    };
+
+    core = {
+      editor = "vim";
+    };
+
+    format = {
+      signOff = true;
+    };
+
+    push = {
+      default = "simple";
+    };
+
+    pull = {
+      rebase = true;
+    };
+  };
+
+  programs.git.includes = [
+    {
+      condition = "gitdir:~/cri/";
+      contents = {
+        user = {
+          email = "risson@cri.epita.fr";
+          signingkey = "risson@cri.epita.fr";
+        };
+      };
+    }
+    {
+      condition = "gitdir:~/prologin/";
+      contents = {
+        user = {
+          email = "marc.schmitt@prologin.org";
+          signingkey = "marc.schmitt@prologin.org";
+        };
+      };
+    }
+    {
+      condition = "gitdir:~/lama-corp/";
+      contents = {
+        user = {
+          email = "marc.schmitt@lama-corp.space";
+          signingkey = "marc.schmitt@lama-corp.space";
+        };
+      };
+    }
+  ];
+
+  programs.ssh = {
+    /*extraConfig = ''
+      Include ~/.ssh/ssh_config_cri
+    '';*/
+    matchBlocks = {
+      ### Lama Corp.
+      "kvm-2" = {
+        hostname = "kvm-2.srv.fsn.lama-corp.space";
+      };
+      "*.fsn" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "kvm-2";
+      };
+      "*.bar" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "kvm-2";
+      };
+      "*.nbg" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "kvm-2";
+      };
+
+      ### CRI
+      "goat" = {
+        user = "risson";
+        hostname = "gate.cri.epita.fr";
+        port = 22450;
+      };
+
+      "git.cri.epita.fr" = {
+        user = "git";
+        extraOptions = {
+          controlMaster = "yes";
+          controlPersist = "2m";
+        };
+      };
+
+      # Git hosting
+      "gitlab" = {
+        hostname = "gitlab.com";
+        user = "git";
+      };
+      "github" = {
+        hostname = "github.com";
+        user = "git";
+      };
+    };
+  };
+
+  xresources = {
+    properties = {
+      "*foreground" = "#b2b2b2";
+      "*background" = "#020202";
+    };
+  };
+
+  home.packages = with pkgs; [
+    jq
+    killall
+    nur.repos.kalbasit.nixify
+    nix-index
+    unzip
+    nix-zsh-completions
+    slack
+    thunderbird
+    xsel
+    minecraft
+    jetbrains.datagrip
+    bitwarden-cli
+    urlview
+    discord
+    tmuxp
+    vcspull
+    warsow
+  ];
+
+  home.file =
+    {
+      ## TODO: use options in home-manager and make a soxin module
+      ".mozilla/firefox/profiles/epita/.keep".text = "";
+      ".mozilla/firefox/profiles/lamacorp/.keep".text = "";
+      ".mozilla/firefox/profiles/personal/.keep".text = "";
+      ".mozilla/firefox/profiles.ini".text = ''
+        [General]
+        StartWithLastProfile=1
+
+        [Profile0]
+        Name=personal
+        IsRelative=1
+        Path=profiles/personal
+        Default=1
+
+        [Profile1]
+        Name=profiles/epita
+        IsRelative=1
+        Path=epita
+
+        [Profile2]
+        Name=lamacorp
+        IsRelative=1
+        Path=profiles/lamacorp
+      '';
+      ## END TBD
+    };
+
+  programs.bat.enable = true;
+  programs.direnv.enable = true;
+  services.flameshot.enable = true;
+
+  services.random-background = {
+    enable = true;
+    enableXinerama = true;
+    display = "center";
+    imageDirectory = "%h/.background-images";
+    interval = "1h";
+  };
+
+  home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];
+}
