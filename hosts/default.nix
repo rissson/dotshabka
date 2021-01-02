@@ -133,6 +133,7 @@ let
     "fsn/k8s/worker-13"
     "nas-1"
     "par/edge-1"
+    "rogue"
   ]
     config;
 in
