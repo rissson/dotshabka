@@ -4,10 +4,6 @@
 with lib;
 
 {
-  imports = [
-    ./mail.nix
-  ];
-
   soxin = {
     hardware.bluetooth.enable = true;
 
