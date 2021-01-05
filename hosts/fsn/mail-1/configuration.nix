@@ -11,6 +11,8 @@
     ./rspamd.nix
     ./opendkim.nix
     ./dovecot.nix
+    ./mailman.nix
+    ./nginx.nix
   ];
 
   boot.kernel.sysctl = {
@@ -23,11 +25,16 @@
     directories = [
       "/var/lib/acme"
       "/var/lib/dovecot"
+      "/var/lib/mailman"
+      "/var/lib/mailman-web/media"
+      "/var/lib/mailman-web-static"
       "/var/lib/opendkim"
+      "/var/lib/postgresql"
       "/var/lib/postfix"
       "/var/lib/postsrsd"
       "/var/lib/redis"
       "/var/lib/rspamd"
+      "/var/log/mailman"
       "/var/spool/mail"
       "/var/vmail"
     ];

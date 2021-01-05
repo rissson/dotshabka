@@ -9,7 +9,7 @@
     certs =
       let
         domain = "mail-1.lama-corp.space";
-        extraDomainNames = [ "mail.lama-corp.space" ];
+        extraDomainNames = [ "mail.lama-corp.space" "lists.lama-corp.space" ];
         dnsProvider = "cloudflare";
         credentialsFile = config.sops.secrets.acme_dns_api_key.path;
         postRun = ''

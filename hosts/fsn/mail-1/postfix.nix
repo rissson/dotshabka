@@ -114,6 +114,9 @@ in
     # via the `sendmail` command.
     origin = hostname;
 
+    # mailman
+    relayDomains = [ "hash:/var/lib/mailman/data/postfix_domains" ];
+
     networks = [
       "172.28.0.0/16"
       "127.0.0.0/8"
@@ -385,6 +388,10 @@ in
       # Logs
       maillog_file = "/var/log/mail/postfix.log";
       maillog_file_compressor = "${pkgs.gzip}/bin/gzip";
+
+      # mailman
+      transport_maps = [ "hash:/var/lib/mailman/data/postfix_lmtp" ];
+      local_recipient_maps = [ "hash:/var/lib/mailman/data/postfix_lmtp" ];
     };
   };
 
