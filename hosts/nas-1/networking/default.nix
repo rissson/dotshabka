@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./bird.nix
     ./dhcpd.nix
     ./ddns.nix
     ./dns.nix

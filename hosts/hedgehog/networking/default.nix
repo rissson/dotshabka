@@ -2,7 +2,7 @@
 
 {
   imports = [
-    #./bird.nix
+    ./wireguard.nix
   ];
 
   networking = {
@@ -18,55 +18,9 @@
       nohook resolv.conf
     '';*/
 
-    interfaces = {
-      wg0 = {
-        ipv4.routes = [
-          {
-            address = "172.28.6.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.7.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.8.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-        ];
-      };
-    };
-
     wireless = {
       enable = true;
       interfaces = [ "wlp1s0" ];
-    };
-
-    wireguard = {
-      enable = true;
-      interfaces = {
-        wg0 = {
-          ips = [
-            "172.28.254.101/24"
-          ];
-          privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
-          allowedIPsAsRoutes = false;
-
-          peers = [
-            {
-              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
-              allowedIPs = [
-                "172.28.0.0/16"
-              ];
-              endpoint = "168.119.71.47:51820";
-              persistentKeepalive = 60;
-            }
-          ];
-        };
-      };
     };
 
     localCommands = let ethtool = "${pkgs.ethtool}/bin/ethtool"; in ''
@@ -107,5 +61,4 @@
     sopsFile = ./wpa_supplicant.yml;
     path = "/etc/wpa_supplicant.conf";
   };
-  sops.secrets.wireguard_wg0_private_key.sopsFile = ./wireguard.yml;
 }

@@ -40,23 +40,16 @@
       };
     };
 
-    vlans = {
-      "enp35s0.4004" = {
-        id = 4004;
-        interface = "enp35s0";
-      };
-    };
-
     interfaces = {
       enp35s0 = {
         ipv4.addresses = [{
           address = "168.119.71.47";
           prefixLength = 26;
         }];
-        /*ipv6.addresses = [{
+        ipv6.addresses = [{
           address = "2a01:4f8:242:1910::1";
           prefixLength = 128;
-        }];*/
+        }];
       };
 
       br-vms = {
@@ -85,14 +78,14 @@
         }];
       };
 
-      he-ipv6 = {
+      /*he-ipv6 = {
         ipv6.addresses = [{
           address = "2001:470:1f0a:1308::2";
           prefixLength = 64;
         }];
         mtu = 1480;
         virtual = true;
-      };
+      };*/
     };
 
     defaultGateway = {
@@ -100,8 +93,8 @@
       interface = "enp35s0";
     };
     defaultGateway6 = {
-      address = "2001:470:1f0a:1308::1";
-      interface = "he-ipv6";
+      address = "fe80::1";
+      interface = "enp35s0";
     };
 
     nat = {
@@ -111,13 +104,13 @@
       internalIPs = [ "172.28.6.0/24" "172.28.7.0/24" ];
     };
 
-    sits = {
+    /*sits = {
       he-ipv6 = {
         dev = "enp35s0";
         remote = "216.66.80.30";
         local = "168.119.71.47";
         ttl = 255;
       };
-    };
+    };*/
   };
 }

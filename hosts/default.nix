@@ -131,6 +131,7 @@ let
     "fsn/k8s/worker-12"
     "fsn/k8s/worker-13"
     "nas-1"
+    "par/edge-1"
   ]
     config;
 in

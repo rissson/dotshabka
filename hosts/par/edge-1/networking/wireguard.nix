@@ -20,9 +20,19 @@
             via = "172.28.254.3";
           }
           {
-            address = "172.28.4.0";
+            address = "172.28.6.0";
             prefixLength = 24;
-            via = "172.28.254.4";
+            via = "172.28.254.6";
+          }
+          {
+            address = "172.28.7.0";
+            prefixLength = 24;
+            via = "172.28.254.6";
+          }
+          {
+            address = "172.28.8.0";
+            prefixLength = 24;
+            via = "172.28.254.6";
           }
           {
             address = "172.28.101.0";
@@ -38,7 +48,7 @@
       interfaces = {
         wg0 = {
           ips = [
-            "172.28.254.6/24"
+            "172.28.254.4/24"
           ];
           listenPort = 51820;
           privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
@@ -46,22 +56,24 @@
           allowedIPsAsRoutes = false;
           peers = [
             {
+              # kvm-2.srv.fsn
+              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
+              allowedIPs = [
+                "172.28.254.6/32"
+                "172.28.6.0/24"
+                "172.28.7.0/24"
+                "172.28.8.0/24"
+              ];
+              endpoint = "168.119.71.47:51820";
+              persistentKeepalive = 60;
+            }
+            {
               # nas-1.srv.bar
               publicKey = "+nasSLlJuvgViVcmcCcjMFvwRLmYgGRkBed+Z6qxfw4=";
               allowedIPs = [
                 "172.28.254.2/32"
                 "172.28.2.0/24"
               ];
-            }
-            {
-              # edge-1.srv.par
-              publicKey = "RBtwrX/EN9avud2yy53gziQdlzLJf1aPdk9jWtm7DHQ=";
-              allowedIPs = [
-                "172.28.254.4/32"
-                "172.28.4.0/24"
-              ];
-              endpoint = "108.61.208.236:51820";
-              persistentKeepalive = 60;
             }
             {
               # hedgehog.lap.rsn
@@ -76,7 +88,7 @@
 
         wg212270 = {
           ips = [
-            "fd3c:c1c4:bbff:9a64::dead:beef/64"
+            "fd3c:c1c4:bbff:9a64::ee1/64"
           ];
           listenPort = 51821;
           privateKeyFile = config.sops.secrets.wireguard_wg212270_private_key.path;
@@ -84,12 +96,12 @@
           allowedIPsAsRoutes = false;
           peers = [
             {
-              # edge-1.srv.par.lama-corp.space
-              publicKey = "4W30sjYQxN8FpGAIl8eEFzGQLfeQvoQZmg3kBwe1J1s=";
+              # kvm-2.srv.fsn.lama-corp.space
+              publicKey = "G25/lrHkH+zHkRFsTQl0B/tqnZTFP1fTQSJV5wvb4QM=";
               allowedIPs = [
-                "fd3c:c1c4:bbff:9a64::ee1/128"
+                "fd3c:c1c4:bbff:9a64::dead:beef/128"
               ];
-              endpoint = "[2a05:f480:1c00:9ee::1]:51821";
+              endpoint = "[2a01:4f8:242:1910::1]:51821";
               persistentKeepalive = 60;
             }
             {
