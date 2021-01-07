@@ -213,20 +213,26 @@ with lib;
     '';
     matchBlocks = {
       ### Lama Corp.
+      "nas-1" = {
+        hostname = "nas-1.srv.bar.lama-corp.space";
+      };
+      "edge-1" = {
+        hostname = "edge-1.srv.par.lama-corp.space";
+      };
       "kvm-2" = {
         hostname = "kvm-2.srv.fsn.lama-corp.space";
-      };
-      "*.fsn" = {
-        user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-2";
       };
       "*.bar" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-2";
+        proxyJump = "nas-1";
       };
-      "*.nbg" = {
+      "*.par" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "edge-1";
+      };
+      "*.fsn" = {
         user = "root";
         hostname = "%h.lama-corp.space";
         proxyJump = "kvm-2";
