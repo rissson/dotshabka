@@ -7,11 +7,15 @@ let
 
   zonesData = {
     "2.254.28.172.in-addr.arpa" = "172.28.254.2";
+    "4.254.28.172.in-addr.arpa" = "172.28.254.4";
     "6.254.28.172.in-addr.arpa" = "172.28.254.6";
     "101.254.28.172.in-addr.arpa" = "172.28.254.101";
 
     "bar.lama-corp.space" = "172.28.254.2";
     "2.28.172.in-addr.arpa" = "172.28.254.2";
+
+    "par.lama-corp.space" = "172.28.254.4";
+    "4.28.172.in-addr.arpa" = "172.28.254.4";
 
     "fsn.lama-corp.space" = "172.28.254.6";
     "6.28.172.in-addr.arpa" = "172.28.254.6";
@@ -24,6 +28,7 @@ let
 
   primariesData = {
     "nas-1.srv.bar" = "172.28.254.2";
+    "edge-1.srv.par" = "172.28.254.4";
     "kvm-2.srv.fsn" = "172.28.254.6";
     "hedgehog.lap.rsn" = "172.28.254.101";
   };
