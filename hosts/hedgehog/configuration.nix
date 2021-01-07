@@ -29,6 +29,9 @@
       "LAMA-CORP.SPACE" = {
         admin_server = "kerberos.lama-corp.space";
       };
+      "CRI.EPITA.FR" = {
+        admin_server = "kerberos.pie.cri.epita.fr";
+      };
     };
   };
 
