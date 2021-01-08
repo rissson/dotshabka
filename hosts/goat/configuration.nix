@@ -2,124 +2,17 @@
 
 {
   imports = [
+    soxincfg.nixosModules.profiles.workstation
+
     ./hardware-configuration.nix
     ./networking.nix
-  ] ++ (lib.optionals (builtins.pathExists ../../secrets)
-    (lib.singleton ../../secrets));
+  ];
 
-  home-manager.users.risson = import ./home.nix { inherit soxincfg; };
-
-  lama-corp = {
-    settings = {
-      fonts.enable = true;
-      gtk.enable = true;
-      keyboard = {
-        layouts = [
-          { layout = "fr"; variant = "bepo"; keyMap = "fr-bepo"; }
-          { layout = "us"; variant = "intl"; }
-        ];
-      };
-    };
-
-    services = {
-      gpgAgent.enable = true;
-      openssh.enable = true;
-      printing = {
-        enable = true;
-        brands = [ "hp" ];
-      };
-      xserver.enable = true;
-    };
-
-    programs = {
-      autorandr.enable = true;
-      git.enable = true;
-      htop.enable = true;
-      mosh.enable = true;
-      neovim = {
-        enable = true;
-        extraRC = ''
-          set background=dark
-          colorscheme gruvbox
-          let g:airline_theme='gruvbox'
-
-          " set the mapleader
-          let mapleader = " "
-          " Whitespace
-          set expandtab    " don't use tabs
-          set shiftwidth=4 " Number of spaces to use for each step of (auto)indent.
-          set softtabstop=8    " Number of spaces that a <Tab> in the file counts for.
-          autocmd Filetype make setlocal noexpandtab " don't expand in makefiles
-
-          set listchars=tab:»·              " a tab should display as "»·"
-          set listchars+=trail:·            " show trailing spaces as dots
-        '';
-      };
-      ssh.enable = true;
-      starship.enable = true;
-      tmux.enable = true;
-      zsh.enable = true;
-    };
-
-    virtualisation = {
-      docker.enable = true;
-      libvirtd.enable = true;
-    };
-
-    hardware = {
-      enable = true;
-      intelBacklight.enable = true;
-      sound.enable = true;
-      yubikey.enable = true;
-    };
-
-    users = {
-      enable = true;
-      users = {
-        risson = {
-          inherit (soxincfg.vars.users.risson) uid hashedPassword sshKeys;
-          isAdmin = true;
-          home = "/home/risson";
-        };
-      };
-    };
-  };
-
-  console.keyMap = lib.mkForce "us";
-
-  # Other stuff
-
-  hardware.pulseaudio.zeroconf.discovery.enable = true;
-
-  environment.homeBinInPath = true;
-
-  users.users.root = {
-    hashedPassword = "$6$qVi/b8BggEoVLgu$V0Mcqu73FWm3djDT4JwflTgK6iMxgxtFBs2m2R.zg1RukAXIcplI.MddMS5SNEhwAThoKCsFQG7D6Q2pXFohr0";
-    openssh.authorizedKeys.keys = config.lama-corp.users.users.risson.sshKeys;
-  };
-
-  services.openssh.passwordAuthentication = lib.mkForce false;
   nix.gc.automatic = lib.mkForce false;
   nix.distributedBuilds = true;
   nix.extraOptions = ''
     builders-use-substitutes = true
   '';
-
-  environment.systemPackages = with pkgs; [
-    htop
-    iotop
-    jq
-    killall
-    ldns
-    minio-client
-    ncdu
-    tcpdump
-    traceroute
-    tree
-    unzip
-    wget
-    zip
-  ];
 
   #### TESTING
 
@@ -189,8 +82,6 @@
       };
     };
   };
-
-  services.netdata.enable = true;
 
   networking.extraHosts = ''
     127.0.0.1 cri.epita.net

@@ -1,19 +1,23 @@
-{ soxincfg }:
-{ nixosConfig, config, lib, pkgs, ... }:
+{ nixosConfig, soxincfg, config, lib, pkgs, ... }:
 
 with lib;
 
 {
-  soxin.hardware.bluetooth.enable = true;
+  soxin = {
+    hardware.bluetooth.enable = true;
 
-  lama-corp = {
     settings = {
       fonts.enable = true;
       gtk.enable = true;
       keyboard = {
         layouts = [
-          { layout = "fr"; variant = "bepo"; keyMap = "fr-bepo"; }
-          { layout = "us"; variant = "intl"; }
+          {
+            x11 = { layout = "fr"; variant = "bepo"; };
+            console.keyMap = "fr-bepo";
+          }
+          {
+            x11 = { layout = "us"; variant = "intl"; };
+          }
         ];
       };
     };
@@ -112,11 +116,21 @@ with lib;
           set listchars+=trail:·            " show trailing spaces as dots
         '';
       };
+      rbrowser = {
+        enable = true;
+        browsers = {
+          "firefox@personal" = {};
+          "firefox@epita" = {};
+          "firefox@lama-corp" = {};
+        };
+        setMimeList = true;
+      };
       rofi.enable = true;
       ssh.enable = true;
       starship.enable = true;
       tmux.enable = true;
       urxvt.enable = true;
+      urxvt.transparency = true;
       zsh.enable = true;
     };
   };
@@ -193,25 +207,34 @@ with lib;
   ];
 
   programs.ssh = {
+    extraConfig = ''
+      Include ~/.ssh/ssh_config_cri
+    '';
     matchBlocks = {
       ### Lama Corp.
-      "kvm-1" = {
-        hostname = "kvm-1.srv.fsn.lama-corp.space";
+      "nas-1" = {
+        hostname = "nas-1.srv.bar.lama-corp.space";
       };
-      "*.fsn" = {
-        user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+      "edge-1" = {
+        hostname = "edge-1.srv.par.lama-corp.space";
+      };
+      "kvm-2" = {
+        hostname = "kvm-2.srv.fsn.lama-corp.space";
       };
       "*.bar" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+        proxyJump = "nas-1";
       };
-      "*.nbg" = {
+      "*.par" = {
         user = "root";
         hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-1";
+        proxyJump = "edge-1";
+      };
+      "*.fsn" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "kvm-2";
       };
 
       ### CRI
@@ -334,60 +357,57 @@ with lib;
 
 
   home.packages = with pkgs; [
+    apache-directory-studio
+    arandr
+    aria2
+    awscli
+    bitwarden-cli
+    claws-mail
+    discord
+    element-desktop
+    evince
+    feh
+    gimp
+    gnuplot
+    hledger hledger-web
+    ipcalc
+    jetbrains.datagrip
     jq
     killall
-    nur.repos.kalbasit.nixify
-    nix-index
-    unzip
-    nix-zsh-completions
-    slack
-    thunderbird
-    xsel
-    nur.repos.kalbasit.rbrowser
+    kubectl
+    kustomize
+    libreoffice
     minecraft
+    nix-index
+    nix-zsh-completions
+    nixpkgs-review
+    nmap
+    nur.repos.kalbasit.nixify
+    parallel
+    pcmanfm
+    postgresql
+    rambox
+    s3cmd
+    slack
+    spotify-tui
+    teams
+    thunderbird
+    tmuxp
+    transmission
+    unzip
+    urlview
+    vault
+    vcspull
+    virt-manager
+    vlc
+    warsow
+    wireshark
+    wpa_supplicant_gui
+    xsel
   ];
 
-  programs.zsh.initExtra = ''
-    export BROWSER="${pkgs.nur.repos.kalbasit.rbrowser}/bin/rbrowser"
-  '';
-
   home.file =
-    let
-      mimeList =
-        let
-          mimeTypes = [
-            "application/pdf"
-            "application/x-extension-htm"
-            "application/x-extension-html"
-            "application/x-extension-shtml"
-            "application/x-extension-xht"
-            "application/x-extension-xhtml"
-            "application/xhtml+xml"
-            "text/html"
-            "x-scheme-handler/about"
-            "x-scheme-handler/chrome"
-            "x-scheme-handler/ftp"
-            "x-scheme-handler/http"
-            "x-scheme-handler/https"
-            "x-scheme-handler/irc"
-            "x-scheme-handler/ircs"
-            "x-scheme-handler/mailto"
-            "x-scheme-handler/unknown"
-            "x-scheme-handler/webcal"
-          ];
-
-          rbrowser = builtins.concatStringsSep
-            "\n"
-            (map (typ: "${typ}=rbrowser.desktop") mimeTypes);
-
-        in ''
-          [Default Applications]
-          ${rbrowser}
-        '';
-    in
     {
-      ".local/share/applications/mimeapps.list".text = mimeList;
-      ".config/mimeapps.list".text = mimeList;
       ## TODO: use options in home-manager and make a soxin module
       ".mozilla/firefox/profiles/epita/.keep".text = "";
       ".mozilla/firefox/profiles/lamacorp/.keep".text = "";
@@ -428,6 +448,4 @@ with lib;
   };
 
   home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];
-
-  home.sessionVariables.DOTSHABKA_PATH = "/home/risson/lama-corp/infra/dotshabka";
 }

@@ -26,6 +26,7 @@ let
         inherit nixos-hardware;
         inherit (pkgset) nixpkgs;
         soxincfg = self;
+        userName = "risson"; # TODO: extract this per-host
       };
 
       modules =
@@ -120,7 +121,7 @@ let
   hosts = lib.genAttrs [
     "cuckoo"
     "hedgehog"
-    #"goat"
+    "goat"
     "fsn/kvm-2"
     "fsn/mail-1"
     "fsn/pine"
