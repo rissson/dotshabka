@@ -1,4 +1,4 @@
-{ modulesPath, config, pkgs, ... }:
+{ modulesPath, config, pkgs, lib, ... }:
 
 let
   ldap-common-settings = ''
@@ -143,13 +143,12 @@ in
 
     # master.cf
     masterConfig = {
-      /*smtp_inet = {
-        name = "smtp";
-        type = "inet";
-        private = false;
-        command = "smtpd";
-        args = [ "-o" "smtpd_sasl_auth_enable=no" ];
-      };*/
+      smtp = {
+        args = [ "-o" "smtp_bind_address=148.251.148.232" ];
+      };
+      relay = {
+        args = [ "-o" "smtp_bind_address=148.251.148.232" ];
+      };
       policy-spf = {
         type = "unix";
         privileged = true;

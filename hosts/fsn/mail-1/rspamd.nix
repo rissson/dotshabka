@@ -5,6 +5,10 @@
 
   services.rspamd = {
     enable = true;
+    extraConfig = ''
+      local_networks = [ "172.28.0.0/16" ];
+    '';
+
     locals = {
       "milter_headers.conf".text = ''
         extended_spam_headers = yes;

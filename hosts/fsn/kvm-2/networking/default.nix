@@ -100,7 +100,6 @@
     nat = {
       enable = true;
       externalInterface = "enp35s0";
-      internalInterfaces = [ "br-vms" "br-k8s" ];
       internalIPs = [ "172.28.6.0/24" "172.28.7.0/24" ];
     };
 
