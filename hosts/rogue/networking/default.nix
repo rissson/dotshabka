@@ -9,13 +9,24 @@
     nameservers = [ "1.1.1.1" ];
 
     interfaces = {
-      enp60s0.useDHCP = true;
+      enp60s0 = {
+        ipv4.addresses = [{
+          address = "192.168.1.253";
+          prefixLength = 24;
+        }];
+      };
+
       wls1.useDHCP = true;
+    };
+
+    defaultGateway = {
+      address = "192.168.1.254";
+      interface = "enp60s0";
     };
 
     /*wireless = {
       enable = true;
-      interfaces = [ "wlp1s0" ];
+      interfaces = [ "wls1" ];
     };*/
   };
 }
