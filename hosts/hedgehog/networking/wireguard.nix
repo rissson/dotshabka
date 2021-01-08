@@ -8,12 +8,7 @@
           {
             address = "172.28.2.0";
             prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.254.2";
-            prefixLength = 32;
-            via = "172.28.254.6";
+            via = "172.28.254.2";
           }
           {
             address = "172.28.3.0";
@@ -24,11 +19,6 @@
             address = "172.28.4.0";
             prefixLength = 24;
             via = "172.28.254.4";
-          }
-          {
-            address = "172.28.6.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
           }
           {
             address = "172.28.6.0";
@@ -61,6 +51,16 @@
 
           peers = [
             {
+              # nas-1.srv.bar
+              publicKey = "+nasSLlJuvgViVcmcCcjMFvwRLmYgGRkBed+Z6qxfw4=";
+              allowedIPs = [
+                "172.28.254.2/32"
+                "172.28.2.0/24"
+              ];
+              endpoint = "86.243.114.211:51820"; # bar.lama-corp.space
+              persistentKeepalive = 60;
+            }
+            {
               # kvm-2.srv.fsn
               publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
               allowedIPs = [
@@ -68,10 +68,6 @@
                 "172.28.6.0/24"
                 "172.28.7.0/24"
                 "172.28.8.0/24"
-
-                # nas IPs
-                "172.28.254.2/32"
-                "172.28.2.0/24"
               ];
               endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
