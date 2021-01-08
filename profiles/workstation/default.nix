@@ -21,14 +21,14 @@
           {
             type = "rsa";
             bits = 4096;
-            path = "/srv/etc/ssh/ssh_host_rsa_key";
+            path = "/persist/etc/ssh/ssh_host_rsa_key";
             rounds = 100;
             openSSHFormat = true;
             comment = with config.networking; "${hostName}.${domain}";
           }
           {
             type = "ed25519";
-            path = "/srv/etc/ssh/ssh_host_ed25519_key";
+            path = "/persist/etc/ssh/ssh_host_ed25519_key";
             rounds = 100;
             openSSHFormat = true;
             comment = with config.networking; "${hostName}.${domain}";

@@ -115,6 +115,11 @@
       neededForBoot = true;
     };
 
+    "/persist" = {
+      device = "/srv";
+      options = [ "bind" ];
+    };
+
     "/var/lib/docker" = {
       device = "rpool/persist/var/lib/docker";
       fsType = "zfs";
