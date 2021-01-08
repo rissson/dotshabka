@@ -5,6 +5,10 @@
     enable = true;
     allowPing = true;
 
+    allowedTCPPorts = [
+      8001 # WeeChat
+    ];
+
     interfaces = {
       "br-vms" = {
         allowedTCPPorts = [

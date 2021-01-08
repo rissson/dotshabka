@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ./networking
     ./nfs.nix
+    ./haproxy.nix
     ./nginx.nix
     ./vault.nix
   ];

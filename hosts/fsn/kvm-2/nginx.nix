@@ -35,12 +35,20 @@
     sslDhparam = config.security.dhparams.params."nginx".path;
 
     virtualHosts."vault.lama-corp.space" = {
+      listen = [
+        { addr = "168.119.71.47"; port = 80; }
+        { addr = "168.119.71.47"; port = 443; ssl = true; }
+      ];
       forceSSL = true;
       enableACME = true;
       locations."/".proxyPass = "http://localhost:8200";
     };
 
     virtualHosts."netdata.lama-corp.space" = {
+      listen = [
+        { addr = "168.119.71.47"; port = 80; }
+        { addr = "168.119.71.47"; port = 443; ssl = true; }
+      ];
       forceSSL = true;
       enableACME = true;
       locations."/".proxyPass = "http://localhost:19999";
