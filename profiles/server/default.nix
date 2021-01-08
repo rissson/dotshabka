@@ -1,6 +1,13 @@
 { soxincfg, config, lib, ... }:
 
 {
+  services.ssmtp = {
+    enable = true;
+    domain = "lama-corp.space";
+    hostName = "mail-1.vrt.fsn.lama-corp.space";
+    root = "root@lama-corp.space";
+  };
+
   soxin = {
     services = {
       openssh.enable = true;

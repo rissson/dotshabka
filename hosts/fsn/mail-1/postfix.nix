@@ -80,6 +80,8 @@ in
     ./postfix.lib.nix
   ];
 
+  services.ssmtp.enable = lib.mkForce false;
+
   networking.firewall.allowedTCPPorts = [
     25
     465
