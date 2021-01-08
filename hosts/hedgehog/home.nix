@@ -375,6 +375,7 @@ with lib;
     tmuxp
     vcspull
     warsow
+    claws-mail
   ];
 
   home.file =
