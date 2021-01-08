@@ -358,24 +358,53 @@ with lib;
 
 
   home.packages = with pkgs; [
+    apache-directory-studio
+    arandr
+    aria2
+    awscli
+    bitwarden-cli
+    claws-mail
+    discord
+    element-desktop
+    evince
+    feh
+    gimp
+    gnuplot
+    hledger hledger-web
+    ipcalc
+    jetbrains.datagrip
     jq
     killall
-    nur.repos.kalbasit.nixify
-    nix-index
-    unzip
-    nix-zsh-completions
-    slack
-    thunderbird
-    xsel
+    kubectl
+    kustomize
+    libreoffice
     minecraft
-    jetbrains.datagrip
-    bitwarden-cli
-    urlview
-    discord
+    nix-index
+    nix-zsh-completions
+    nixpkgs-review
+    nmap
+    nur.repos.kalbasit.nixify
+    parallel
+    pcmanfm
+    postgresql
+    rambox
+    s3cmd
+    slack
+    spotify-tui
+    teams
+    thunderbird
     tmuxp
+    transmission
+    unzip
+    urlview
+    vault
     vcspull
+    virt-manager
+    vlc
     warsow
-    claws-mail
+    wireshark
+    wpa_supplicant_gui
+    xsel
   ];
 
   home.file =

@@ -5,11 +5,19 @@
 pkgs:
 with pkgs;
 [
+  awscli
+  claws-mail
   discord
   element-desktop
   mr
   nixpkgs-fmt
+  nixpkgs-review
+  rambox
+  s3cmd
   slack
+  spotify-tui
+  teams
   thunderbird
   tmuxp
+  vlc
 ]
