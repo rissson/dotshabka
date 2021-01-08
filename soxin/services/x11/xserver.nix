@@ -32,12 +32,12 @@ in
 
         displayManager = {
           defaultSession = "none+i3";
+          autoLogin = {
+            enable = true;
+            user = "risson";
+          };
           lightdm = {
             enable = true;
-            autoLogin = {
-              enable = true;
-              user = "risson";
-            };
           };
         };
 
