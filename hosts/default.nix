@@ -119,21 +119,21 @@ let
     };
 
   hosts = lib.genAttrs [
-    "cuckoo"
-    "hedgehog"
-    "goat"
-    "fsn/kvm-2"
-    "fsn/mail-1"
-    "fsn/pine"
+    "bar/cuckoo"
+    "bar/nas-1"
     "fsn/k8s/master-11"
     "fsn/k8s/master-12"
     "fsn/k8s/master-13"
     "fsn/k8s/worker-11"
     "fsn/k8s/worker-12"
     "fsn/k8s/worker-13"
-    "nas-1"
+    "fsn/kvm-2"
+    "fsn/mail-1"
+    "fsn/pine"
+    "p13/rogue"
     "par/edge-1"
-    "rogue"
+    "rsn/goat"
+    "rsn/hedgehog"
   ]
     config;
 in
