@@ -215,6 +215,9 @@ with lib;
       "nas-1" = {
         hostname = "nas-1.srv.bar.lama-corp.space";
       };
+      "rogue" = {
+        hostname = "rogue.srv.p13.lama-corp.space";
+      };
       "edge-1" = {
         hostname = "edge-1.srv.par.lama-corp.space";
       };
@@ -225,6 +228,11 @@ with lib;
         user = "root";
         hostname = "%h.lama-corp.space";
         proxyJump = "nas-1";
+      };
+      "*.p13" = {
+        user = "root";
+        hostname = "%h.lama-corp.space";
+        proxyJump = "rogue";
       };
       "*.par" = {
         user = "root";

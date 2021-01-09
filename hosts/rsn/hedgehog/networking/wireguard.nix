@@ -10,11 +10,11 @@
             prefixLength = 24;
             via = "172.28.254.2";
           }
-          {
-            address = "172.28.3.0";
+          /*{
+            address = "192.168.3.0";
             prefixLength = 24;
             via = "172.28.254.3";
-          }
+          }*/
           {
             address = "172.28.4.0";
             prefixLength = 24;
@@ -61,15 +61,13 @@
               persistentKeepalive = 60;
             }
             {
-              # kvm-2.srv.fsn
-              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
+              # rogue.srv.p13
+              publicKey = "Oo7Nm7xCEB54fClo6ARQzJyDt8nQpisJklnbb7nWwRQ=";
               allowedIPs = [
-                "172.28.254.6/32"
-                "172.28.6.0/24"
-                "172.28.7.0/24"
-                "172.28.8.0/24"
+                "172.28.254.3/32"
+                "172.28.3.0/24"
               ];
-              endpoint = "168.119.71.47:51820";
+              endpoint = "78.193.85.113:51820"; # p13.lama-corp.space
               persistentKeepalive = 60;
             }
             {
@@ -80,6 +78,18 @@
                 "172.28.4.0/24"
               ];
               endpoint = "108.61.208.236:51820";
+              persistentKeepalive = 60;
+            }
+            {
+              # kvm-2.srv.fsn
+              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
+              allowedIPs = [
+                "172.28.254.6/32"
+                "172.28.6.0/24"
+                "172.28.7.0/24"
+                "172.28.8.0/24"
+              ];
+              endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
             }
           ];

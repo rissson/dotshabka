@@ -15,7 +15,7 @@
             via = "172.28.254.2";
           }
           {
-            address = "172.28.3.0";
+            address = "192.168.3.0";
             prefixLength = 24;
             via = "172.28.254.3";
           }
@@ -51,6 +51,14 @@
               allowedIPs = [
                 "172.28.254.2/32"
                 "172.28.2.0/24"
+              ];
+            }
+            {
+              # rogue.srv.p13
+              publicKey = "Oo7Nm7xCEB54fClo6ARQzJyDt8nQpisJklnbb7nWwRQ=";
+              allowedIPs = [
+                "172.28.254.3/32"
+                "172.28.3.0/24"
               ];
             }
             {
