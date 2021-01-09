@@ -27,6 +27,10 @@
     ];
   };
 
+  environment.etc."modprobe.d/zfs.conf".text = ''
+    options zfs zfs_arc_max=2147483648
+  '';
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ahci"
