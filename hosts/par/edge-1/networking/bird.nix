@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  networking.firewall.interfaces.wg212270.allowedTCPPorts = [ 179 ];
+  networking.firewall.allowedTCPPorts = [ 179 ];
 
   services.bird2 = {
     enable = true;
@@ -45,7 +45,8 @@
           preference 110;
         };
 
-        route 2001:db8:ee1::/48 blackhole;
+        route 2001:67c:17fc::/48 via "lo";
+        route 2a06:e881:7700::/40 via "lo";
       }
 
       filter accept_all {
@@ -57,9 +58,10 @@
       }
 
       template bgp bgp_cri {
-        interface "wg212270";
-        local as 65006;
-        error wait time 30, 60;
+        interface "wg-cri";
+        local as 212024;
+        #error wait time 30, 60;
+        error wait time 1, 2;
 
         ipv4 {
           import none;
@@ -68,8 +70,7 @@
 
         ipv6 {
           import none;
-          export none;
-          #export where source = RTS_STATIC;
+          export where source = RTS_STATIC;
         };
       }
 
@@ -83,11 +84,11 @@
       }
 
       protocol bgp 'colibri.deliciousmuffins.net' from bgp_cri {
-        neighbor fd3c:c1c4:bbff:9a64::4251 as 65042;
+        neighbor fd3c:c1c4:bbff:9a64::4251 as 212002;
         ipv6 {
           # Be careful, those IPs must be allowed in the wireguard
           # configuration
-          import where net ~ [ 2001:db8:4251::/48 ];
+          import where net ~ [ 2001:67c:229c::/48, 2a06:3881:7800::/40 ];
         };
       }
     '';
