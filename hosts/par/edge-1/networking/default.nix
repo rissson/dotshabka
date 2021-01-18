@@ -18,7 +18,7 @@
     domain = "srv.par.lama-corp.space";
     hostId = "8425e349";
 
-    nameservers = [ "127.0.0.1" "::1" ] ++ soxincfg.vars.externalNameservers;
+    nameservers = [ "127.0.0.1" "::1" ];
 
     useDHCP = false;
 

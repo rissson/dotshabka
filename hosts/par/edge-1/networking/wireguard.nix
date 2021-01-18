@@ -8,6 +8,7 @@
   networking = {
     interfaces = {
       wg0 = {
+        virtual = true;
         ipv4.routes = [
           {
             address = "172.28.2.0";
