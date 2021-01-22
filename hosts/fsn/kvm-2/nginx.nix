@@ -61,6 +61,18 @@
       };
     };
 
+    virtualHosts."lg.lama-corp.space" = {
+      listen = [
+        { addr = "168.119.71.47"; port = 80; }
+        { addr = "168.119.71.47"; port = 443; ssl = true; }
+        { addr = "172.28.254.6"; port = 80; }
+        { addr = "172.28.254.6"; port = 443; ssl = true; }
+      ];
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://localhost:7340";
+    };
+
     resolver = {
       addresses = [ "127.0.0.1" "[::1]" ];
     };
