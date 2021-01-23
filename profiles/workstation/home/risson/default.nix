@@ -3,6 +3,10 @@
 with lib;
 
 {
+  imports = [
+    ./tmuxp
+  ];
+
   soxin = {
     hardware.bluetooth.enable = true;
 
@@ -400,7 +404,6 @@ with lib;
     spotify-tui
     teams
     thunderbird
-    tmuxp
     transmission
     unzip
     urlview
