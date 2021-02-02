@@ -19,5 +19,10 @@ with soxincfg.vars.space.lama-corp; {
         useDHCP = true;
       };
     };
+
+    firewall = {
+      allowedTCPPorts = [ 5060 5061 ];
+      allowedUDPPorts = [ 5060 7078 7079 9078 9079 ];
+    };
   };
 }
