@@ -14,6 +14,12 @@
     builders-use-substitutes = true
   '';
 
+  fileSystems."/mnt-nas-1" = {
+    device = "192.168.240.241:/data/backups";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=86400" ];
+  };
+
   #### TESTING
 
   services.nginx = {
