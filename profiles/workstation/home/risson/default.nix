@@ -212,7 +212,7 @@ with lib;
 
   programs.ssh = {
     extraConfig = ''
-      Include ~/.ssh/ssh_config_cri
+      Include ~/.ssh/config.d/cri
     '';
     matchBlocks = {
       ### Lama Corp.
@@ -247,21 +247,6 @@ with lib;
         user = "root";
         hostname = "%h.lama-corp.space";
         proxyJump = "kvm-2";
-      };
-
-      ### CRI
-      "goat" = {
-        user = "risson";
-        hostname = "gate.cri.epita.fr";
-        port = 22450;
-      };
-
-      "git.cri.epita.fr" = {
-        user = "git";
-        extraOptions = {
-          controlMaster = "yes";
-          controlPersist = "2m";
-        };
       };
 
       # Git hosting
