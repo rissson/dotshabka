@@ -5,5 +5,7 @@ final: prev: {
     inherit (prev.darwin.apple_sdk.frameworks) CoreFoundation IOKit;
   };
 
+  tmuxp = prev.callPackage ./tmuxp { };
+
   vcspull = final.callPackage ./vcstool { };
 }
