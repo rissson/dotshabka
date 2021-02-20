@@ -55,18 +55,6 @@ let
             system.configurationRevision = lib.mkIf (self ? rev) self.rev;
           };
 
-          overrides = {
-            nixpkgs.overlays =
-              let
-                override = import ../pkgs/override.nix pkgset.nixpkgs;
-
-                overlay = pkg: _: _: {
-                  "${pkg.pname}" = pkg;
-                };
-              in
-              lib.concat [ nur.overlay ] (map overlay override);
-          };
-
           sops-fix = { config, pkgs, lib, ... }: {
             system.activationScripts.setup-secrets =
               let
@@ -106,7 +94,6 @@ let
 
           core
           global
-          overrides
           local
           ({ config, ... }: {
             options.home-manager.users = lib.mkOption {

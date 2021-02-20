@@ -34,16 +34,19 @@
       inherit (nixos.lib) recursiveUpdate;
       inherit (futils.lib) eachDefaultSystem;
 
-      pkgImport = pkgs: system:
+      pkgImport = pkgs: system: withOverrides:
         import pkgs {
           inherit system;
-          overlays = (lib.attrValues self.overlays) ++ [ soxin.overlay ];
+          overlays = (lib.attrValues self.overlays) ++ [
+            nur.overlay
+            soxin.overlay
+          ] ++ (lib.optional withOverrides self.overrides.${system});
           config = { allowUnfree = true; };
         };
 
       pkgset = system: {
-        nixos = pkgImport nixos system;
-        nixpkgs = pkgImport nixpkgs system;
+        nixos = pkgImport nixos system true;
+        nixpkgs = pkgImport nixpkgs system false;
       };
 
       multiSystemOutputs = eachDefaultSystem (system:
@@ -74,6 +77,8 @@
           };
 
           packages = self.lib.overlaysToPkgs self.overlays pkgs;
+
+          overrides = import ./overlays/overrides.nix pkgs;
         }
       );
 
@@ -86,9 +91,7 @@
 
         overlays = {
           packages = import ./pkgs;
-          flannel = import ./overlays/flannel.nix;
-          warsow = import ./overlays/warsow.nix;
-        };
+        } // import ./overlays;
 
         nixosModules = (import ./modules) // {
           profiles = import ./profiles;
@@ -119,7 +122,7 @@
                 path = deploy-rs.lib.x86_64-linux.activate.nixos v;
               };
             })
-            (removeAttrs self.nixosConfigurations [ "goat" "hedgehog" ]);
+            (removeAttrs self.nixosConfigurations [ "rsn/goat" "rsn/hedgehog" ]);
         };
 
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;

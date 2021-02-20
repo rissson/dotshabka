@@ -2,22 +2,25 @@
 # nixpkgs master instead of the default nixos release. This doesn't actually
 # install them, just creates an overlay to pull them from master if they are
 # installed by the user elsewhere in the configuration.
-pkgs:
-with pkgs;
-[
-  awscli
-  claws-mail
-  discord
-  element-desktop
-  mr
-  nixpkgs-fmt
-  nixpkgs-review
-  rambox
-  s3cmd
-  slack
-  spotify-tui
-  teams
-  thunderbird
-  tmuxp
-  vlc
-]
+pkgsMaster:
+
+final: prev: {
+  inherit (pkgsMaster)
+    awscli
+    claws-mail
+    discord
+    element-desktop
+    mr
+    nixpkgs-fmt
+    nixpkgs-review
+    rambox
+    s3cmd
+    slack
+    spotify-tui
+    teams
+    thunderbird
+    tmuxp
+    vlc
+    warsow
+  ;
+}

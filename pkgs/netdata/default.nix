@@ -1,4 +1,4 @@
-{ stdenv, callPackage, fetchFromGitHub, makeWrapper, autoreconfHook, pkgconfig
+{ lib, stdenv, callPackage, fetchFromGitHub, makeWrapper, autoreconfHook, pkgconfig
 , CoreFoundation, IOKit, libossp_uuid
 , curl, libcap,  libuuid, lm_sensors, zlib, fetchpatch
 , nixosTests
@@ -11,7 +11,7 @@
 , withDebug ? false
 }:
 
-with stdenv.lib;
+with lib;
 
 let
   go-d-plugin = callPackage ./go.d.plugin.nix {};

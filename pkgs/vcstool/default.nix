@@ -1,4 +1,4 @@
-{ stdenv
+{ lib
 , python3Packages
 , libvcs
 }:
@@ -20,7 +20,7 @@ buildPythonApplication rec {
     click kaptan libvcs colorama
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Synchronize projects via yaml/json manifest.";
     homepage = "https://vcspull.git-pull.com";
     license = licenses.bsd3;

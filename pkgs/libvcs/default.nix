@@ -1,4 +1,4 @@
-{ stdenv
+{ lib
 , python3Packages
 }:
 
@@ -15,7 +15,7 @@ buildPythonApplication rec {
 
   doCheck = false;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Synchronize projects via yaml/json manifest.";
     homepage = "https://vcspull.git-pull.com";
     license = licenses.bsd3;

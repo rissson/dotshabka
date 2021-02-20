@@ -1,4 +1,4 @@
-{ stdenv
+{ lib
 , python3Packages
 }:
 
@@ -28,7 +28,7 @@ buildPythonApplication rec {
     click kaptan libtmux colorama
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Manage tmux workspaces from JSON and YAML";
     homepage = "https://tmuxp.git-pull.com";
     license = licenses.bsd3;
