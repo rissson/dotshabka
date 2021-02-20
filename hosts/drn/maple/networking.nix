@@ -15,4 +15,10 @@
     interfaces.enp3s0.useDHCP = true;
     interfaces.wlp5s0.useDHCP = true;
   };
+
+  networking.wireless.extraConfig = ''
+    ctrl_interface=/run/wpa_supplicant
+    ctrl_interface_group=wheel
+  '';
+
 }
