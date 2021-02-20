@@ -15,6 +15,9 @@ let
     "par.lama-corp.space" = "172.28.254.4";
     "4.28.172.in-addr.arpa" = "172.28.254.4";
 
+    "vha.lama-corp.space" = "172.28.254.5";
+    "5.28.172.in-addr.arpa" = "172.28.254.5";
+
     "fsn.lama-corp.space" = "172.28.254.6";
     "6.28.172.in-addr.arpa" = "172.28.254.6";
     "7.28.172.in-addr.arpa" = "172.28.254.6";
@@ -28,6 +31,7 @@ let
     "nas-1.srv.bar" = "172.28.254.2";
     "rogue.srv.p13" = "172.28.254.3";
     "edge-1.srv.par" = "172.28.254.4";
+    "edge-2.srv.vha" = "172.28.254.5";
     "kvm-2.srv.fsn" = "172.28.254.6";
     "hedgehog.lap.rsn" = "172.28.254.101";
   };
