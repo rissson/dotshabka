@@ -51,6 +51,7 @@
     device = "nodev";
     efiSupport = true;
     enableCryptodisk = true;
+    zfsSupport = true;
   };
 
   boot.loader.efi = {
@@ -60,22 +61,22 @@
 
   boot.initrd.luks.devices = {
     cryptroot1 = {
-      device = "/dev/disk/by-id/ata-WDC_WD10EZEX-60M2NA0_WD-WCC3F1XXX0S3-part2";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_2TB_S3YVNB0K302043V-part2";
       preLVM = true;
       allowDiscards = true;
     };
     cryptroot2 = {
-      device = "/dev/disk/by-id/ata-WDC_WD10EZEX-60M2NA0_WD-WCC3F6HLC0C3-part2";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_2TB_S3YVNB0K502835F-part2";
       preLVM = true;
       allowDiscards = true;
     };
     cryptswap1 = {
-      device = "/dev/disk/by-id/ata-WDC_WD10EZEX-60M2NA0_WD-WCC3F1XXX0S3-part3";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_2TB_S3YVNB0K302043V-part3";
       preLVM = true;
       allowDiscards = true;
     };
     cryptswap2 = {
-      device = "/dev/disk/by-id/ata-WDC_WD10EZEX-60M2NA0_WD-WCC3F6HLC0C3-part3";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_2TB_S3YVNB0K502835F-part3";
       preLVM = true;
       allowDiscards = true;
     };
@@ -93,8 +94,8 @@
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/b1246b82-6c32-4cac-a4d2-4d4c1b4a4fbf";
-      fsType = "ext4";
+      device = "bpool/boot";
+      fsType = "zfs";
     };
 
     "/nix" = {
@@ -125,7 +126,7 @@
   };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/e0297674-2230-44c4-8abb-a2c1b4528788"; }
-      { device = "/dev/disk/by-uuid/9fd104c3-daca-4b76-814e-b1deb37e5002"; }
+    [ { device = "/dev/disk/by-uuid/a79a938b-a67b-4aca-95b4-154e5a96f137"; }
+      { device = "/dev/disk/by-uuid/f478cf12-eb34-4f3e-8088-c6184a0161f8"; }
     ];
 }
