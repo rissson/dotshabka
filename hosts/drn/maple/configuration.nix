@@ -28,6 +28,7 @@ in
       };
     };
   };
+  nix.gc.automatic = lib.mkForce false;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

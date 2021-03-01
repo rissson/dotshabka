@@ -19,6 +19,7 @@ let
     pip
     black
     #hue
+    GitPython
     setuptools
     pygame
     Nuitka
