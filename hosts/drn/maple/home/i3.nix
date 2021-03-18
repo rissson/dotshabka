@@ -50,12 +50,15 @@
       startup = [
         { command = "${wallpaper_cmd}"; always = true; }
         { command = "systemctl --user restart polybar"; always = true; }
-        { command = ''picom -cCzfi 0.85 --active-opacity 0.97  --blur-background --backend glx --blur-background-exclude "name ~?= \"polybar|zoom\"" --focus-exclude "name ~?= \"polybar|firefox|rofi\"" --no-fading-destroyed-argb''; }
+        # { command = ''picom -cCzfi 0.85 --active-opacity 0.97  --blur-background --backend glx --blur-background-exclude "name ~?= \"polybar|zoom\"" --focus-exclude "name ~?= \"polybar|firefox|rofi\"" --no-fading-destroyed-argb''; }
         # Software
         { command = "terminator -x htop"; }
         { command = "firefox"; }
-        { command = "telegram"; }
+        { command = "telegram-desktop"; }
         { command = "spotify"; }
+        { command = "wpa_gui -t"; }
+        { command = "blueman-applet"; }
+        { command = "redshift -l 46:52"; }
       ];
 
       window = {
@@ -88,6 +91,7 @@
         ];
         "9" = [
           { class = "Discord"; }
+          { class = "discord"; }
           { class = "Slack"; }
           { class = "Thunderbird"; }
           { class = "Rambox"; }

@@ -16,13 +16,14 @@ with lib;
       bri = "brightnessctl";
       vim = "nvim";
       vi = "nvim";
-      hm = "cd ~/prog/nixos-conf/home && vim && cd -";
-      mana = "home-manager switch -f ~/prog/nixos-conf/home.nix";  # -I nixpkgs=/home/diego/prog/nixpkgs";
       deadd = "kill -USR1 $(pidof deadd-notification-center)";
       rm = "rm -I";
       hue = "hue.py";
       cdmooc = "cd ~/epfl/ass-poo/cpp-java-assignments/intro-cpp/";
       nix-zsh = "nix-shell --run zsh";
+      nd = "nix develop";
+      hm = "cd ~/prog/dotshabka && vim hosts/drn/maple/home/ && cd -";
+      sw = "cd ~/prog/dotshabka && sudo nixos-rebuild --flake .#drn/maple switch && cd -";
     };
 
     sessionVariables = {

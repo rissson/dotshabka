@@ -71,14 +71,18 @@ in
     stellarium
 
     # Code
+    gnumake
     docker
     jetbrains.pycharm-professional
     SDL2
     SDL2.dev
     freetype.dev
+    nodejs-slim
+    nodePackages.npm
 
     # General software
     libreoffice
+    wine
 
     # Network
     openconnect
@@ -99,6 +103,7 @@ in
     # Others
     compton
     font-awesome
+    zlib
   ];
 
   programs = {
@@ -153,8 +158,9 @@ in
 
 
     systemd.user.services.suspend-night = let
+      time = "22";
       script = pkgs.writeShellScript "script.sh" ''
-      if [ $(${pkgs.coreutils}/bin/date +"%H") -ge 21 ] || [ $(${pkgs.coreutils}/bin/date +"%H") -le 5 ]
+      if [ $(${pkgs.coreutils}/bin/date +"%H") -ge ${time} ] || [ $(${pkgs.coreutils}/bin/date +"%H") -le 5 ]
       then
       echo "Suspending..."
       ${pkgs.systemd}/bin/systemctl suspend
@@ -163,17 +169,17 @@ in
       fi
       '';
     in {
-      Unit.Description = "Suspend the computer between 10PM and 6AM";
+      Unit.Description = "Suspend the computer between ${time}h and 6h";
       Service = {
         Type = "oneshot";
         ExecStart = "${script}";
       };
     };
     systemd.user.timers.suspend-night = {
-      Unit.Description = "Suspend the computer between 10PM and 6AM";
+      Unit.Description = "Suspend the computer between ${time}h and 6h";
       Timer = {
-        OnUnitActiveSec="5s";
-        OnBootSec="5s";
+        OnUnitActiveSec="10s";
+        OnBootSec="10s";
       };
       Install.WantedBy = [ "timers.target" ];
     };
