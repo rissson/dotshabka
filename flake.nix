@@ -18,7 +18,7 @@
       };
     };
     impermanence = {
-      url = "github:danieldk/impermanence/flake";
+      url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixos";
     };
     nixos-hardware.url = "nixos-hardware";
