@@ -58,6 +58,7 @@
         { command = "spotify"; }
         { command = "wpa_gui -t"; }
         { command = "blueman-applet"; }
+        { command = "deadd-notification-center"; }
         { command = "redshift -l 46:52"; }
       ];
 

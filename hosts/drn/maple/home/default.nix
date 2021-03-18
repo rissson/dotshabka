@@ -107,7 +107,6 @@ in
   ];
 
   programs = {
-    # git.delta.enable = true;
     git = {
       enable = true;
       userName = "ddorn";
@@ -122,10 +121,7 @@ in
       };
     };
 
-    firefox = {
-      # enableAdobeFlash = true;
-      enable = true;
-    };
+    firefox.enable = true;
   };
 
   fonts.fontconfig.enable = true;
