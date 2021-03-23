@@ -24,6 +24,8 @@ in
         enable = true;
         package = pkgs.rxvt_unicode-with-plugins;
 
+        iso14755 = false;
+
         fonts = [ "xft:Source Code Pro for Powerline:style=Regular:size=9:antialias=true" ];
 
         keybindings = {
