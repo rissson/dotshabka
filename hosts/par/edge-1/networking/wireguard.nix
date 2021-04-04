@@ -107,14 +107,14 @@
           allowedIPsAsRoutes = false;
           peers = [
             {
-              # tonkinois.core.vlt.phowork.fr
+              # tonkinois.edge.vlt.phowork.fr
               publicKey = "E1EBL3208LQ6xt3NmxSQdkgmrPMH6bjO0tTDdASJPR8=";
               allowedIPs = [
                 "fd3c:c1c4:bbff:9a64::cafe"
                 "2a0f:9240:2000::/48"
                 "2a0e:b107:f50::/44"
               ];
-              endpoint = "[2a05:f480:1c00:4c8:5400:3ff:fe1f:ae47]:51823";
+              endpoint = "[2001:19f0:6801:7c4:5400:3ff:fe47:7968]:51823";
               persistentKeepalive = 60;
             }
             {
