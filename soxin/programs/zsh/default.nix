@@ -271,6 +271,15 @@ in
             };
           }
           {
+            name = "history-sync";
+            src = fetchFromGitHub {
+              owner = "wulfgarpro";
+              repo = "history-sync";
+              rev = "ca320838a2210222512d418c07f9194d62604cbb";
+              sha256 = "sha256-4kpiaj55MmOFakrg38P2htmK2UCXZzhDoiviGnvtcTY=";
+            };
+          }
+          {
             name = "functions";
             src = myFunctions;
           }
