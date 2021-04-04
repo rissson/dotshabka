@@ -13,7 +13,6 @@
   keybase = ./programs/keybase.nix;
   mosh = ./programs/mosh.nix;
   neovim = ./programs/neovim;
-  rofi = ./programs/rofi;
   ssh = ./programs/ssh.nix;
   starship = ./programs/starship.nix;
   tmux = ./programs/tmux;
