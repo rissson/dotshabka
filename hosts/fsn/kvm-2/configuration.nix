@@ -9,7 +9,6 @@
     ./networking
     ./nfs.nix
     ./haproxy.nix
-    ./looking-glass.nix
     ./nginx.nix
     ./vault.nix
   ];
