@@ -117,6 +117,7 @@ let
     "fsn/kvm-2"
     "fsn/mail-1"
     "fsn/pine"
+    "p13/gate"
     "p13/rogue"
     "par/edge-1"
     "rsn/goat"
