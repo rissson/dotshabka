@@ -7,8 +7,6 @@
 
     ./hardware-configuration.nix
     ./networking
-
-    ./looking-glass.nix
   ];
 
   soxin = {
