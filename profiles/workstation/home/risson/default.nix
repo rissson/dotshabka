@@ -388,6 +388,7 @@ with lib;
     postgresql
     rambox
     s3cmd
+    signal-desktop
     slack
     spotify-tui
     teams
