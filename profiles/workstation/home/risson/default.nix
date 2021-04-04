@@ -357,6 +357,7 @@ with lib;
 
   home.packages = with pkgs; [
     apache-directory-studio
+    adoptopenjdk-icedtea-web
     arandr
     aria2
     awscli
