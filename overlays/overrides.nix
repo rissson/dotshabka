@@ -17,7 +17,6 @@ final: prev: {
     s3cmd
     slack
     spotify-tui
-    steam
     teams
     thunderbird
     tmuxp

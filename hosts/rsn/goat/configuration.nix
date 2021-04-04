@@ -1,4 +1,4 @@
-{ soxincfg, config, lib, pkgs, nixpkgs, ... }:
+{ soxincfg, config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -6,16 +6,6 @@
 
     ./hardware-configuration.nix
     ./networking.nix
-  ];
-
-  programs.steam.enable = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    steam = nixpkgs.steam.override {
-      nativeOnly = true;
-    };
-  };
-  environment.systemPackages = with nixpkgs; [
-    steam-run-native
   ];
 
   nix.gc.automatic = lib.mkForce false;
