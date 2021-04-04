@@ -127,6 +127,7 @@ with lib;
           "firefox@personal" = {};
           "firefox@epita" = {};
           "firefox@lama-corp" = {};
+          "chromium@discord" = {};
         };
         setMimeList = true;
       };
