@@ -17,10 +17,7 @@
         home-manager.follows = "home-manager";
       };
     };
-    impermanence = {
-      url = "github:danieldk/impermanence/flake";
-      inputs.nixpkgs.follows = "nixos";
-    };
+    impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "nixos-hardware";
     nur.url = "nur";
     futils.url = "github:numtide/flake-utils";

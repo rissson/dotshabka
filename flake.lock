@@ -89,22 +89,16 @@
       }
     },
     "impermanence": {
-      "inputs": {
-        "nixpkgs": [
-          "nixos"
-        ]
-      },
       "locked": {
-        "lastModified": 1597683207,
-        "narHash": "sha256-unJu6q70NzYiKJvsWU5w20woIb4UaCSq5Em2nkt4gus=",
-        "owner": "danieldk",
+        "lastModified": 1611747548,
+        "narHash": "sha256-2z5wmWda1uI4IkTZrW52jiHq3bzhYLc+GgjvaSd544M=",
+        "owner": "nix-community",
         "repo": "impermanence",
-        "rev": "6aa90182a2a851aeafeab312cc8c0892a9f23647",
+        "rev": "58558845bc68dcf2bb32caa80564f7fe3f6cbc61",
         "type": "github"
       },
       "original": {
-        "owner": "danieldk",
-        "ref": "flake",
+        "owner": "nix-community",
         "repo": "impermanence",
         "type": "github"
       }
