@@ -390,7 +390,7 @@ with lib;
     s3cmd
     signal-desktop
     slack
-    spotify-tui
+    spotify
     teams
     thunderbird
     transmission

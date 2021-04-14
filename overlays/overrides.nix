@@ -16,7 +16,7 @@ final: prev: {
     rambox
     s3cmd
     slack
-    spotify-tui
+    spotify
     teams
     thunderbird
     tmuxp
