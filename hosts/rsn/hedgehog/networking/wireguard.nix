@@ -10,15 +10,15 @@
             prefixLength = 24;
             via = "172.28.254.2";
           }
-          /*{
-            address = "192.168.3.0";
-            prefixLength = 24;
-            via = "172.28.254.3";
-          }*/
           {
             address = "172.28.4.0";
             prefixLength = 24;
             via = "172.28.254.4";
+          }
+          {
+            address = "172.28.5.0";
+            prefixLength = 24;
+            via = "172.28.254.5";
           }
           {
             address = "172.28.6.0";
@@ -51,26 +51,6 @@
 
           peers = [
             {
-              # nas-1.srv.bar
-              publicKey = "+nasSLlJuvgViVcmcCcjMFvwRLmYgGRkBed+Z6qxfw4=";
-              allowedIPs = [
-                "172.28.254.2/32"
-                "172.28.2.0/24"
-              ];
-              endpoint = "86.243.114.211:51820"; # bar.lama-corp.space
-              persistentKeepalive = 60;
-            }
-            {
-              # rogue.srv.p13
-              publicKey = "Oo7Nm7xCEB54fClo6ARQzJyDt8nQpisJklnbb7nWwRQ=";
-              allowedIPs = [
-                "172.28.254.3/32"
-                "172.28.3.0/24"
-              ];
-              endpoint = "78.193.85.113:51820"; # p13.lama-corp.space
-              persistentKeepalive = 60;
-            }
-            {
               # edge-1.srv.par
               publicKey = "RBtwrX/EN9avud2yy53gziQdlzLJf1aPdk9jWtm7DHQ=";
               allowedIPs = [
@@ -78,6 +58,16 @@
                 "172.28.4.0/24"
               ];
               endpoint = "108.61.208.236:51820";
+              persistentKeepalive = 60;
+            }
+            {
+              # edge-2.srv.vha
+              publicKey = "xoQEqA/K5i/r3vXbzI0YjYGaqzUpt7T95Q0Am0SA52s=";
+              allowedIPs = [
+                "172.28.254.5/32"
+                "172.28.5.0/24"
+              ];
+              endpoint = "185.101.96.121:51820";
               persistentKeepalive = 60;
             }
             {

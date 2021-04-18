@@ -20,6 +20,11 @@
             via = "172.28.254.4";
           }
           {
+            address = "172.28.5.0";
+            prefixLength = 24;
+            via = "172.28.254.5";
+          }
+          {
             address = "172.28.6.0";
             prefixLength = 24;
             via = "172.28.254.6";
@@ -67,13 +72,13 @@
               persistentKeepalive = 60;
             }
             {
-              # rogue.srv.p13
-              publicKey = "Oo7Nm7xCEB54fClo6ARQzJyDt8nQpisJklnbb7nWwRQ=";
+              # edge-2.srv.vha
+              publicKey = "xoQEqA/K5i/r3vXbzI0YjYGaqzUpt7T95Q0Am0SA52s=";
               allowedIPs = [
-                "172.28.254.3/32"
-                "172.28.3.0/24"
+                "172.28.254.5/32"
+                "172.28.5.0/24"
               ];
-              endpoint = "78.193.85.113:51820"; # p13.lama-corp.space
+              endpoint = "185.101.96.121:51820";
               persistentKeepalive = 60;
             }
             {
@@ -87,14 +92,6 @@
               ];
               endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
-            }
-            {
-              # hedgehog.lap.rsn
-              publicKey = "KathtV0tLnk08nxuO4GkynDQi149zRg5UDMsSAdb9n8=";
-              allowedIPs = [
-                "172.28.254.101/32"
-                "172.28.101.0/24"
-              ];
             }
           ];
         };

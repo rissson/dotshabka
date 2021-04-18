@@ -69,23 +69,21 @@
               ];
             }
             {
-              # rogue.srv.p13
-              publicKey = "Oo7Nm7xCEB54fClo6ARQzJyDt8nQpisJklnbb7nWwRQ=";
+              # router-1.srv.p13
+              publicKey = "/Og08yqbBnBtUQoKYx+N/S7pZ70xVWN5SP5TkGVDNlE=";
               allowedIPs = [
                 "172.28.254.3/32"
                 "172.28.3.0/24"
               ];
-              endpoint = "78.193.85.113:51820"; # p13.lama-corp.space
-              persistentKeepalive = 60;
             }
             {
-              # edge-1.srv.vha
-              publicKey = "FIXME=";
+              # edge-1.srv.par
+              publicKey = "RBtwrX/EN9avud2yy53gziQdlzLJf1aPdk9jWtm7DHQ=";
               allowedIPs = [
                 "172.28.254.4/32"
                 "172.28.4.0/24"
               ];
-              endpoint = "FIXME"; # p13.lama-corp.space
+              endpoint = "108.61.208.236:51820";
               persistentKeepalive = 60;
             }
             {

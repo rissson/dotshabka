@@ -5,7 +5,7 @@
     ./bird.nix
     ./dns.nix
     ./firewall.nix
-    #./wireguard.nix
+    ./wireguard.nix
   ];
 
   boot.kernel.sysctl = {
