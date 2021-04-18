@@ -2,6 +2,13 @@
 
 {
   networking.firewall.allowedTCPPorts = [ 179 ];
+  # Protocol 89 is OSPF
+  networking.firewall.extraCommands = ''
+    iptables -A INPUT -p 89 -j ACCEPT
+  '';
+  networking.firewall.extraStopCommands = ''
+    iptables -D INPUT -p 89 -j ACCEPT
+  '';
 
   services.bird2 = {
     enable = true;
@@ -24,14 +31,13 @@
 
         ipv4 {
           import none;
-          export none;
+          export all;
         };
       }
 
       protocol kernel KERNEL6 {
         merge paths on;
-        learn;
-        #persist; # Don't remove routes on BIRD shutdown
+        persist; # Don't remove routes on BIRD shutdown
 
         ipv6 {
           import none;
@@ -131,6 +137,37 @@
           # Be careful, those IPs must be allowed in the wireguard
           # configuration
           import where net ~ [ 2001:67c:229c::/48, 2a06:3881:7800::/40 ];
+        };
+      }
+
+
+      ### Internal
+
+      protocol static internal4 {
+        ipv4 {};
+
+        route 172.28.4.0/24 via "lo";
+      }
+
+      protocol ospf {
+        graceful restart on;
+
+        ipv4 {
+          import all;
+          export where proto = "internal4";
+        };
+
+        area 0 {
+          interface "lo" {
+            stub;
+          };
+          interface "wg0" {
+            type nonbroadcast;
+            strict nonbroadcast no;
+            neighbors {
+              172.28.254.5 eligible;
+            };
+          };
         };
       }
     '';

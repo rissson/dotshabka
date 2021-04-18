@@ -2,11 +2,18 @@
 
 {
   networking.firewall.allowedTCPPorts = [ 179 ];
+  # Protocol 89 is OSPF
+  networking.firewall.extraCommands = ''
+    iptables -A INPUT -p 89 -j ACCEPT
+  '';
+  networking.firewall.extraStopCommands = ''
+    iptables -D INPUT -p 89 -j ACCEPT
+  '';
 
   services.bird2 = {
     enable = true;
     config = ''
-      router id 185.101.96.121;
+      router id 172.28.254.5;
 
       timeformat base iso long;
       timeformat log iso long;
@@ -24,14 +31,13 @@
 
         ipv4 {
           import none;
-          export none;
+          export all;
         };
       }
 
       protocol kernel KERNEL6 {
         merge paths on;
-        learn;
-        #persist; # Don't remove routes on BIRD shutdown
+        persist; # Don't remove routes on BIRD shutdown
 
         ipv6 {
           import none;
@@ -97,23 +103,33 @@
       }
 
 
-      ### Peers
+      ### Internal
 
-      template bgp peering {
-        local as 212024;
-        # interface "FIXME";
+      protocol static internal4 {
+        ipv4 {};
 
+        route 172.28.5.0/24 via "lo";
+      }
+
+      protocol ospf {
         graceful restart on;
-        error wait time 30, 60;
 
         ipv4 {
-          import none;
-          export none;
+          import all;
+          export where proto = "internal4";
         };
 
-        ipv6 {
-          import none;
-          export where proto = "AS212024";
+        area 0 {
+          interface "lo" {
+            stub;
+          };
+          interface "wg0" {
+            type nonbroadcast;
+            strict nonbroadcast no;
+            neighbors {
+              172.28.254.4 eligible;
+            };
+          };
         };
       }
     '';

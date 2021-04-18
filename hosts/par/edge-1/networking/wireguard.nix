@@ -6,44 +6,6 @@
   ];
 
   networking = {
-    interfaces = {
-      wg0 = {
-        virtual = true;
-        ipv4.routes = [
-          {
-            address = "172.28.2.0";
-            prefixLength = 24;
-            via = "172.28.254.2";
-          }
-          {
-            address = "192.168.3.0";
-            prefixLength = 24;
-            via = "172.28.254.3";
-          }
-          {
-            address = "172.28.6.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.7.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.8.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.101.0";
-            prefixLength = 24;
-            via = "172.28.254.101";
-          }
-        ];
-      };
-    };
-
     wireguard = {
       enable = true;
       interfaces = {
