@@ -6,7 +6,7 @@
   services.bird2 = {
     enable = true;
     config = ''
-      router id 108.61.208.236;
+      router id 172.28.254.4;
 
       timeformat base iso long;
       timeformat log iso long;
