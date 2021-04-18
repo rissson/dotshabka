@@ -67,15 +67,8 @@
         route 2001:19f0:ffff::1/128 via fe80::fc00:3ff:fe21:2eeb %ens3;
       }
 
-      filter reject_vultr_neighbor {
-        if net = 2001:19f0:ffff::1/128 then {
-          reject;
-        }
-        accept;
-      }
-
       protocol bgp vultr {
-        local as 4288000131;
+        local as 212024;
         source address 2a05:f480:1c00:9ee:5400:03ff:fe21:2eeb;
 
         error wait time 30, 60;
@@ -89,12 +82,17 @@
         };
 
         ipv6 {
-          import filter reject_vultr_neighbor;
+          import filter {
+            if net ~ [ 2001:19f0:ffff::1/128, 2001:67c:17fc::/48, 2a06:e881:7700::/40 ] then {
+              reject;
+            }
+            accept;
+          };
           export where proto = "AS212024";
         };
 
         neighbor 2001:19f0:ffff::1 as 64515;
-        password "Nrb3hOlXImOMSetW";
+        password "Hrf4mGfYypgK6yX8";
       }
 
 
