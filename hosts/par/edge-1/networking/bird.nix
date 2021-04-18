@@ -116,7 +116,7 @@
         };
       }
 
-      protocol bgp 'tonkinois.core.vlt.phowork.fr' from peering {
+      protocol bgp phowork from peering {
         neighbor fd3c:c1c4:bbff:9a64::cafe as 212270;
         ipv6 {
           # Be careful, those IPs must be allowed in the wireguard
@@ -125,7 +125,7 @@
         };
       }
 
-      protocol bgp 'colibri.deliciousmuffins.net' from peering {
+      protocol bgp deliciousmuffins from peering {
         neighbor fd3c:c1c4:bbff:9a64::4251 as 212002;
         ipv6 {
           # Be careful, those IPs must be allowed in the wireguard
