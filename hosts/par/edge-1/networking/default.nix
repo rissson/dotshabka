@@ -10,7 +10,13 @@
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
+    "net.ipv4.conf.all.forwarding" = true;
     "net.ipv6.conf.all.forwarding" = true;
+
+    "net.ipv4.conf.all.rp_filter" = false;
+    "net.ipv4.conf.default.rp_filter" = false;
+    "net.ipv6.conf.all.rp_filter" = false;
+    "net.ipv6.conf.default.rp_filter" = false;
   };
 
   networking = {

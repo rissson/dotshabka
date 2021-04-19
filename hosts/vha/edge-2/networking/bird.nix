@@ -105,13 +105,13 @@
 
       ### Internal
 
-      protocol static internal4 {
+      protocol static local4 {
         ipv4 {};
 
         route 172.28.5.0/24 via "lo";
       }
 
-      protocol ospf {
+      protocol ospf v2 internal4 {
         graceful restart on;
 
         ipv4 {
@@ -128,6 +128,7 @@
             strict nonbroadcast no;
             neighbors {
               172.28.254.4 eligible;
+              172.28.254.6 eligible;
             };
           };
         };

@@ -19,16 +19,6 @@
             via = "172.28.254.3";
           }
           {
-            address = "172.28.4.0";
-            prefixLength = 24;
-            via = "172.28.254.4";
-          }
-          {
-            address = "172.28.5.0";
-            prefixLength = 24;
-            via = "172.28.254.5";
-          }
-          {
             address = "172.28.101.0";
             prefixLength = 24;
             via = "172.28.254.101";
