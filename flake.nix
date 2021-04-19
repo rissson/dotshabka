@@ -23,9 +23,10 @@
     futils.url = "github:numtide/flake-utils";
     sops-nix.url = "github:Mic92/sops-nix";
     deploy-rs.url = "github:serokell/deploy-rs";
+    dns.url = "github:kirelagin/dns.nix";
   };
 
-  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, deploy-rs } @ inputs:
+  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, deploy-rs, dns } @ inputs:
     let
       inherit (nixos) lib;
       inherit (nixos.lib) recursiveUpdate;

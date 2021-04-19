@@ -12,6 +12,7 @@
 , futils
 , sops-nix
 , deploy-rs
+, dns
 }:
 
 let
@@ -23,7 +24,7 @@ let
       inherit system;
 
       specialArgs = {
-        inherit nixos-hardware;
+        inherit nixos-hardware dns;
         inherit (pkgset) nixpkgs;
         soxincfg = self;
         userName = "risson"; # TODO: extract this per-host

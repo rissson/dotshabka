@@ -5,6 +5,17 @@
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/lib/bind"
+      "/var/lib/netdata"
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+
   boot = {
     initrd = {
       availableKernelModules = [
@@ -57,6 +68,7 @@
     "/persist" = {
       device = "rpool/persist/persist";
       fsType = "zfs";
+      neededForBoot = true;
     };
   };
 
