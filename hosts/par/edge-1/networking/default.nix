@@ -1,5 +1,8 @@
 { soxincfg, lib, ... }:
 
+let
+  genAttrs' = f: values: builtins.listToAttrs (lib.flatten (map f values));
+in
 {
   imports = [
     ./bird.nix
@@ -12,12 +15,16 @@
     "net.ipv4.ip_forward" = true;
     "net.ipv4.conf.all.forwarding" = true;
     "net.ipv6.conf.all.forwarding" = true;
-
-    "net.ipv4.conf.all.rp_filter" = false;
-    "net.ipv4.conf.default.rp_filter" = false;
-    "net.ipv6.conf.all.rp_filter" = false;
-    "net.ipv6.conf.default.rp_filter" = false;
-  };
+  } // (genAttrs'
+    (interface: map
+      (v: {
+        name = "net.${v}.conf.${interface}.rp_filter";
+        value = false;
+      })
+      [ "ipv4" "ipv6" ]
+    )
+    [ "all" "default" "wg*" "wg-cri" "ens3" ]
+  );
 
   networking = {
     hostName = "edge-1";

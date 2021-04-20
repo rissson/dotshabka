@@ -6,43 +6,6 @@
   ];
 
   networking = {
-    interfaces = {
-      wg0 = {
-        ipv4.routes = [
-          {
-            address = "172.28.2.0";
-            prefixLength = 24;
-            via = "172.28.254.2";
-          }
-          {
-            address = "172.28.4.0";
-            prefixLength = 24;
-            via = "172.28.254.4";
-          }
-          {
-            address = "172.28.6.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.7.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.8.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.101.0";
-            prefixLength = 24;
-            via = "172.28.254.101";
-          }
-        ];
-      };
-    };
-
     wireguard = {
       enable = true;
 
@@ -87,14 +50,6 @@
               ];
               endpoint = "168.119.71.47:51820";
               persistentKeepalive = 60;
-            }
-            {
-              # hedgehog.lap.rsn
-              publicKey = "KathtV0tLnk08nxuO4GkynDQi149zRg5UDMsSAdb9n8=";
-              allowedIPs = [
-                "172.28.254.101/32"
-                "172.28.101.0/24"
-              ];
             }
           ];
         };

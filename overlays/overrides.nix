@@ -7,6 +7,8 @@ pkgsMaster:
 final: prev: {
   inherit (pkgsMaster)
     awscli
+    bird-lg-go-frontend
+    bird-lg-go-proxy
     claws-mail
     discord
     element-desktop

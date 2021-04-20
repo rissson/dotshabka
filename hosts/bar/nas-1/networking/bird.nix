@@ -1,20 +1,42 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-  networking.firewall.interfaces.wg0.allowedTCPPorts = [ 179 ];
+  networking = {
+    firewall = {
+      checkReversePath = false;
+    };
+
+    bridges.loopback.interfaces = [ ];
+    interfaces = {
+      loopback = {
+        ipv4.addresses = [{
+          address = "172.28.254.2"; # nas-1.bar
+          prefixLength = 32;
+        }];
+        ipv6.addresses = [{
+          address = "2001:67c:17fc:ffff::2"; # nas-1.bar
+          prefixLength = 128;
+        }];
+      };
+    };
+  };
 
   services.bird2 = {
     enable = true;
     config = ''
       router id 172.28.254.2;
 
+      timeformat base iso long;
+      timeformat log iso long;
+      timeformat protocol iso long;
+      timeformat route iso long;
       log stderr all;
       debug protocols all;
 
       protocol device {
       }
 
-      protocol kernel KERNEL4 {
+      protocol kernel kernel4 {
         merge paths on;
         persist; # Don't remove routes on BIRD shutdown
 
@@ -24,7 +46,7 @@
         };
       }
 
-      protocol kernel KERNEL6 {
+      protocol kernel kernel6 {
         merge paths on;
         persist; # Don't remove routes on BIRD shutdown
 
@@ -34,58 +56,74 @@
         };
       }
 
-      protocol static STATIC4 {
-        ipv4 {
-          preference 110;
-        };
+      ### Internal
 
-        route 172.28.2.0/24 via "bond0";
-      }
-
-      protocol static STATIC6 {
-        ipv6 {
-          preference 110;
-        };
-      }
-
-      filter accept_all {
-        accept;
-      }
-
-      filter reject_all {
-        reject;
-      }
-
-      filter export_subnets {
-        if net ~ [ 172.28.2.0/24 ] then {
-          accept;
-        }
-        reject;
-      }
-
-      template bgp bgp_tpl {
-        interface "wg0";
-        local as 65002;
-        error wait time 30, 60;
+      protocol ospf v3 ospf4 {
+        graceful restart on;
 
         ipv4 {
-          import filter accept_all;
-          export filter export_subnets;
-        };
-
-        ipv6 {
-          import none;
+          import all;
           export none;
         };
+
+        area 0 {
+          interface "loopback" {
+            stub;
+          };
+
+          interface "wg-*" {
+            type pointopoint;
+          };
+
+          interface "bond0" {
+            stub;
+          };
+        };
       }
 
-      protocol bgp 'kvm-2.srv.fsn' from bgp_tpl {
-        neighbor 172.28.254.6 as 65006;
-      }
+      protocol ospf v3 ospf6 {
+        graceful restart on;
 
-      protocol bgp 'hedgehog.lap.rsn' from bgp_tpl {
-        neighbor 172.28.254.101 as 65101;
+        ipv6 {
+          import all;
+          export none;
+        };
+
+        area 0 {
+          interface "loopback" {
+            stub;
+          };
+
+          interface "wg-*" {
+            type pointopoint;
+          };
+
+          interface "bond0" {
+            stub;
+          };
+        };
       }
     '';
+  };
+
+  systemd.services.bird-lg-go = {
+    description = "BIRD looking glass proxy.";
+    after = [ "bird2.service" ];
+    wants = [ "bird2.service" ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.traceroute ];
+    environment = {
+      BIRD_SOCKET = "/run/bird.ctl";
+    };
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      ExecStart = "${pkgs.bird-lg-go-proxy}/bin/proxy";
+      ProtectSystem = "full";
+      ProtectHome = "yes";
+      MemoryDenyWriteExecute = "yes";
+      User = "bird2";
+      Group = "bird2";
+    };
   };
 }

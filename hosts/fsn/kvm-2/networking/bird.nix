@@ -1,14 +1,26 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-  networking.firewall.interfaces.wg0.allowedTCPPorts = [ 179 ];
-  networking.firewall.interfaces.br-k8s.allowedTCPPorts = [ 179 ];
-  networking.firewall.extraCommands = ''
-    iptables -A INPUT -p 89 -j ACCEPT
-  '';
-  networking.firewall.extraStopCommands = ''
-    iptables -D INPUT -p 89 -j ACCEPT
-  '';
+  networking = {
+    firewall = {
+      checkReversePath = false;
+      interfaces.br-k8s.allowedTCPPorts = [ 179 ];
+    };
+
+    bridges.loopback.interfaces = [ ];
+    interfaces = {
+      loopback = {
+        ipv4.addresses = [{
+          address = "172.28.254.6"; # kvm-2.fsn
+          prefixLength = 32;
+        }];
+        ipv6.addresses = [{
+          address = "2001:67c:17fc:ffff::6"; # kvm-2.fsn
+          prefixLength = 128;
+        }];
+      };
+    };
+  };
 
   services.bird2 = {
     enable = true;
@@ -25,7 +37,7 @@
       protocol device {
       }
 
-      protocol kernel KERNEL4 {
+      protocol kernel kernel4 {
         merge paths on;
         persist; # Don't remove routes on BIRD shutdown
 
@@ -35,7 +47,7 @@
         };
       }
 
-      protocol kernel KERNEL6 {
+      protocol kernel kernel6 {
         merge paths on;
         persist; # Don't remove routes on BIRD shutdown
 
@@ -92,7 +104,7 @@
 
       ### Internal
 
-      protocol ospf v2 internal4 {
+      protocol ospf v3 ospf4 {
         graceful restart on;
 
         ipv4 {
@@ -101,17 +113,40 @@
         };
 
         area 0 {
-          interface "lo" {
+          interface "loopback" {
             stub;
           };
-          interface "wg0" {
-            type nonbroadcast;
-            strict nonbroadcast no;
-            neighbors {
-              172.28.254.4 eligible;
-              172.28.254.5 eligible;
-            };
+
+          interface "wg-*" {
+            type pointopoint;
           };
+
+          interface "br-vms" {
+            stub;
+          };
+          interface "br-k8s" {
+            stub;
+          };
+        };
+      }
+
+      protocol ospf v3 ospf6 {
+        graceful restart on;
+
+        ipv6 {
+          import all;
+          export none;
+        };
+
+        area 0 {
+          interface "loopback" {
+            stub;
+          };
+
+          interface "wg-*" {
+            type pointopoint;
+          };
+
           interface "br-vms" {
             stub;
           };
@@ -121,5 +156,45 @@
         };
       }
     '';
+  };
+
+  systemd.services.bird-lg-go = {
+    description = "BIRD looking glass frontend.";
+    wantedBy = [ "multi-user.target" ];
+    environment = {
+      BIRDLG_SERVERS = "edge-1.pvl<172.28.254.4>,edge-2.avh<172.28.254.5>,kvm-2.fsn<172.28.254.6>,nas-1.bar<172.28.254.2>";
+      BIRDLG_DOMAIN = "";
+      BIRDLG_TITLE_BRAND = "Lama Corp. LG";
+      BIRDLG_NAVBAR_BRAND = "Lama Corp. LG";
+    };
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      ExecStart = "${pkgs.bird-lg-go-frontend}/bin/frontend";
+      ProtectSystem = "full";
+      ProtectHome = "yes";
+      MemoryDenyWriteExecute = "yes";
+    };
+  };
+
+  systemd.services.bird-lg-go-proxy = {
+    description = "BIRD looking glass proxy.";
+    after = [ "bird2.service" ];
+    wants = [ "bird2.service" ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.traceroute ];
+    environment = {
+      BIRD_SOCKET = "/run/bird.ctl";
+    };
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      ExecStart = "${pkgs.bird-lg-go-proxy}/bin/proxy";
+      ProtectSystem = "full";
+      ProtectHome = "yes";
+      MemoryDenyWriteExecute = "yes";
+      User = "bird2";
+      Group = "bird2";
+    };
   };
 }

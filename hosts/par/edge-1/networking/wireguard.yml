@@ -1,12 +1,12 @@
-wireguard_wg0_private_key: ENC[AES256_GCM,data:TZvfpa5Knl54QOmI+HA6/RYpzByLN8q/8n8JFhr58YIQlLS4jfsMsMknrSc=,iv:jjrNdW8DX4C5tDQ/iWS/wUBi9Db6+JuyQ1rT7XTiHpQ=,tag:0AEaHw+TEzI1ZMiorNoTag==,type:str]
+wireguard_private_key: ENC[AES256_GCM,data:A/IhiaBg2DMdyk9vAx7yFTnwwAT0RY+Dn7xC6Isrz9ixX5kjUqiDdBiZkYE=,iv:s04PlcTMkan9RxQTudBQIeb+HcTl7ntE08d2c1DtSGs=,tag:tXvkWejhZ7Zygswv5jbsiQ==,type:str]
 wireguard_wg-cri_private_key: ENC[AES256_GCM,data:FHhh0E6oUFkOlTprUW5AbUBsZlHDz6cpY0VoW4UjOLFrqk1k8sPcPBZtphQ=,iv:Al5C2p1GVunXL2v7R2NyHhg+24OVxl8jdrG6iwCXCT8=,tag:15J8PAj5/wjo6fCV8Q7RWA==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
-    lastmodified: '2021-01-17T18:53:24Z'
-    mac: ENC[AES256_GCM,data:vvINxUha94j2JrwHTGcmVdOtpidw9FFL8mZsHO6MhNjsIv3Gy9CNRBf+IbjYPKKVU6ZiRf7+JUjMY7VP+62cuRM8kOruzdo3Uar5TCXN2a1Lx4Ia0RkqulvavSK03y/A634nfRKPzn4L+axivGZIuTuD53s/XrVMctzVNOVf1sE=,iv:6d2c6scFTDmLDJl48x32OKTTpYosEXgrSYDHenHu4Ns=,tag:MxYEevwPkTZjGPMcU6W95w==,type:str]
+    lastmodified: '2021-04-20T19:16:50Z'
+    mac: ENC[AES256_GCM,data:VVvuxm8mVvW39M/LqoTzaQSbE3cZOQXF+ZLqxHZ0ytUT41YuI0l3OaEuQOZFvG2V5t7XVAMOl3veqPB+rrqe9l2S1gXmICA1vkhpkvjJupGngrZnfXzJjTVPCEEhH58b34afkVYdbSppEuvBLUAp38H1ydl2Qb+oObcHOq+yrw8=,iv:EAilkVKSYhz9SnzELxmXUfGDZ7V2i65PWL10u9dmDpo=,tag:9XYcp4cml5zOvK9GI8vxzg==,type:str]
     pgp:
     -   created_at: '2021-01-05T19:49:52Z'
         enc: |
@@ -280,4 +280,4 @@ sops:
             -----END PGP MESSAGE-----
         fp: 8A0E6A7C08ABB9DE67DE2A13F6FD87B15C263EC9
     unencrypted_suffix: _unencrypted
-    version: 3.6.0
+    version: 3.6.1

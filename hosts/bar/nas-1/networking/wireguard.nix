@@ -1,103 +1,66 @@
 { soxincfg, config, ... }:
 
 {
-  networking.firewall.allowedUDPPorts = [
-    config.networking.wireguard.interfaces.wg0.listenPort
-  ];
+  sops.secrets.wireguard_private_key.sopsFile = ./wireguard.yml;
 
   networking = {
-    interfaces = {
-      wg0 = {
-        ipv4.routes = [
-          {
-            address = "192.168.3.0";
-            prefixLength = 24;
-            via = "172.28.254.3";
-          }
-          {
-            address = "172.28.4.0";
-            prefixLength = 24;
-            via = "172.28.254.4";
-          }
-          {
-            address = "172.28.5.0";
-            prefixLength = 24;
-            via = "172.28.254.5";
-          }
-          {
-            address = "172.28.6.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.7.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.8.0";
-            prefixLength = 24;
-            via = "172.28.254.6";
-          }
-          {
-            address = "172.28.101.0";
-            prefixLength = 24;
-            via = "172.28.254.101";
-          }
-        ];
-      };
+    firewall = {
+      trustedInterfaces = [
+        "wg-kvm-2" "wg-edge-1" "wg-edge-2"
+      ];
     };
-
     wireguard = {
       enable = true;
 
       interfaces = {
-        wg0 = {
-          ips = [
-            "172.28.254.2/24"
-          ];
-          privateKeyFile = config.sops.secrets.wireguard_wg0_private_key.path;
-          listenPort = 51820;
-
+        wg-kvm-2 = {
+          ips = [ "172.28.253.7/31" "2001:67c:17fc:fffe::7/127" "fe80::172:28:254:2/64" ]; # kvm-2.nas-1.bar
+          privateKeyFile = config.sops.secrets.wireguard_private_key.path;
           allowedIPsAsRoutes = false;
-          peers = [
-            {
-              # edge-1.srv.par
-              publicKey = "RBtwrX/EN9avud2yy53gziQdlzLJf1aPdk9jWtm7DHQ=";
-              allowedIPs = [
-                "172.28.254.4/32"
-                "172.28.4.0/24"
-              ];
-              endpoint = "108.61.208.236:51820";
-              persistentKeepalive = 60;
-            }
-            {
-              # edge-2.srv.vha
-              publicKey = "xoQEqA/K5i/r3vXbzI0YjYGaqzUpt7T95Q0Am0SA52s=";
-              allowedIPs = [
-                "172.28.254.5/32"
-                "172.28.5.0/24"
-              ];
-              endpoint = "185.101.96.121:51820";
-              persistentKeepalive = 60;
-            }
-            {
-              # kvm-2.srv.fsn
-              publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
-              allowedIPs = [
-                "172.28.254.6/32"
-                "172.28.6.0/24"
-                "172.28.7.0/24"
-                "172.28.8.0/24"
-              ];
-              endpoint = "168.119.71.47:51820";
-              persistentKeepalive = 60;
-            }
-          ];
+          peers = [{
+            publicKey = "Ym3vm8rv4sSkqXhIiifncuf5Yu9r7TaXivkN8UACkwA=";
+            allowedIPs = [
+              "172.28.0.0/16"
+              "2001:67c:17fc::/48"
+              "ff00::/8" "fe80::/10"
+            ];
+            endpoint = "168.119.71.47:51006"; # pub.kvm-2.fsn
+            persistentKeepalive = 60;
+          }];
+        };
+
+        wg-edge-1 = {
+          ips = [ "172.28.253.9/31" "2001:67c:17fc:fffe::9/127" "fe80::172:28:254:2/64" ]; # edge-1.nas-1.bar
+          privateKeyFile = config.sops.secrets.wireguard_private_key.path;
+          allowedIPsAsRoutes = false;
+          peers = [{
+            publicKey = "RBtwrX/EN9avud2yy53gziQdlzLJf1aPdk9jWtm7DHQ=";
+            allowedIPs = [
+              "172.28.0.0/16"
+              "2001:67c:17fc::/48"
+              "ff00::/8" "fe80::/10"
+            ];
+            endpoint = "108.61.208.236:51008"; # pub.edge-1.pvl
+            persistentKeepalive = 60;
+          }];
+        };
+
+        wg-edge-2 = {
+          ips = [ "172.28.253.11/31" "2001:67c:17fc:fffe::b/127" "fe80::172:28:254:2/64" ]; # edge-2.nas-1.bar
+          privateKeyFile = config.sops.secrets.wireguard_private_key.path;
+          allowedIPsAsRoutes = false;
+          peers = [{
+            publicKey = "xoQEqA/K5i/r3vXbzI0YjYGaqzUpt7T95Q0Am0SA52s=";
+            allowedIPs = [
+              "172.28.0.0/16"
+              "2001:67c:17fc::/48"
+              "ff00::/8" "fe80::/10"
+            ];
+            endpoint = "185.101.96.121:51010";
+            persistentKeepalive = 60;
+          }];
         };
       };
     };
   };
-
-  sops.secrets.wireguard_wg0_private_key.sopsFile = ./wireguard.yml;
 }

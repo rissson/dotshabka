@@ -16,6 +16,17 @@ let
     subdomains = {
       ns1 = host "108.61.208.236" null;
       ns2 = host "185.101.96.121" null;
+      lg = {
+        CNAME = [ "kvm-2.srv.fsn.lama-corp.space." ];
+      };
+
+      pvl.subdomains = {
+        edge-1 = host "172.28.254.4" null;
+      };
+
+      vha.subdomains = {
+        edge-2 = host "172.28.254.5" null;
+      };
     };
   };
 in
