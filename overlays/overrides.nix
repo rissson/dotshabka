@@ -12,6 +12,7 @@ final: prev: {
     claws-mail
     discord
     element-desktop
+    firefox
     mr
     nixpkgs-fmt
     nixpkgs-review
