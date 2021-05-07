@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  networking.firewall.allowedTCPPorts = [ 6443 ];
+
   services.haproxy = {
     enable = true;
     config = ''
@@ -34,6 +36,14 @@
       frontend k8s-fsn-ingress-tls
         bind [2a01:4f8:242:1910::1]:443
         use_backend k8s-fsn-ingress-tls
+
+      backend k8s-fsn-apiserver
+        mode tcp
+        server k8s-fsn-apiserver 172.28.7.10:6443
+      frontend k8s-fsn-apiserver
+        bind 168.119.71.47:6443
+        mode tcp
+        use_backend k8s-fsn-apiserver
     '';
   };
 }
