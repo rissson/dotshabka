@@ -20,6 +20,7 @@ final: prev: {
     s3cmd
     slack
     spotify
+    steam
     teams
     thunderbird
     tmuxp
