@@ -40,6 +40,8 @@
         { addr = "168.119.71.47"; port = 443; ssl = true; }
         { addr = "172.28.254.6"; port = 80; }
         { addr = "172.28.254.6"; port = 443; ssl = true; }
+        { addr = "172.28.6.254"; port = 80; }
+        { addr = "172.28.6.254"; port = 443; ssl = true; }
       ];
       forceSSL = true;
       enableACME = true;
@@ -52,6 +54,8 @@
         { addr = "168.119.71.47"; port = 443; ssl = true; }
         { addr = "172.28.254.6"; port = 80; }
         { addr = "172.28.254.6"; port = 443; ssl = true; }
+        { addr = "172.28.6.254"; port = 80; }
+        { addr = "172.28.6.254"; port = 443; ssl = true; }
       ];
       forceSSL = true;
       enableACME = true;
@@ -64,6 +68,8 @@
         { addr = "168.119.71.47"; port = 443; ssl = true; }
         { addr = "172.28.254.6"; port = 80; }
         { addr = "172.28.254.6"; port = 443; ssl = true; }
+        { addr = "172.28.6.254"; port = 80; }
+        { addr = "172.28.6.254"; port = 443; ssl = true; }
       ];
       forceSSL = true;
       enableACME = true;
