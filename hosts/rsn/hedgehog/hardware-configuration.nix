@@ -47,7 +47,6 @@
     "cryptd"
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-amd" ];
 
   boot.loader.grub = {

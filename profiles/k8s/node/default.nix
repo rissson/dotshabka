@@ -7,8 +7,6 @@
     ./proxy.nix
   ];
 
-  boot.kernelPackages = lib.mkForce nixpkgs.linuxPackages_latest;
-
   boot.supportedFilesystems = [ "nfs" ];
 
   boot.kernel.sysctl = {

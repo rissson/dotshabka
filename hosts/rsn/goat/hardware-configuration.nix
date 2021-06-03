@@ -38,7 +38,6 @@
     "cryptd"
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernel.sysctl = {
     "vm.swapiness" = lib.mkForce 10;
