@@ -14,6 +14,17 @@
     builders-use-substitutes = true
   '';
 
+  environment.systemPackages = [
+    pkgs.libwacom
+    pkgs.wacomtablet
+    pkgs.xf86_input_wacom
+    pkgs.openboard
+  ];
+
+  services.xserver.modules = [
+    pkgs.xf86_input_wacom
+  ];
+
   fileSystems."/mnt-nas-1" = {
     device = "192.168.240.241:/data/backups";
     fsType = "nfs";
