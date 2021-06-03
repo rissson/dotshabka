@@ -4,16 +4,17 @@
   description = "Lama Corp. infrastructure configurations.";
 
   inputs = rec {
-    nixos.url = "nixpkgs/nixos-20.09";
-    nixpkgs.url = "nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-21.05";
+    nixpkgsUnstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgsMaster.url = "github:NixOS/nixpkgs/master";
     home-manager = {
-      url = "github:nix-community/home-manager/release-20.09";
-      inputs.nixpkgs.follows = "nixos";
+      url = "github:nix-community/home-manager/release-21.05";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     soxin = {
       url = "github:SoxinOS/soxin";
       inputs = {
-        nixpkgs.follows = "nixos";
+        nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
       };
     };
@@ -26,86 +27,69 @@
     dns.url = "github:kirelagin/dns.nix";
   };
 
-  outputs = { self, nixos, nixpkgs, home-manager, soxin, impermanence, nixos-hardware, nur, futils, sops-nix, deploy-rs, dns } @ inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , nixpkgsUnstable
+    , nixpkgsMaster
+    , home-manager
+    , soxin
+    , impermanence
+    , nixos-hardware
+    , nur
+    , futils
+    , sops-nix
+    , deploy-rs
+    , dns
+    } @ inputs:
     let
-      inherit (nixos) lib;
-      inherit (nixos.lib) recursiveUpdate;
+      inherit (nixpkgs) lib;
+      inherit (lib) recursiveUpdate;
       inherit (futils.lib) eachDefaultSystem;
 
       pkgImport = pkgs: system: withOverrides:
         import pkgs {
           inherit system;
+          config = {
+            allowUnfree = true;
+          };
           overlays = (lib.attrValues self.overlays) ++ [
             nur.overlay
             soxin.overlay
           ] ++ (lib.optional withOverrides self.overrides.${system});
-          config = { allowUnfree = true; };
         };
 
       pkgset = system: {
-        nixos = pkgImport nixos system true;
-        nixpkgs = pkgImport nixpkgs system false;
+        pkgs = pkgImport nixpkgs system true;
+        pkgsUnstable = pkgImport nixpkgsUnstable system false;
+        pkgsMaster = pkgImport nixpkgsMaster system false;
       };
 
-      multiSystemOutputs = eachDefaultSystem (system:
-      let
-          pkgset' = pkgset system;
-          pkgs = pkgset'.nixpkgs;
-          osPkgs = pkgset'.nixos;
-        in
-        {
-          devShell = pkgs.mkShell {
-            sopsPGPKeyDirs = [
-              "./vars/sops-keys/hosts"
-              "./vars/sops-keys/users"
-            ];
-
-            nativeBuildInputs = [
-              sops-nix.packages.${system}.sops-pgp-hook
-            ];
-
-            buildInputs = with pkgs; [
-              git
-              sops
-              sops-nix.packages.${system}.ssh-to-pgp
-              nixpkgs-fmt
-              pre-commit
-              deploy-rs.packages.${system}.deploy-rs
-            ];
-          };
-
-          packages = self.lib.overlaysToPkgs self.overlays pkgs;
-
-          overrides = import ./overlays/overrides.nix pkgs;
-        }
-      );
-
-      outputs = {
+      anySystemOutputs = {
         lib = import ./lib { inherit lib; };
 
         vars = import ./vars;
 
-        overlay = self.overlays.packages;
-
-        overlays = {
+        overlays = (import ./overlays) // {
           packages = import ./pkgs;
-        } // import ./overlays;
+        };
+        overlay = self.overlays.packages;
 
         nixosModules = (import ./modules) // {
           profiles = import ./profiles;
           soxin = import ./soxin/soxin.nix;
           soxincfg = import ./modules/soxincfg.nix;
         };
+        nixosModule = self.nixosModules.soxincfg;
 
         nixosConfigurations =
           let
             system = "x86_64-linux";
-            pkgset' = pkgset system;
           in
           import ./hosts (
-            lib.recursiveUpdate inputs {
+            recursiveUpdate inputs {
               inherit lib system;
-              pkgset = pkgset';
+              pkgset = pkgset system;
             }
           );
 
@@ -125,6 +109,39 @@
 
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       };
+
+      multiSystemOutputs = eachDefaultSystem (system:
+      let
+        inherit (pkgset system) pkgs pkgsUnstable pkgsMaster;
+      in
+      {
+        devShell = pkgs.mkShell {
+          name = "soxincfg";
+
+          sopsPGPKeyDirs = [
+            "./vars/sops-keys/hosts"
+            "./vars/sops-keys/users"
+          ];
+
+          nativeBuildInputs = [
+            sops-nix.packages.${system}.sops-pgp-hook
+          ];
+
+          buildInputs = with pkgs; [
+            git
+            sops
+            sops-nix.packages.${system}.ssh-to-pgp
+            nixpkgs-fmt
+            pre-commit
+            deploy-rs.packages.${system}.deploy-rs
+          ];
+        };
+
+        overrides = import ./overlays/overrides.nix { inherit pkgsUnstable pkgsMaster; };
+
+        packages = self.lib.overlaysToPkgs self.overlays pkgs;
+      });
+
     in
-    recursiveUpdate multiSystemOutputs outputs;
+    recursiveUpdate multiSystemOutputs anySystemOutputs;
 }

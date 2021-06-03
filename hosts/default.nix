@@ -2,8 +2,9 @@
 , system
 , pkgset
 , self
-, nixos
 , nixpkgs
+, nixpkgsUnstable
+, nixpkgsMaster
 , home-manager
 , soxin
 , impermanence
@@ -25,7 +26,7 @@ let
 
       specialArgs = {
         inherit nixos-hardware dns;
-        inherit (pkgset) nixpkgs;
+        inherit (pkgset) nixpkgsUnstable nixpkgsMaster;
         soxincfg = self;
         userName = "risson"; # TODO: extract this per-host
       };
@@ -41,15 +42,22 @@ let
                 path = toString ../.;
               in
               [
-                "nixos=${nixos}"
                 "nixpkgs=${nixpkgs}"
+                "nixpkgs-unstable=${nixpkgsUnstable}"
+                "nixpkgs-master=${nixpkgsMaster}"
+                "soxin=${soxin}"
+                "soxincfg=${self}"
               ];
 
-            nixpkgs = { pkgs = pkgset.nixos; };
+            nixpkgs = {
+              inherit (pkgset) pkgs;
+            };
 
             nix.registry = {
-              nixos.flake = nixos;
               nixpkgs.flake = nixpkgs;
+              nixpkgsUnstable.flake = nixpkgsUnstable;
+              nixpkgsMaster.flake = nixpkgsMaster;
+              soxin.flake = soxin;
               soxincfg.flake = self;
             };
 
