@@ -5,7 +5,6 @@
 , viAlias ? true
 , vimAlias ? true
 , withNodeJs ? true
-, withPython ? true
 , withPython3 ? true
 , withRuby ? true
 }:
@@ -13,9 +12,8 @@
 with pkgs.lib;
 
 {
-  inherit viAlias vimAlias withNodeJs withPython withPython3 withRuby;
+  inherit viAlias vimAlias withNodeJs withPython3 withRuby;
 
-  extraPythonPackages = ps: with ps; [ pynvim ];
   extraPython3Packages = ps: with ps; [ pynvim ];
 
   configure = {
@@ -39,7 +37,7 @@ with pkgs.lib;
       {
         names =
           [
-            "Gist"
+            "vim-gist"
             "Gundo"
             "LanguageClient-neovim"
             "PreserveNoEOL"
