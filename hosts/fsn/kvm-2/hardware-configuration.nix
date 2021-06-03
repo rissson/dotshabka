@@ -25,8 +25,7 @@
         "igb"
         "nvme"
         "sd_mod"
-        "aes_x86_64"
-        "aesni_amd"
+        "aes"
         "cryptd"
       ];
 

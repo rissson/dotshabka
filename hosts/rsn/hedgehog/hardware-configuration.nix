@@ -42,9 +42,8 @@
     "sd_mod"
     "rtsx_pci_sdmmc"
     # luks stuff
-    "aes_x86_64"
+    "aes"
     "aesni_intel"
-    "aesni_amd"
     "cryptd"
   ];
 

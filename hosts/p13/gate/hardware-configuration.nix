@@ -38,9 +38,8 @@
     "sd_mod"
     "sr_mod"
     # luks stuff
-    "aes_x86_64"
+    "aes"
     "aesni_intel"
-    "aesni_amd"
     "cryptd"
   ];
 
