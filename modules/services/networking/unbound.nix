@@ -37,9 +37,6 @@ let
   };
 in
 {
-  disabledModules = [ "services/networking/unbound.nix" ];
-  imports = [ ./unbound.lib.nix ];
-
   options = {
     lama-corp.services.unbound = {
       enable = mkEnableOption "unbound recursive DNS server.";
