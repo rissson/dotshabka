@@ -10,6 +10,7 @@ final: prev: {
     bird-lg-go-frontend
     bird-lg-go-proxy
     claws-mail
+    chromium
     discord
     element-desktop
     firefox
