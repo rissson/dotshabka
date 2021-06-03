@@ -17,7 +17,7 @@ in
     (optionalAttrs (mode == "NixOS") {
       fonts = {
         enableDefaultFonts = true;
-        enableFontDir = true;
+        fontDir.enable = true;
         enableGhostscriptFonts = true;
 
         fonts = with pkgs; [
