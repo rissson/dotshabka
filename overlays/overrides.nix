@@ -15,6 +15,7 @@ final: prev: {
     element-desktop
     firefox
     mr
+    netdata
     nixpkgs-fmt
     nixpkgs-review
     rambox
