@@ -2,10 +2,10 @@
 # nixpkgs master instead of the default nixos release. This doesn't actually
 # install them, just creates an overlay to pull them from master if they are
 # installed by the user elsewhere in the configuration.
-pkgsMaster:
+{ pkgsUnstable, pkgsMaster }:
 
 final: prev: {
-  inherit (pkgsMaster)
+  inherit (pkgsUnstable)
     awscli
     bird-lg-go-frontend
     bird-lg-go-proxy
