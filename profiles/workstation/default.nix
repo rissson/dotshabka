@@ -51,6 +51,8 @@
 
       console.keyMap = lib.mkForce "us";
 
+      programs.steam.enable = true;
+
       soxin = {
         hardware.bluetooth.enable = true;
 
