@@ -372,11 +372,14 @@ with lib;
     hledger hledger-web
     ipcalc
     jetbrains.datagrip
+    jetbrains.idea-ultimate
+    jdk
     jq
     killall
     kubectl
     kustomize
     libreoffice
+    maven
     minecraft
     nix-index
     nix-zsh-completions
