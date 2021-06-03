@@ -34,6 +34,7 @@ in
     proxyClientKeyFile = config.sops.secrets.apiserver_proxy_client_key.path;
 
     serviceAccountKeyFile = config.sops.secrets.service_account_key.path;
+    serviceAccountSigningKeyFile = config.sops.secrets.service_account_key.path;
   };
 
   sops.secrets =

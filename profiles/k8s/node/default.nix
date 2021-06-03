@@ -1,4 +1,4 @@
-{ nixpkgs, config, lib, ... }:
+{ config, lib, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
   boot.supportedFilesystems = [ "nfs" ];
 
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = true;
+    "net.ipv4.ip_forward" = lib.mkDefault true;
     "net.ipv4.conf.ens3.send_redirects" = false;
     "net.ipv6.conf.all.forwarding" = true;
     "net.ipv4.ip_nonlocal_bind" = true;
