@@ -1,4 +1,5 @@
 {
+  autorandr = ./programs/autorandr.nix;
   neovim = ./programs/neovim;
   tmux = ./programs/tmux.nix;
   tmuxp = ./programs/tmuxp.nix;
