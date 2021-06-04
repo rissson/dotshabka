@@ -17,11 +17,6 @@ let
 in {
   config = mkIf (config.soxin.settings.theme == "gruvbox-dark") (mkMerge [
     (optionalAttrs (mode == "home-manager") {
-      # Setup the environment correctly with the shell palette
-      programs.zsh.initExtra = ''
-        source ${grovboxSrc}/gruvbox_256palette.sh
-      '';
-
       # Originally found this at
       # https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/f6e570d6ab11b00b950e993c8619ac253bbb03ea/i3/config#L101
       #

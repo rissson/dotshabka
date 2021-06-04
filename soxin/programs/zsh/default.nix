@@ -133,14 +133,6 @@ let
     })));
 in
 {
-  options = {
-    soxin.programs.zsh = {
-      enable = mkEnableOption ''
-        Whether to enable zsh.
-      '';
-    };
-  };
-
   config = mkIf cfg.enable (mkMerge [
     {
       programs.zsh = {
