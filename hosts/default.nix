@@ -24,14 +24,16 @@ let
     soxin.lib.nixosSystem {
       inherit system;
 
-      specialArgs = {
+      globalSpecialArgs = {
         inherit nixos-hardware dns;
         inherit (pkgset) nixpkgsUnstable nixpkgsMaster;
         soxincfg = self;
         userName = "risson"; # TODO: extract this per-host
       };
 
-      modules =
+      globalModules = builtins.attrValues (removeAttrs self.nixosModules [ "profiles" "soxincfg" ]);
+
+      nixosModules =
         let
           core = self.nixosModules.profiles.core;
 
@@ -91,12 +93,8 @@ let
           };
 
           local = import "${toString ./.}/${path}/configuration.nix";
-
-          flakeModules =
-            builtins.attrValues (removeAttrs self.nixosModules [ "profiles" "soxincfg" ]);
-
         in
-        lib.concat flakeModules [
+        [
           impermanence.nixosModules.impermanence
           sops-nix.nixosModules.sops
           sops-fix
