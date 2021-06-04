@@ -1,4 +1,6 @@
 {
+  neovim = ./programs/neovim;
+  tmux = ./programs/tmux.nix;
   tmuxp = ./programs/tmuxp.nix;
 
   unbound = ./services/networking/unbound.nix;

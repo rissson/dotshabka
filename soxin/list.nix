@@ -14,7 +14,6 @@
   mosh = ./programs/mosh.nix;
   ssh = ./programs/ssh.nix;
   starship = ./programs/starship.nix;
-  tmux = ./programs/tmux;
   urxvt = ./programs/urxvt.nix;
   zsh = ./programs/zsh;
 
