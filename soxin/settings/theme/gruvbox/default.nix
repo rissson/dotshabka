@@ -23,95 +23,13 @@ in {
       # TODO(low): import the green variation from
       # https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/f6e570d6ab11b00b950e993c8619ac253bbb03ea/i3/config#L136-L141
       xsession = optionalAttrs stdenv.isLinux {
-        windowManager.i3.config =
-          let
-          # hard contrast: bg = '#282828'
-          bg       = "#282828";
-          # soft contrast: bg = '#32302f'
-
-          aqua     = "#689d68";
-          blue     = "#458588";
-          darkgray = "#1d2021";
-          gray     = "#a89984";
-          green    = "#98971a";
-          purple   = "#b16286";
-          red      = "#cc241d";
-          white    = "#ebdbb2";
-          yellow   = "#d79921";
-
-          in {
-            colors = {
-              background = darkgray;
-
-              focused = {
-                border = blue; background = blue; text = darkgray; indicator = purple; childBorder = darkgray;
-              };
-
-              focusedInactive = {
-                border = darkgray; background = darkgray; text = yellow; indicator = purple; childBorder = darkgray;
-              };
-
-              unfocused = {
-                border = darkgray; background = darkgray; text = yellow; indicator = purple; childBorder = darkgray;
-              };
-
-              urgent = {
-                border = red; background = red; text = white; indicator = red; childBorder = red;
-              };
-            };
-          };
+        windowManager = {
+          inherit (config.soxin.themes.gruvbox-dark) i3;
         };
-
-      services.polybar.config."colors" = {
-        background = "#282828";
-        background-alt = "#689d68";
-        foreground = "#ebdbb2";
-        foreground-alt = "#ebdbb2";
-        primary = "#689d68";
-        secondary = "#1d2021";
-        alert = "#cc241d";
       };
 
-      programs.termite = {
-        # hard contrast: backgroundColor = "#1d2021";
-        backgroundColor = "#282828";
-        # soft contrast: backgroundColor = "#32302f";
-
-        foregroundColor = "#ebdbb2";
-        foregroundBoldColor = "#ebdbb2";
-        colorsExtra = ''
-          # dark0 + gray
-          color0 = #282828
-          color8 = #928374
-
-          # neutral_red + bright_red
-          color1 = #cc241d
-          color9 = #fb4934
-
-          # neutral_green + bright_green
-          color2 = #98971a
-          color10 = #b8bb26
-
-          # neutral_yellow + bright_yellow
-          color3 = #d79921
-          color11 = #fabd2f
-
-          # neutral_blue + bright_blue
-          color4 = #458588
-          color12 = #83a598
-
-          # neutral_purple + bright_purple
-          color5 = #b16286
-          color13 = #d3869b
-
-          # neutral_aqua + faded_aqua
-          color6 = #689d6a
-          color14 = #8ec07c
-
-          # light4 + light1
-          color7 = #a89984
-          color15 = #ebdbb2
-        '';
+      services.polybar.config = {
+        inherit (config.soxin.themes.polybar.extraConfig) colors;
       };
 
       # Taken from https://github.com/x4121/dotfiles/blob/4e73c297afe7675bc5490fbb73b8f2481cf3ca95/etc/gruvbox-dark-256.taskwarrior.theme
@@ -215,87 +133,6 @@ in {
         color.undo.after=color2
         color.undo.before=color1
       '';
-
-      programs.tmux.extraConfig = ''
-        # pane number display
-        set-option -g display-panes-active-colour colour250 #fg2
-        set-option -g display-panes-colour colour237 #bg1
-
-        # clock
-        set-window-option -g clock-mode-colour colour109 #blue
-
-        # bell
-        set-window-option -g window-status-bell-style fg=colour235,bg=colour167 #bg, red
-
-        ## Theme settings mixed with colors (unfortunately, but there is no cleaner way)
-        set-option -g status-justify "left"
-        set-option -g status-left-length "80"
-        set-option -g status-right-length "80"
-        set-window-option -g window-status-separator ""
-
-        set-option -g status-left "#[fg=colour248, bg=colour241] #S #[fg=colour241, bg=colour237, nobold, noitalics, nounderscore]"
-        set-option -g status-right "#[fg=colour239, bg=colour237, nobold, nounderscore, noitalics]#{prefix_highlight}#[fg=colour246,bg=colour239] %Y-%m-%d  %H:%M #[fg=colour248, bg=colour239, nobold, noitalics, nounderscore]#[fg=colour237, bg=colour248] #h "
-
-        set-window-option -g window-status-current-format "#[fg=colour239, bg=colour248, :nobold, noitalics, nounderscore]#[fg=colour239, bg=colour214] #I #[fg=colour239, bg=colour214, bold] #W #[fg=colour214, bg=colour237, nobold, noitalics, nounderscore]"
-        set-window-option -g window-status-format "#[fg=colour237,bg=colour239,noitalics]#[fg=colour223,bg=colour239] #I #[fg=colour223, bg=colour239] #W #[fg=colour239, bg=colour237, noitalics]"
-      ''
-      + (if versionAtLeast (builtins.parseDrvName pkgs.tmux.name).version "2.9" then ''
-        # default statusbar colors
-        set-option -g status-style bg=colour237,fg=colour223,none
-        set-option -g status-left-style none
-        set-option -g status-right-style none
-
-        # default window title colors
-        set-window-option -g window-status-style bg=colour214,fg=colour237,none
-
-        set-window-option -g window-status-activity-style bg=colour237,fg=colour248,none
-
-        # active window title colors
-        set-window-option -g window-status-current-style bg=default,fg=colour237
-
-        # pane border
-        set-option -g pane-active-border-style bg=colour250,fg=colour237
-        set-option -g pane-border-style bg=colour237,fg=colour250
-
-        # message infos
-        set-option -g message-style bg=colour239,fg=colour223
-
-        # writting commands inactive
-        set-option -g message-command-style bg=colour239,fg=colour223
-      '' else ''
-        # default statusbar colors
-        set-option -g status-bg colour237 #bg1
-        set-option -g status-fg colour223 #fg1
-
-        # default window title colors
-        set-window-option -g window-status-bg colour214 #yellow
-        set-window-option -g window-status-fg colour237 #bg1
-
-        set-window-option -g window-status-activity-bg colour237 #bg1
-        set-window-option -g window-status-activity-fg colour248 #fg3
-
-        # active window title colors
-        set-window-option -g window-status-current-bg default
-        set-window-option -g window-status-current-fg colour237 #bg1
-
-        # pane border
-        set-option -g pane-active-border-fg colour250 #fg2
-        set-option -g pane-border-fg colour237 #bg1
-
-        # message infos
-        set-option -g message-bg colour239 #bg2
-        set-option -g message-fg colour223 #fg1
-
-        # writting commands inactive
-        set-option -g message-command-bg colour239 #fg3
-        set-option -g message-command-fg colour223 #bg1
-
-        set-option -g status-attr "none"
-        set-option -g status-left-attr "none"
-        set-option -g status-right-attr "none"
-        set-window-option -g window-status-activity-attr "none"
-        set-window-option -g window-status-attr "none"
-      '');
     })
   ]);
 }
