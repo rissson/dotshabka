@@ -5,50 +5,9 @@ with lib;
 let
   cfg = config.soxin.programs.git;
 in {
-  options = {
-
-    soxin.programs.git = {
-      enable = mkEnableOption "git";
-
-      userName = mkOption {
-        type = with types; nullOr str;
-        default = null;
-        description = "git user name";
-      };
-
-      userEmail = mkOption {
-        type = with types; nullOr str;
-        default = null;
-        description = "git user email";
-      };
-
-      gpgSigningKey = mkOption {
-        type = with types; nullOr str;
-        default = null;
-        description = "git PGP signing key";
-      };
-
-      enableLfs = mkEnableOption "Enable git.lfs";
-    };
-  };
-
-  config = mkIf cfg.enable (mkMerge [
-    (optionalAttrs (mode == "NixOS") {
-      environment.systemPackages = [ pkgs.gitAndTools.gitFull ];
-    })
-
+  config = mkIf config.soxin.programs.git.enable (mkMerge [
     (optionalAttrs (mode == "home-manager") {
-      home.packages = with pkgs; [
-        gitAndTools.hub
-      ];
-
       programs.git = {
-        enable = true;
-        package = pkgs.gitAndTools.gitFull;
-
-        userName = cfg.userName;
-        userEmail = cfg.userEmail;
-
         aliases = {
           aa             = "add --all .";
           aap            = "!git aa -p";
@@ -227,13 +186,6 @@ in {
         includes = [
           { path = "~/.gitconfig.secrets"; }
         ];
-
-        signing = mkIf (cfg.gpgSigningKey != null) {
-          key = cfg.gpgSigningKey;
-          signByDefault = true;
-        };
-
-        lfs.enable = cfg.enableLfs;
       };
     })
   ]);
