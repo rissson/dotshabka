@@ -10,7 +10,6 @@
   htop = ./programs/htop.nix;
   mosh = ./programs/mosh.nix;
   ssh = ./programs/ssh.nix;
-  starship = ./programs/starship.nix;
   urxvt = ./programs/urxvt.nix;
   zsh = ./programs/zsh;
 
