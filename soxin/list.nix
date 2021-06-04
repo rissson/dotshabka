@@ -8,7 +8,6 @@
   # programs
   fzf = ./programs/fzf.nix;
   htop = ./programs/htop.nix;
-  keybase = ./programs/keybase.nix;
   mosh = ./programs/mosh.nix;
   ssh = ./programs/ssh.nix;
   starship = ./programs/starship.nix;
