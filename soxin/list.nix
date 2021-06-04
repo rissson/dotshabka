@@ -12,7 +12,6 @@
   htop = ./programs/htop.nix;
   keybase = ./programs/keybase.nix;
   mosh = ./programs/mosh.nix;
-  neovim = ./programs/neovim;
   ssh = ./programs/ssh.nix;
   starship = ./programs/starship.nix;
   tmux = ./programs/tmux;

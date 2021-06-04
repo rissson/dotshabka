@@ -31,11 +31,7 @@ with lib;
       mosh.enable = true;
       neovim = {
         enable = true;
-        extraRC = ''
-          set background=dark
-          colorscheme gruvbox
-          let g:airline_theme='gruvbox'
-
+        extraConfig = lib.mkAfter ''
           " set the mapleader
           let mapleader = " "
           " Whitespace

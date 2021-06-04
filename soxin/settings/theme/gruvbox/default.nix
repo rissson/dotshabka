@@ -14,14 +14,6 @@ let
     sha256 = "01as1pkrlbzhcn1kyscy476w8im3g3wmphpcm4lrx7nwdq8ch7h1";
   };
 
-  neovimExtraKnownPlugins = {
-    vim-color-gruvbox = vimUtils.buildVimPluginFrom2Nix {
-      name = "gruvbox-${grovboxVersion}";
-      src = grovboxSrc;
-      dependencies = [];
-    };
-  };
-
 in {
   config = mkIf (config.soxin.settings.theme == "gruvbox-dark") (mkMerge [
     (optionalAttrs (mode == "home-manager") {
@@ -29,22 +21,6 @@ in {
       programs.zsh.initExtra = ''
         source ${grovboxSrc}/gruvbox_256palette.sh
       '';
-
-      soxin.programs.neovim = {
-        extraRC = mkBefore ''
-          set background=dark
-          colorscheme gruvbox
-          let g:airline_theme='gruvbox'
-        '';
-
-        extraKnownPlugins = neovimExtraKnownPlugins;
-
-        extraPluginDictionaries = [{
-          names = [
-            "vim-color-gruvbox"
-          ];
-        }];
-      };
 
       # Originally found this at
       # https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/f6e570d6ab11b00b950e993c8619ac253bbb03ea/i3/config#L101

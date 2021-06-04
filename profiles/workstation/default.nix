@@ -1,5 +1,7 @@
 { soxincfg, userName, config, lib, ... }:
 
+with lib;
+
 {
   imports = [
     ./krb5.nix
@@ -89,11 +91,7 @@
           mosh.enable = true;
           neovim = {
             enable = true;
-            extraRC = ''
-              set background=dark
-              colorscheme gruvbox
-              let g:airline_theme='gruvbox'
-
+            extraConfig = mkAfter ''
               " set the mapleader
               let mapleader = " "
               " Whitespace
