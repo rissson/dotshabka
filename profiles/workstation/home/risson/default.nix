@@ -188,6 +188,24 @@ with lib;
       };
     }
     {
+      condition = "gitdir:~/acu/";
+      contents = {
+        user = {
+          email = "risson@cri.epita.fr";
+          signingkey = "risson@cri.epita.fr";
+        };
+      };
+    }
+    {
+      condition = "gitdir:~/labsi/";
+      contents = {
+        user = {
+          email = "risson@cri.epita.fr";
+          signingkey = "risson@cri.epita.fr";
+        };
+      };
+    }
+    {
       condition = "gitdir:~/prologin/";
       contents = {
         user = {
