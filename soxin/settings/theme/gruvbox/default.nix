@@ -15,7 +15,7 @@ let
   };
 
 in {
-  config = mkIf (config.soxin.settings.theme == "gruvbox-dark") (mkMerge [
+  config = (mkMerge [
     (optionalAttrs (mode == "home-manager") {
       # Originally found this at
       # https://github.com/a-schaefers/i3-wm-gruvbox-theme/blob/f6e570d6ab11b00b950e993c8619ac253bbb03ea/i3/config#L101
@@ -29,7 +29,7 @@ in {
       };
 
       services.polybar.config = {
-        inherit (config.soxin.themes.polybar.extraConfig) colors;
+        inherit (config.soxin.themes.gruvbox-dark.polybar.extraConfig) colors;
       };
 
       # Taken from https://github.com/x4121/dotfiles/blob/4e73c297afe7675bc5490fbb73b8f2481cf3ca95/etc/gruvbox-dark-256.taskwarrior.theme
