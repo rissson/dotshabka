@@ -102,13 +102,6 @@ let
           core
           global
           local
-          ({ config, ... }: {
-            options.home-manager.users = lib.mkOption {
-              type = lib.types.attrsOf (lib.types.submoduleWith {
-                modules = flakeModules;
-              });
-            };
-          })
         ];
     };
 
