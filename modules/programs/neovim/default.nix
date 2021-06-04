@@ -61,10 +61,5 @@ with lib;
         { plugin = polyglot; optional = true; }
       ];
     };
-
-    soxin.programs.neovim.neovimConfig = (import ./config.nix {
-      inherit (cfg) extraRC extraKnownPlugins extraPluginDictionaries;
-      inherit pkgs;
-    });
   };
 }
