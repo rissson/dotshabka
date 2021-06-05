@@ -97,6 +97,7 @@ with lib;
         userName = "Marc 'risson' Schmitt";
         userEmail = "marc.schmitt@risson.space";
         gpgSigningKey = "marc.schmitt@risson.space";
+        lfs.enable = true;
       };
       htop.enable = true;
       keybase.enable = true;
