@@ -414,7 +414,7 @@ with lib;
     unzip
     urlview
     vault
-    vcspull
+    soxincfg.packages.${pkgs.system}.vcspull
     virt-manager
     vlc
     warsow

@@ -1,4 +1,4 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+{ lib, buildGoModule, fetchFromGitHub, go }:
 
 buildGoModule rec {
   pname = "bird-lg-go-proxy";
@@ -15,6 +15,7 @@ buildGoModule rec {
   vendorSha256 = "sha256-7LZeCY4xSxREsQ+Dc2XSpu2ZI8CLE0mz0yoThP7/OO4=";
 
   meta = with lib; {
+    meta = { inherit (go.meta) platforms; };
     description = "BIRD looking glass in Go, for better maintainability, easier deployment & smaller memory footprint";
     homepage = "https://github.com/xddxdd/bird-lg-go";
     license = licenses.gpl3;

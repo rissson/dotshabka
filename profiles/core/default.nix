@@ -1,71 +1,82 @@
-{ pkgs, lib, ... }:
+{ mode, pkgs, lib, nixpkgs, nixpkgsUnstable, nixpkgsMaster, soxin, self, ... }:
+
+with lib;
 
 {
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "Europe/Paris";
-
-  boot.kernelPackages = pkgs.linuxPackages;
-
-  soxin = {
-    settings = {
-      keyboard = {
-        layouts = lib.mkAfter (lib.singleton {
-          x11 = {
-            layout = "us";
-            variant = "";
+  config = mkMerge [
+    {
+      soxin = {
+        settings = {
+          keyboard = {
+            layouts = mkAfter (singleton {
+              x11 = {
+                layout = "us";
+                variant = "";
+              };
+              console.keyMap = "us";
+            });
+            enableAtBoot = true;
           };
-          console.keyMap = "us";
-        });
-        enableAtBoot = true;
+        };
+
+        hardware.enable = true;
       };
-    };
+    }
 
-    hardware.enable = true;
-  };
+    (optionalAttrs (mode == "NixOS" || mode == "Darwin") {
+      nix = {
+        useSandbox = pkgs.stdenv.hostPlatform.isLinux;
+        nixPath = [
+          "nixpkgs=${nixpkgs.path}"
+          "nixpkgs-unstable=${nixpkgsUnstable.path}"
+          "nixpkgs-master=${nixpkgsMaster.path}"
+          "soxin=${soxin.path}"
+          "soxincfg=${self.path}"
+        ];
 
-  console.font = "Lat2-Terminus16";
+        systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
 
-  nix = {
-    package = pkgs.nixFlakes;
-    systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        distributedBuilds = true;
 
-    distributedBuilds = true;
+        autoOptimiseStore = true;
+        gc = {
+          automatic = true;
+          dates = "daily";
+          options = "--delete-older-than 10d";
+        };
+        optimise.automatic = true;
 
-    autoOptimiseStore = true;
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 10d";
-    };
-    optimise.automatic = true;
+        trustedUsers = [ "root" "@wheel" "@builders" ];
+      };
 
-    useSandbox = true;
+      environment.systemPackages = with pkgs; [
+        htop
+        iftop
+        iotop
+        jq
+        killall
+        ldns
+        ncdu
+        tcpdump
+        telnet
+        traceroute
+        tree
+        unzip
+        wget
+        zip
+      ];
+    })
 
-    trustedUsers = [ "root" "@wheel" "@builders" ];
+    (optionalAttrs (mode == "NixOS") {
+      i18n.defaultLocale = "en_US.UTF-8";
+      time.timeZone = "Europe/Paris";
 
-    extraOptions = ''
-      experimental-features = nix-command flakes ca-references
-    '';
-  };
+      boot.kernelPackages = pkgs.linuxPackages;
+      console.font = "Lat2-Terminus16";
 
-  security = {
-    protectKernelImage = true;
-  };
+      security.protectKernelImage = true;
 
-  environment.systemPackages = with pkgs; [
-    htop
-    iftop
-    iotop
-    jq
-    killall
-    ldns
-    ncdu
-    tcpdump
-    telnet
-    traceroute
-    tree
-    unzip
-    wget
-    zip
+      system.configurationRevision = lib.mkIf (self ? rev) self.rev;
+    })
   ];
 }

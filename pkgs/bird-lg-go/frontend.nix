@@ -1,4 +1,4 @@
-{ lib, buildGoModule, fetchFromGitHub, go-bindata }:
+{ lib, buildGoModule, fetchFromGitHub, go-bindata, go }:
 
 buildGoModule rec {
   pname = "bird-lg-go-frontend";
@@ -23,6 +23,7 @@ buildGoModule rec {
   '';
 
   meta = with lib; {
+    meta = { inherit (go.meta) platforms; };
     description = "BIRD looking glass in Go, for better maintainability, easier deployment & smaller memory footprint";
     homepage = "https://github.com/xddxdd/bird-lg-go";
     license = licenses.gpl3;

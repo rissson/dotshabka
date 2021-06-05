@@ -1,129 +1,60 @@
-{ lib
-, system
-, pkgset
-, self
-, nixpkgs
-, nixpkgsUnstable
-, nixpkgsMaster
-, home-manager
-, soxin
-, impermanence
-, nixos-hardware
-, nur
-, futils
-, sops-nix
-, deploy-rs
-, dns
-}:
+{ self, lib, ... } @ inputs:
 
 let
-  config = path:
-    let
-      hostName = lib.lists.last (lib.splitString "/" path);
-    in
-    soxin.lib.nixosSystem {
-      inherit system;
+  inherit (lib) attrValues mapAttrs';
 
-      globalSpecialArgs = {
-        inherit nixos-hardware dns;
-        inherit (pkgset) nixpkgsUnstable nixpkgsMaster;
-        soxincfg = self;
-        userName = "risson"; # TODO: extract this per-host
-      };
+  getHostname = path: lib.lists.last (lib.splitString "/" path);
+  getConfiguration = path: "${toString ./.}/${path}/configuration.nix";
 
-      globalModules = builtins.attrValues (removeAttrs self.nixosModules [ "profiles" "soxincfg" ]);
+  hosts = {
 
-      nixosModules =
-        let
-          core = self.nixosModules.profiles.core;
+    x86_64-linux = [
+      "rsn/goat"
+      "rsn/hedgehog"
+    ];
+    # x86_64-darwin = [ ];
+  };
 
-          global = {
-            networking.hostName = hostName;
-            nix.nixPath =
-              let
-                path = toString ../.;
-              in
-              [
-                "nixpkgs=${nixpkgs}"
-                "nixpkgs-unstable=${nixpkgsUnstable}"
-                "nixpkgs-master=${nixpkgsMaster}"
-                "soxin=${soxin}"
-                "soxincfg=${self}"
-              ];
-
-            nixpkgs = {
-              inherit (pkgset) pkgs;
-            };
-
-            nix.registry = {
-              nixpkgs.flake = nixpkgs;
-              nixpkgsUnstable.flake = nixpkgsUnstable;
-              nixpkgsMaster.flake = nixpkgsMaster;
-              soxin.flake = soxin;
-              soxincfg.flake = self;
-            };
-
-            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-          };
-
-          sops-fix = { config, pkgs, lib, ... }: {
-            system.activationScripts.setup-secrets =
-              let
-                sops-install-secrets = sops-nix.packages.x86_64-linux.sops-install-secrets;
-                manifest = builtins.toFile "manifest.json" (builtins.toJSON {
-                  secrets = builtins.attrValues config.sops.secrets;
-                  # Does this need to be configurable?
-                  secretsMountPoint = "/run/secrets.d";
-                  symlinkPath = "/run/secrets";
-                  inherit (config.sops) gnupgHome sshKeyPaths;
-                });
-
-                checkedManifest = pkgs.runCommandNoCC "checked-manifest.json" {
-                  nativeBuildInputs = [ sops-install-secrets ];
-                } ''
-                  sops-install-secrets -check-mode=${if config.sops.validateSopsFiles then "sopsfile" else "manifest"} ${manifest}
-                  cp ${manifest} $out
-                '';
-              in
-              lib.mkForce (lib.stringAfter [ "users" "groups" ] ''
-                echo setting up secrets...
-                export PATH=$PATH:${pkgs.gnupg}/bin:${pkgs.gnupg}/sbin
-                SOPS_GPG_EXEC=${pkgs.gnupg}/bin/gpg ${sops-install-secrets}/bin/sops-install-secrets ${checkedManifest}
-              '');
-          };
-
-          local = import "${toString ./.}/${path}/configuration.nix";
-        in
-        [
-          impermanence.nixosModules.impermanence
-          sops-nix.nixosModules.sops
-          sops-fix
-
-          core
-          global
-          local
-        ];
-    };
-
-  hosts = lib.genAttrs [
-    "bar/cuckoo"
-    "bar/nas-1"
-    "fsn/k8s/master-11"
-    "fsn/k8s/master-12"
-    "fsn/k8s/master-13"
-    "fsn/k8s/worker-11"
-    "fsn/k8s/worker-12"
-    "fsn/k8s/worker-13"
-    "fsn/kvm-2"
-    "fsn/mail-1"
-    "fsn/pine"
-    "p13/gate"
-    "p13/rogue"
-    "par/edge-1"
-    "rsn/goat"
-    "rsn/hedgehog"
-    "vha/edge-2"
-  ]
-    config;
+  genAttrs' = func: values: builtins.listToAttrs (map func values);
 in
-hosts
+attrValues (
+  mapAttrs'
+    (system: paths:
+      genAttrs'
+        (path: {
+          name = getHostname path;
+          value = {
+            inherit system;
+            channelName = "nixpkgs";
+            modules = [ (getConfiguration path) ];
+          };
+        })
+        paths
+    )
+    hosts
+)
+
+
+
+
+/*
+  "rsn/hedgehog" = {
+    channelName = "nixpkgs"; # the default channel to follow
+    system = "x86_64-linux";
+    modules = [
+      "${self}/hosts/rsn/hedgehog/configuration.nix"
+      { networking.hostName = lib.mkForce "hedgehog"; }
+    ];
+  };
+
+  "rsn/goat" = {
+    channelName = "nixpkgs"; # the default channel to follow
+    system = "x86_64-linux";
+    modules = [
+      "${self}/hosts/rsn/goat/configuration.nix"
+      { networking.hostName = lib.mkForce "goat"; }
+    ];
+  };
+
+(import ./nixos inputs) //
+(import ./darwin inputs)*/

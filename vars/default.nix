@@ -1,3 +1,5 @@
+{ ... } @ inputs:
+
 {
   space.lama-corp = import ./space.lama-corp;
 
