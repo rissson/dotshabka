@@ -45,6 +45,7 @@ with lib;
         vim-fugitive
         vim-go
         vim-markdown
+        vim-nix
         vim-scala
         vim-signify
         vim-speeddating
