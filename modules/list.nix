@@ -1,4 +1,6 @@
 {
+  sops-fix = ./sops-fix.nix;
+
   autorandr = ./programs/autorandr.nix;
   git = ./programs/git.nix;
   neovim = ./programs/neovim;
