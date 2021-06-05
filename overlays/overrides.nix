@@ -13,7 +13,6 @@ final: prev: {
     chromium
     discord
     element-desktop
-    firefox
     mr
     netdata
     nixpkgs-fmt
@@ -28,5 +27,8 @@ final: prev: {
     tmuxp
     vlc
     warsow
+  ;
+  inherit (pkgsMaster)
+    firefox
   ;
 }
