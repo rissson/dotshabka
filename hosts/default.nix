@@ -119,7 +119,7 @@ let
     "pvl/edge-1"
     "rsn/goat"
     "rsn/hedgehog"
-    "vha/edge-2"
+    "avh/edge-2"
   ]
     config;
 in
