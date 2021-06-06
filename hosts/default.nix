@@ -116,7 +116,7 @@ let
     "fsn/pine"
     "p13/gate"
     "p13/rogue"
-    "par/edge-1"
+    "pvl/edge-1"
     "rsn/goat"
     "rsn/hedgehog"
     "vha/edge-2"
