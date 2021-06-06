@@ -80,25 +80,11 @@
       protocol bgp 'master-11.k8s.fsn' from bgp_k8s {
         neighbor 172.28.7.11 as 67111;
       }
-
       protocol bgp 'master-12.k8s.fsn' from bgp_k8s {
         neighbor 172.28.7.12 as 67111;
       }
-
       protocol bgp 'master-13.k8s.fsn' from bgp_k8s {
         neighbor 172.28.7.13 as 67111;
-      }
-
-      protocol bgp 'worker-11.k8s.fsn' from bgp_k8s {
-        neighbor 172.28.7.111 as 67111;
-      }
-
-      protocol bgp 'worker-12.k8s.fsn' from bgp_k8s {
-        neighbor 172.28.7.112 as 67111;
-      }
-
-      protocol bgp 'worker-13.k8s.fsn' from bgp_k8s {
-        neighbor 172.28.7.113 as 67111;
       }
 
 

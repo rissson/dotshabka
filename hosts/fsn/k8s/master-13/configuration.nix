@@ -6,6 +6,7 @@
     soxincfg.nixosModules.profiles.kvm-2-vm
     soxincfg.nixosModules.profiles.k8s-node
     soxincfg.nixosModules.profiles.k8s-master
+    soxincfg.nixosModules.profiles.k8s-worker
   ];
 
   networking = {

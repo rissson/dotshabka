@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  services.kubernetes.kubelet = {
+  /*services.kubernetes.kubelet = {
     taints = {
       master = {
         key = "node-role.kubernetes.io/master";
@@ -10,5 +10,5 @@
       };
     };
     unschedulable = true;
-  };
+  };*/
 }
