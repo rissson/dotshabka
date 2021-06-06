@@ -8,6 +8,7 @@
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/bind"
+      "/var/lib/knot"
       "/var/lib/netdata"
       "/var/log"
     ];

@@ -34,6 +34,11 @@ in
     nameservers = [ "127.0.0.1" "::1" ];
 
     useDHCP = false;
-    interfaces.ens3.useDHCP = true;
+    interfaces.ens3 = {
+      useDHCP = true;
+      ipv6.addresses = [
+        { address = "2a05:f480:1c00:9ee::53"; prefixLength = 64; }
+      ];
+    };
   };
 }
