@@ -1,6 +1,6 @@
 {
-  session_name = "lama-corp-k8s";
-  start_directory = "~/lama-corp/infra/k8s";
+  session_name = "cri-k8s";
+  start_directory = "~/cri/infra/k8s";
   windows = [
     {
       panes = [ "\${EDITOR} ." ];
@@ -20,7 +20,7 @@
     {
       focus = true;
       panes = [ "git status" ];
-      start_directory = "apps/manifests";
+      start_directory = "cri/manifests";
       window_name = "apps";
     }
     {
