@@ -7,16 +7,33 @@ with soxincfg.vars.space.lama-corp; {
     inherit hostId;
     useDHCP = false;
 
+    bonds = {
+      bond0 = {
+        interfaces = [ "eno1" "enp3s0" ];
+        driverOptions = {
+          mode = "802.3ad";
+          lacp_rate = "fast";
+          xmit_hash_policy = "layer3+4";
+        };
+      };
+    };
+
+    bridges = {
+      br0 = {
+        interfaces = [ "bond0" ];
+      };
+    };
+
     interfaces = {
-      eno1 = {
+      eno1 = {};
+      enop3s0 = {};
+      bond0 = {};
+      br0 = {
         useDHCP = true;
         ipv4.addresses = [{
           address = internal.v4.ip;
           prefixLength = internal.v4.prefixLength;
         }];
-      };
-      enp2s0 = {
-        useDHCP = true;
       };
     };
 
