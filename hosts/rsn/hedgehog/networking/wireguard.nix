@@ -2,7 +2,7 @@
 
 {
   networking = {
-    interfaces = {
+    /*interfaces = {
       wg0 = {
         ipv4.routes = [
           {
@@ -37,7 +37,7 @@
           }
         ];
       };
-    };
+    };*/
 
     wireguard = {
       enable = true;
