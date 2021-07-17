@@ -24,6 +24,10 @@ let
         CNAME = [ "kvm-2.srv.fsn.lama-corp.space." ];
       };
 
+      p13 = {
+        CNAME = [ "p13-storj-1.nsupdate.info." ];
+      };
+
       pvl.subdomains = {
         edge-1 = (host "172.28.254.4" null) // {
           subdomains = {
