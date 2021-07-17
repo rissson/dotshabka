@@ -3,13 +3,13 @@
 buildGoModule rec {
   pname = "bird-lg-go-proxy";
   version = "unstable";
-  commit = "794125a96fa075a09a0090dacd6a94295b0bccd3";
+  commit = "3550362a4de9782be246757e990a84cc44b7f180";
 
   src = (fetchFromGitHub {
     owner = "xddxdd";
     repo = "bird-lg-go";
     rev = commit;
-    sha256 = "sha256-1wxSB+oUaJD9nRo3DXQ7qWHAxp54vRVhenHqJezpfuc=";
+    sha256 = "sha256-SgcVaRYR5nHZGqhY65UPQ//8kycrcEEQWMBpv7OXcbE=";
   }) + "/proxy";
 
   vendorSha256 = "sha256-7LZeCY4xSxREsQ+Dc2XSpu2ZI8CLE0mz0yoThP7/OO4=";

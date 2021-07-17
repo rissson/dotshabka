@@ -1,26 +1,20 @@
-{ lib, buildGoModule, fetchFromGitHub, go-bindata }:
+{ lib, buildGoModule, fetchFromGitHub }:
 
 buildGoModule rec {
   pname = "bird-lg-go-frontend";
   version = "unstable";
-  commit = "794125a96fa075a09a0090dacd6a94295b0bccd3";
+  commit = "3550362a4de9782be246757e990a84cc44b7f180";
 
   src = (fetchFromGitHub {
     owner = "xddxdd";
     repo = "bird-lg-go";
     rev = commit;
-    sha256 = "sha256-1wxSB+oUaJD9nRo3DXQ7qWHAxp54vRVhenHqJezpfuc=";
+    sha256 = "sha256-SgcVaRYR5nHZGqhY65UPQ//8kycrcEEQWMBpv7OXcbE=";
   }) + "/frontend";
 
-  vendorSha256 = "sha256-jeQc6w4/0wWmvdEM370RUw2svvRqGIY1Ji4UDzOwP7M=";
+  vendorSha256 = "sha256-WKuVGiSV5LZrJ8/672TRN6tZNQxdCktHV6nx0ZxCP4A=";
 
-  nativeBuildInputs = [ go-bindata ];
-
-  doCheck = false;
-
-  preBuild = ''
-    go generate
-  '';
+  doCheck = false; # requires network
 
   meta = with lib; {
     description = "BIRD looking glass in Go, for better maintainability, easier deployment & smaller memory footprint";
