@@ -384,6 +384,7 @@ with lib;
     gimp
     git-crypt
     gnuplot
+    haskellPackages.arbtt
     hledger hledger-web ledger-autosync reckon
     ipcalc
     jetbrains.datagrip
@@ -470,4 +471,17 @@ with lib;
   };
 
   home.keyboard.options = [ "grp:alt_caps_toggle" "caps:swapescape" ];
+
+  systemd.user.services.arbtt-capture = {
+    Unit = {
+      Description = "arbtt - The Automatic Rule-Base Time Tracker";
+    };
+
+    Service = {
+      ExecStart = "${pkgs.haskellPackages.arbtt}/bin/arbtt-capture";
+      Restart = "on-failure";
+    };
+
+    Install = { WantedBy = [ "default.target" ]; };
+  };
 }
