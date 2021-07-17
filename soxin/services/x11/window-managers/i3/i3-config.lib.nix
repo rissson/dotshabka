@@ -156,7 +156,7 @@ in {
       # enter fullscreen mode for the focused container
       "${defaultModifier}+e" = "fullscreen toggle";
       # change container layout (stacked, tabbed, toggle split)
-      "${defaultModifier}+u" = "layout stacking";
+      "${defaultModifier}+u" = "exec ${getBin pkgs.rofi}/bin/rofi -show ssh";
       "${defaultModifier}+eacute" = "layout tabbed";
       "${defaultModifier}+p" = "layout toggle split";
       # toggle tiling / floating
