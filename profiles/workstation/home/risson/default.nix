@@ -382,8 +382,9 @@ with lib;
     evince
     feh
     gimp
+    git-crypt
     gnuplot
-    hledger hledger-web
+    hledger hledger-web ledger-autosync reckon
     ipcalc
     jetbrains.datagrip
     jetbrains.idea-ultimate
@@ -422,6 +423,10 @@ with lib;
     wpa_supplicant_gui
     xsel
   ];
+
+  home.sessionVariables = {
+    LEDGER_FILE = "~/finance/current.journal";
+  };
 
   home.file =
     {

@@ -10,6 +10,7 @@ with lib;
       ];
 
       plugins = with pkgs.vimPlugins; [
+        vim-ledger
         vim-gist
         gundo-vim
         LanguageClient-neovim
