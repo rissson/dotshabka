@@ -108,6 +108,7 @@ let
   hosts = lib.genAttrs [
     "bar/cuckoo"
     "bar/nas-1"
+    "fsn/k3s-1"
     "fsn/k8s/master-11"
     "fsn/k8s/master-12"
     "fsn/k8s/master-13"

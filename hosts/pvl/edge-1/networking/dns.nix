@@ -43,6 +43,10 @@ let
           };
         };
       };
+
+      fsn.subdomains = {
+        apiserver = (host "168.119.71.47" null);
+      };
     };
   };
 
