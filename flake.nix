@@ -134,7 +134,13 @@
             nixpkgs-fmt
             pre-commit
             deploy-rs.packages.${system}.deploy-rs
+            vault
+            pkgsUnstable.terraform
           ];
+
+          shellHook = ''
+            eval "$(cat config.sh)"
+          '';
         };
 
         overrides = import ./overlays/overrides.nix { inherit pkgsUnstable pkgsMaster; };
