@@ -14,7 +14,7 @@
 , sops-nix
 , deploy-rs
 , dns
-}:
+}@inputs:
 
 let
   config = path:
@@ -26,7 +26,7 @@ let
 
       globalSpecialArgs = {
         inherit nixos-hardware dns;
-        inherit (pkgset) nixpkgsUnstable nixpkgsMaster;
+        inherit inputs;
         soxincfg = self;
         userName = "risson"; # TODO: extract this per-host
       };
