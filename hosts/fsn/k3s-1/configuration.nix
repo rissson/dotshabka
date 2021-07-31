@@ -64,7 +64,6 @@
       "--tls-san apiserver.fsn.lama.tel"
       "--disable-network-policy"
       "--flannel-backend=none"
-      "--disable coredns"
       "--disable local-storage"
       "--disable servicelb"
       "--disable traefik"
