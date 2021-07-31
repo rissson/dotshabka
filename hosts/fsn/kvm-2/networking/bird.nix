@@ -77,6 +77,28 @@
         };
       }
 
+      template bgp bgp_k3s {
+        interface "br-k8s";
+        local as 67253;
+        error wait time 1, 2;
+
+        ipv4 {
+          import filter {
+            if net ~ 148.251.148.236/31 then { accept; }
+            reject;
+          };
+          export none;
+        };
+
+        ipv6 {
+          import none;
+          export none;
+        };
+      }
+
+      protocol bgp 'k3s-1.k8s.fsn' from bgp_k3s {
+        neighbor 172.28.7.1 as 67113;
+      }
       protocol bgp 'master-11.k8s.fsn' from bgp_k8s {
         neighbor 172.28.7.11 as 67111;
       }
