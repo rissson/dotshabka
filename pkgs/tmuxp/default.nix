@@ -6,11 +6,11 @@ with python3Packages;
 
 buildPythonApplication rec {
   pname = "tmuxp";
-  version = "1.7.2";
+  version = "1.9.2";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-FClrYtsmBCDUYA3NgFQI6pCLOnjU6gpqQD0JL9v20HU=";
+    sha256 = "sha256-3RlTbIq7UGvEESMvncq97bhjJw8O4m+0aFVZgBQOwkM=";
   };
 
   postPatch = ''
