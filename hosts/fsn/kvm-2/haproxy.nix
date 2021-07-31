@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  networking.firewall.allowedTCPPorts = [ 6443 ];
+  networking.firewall.allowedTCPPorts = [ 6443 6444 ];
 
   services.haproxy = {
     enable = true;
@@ -44,6 +44,14 @@
         bind 168.119.71.47:6443
         mode tcp
         use_backend k8s-fsn-apiserver
+
+      backend k3s-fsn-apiserver
+        mode tcp
+        server k3s-fsn-apiserver 172.28.7.1:6443
+      frontend k3s-fsn-apiserver
+        bind 168.119.71.47:6444
+        mode tcp
+        use_backend k3s-fsn-apiserver
     '';
   };
 }
