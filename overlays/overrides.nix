@@ -13,11 +13,11 @@ final: prev: {
     chromium
     discord
     element-desktop
+    ferdi
     mr
     netdata
     nixpkgs-fmt
     nixpkgs-review
-    rambox
     s3cmd
     slack
     spotify

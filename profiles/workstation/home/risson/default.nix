@@ -381,6 +381,7 @@ with lib;
     element-desktop
     evince
     feh
+    ferdi
     gimp
     git-crypt
     gnuplot
@@ -405,7 +406,6 @@ with lib;
     parallel
     pcmanfm
     postgresql
-    rambox
     s3cmd
     signal-desktop
     slack
