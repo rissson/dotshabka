@@ -25,6 +25,8 @@ final: prev: {
     teams
     thunderbird
     tmuxp
+    vault
+    vault-bin
     vlc
     warsow
   ;
