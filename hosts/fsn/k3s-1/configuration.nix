@@ -42,7 +42,7 @@
     };
 
     defaultGateway = {
-      address = "172.28.7.1";
+      address = "172.28.7.254";
       interface = "ens3";
     };
 
