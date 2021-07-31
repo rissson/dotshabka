@@ -108,6 +108,10 @@
       fsType = "zfs";
       neededForBoot = true;
     };
+    "/persist/nfs-k3s.fsn" = {
+      device = "rpool/persist/persist/nfs-k3s.fsn";
+      fsType = "zfs";
+    };
     "/persist/nfs-k8s.fsn" = {
       device = "rpool/persist/persist/nfs-k8s.fsn";
       fsType = "zfs";
