@@ -36,21 +36,7 @@ let
     # TODO: try to restore layout using append_layout
     ${pkgs.i3}/bin/i3-msg "layout tabbed"
     ${urxvt}/bin/urxvt -T htop -e ${pkgs.htop}/bin/htop &
-    ${urxvt}/bin/urxvt -T cli_is_love &
     ${pkgs.coreutils}/bin/sleep 1
-    # Workspace 10
-    ${pkgs.i3}/bin/i3-msg "workspace ${ws10}"
-    ${pkgs.i3}/bin/i3-msg "layout tabbed"
-    ${urxvt}/bin/urxvt -T duck -e mosh risson@duck.risson.space -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux' &
-    ${pkgs.coreutils}/bin/sleep 2
-    # Workspace 8
-    ${pkgs.i3}/bin/i3-msg "workspace ${ws8}"
-    ${getBin pkgs.thunderbird}/bin/thunderbird &
-    # Workspace 9
-    ${pkgs.i3}/bin/i3-msg "workspace ${ws9}"
-    ${pkgs.i3}/bin/i3-msg "layout tabbed"
-    ${urxvt}/bin/urxvt -T weechat -e mosh risson@irc.risson.space -- /bin/sh -c 'screen -x weechat-risson' &
-    ${pkgs.yubioath-desktop}/bin/yubiaoth-desktop &
   '';
 
 in {
