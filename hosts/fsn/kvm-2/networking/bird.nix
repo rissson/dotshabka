@@ -84,6 +84,7 @@
 
         ipv4 {
           import filter {
+            if net ~ 172.28.8.0/24 then { accept; }
             if net ~ 148.251.148.236/31 then { accept; }
             reject;
           };
