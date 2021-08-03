@@ -3,7 +3,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kubernetes-reflector
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   labels:
@@ -22,4 +21,3 @@ spec:
     repoURL: https://emberstack.github.io/helm-charts
     chart: reflector
     targetRevision: 5.4.17
-    helm: {}
