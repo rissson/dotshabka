@@ -1,0 +1,10 @@
+namespace: gatus
+
+commonLabels:
+  app: gatus
+
+resources:
+  - namespace.yml
+  - overlays/devoups
+  - overlays/phowork
+  - service-monitor.yml

@@ -1,0 +1,53 @@
+---
+
+namespace: monitoring
+
+resources:
+  - secrets.yml
+
+# This applies to all generators. If there is ever anything other than
+# dashboards, you must move this to each individual configmap
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "1"
+
+configMapGenerator:
+  - name: grafana-dashboards-argocd
+    files:
+      - dashboards/argocd/argocd.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/argocd"
+  - name: grafana-dashboards-cert-manager
+    files:
+      - dashboards/cert-manager/cert-manager.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/cert-manager"
+  - name: grafana-dashboards-gatus
+    files:
+      - dashboards/gatus/gatus-overview.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/gatus"
+  - name: grafana-dashboards-ingress-nginx
+    files:
+      - dashboards/ingress-nginx/nginx.json
+      - dashboards/ingress-nginx/request-handling-performance.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/ingress-nginx"
+  - name: grafana-dashboards-minio
+    files:
+      - dashboards/minio/minio-overview.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/minio"
+  - name: grafana-dashboards-postgresql
+    files:
+      - dashboards/postgresql/postgresql-overview.json
+      - dashboards/postgresql/postgresql-insights.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/postgresql"

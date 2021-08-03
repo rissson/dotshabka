@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hedgedoc
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "md.risson.space,md.risson.me,md.risson.tech,md.marcerisson.space"
+spec:
+  ingressClassName: public
+  rules:
+    - host: md.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hedgedoc
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - md.lama-corp.space
+        - md.risson.space
+        - md.risson.me
+        - md.risson.tech
+        - md.marcerisson.space
+      secretName: hedgedoc-tls

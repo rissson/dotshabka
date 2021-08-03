@@ -1,0 +1,148 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: kube-prometheus-stack
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 17.0.3
+    helm:
+      values: |
+        nodeExporter:
+          enabled: true
+
+        kubeApiServer:
+          enabled: true
+        kubelet:
+          enabled: true
+        kubeControllerManager:
+          enabled: true
+        coreDns:
+          enabled: true
+        kubeEtcd:
+          enabled: true
+        kubeScheduler:
+          enabled: true
+        kubeProxy:
+          enabled: true
+        kubeStateMetrics:
+          enabled: true
+
+        defaultRules:
+          create: true
+
+        prometheusOperator:
+          enabled: true
+        prometheus:
+          enabled: true
+          prometheusSpec:
+            # Gather all resources regardless of their labels
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            replicas: 1
+            retention: 15d
+            resources:
+              limits:
+                memory: 1Gi
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  accessModes:
+                    - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 50Gi
+          ingress:
+            enabled: true
+            ingressClassName: public
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+            hosts:
+              - prometheus.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - prometheus.k3s.lama-corp.space
+                secretName: prometheus-tls
+
+        alertmanager:
+          enabled: true
+          alertManagerSpec:
+            replicas: 1
+            externalUrl: alertmanager.k3s.lama-corp.space
+          ingress:
+            enabled: true
+            ingressClassName: public
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+            hosts:
+              - alertmanager.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - alertmanager.k3s.lama-corp.space
+                secretName: alertmanager-tls
+        grafana:
+          enabled: true
+          replicas: 1
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+              folder: /tmp/dashboards
+              provider:
+                foldersFromFilesStructure: true
+              annotations:
+                k8s-sidecar-target-directory: "/tmp/dashboards/kubernetes"
+          admin:
+            existingSecret: grafana-admin-creds
+            userKey: username
+            passwordKey: password
+          grafana.ini:
+            auth.anonymous:
+              enabled: true
+          persistence:
+            enabled: true
+            type: pvc
+            accessModes:
+              - ReadWriteOnce
+            size: 10Gi
+            finalizers:
+              - kubernetes.io/pvc-protection
+          ingress:
+            enabled: true
+            ingressClassName: public
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+            hosts:
+              - grafana.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - grafana.k3s.lama-corp.space
+                secretName: grafana-tls
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks

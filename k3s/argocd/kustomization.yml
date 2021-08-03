@@ -1,0 +1,13 @@
+---
+
+namespace: argocd
+
+resources:
+  - namespace.yml
+  - github.com/argoproj/argo-cd/manifests/cluster-install?ref=v2.0.4
+  - ingress.yml
+  - service-monitors.yml
+
+patchesStrategicMerge:
+  - patch-argocd-cm.yml
+  - patch-argocd-application-controller.yml

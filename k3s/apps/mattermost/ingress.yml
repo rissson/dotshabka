@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mattermost
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+spec:
+  ingressClassName: public
+  rules:
+    - host: chat.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mattermost
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - chat.lama-corp.space
+      secretName: mattermost-tls

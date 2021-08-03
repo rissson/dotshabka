@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-facebook-bridge
+  labels:
+    type: bridge
+    component: facebook-bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: facebook-bridge
+      type: bridge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: facebook-bridge
+        type: bridge
+    spec:
+      securityContext:
+        runAsUser: 1337
+        runAsGroup: 1337
+        fsGroup: 1337
+      initContainers:
+        - name: config
+          image: spruce
+          imagePullPolicy: IfNotPresent
+          command: ["bash"]
+          args:
+            - -c
+            - "spruce merge /file-config/* /secret-files/* > /config/facebook-bridge.yaml"
+          volumeMounts:
+            - name: file-config
+              mountPath: /file-config
+            - name: config
+              mountPath: /config
+            - name: secret-files
+              mountPath: /secret-files
+      containers:
+        - name: bridge
+          image: mautrix-facebook
+          imagePullPolicy: IfNotPresent
+          command: ["python3"]
+          args:
+            - -m
+            - mautrix_facebook
+            - -c
+            - /etc/facebook-bridge/facebook-bridge.yaml
+          ports:
+            - name: appservice
+              containerPort: 5858
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/facebook-bridge
+      volumes:
+        - name: file-config
+          configMap:
+            name: matrix-facebook-bridge-file-config
+        - name: config
+          emptyDir: {}
+        - name: secret-files
+          secret:
+            secretName:
+              matrix-facebook-bridge-secret-files
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: facebook-bridge
+spec:
+  type: ClusterIP
+  ports:
+    - name: appservice
+      port: 5858
+      targetPort: appservice
+      protocol: TCP
+  selector:
+    component: facebook-bridge
+    type: bridge

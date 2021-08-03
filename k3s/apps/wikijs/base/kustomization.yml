@@ -1,0 +1,25 @@
+---
+
+commonLabels:
+  app: wikijs
+
+resources:
+  - deployment.yml
+  - service.yml
+
+configMapGenerator:
+  - name: wikijs-config
+    literals:
+      - DB_TYPE=postgres
+      - DB_HOST=acid-main-cluster.postgres.svc.cluster.local
+      - DB_PORT=5432
+      - DB_SSL=true
+      - DB_NAME=wikijs
+  - name: wikijs-file-config
+    files:
+      - config/config.yml
+
+images:
+  - name: wikijs
+    newName: requarks/wiki
+    newTag: 2.5

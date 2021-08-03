@@ -1,0 +1,115 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-synapse
+  labels:
+    component: synapse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: synapse
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: synapse
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: synapse
+          image: synapse
+          imagePullPolicy: IfNotPresent
+          args:
+            - run
+            - --config-path
+            - /etc/synapse/homeserver.yaml
+            - --config-path
+            - /etc/synapse-secrets
+          envFrom:
+            - configMapRef:
+                name: matrix-synapse-config
+          ports:
+            - name: http
+              containerPort: 8008
+              protocol: TCP
+          volumeMounts:
+            - name: file-config
+              mountPath: /etc/synapse
+            - name: secret-files
+              mountPath: /etc/synapse-secrets
+            - name: appservice-slack
+              mountPath: /etc/synapse-appservice-slack
+            - name: appservice-facebook
+              mountPath: /etc/synapse-appservice-facebook
+            - name: media
+              mountPath: /data/media_store
+            - name: uploads
+              mountPath: /data/uploads
+            - name: tmp
+              mountPath: /tmp
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            timeoutSeconds: 5
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            timeoutSeconds: 5
+            periodSeconds: 10
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: file-config
+          configMap:
+            name: matrix-synapse-file-config
+        - name: secret-files
+          secret:
+            secretName: matrix-synapse-secret-files
+        - name: appservice-slack
+          secret:
+            secretName: matrix-appservice-slack
+        - name: appservice-facebook
+          secret:
+            secretName: matrix-appservice-facebook
+        - name: media
+          persistentVolumeClaim:
+            claimName: matrix-media
+        # Ephemeral in-progress uploads
+        - name: uploads
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+  selector:
+    component: synapse

@@ -1,0 +1,19 @@
+---
+
+namespace: mattermost
+
+commonLabels:
+  app: mattermost
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+
+images:
+  - name: mattermost
+    newName: mattermost/mattermost-team-edition
+    newTag: 5.38.0-rc1

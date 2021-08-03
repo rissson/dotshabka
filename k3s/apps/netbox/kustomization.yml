@@ -1,0 +1,65 @@
+---
+
+namespace: netbox
+
+commonLabels:
+  app: netbox
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - redis.yml
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+  - service-monitor.yml
+  - ingress.yml
+
+configMapGenerator:
+  - name: netbox-config
+    literals:
+      - ALLOWED_HOSTS="netbox.lama-corp.space"
+      - CHANGELOG_RETENTION=90
+      - METRICS_ENABLED=true
+
+      - DB_HOST=acid-main-cluster.postgres.svc.cluster.local
+      - DB_NAME=netbox
+
+      - REDIS_HOST=redis-redis-master.netbox.svc.cluster.local
+      - REDIS_PORT=6379
+      - REDIS_CACHE_PORT=6379
+      - REDIS_DATABASE=0
+      - REDIS_CACHE_DATABASE=0
+
+      - SKIP_SUPERUSER=true
+      - REMOTE_AUTH_ENABLED=true
+      - REMOTE_AUTH_BACKEND=netbox.authentication.LDAPBackend
+      - REMOTE_AUTH_AUTO_CREATE_USER=true
+      - AUTH_LDAP_SERVER_URI=ldaps://ldap.lama-corp.space
+      - AUTH_LDAP_START_TLS=true
+      - AUTH_LDAP_USER_SEARCH_BASEDN=ou=users,dc=lama-corp,dc=space
+      - AUTH_LDAP_USER_SEARCH_ATTR=uid
+      - AUTH_LDAP_GROUP_SEARCH_BASEDN=ou=groups,dc=lama-corp,dc=space
+      - AUTH_LDAP_GROUP_SEARCH_CLASS=groupOfMembers
+      - AUTH_LDAP_GROUP_TYPE=NestedGroupOfNamesType
+      - AUTH_LDAP_REQUIRE_GROUP_DN=cn=wheel,ou=groups,dc=lama-corp,dc=space
+      - AUTH_LDAP_IS_ADMIN_DN=cn=wheel,ou=groups,dc=lama-corp,dc=space
+      - AUTH_LDAP_IS_SUPERUSER_DN=cn=wheel,ou=groups,dc=lama-corp,dc=space
+      - AUTH_LDAP_FIND_GROUP_PERMS=true
+      - AUTH_LDAP_MIRROR_GROUPS=true
+      - AUTH_LDAP_CACHE_TIMEOUT=3600
+      - AUTH_LDAP_ATTR_FIRSTNAME=givenName
+      - AUTH_LDAP_ATTR_LASTNAME=sn
+      - AUTH_LDAP_ATTR_MAIL=mailhidden
+
+      - EMAIL_SERVER=mail-1.vrt.fsn.lama-corp.space
+      - EMAIL_PORT=25
+      - EMAIL_FROM=netbox@lama-corp.space
+  - name: nginx-config
+    files:
+      - config/nginx.conf
+
+images:
+  - name: netbox
+    newName: netboxcommunity/netbox
+    newTag: v2.11.10-ldap

@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatus
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: gatus
+  template:
+    metadata:
+      labels:
+        app: gatus
+    spec:
+      containers:
+        - name: gatus
+          image: gatus
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200M
+            requests:
+              cpu: 50m
+              memory: 100M
+          volumeMounts:
+            - name: gatus-config
+              mountPath: /config
+            - name: gatus-persistence
+              mountPath: /persist
+      volumes:
+        - name: gatus-config
+          configMap:
+            name: gatus-configmap
+        - name: gatus-persistence
+          persistentVolumeClaim:
+            claimName: gatus-pvc

@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: minio
+          args:
+            - server
+            - --console-address
+            - ":9001"
+            - /export
+          env:
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: public
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-admin-creds
+                  key: accesskey
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-admin-creds
+                  key: secretkey
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+            - name: console
+              containerPort: 9001
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              port: http
+              path: /minio/health/live
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /minio/health/live
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /minio/health/live
+          volumeMounts:
+            - name: datadir
+              mountPath: /export
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: minio-datadir
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000

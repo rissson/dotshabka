@@ -1,0 +1,20 @@
+---
+
+namespace: pastebin
+
+commonLabels:
+  org: lama-corp
+
+namePrefix: "lama-corp-"
+
+bases:
+  - ../../base
+
+resources:
+  - ingress.yml
+
+configMapGenerator:
+- name: pastebin-configmap
+  behavior: merge
+  literals:
+    - PASTEBIN_URI=https://bin.lama-corp.space

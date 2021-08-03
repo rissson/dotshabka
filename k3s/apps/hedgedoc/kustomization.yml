@@ -1,0 +1,41 @@
+---
+
+namespace: hedgedoc
+
+commonLabels:
+  app: hedgedoc
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+
+configMapGenerator:
+  - name: hedgedoc-config
+    literals:
+      - CMD_IMAGE_UPLOAD_TYPE=s3
+      - CMD_S3_BUCKET=hedgedoc
+      - CMD_S3_ENDPOINT=s3.lama-corp.space
+
+      - CMD_ALLOW_ORIGIN=md.lama-corp.space,md.risson.space,md.risson.me,md.risson.tech,md.marcerisson.space
+      - CMD_PROTOCOL_USESSL=true
+      - CMD_URL_ADDPORT=false
+
+      - CMD_ALLOW_ANONYMOUS=true
+      - CMD_ALLOW_ANONYMOUS_EDITS=true
+
+      - CMD_EMAIL=false
+      - CMD_LDAP_URL=ldap://ldap.lama-corp.space
+      - CMD_LDAP_SEARCHBASE=ou=users,dc=lama-corp,dc=space
+      - "CMD_LDAP_SEARCHFILTER=(uid={{username}})"
+      - CMD_LDAP_USERIDFIELD=uid
+      - CMD_LDAP_USERNAMEFIELD=uid
+      - CMD_LDAP_SEARCHATTRIBUTES=uid,cn,mail
+      - "CMD_LDAP_PROVIDERNAME=Lama Corp."
+
+images:
+  - name: hedgedoc
+    newName: quay.io/codimd/server
+    newTag: 1.6.0

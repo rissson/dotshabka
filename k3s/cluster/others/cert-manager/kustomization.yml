@@ -1,0 +1,7 @@
+---
+
+namespace: cert-manager
+
+resources:
+  - default-issuer.yml
+  - dns-issuer-lama-corp.yml

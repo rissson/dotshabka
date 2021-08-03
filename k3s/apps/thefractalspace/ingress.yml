@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thefractalspace
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: thefractal.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thefractalspace
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - thefractal.space
+      secretName: thefractalspace-tls

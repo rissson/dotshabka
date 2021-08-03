@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: minecraft-servicemonitor
+spec:
+  selector:
+    matchLabels:
+      app: minecraft
+  endpoints:
+    - targetPort: metrics
+      path: /metrics
+      interval: 10s
+      relabelings:
+        - sourceLabels:
+          - __meta_kubernetes_pod_label_org
+          targetLabel: server_name

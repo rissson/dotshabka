@@ -1,0 +1,72 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: intranet-init
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init-intranet
+          image: registry.cri.epita.fr/cri/services/intranet/master
+          args: ["/bin/true"]
+          ports:
+            - name: web
+              containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: kerberos-config
+            - configMapRef:
+                name: intranet-config
+            - configMapRef:
+                name: intranet-secret-path
+          env:
+            - name: INIT_JOB
+              value: "1"
+          volumeMounts:
+            - name: spnego-keytab
+              mountPath: /etc/spnego-keytab
+            - name: intranet-keytab
+              mountPath: /etc/intranet-keytab
+            - name: ldap-admin-password
+              mountPath: /etc/ldap-admin-password
+            - name: intranet-postgres-auth
+              mountPath: /etc/intranet-postgres-auth
+            - name: intranet-s3
+              mountPath: /etc/intranet-s3
+            - name: intranet-algolia
+              mountPath: /etc/intranet-algolia
+            - name: intranet-django-secrets
+              mountPath: /etc/intranet-django-secrets
+            - name: file-config
+              mountPath: /etc/file-config
+      volumes:
+        - name: spnego-keytab
+          secret:
+            secretName: spnego-keytab
+        - name: intranet-keytab
+          secret:
+            secretName: intranet-keytab
+        - name: ldap-admin-password
+          secret:
+            secretName: ldap-admin-password
+        - name: intranet-postgres-auth
+          secret:
+            secretName: intranet.acid-main-cluster.credentials
+        - name: intranet-s3
+          secret:
+            secretName: intranet-s3
+        - name: intranet-algolia
+          secret:
+            secretName: intranet-algolia
+        - name: intranet-django-secrets
+          secret:
+            secretName: intranet-django-secrets
+        - name: file-config
+          configMap:
+            name: intranet-file-config

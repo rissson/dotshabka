@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pastebin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pastebin
+  template:
+    metadata:
+      labels:
+        app: pastebin
+    spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+        - name: pastebin
+          image: mkaczanowski/pastebin:latest
+          command: ['pastebin', '--address', '0.0.0.0', '--port', '8000', '--db', '/data/pastebin.db', '--uri', $(PASTEBIN_URI)]
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 50Mi
+              cpu: 50m
+          envFrom:
+            - configMapRef:
+                name: pastebin-configmap
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - name: datadir
+              mountPath: /data
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: pastebin-datadir

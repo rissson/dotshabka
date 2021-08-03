@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden
+  labels:
+    app: bitwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitwarden
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: bitwarden
+    spec:
+      containers:
+        - name: bitwarden
+          image: vaultwarden/server
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: websocket
+              containerPort: 3012
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          envFrom:
+            - configMapRef:
+                name: bitwarden-configmap
+          env:
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden-admin
+                  key: token
+
+            - name: BW_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden.acid-main-cluster.credentials
+                  key: username
+            - name: BW_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden.acid-main-cluster.credentials
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://$(BW_DB_USER):$(BW_DB_PASSWORD)@acid-main-cluster.postgres.svc.cluster.local:5432/bitwarden?ssl=true
+          volumeMounts:
+            - name: datadir
+              mountPath: /data
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: bitwarden-datadir

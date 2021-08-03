@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catcdc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: catcdc
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        component: catcdc
+    spec:
+      containers:
+        - name: catcdc
+          image: registry.cri.epita.fr/marc.schmitt/catcdc/master
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /readiness
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]
+          envFrom:
+            - configMapRef:
+                name: catcdc-config
+            - configMapRef:
+                name: catcdc-secret-paths
+          volumeMounts:
+            - name: catcdc-postgres-auth
+              mountPath: /etc/catcdc-postgres-auth
+            - name: catcdc-s3
+              mountPath: /etc/catcdc-s3
+            - name: catcdc-epita-oidc
+              mountPath: /etc/catcdc-epita-oidc
+            - name: catcdc-django-secrets
+              mountPath: /etc/catcdc-django-secrets
+      volumes:
+        - name: catcdc-postgres-auth
+          secret:
+            secretName: catcdc.acid-main-cluster.credentials
+        - name: catcdc-s3
+          secret:
+            secretName: catcdc-s3
+        - name: catcdc-epita-oidc
+          secret:
+            secretName: catcdc-epita-oidc
+        - name: catcdc-django-secrets
+          secret:
+            secretName: catcdc-django-secrets

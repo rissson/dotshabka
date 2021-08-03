@@ -1,0 +1,167 @@
+global:
+  operator:
+    enabled: false
+  edition: ee
+  hosts:
+    domain: lama-corp.space
+  ingress:
+    tls:
+      enabled: true
+    class: public
+    configureCertmanager: false
+    annotations:
+      cert-manager.io/cluster-issuer: default-issuer
+  psql:
+    host: acid-main-cluster.postgres.svc.cluster.local
+    database: gitlabhq_production
+    username: gitlab
+    password:
+      secret: gitlab.acid-main-cluster.credentials
+      key: password
+  registry:
+    bucket: gitlab-registry
+  minio:
+    enabled: false
+  appConfig:
+    defaultCanCreateGroup: false
+    usernameChangingEnabled: false
+    lfs:
+      enabled: true
+      proxy_download: true
+      bucket: gitlab-lfs
+      connection:
+        secret: objectstore
+        key: connection
+    artifacts:
+      enabled: true
+      proxy_download: true
+      bucket: gitlab-artifacts
+      connection:
+        secret: objectstore
+        key: connection
+    uploads:
+      enabled: true
+      proxy_download: true
+      bucket: gitlab-uploads
+      connection:
+        secret: objectstore
+        key: connection
+    packages:
+      enabled: true
+      proxy_download: true
+      bucket: gitlab-packages
+      connection:
+        secret: objectstore
+        key: connection
+    externalDiffs:
+      enabled: true
+      proxy_download: true
+      bucket: gitlab-externaldiffs
+      connection:
+        secret: objectstore
+        key: connection
+    terraformState:
+      enabled: true
+      bucket: gitlab-terraform
+      connection:
+        secret: objectstore
+        key: connection
+    pseudonymizer:
+      bucket: gitlab-pseudonymizer
+      connection:
+        secret: objectstore
+        key: connection
+    backups:
+      bucket: gitlab-backup
+      tmpBucket: gitlab-tmp
+    ldap:
+      preventSignin: false
+      servers:
+        main:
+          active_directory: false
+          admin_group: wheel
+          attributes:
+            email: mailhidden
+            first_name: givenName
+            last_name: sn
+            name: cn
+            username: uid
+          base: ou=users,dc=lama-corp,dc=space
+          block_auto_created_users: false
+          encryption: plain
+          group_base: ou=groups,dc=lama-corp,dc=space
+          host: ldap.lama-corp.space
+          label: Lama Corp. LDAP
+          port: 389
+          sync_ssh_keys: sshPublicKey
+          uid: uid
+          user_filter: (objectClass=inetOrgPerson)
+    omniauth:
+      enabled: true
+      allowSingleSignOn: true
+      autoLinkLdapUser: true
+      providers:
+        - secret: oidc-lama-corp
+      syncProfileAttributes:
+        - first_name
+        - last_name
+        - email
+    smtp:
+      enabled: true
+      address: mail-1.vrt.fsn.lama-corp.space
+      port: 25
+      authentication: ""
+    email:
+      from: gitlab@lama-corp.space
+  time_zone: Europe/Paris
+certmanager:
+  install: false
+nginx-ingress:
+  enabled: false
+postgresql:
+  install: false
+prometheus:
+  install: false
+registry:
+  hpa:
+    minReplicas: 1
+  storage:
+    secret: registry-storage
+    key: config
+  ingress:
+    tls:
+      secretName: gitlab-registry-tls
+gitlab-runner:
+  install: false
+shared-secrets:
+  enabled: true
+  rbac:
+    create: true
+gitlab:
+  webservice:
+    replicaCount: 1
+    hpa:
+      minReplicas: 1
+    ingress:
+      tls:
+        secretName: gitlab-gitlab-tls
+  task-runner:
+    replicas: 1
+    hpa:
+      minReplicas: 1
+    backups:
+      objectStorage:
+        config:
+          secret: s3cmd-config
+          key: config
+  gitlab-shell:
+    replicaCount: 1
+    minReplicas: 1
+  sidekiq:
+    replicaCount: 1
+    hpa:
+      minReplicas: 1
+  gitlab-pages:
+    replicaCount: 1
+    hpa:
+      minReplicas: 1

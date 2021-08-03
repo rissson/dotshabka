@@ -1,0 +1,19 @@
+resources:
+  - deployment.yml
+  - pvc.yml
+  - service.yml
+
+configMapGenerator:
+- name: minecraft-configmap
+  literals:
+    - MEMORY=512M
+    - EULA=TRUE
+    - VERSION=LATEST
+    - TYPE=BUKKIT
+    - DIFFICULTY=normal
+    - ALLOW_NETHER=true
+    - ANNOUNCE_PLAYER_ACHIEVEMENTS=true
+    - FORCE_GAMEMODE=true
+    - SNOOPER_ENABLED=false
+    - ENABLE_RCON=false
+    - ONLINE_MODE=true

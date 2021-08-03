@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cache-nix-lama-corp-space
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/rewrite-target: "/cache.nix.lama-corp.space/$1"
+spec:
+  ingressClassName: public
+  rules:
+    - host: cache.nix.lama-corp.space
+      http:
+        paths:
+          - path: "/(.*)$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - cache.nix.lama-corp.space
+      secretName: cache-nix-lama-corp-space-tls

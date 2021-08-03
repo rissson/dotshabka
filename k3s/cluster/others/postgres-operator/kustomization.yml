@@ -1,0 +1,10 @@
+---
+
+namespace: postgres-operator
+
+resources:
+  - namespace.yml
+  - github.com/zalando/postgres-operator/manifests?ref=v1.6.3
+
+patchesStrategicMerge:
+  - patch-postgres-operator-cm.yml

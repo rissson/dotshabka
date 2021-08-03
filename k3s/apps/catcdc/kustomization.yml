@@ -1,0 +1,43 @@
+---
+
+namespace: catcdc
+
+commonLabels:
+  app: catcdc
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - init-job.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+
+configMapGenerator:
+  - name: catcdc-config
+    literals:
+      - DJANGO_LOG_LEVEL=info
+      - DJANGO_DB_HOST=acid-main-cluster.postgres.svc.cluster.local
+      - DJANGO_DB_NAME=catcdc
+      - S3_ENDPOINT=https://s3.lama-corp.space
+      - S3_CUSTOM_DOMAIN=s3.lama-corp.space/cats.acdc.risson.space
+      - S3_SECURE_URLS=1
+      - S3_BUCKET=cats.acdc.risson.space
+      - DJANGO_ALLOWED_HOSTS="cats.acdc.risson.space cats.acdc.epita.fr"
+      - DJANGO_ADMINS=root@lama-corp.space
+  - name: catcdc-secret-paths
+    literals:
+      - DJANGO_DB_USER_FILE=/etc/catcdc-postgres-auth/username
+      - DJANGO_DB_PASSWORD_FILE=/etc/catcdc-postgres-auth/password
+
+      - S3_ACCESS_KEY_FILE=/etc/catcdc-s3/S3_ACCESS_KEY
+      - S3_SECRET_KEY_FILE=/etc/catcdc-s3/S3_SECRET_KEY
+
+      - DJANGO_SOCIAL_AUTH_EPITA_KEY_FILE=/etc/catcdc-epita-oidc/SOCIAL_AUTH_EPITA_KEY
+      - DJANGO_SOCIAL_AUTH_EPITA_SECRET_FILE=/etc/catcdc-epita-oidc/SOCIAL_AUTH_EPITA_SECRET
+
+      - DJANGO_SECRET_KEY_FILE=/etc/catcdc-django-secrets/DJANGO_SECRET_KEY
+
+images:
+  - name: registry.cri.epita.fr/marc.schmitt/catcdc/master
+    newTag: a3b5dfa6a42b9cfe84d6721ad5a1d455ef288af3

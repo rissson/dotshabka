@@ -1,0 +1,11 @@
+---
+
+resources:
+  - calico.yml
+  - cert-manager
+  - gitlab
+  - metallb
+  - monitoring
+  - nfs-provisioner
+  - postgres-operator
+  - github.com/amaizfinance/redis-operator/deploy?ref=v0.2.1

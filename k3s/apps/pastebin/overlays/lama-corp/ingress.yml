@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pastebin
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "bin.risson.space,bin.risson.me,bin.risson.tech,bin.marcerisson.space"
+spec:
+  ingressClassName: public
+  rules:
+    - host: bin.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pastebin
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - bin.lama-corp.space
+        - bin.risson.space
+        - bin.risson.me
+        - bin.risson.tech
+        - bin.marcerisson.space
+      secretName: pastebin-tls

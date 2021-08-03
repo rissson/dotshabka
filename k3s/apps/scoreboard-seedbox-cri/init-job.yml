@@ -1,0 +1,51 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: scoreboard-init
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: scoreboard-init
+          image: registry.cri.epita.fr/risson/scoreboard-seedbox-cri/master
+          args: ["/bin/true"]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: scoreboard-config
+            - configMapRef:
+                name: scoreboard-secret-path
+          env:
+            - name: INIT_JOB
+              value: "1"
+          volumeMounts:
+            - name: scoreboard-postgres-auth
+              mountPath: /etc/scoreboard-postgres-auth
+            - name: scoreboard-s3
+              mountPath: /etc/scoreboard-s3
+            - name: scoreboard-epita-oidc
+              mountPath: /etc/scoreboard-epita-oidc
+            - name: scoreboard-django-secrets
+              mountPath: /etc/scoreboard-django-secrets
+      volumes:
+        - name: scoreboard-postgres-auth
+          secret:
+            secretName: scoreboard-seedbox-cri.acid-main-cluster.credentials
+        - name: scoreboard-s3
+          secret:
+            secretName: scoreboard-s3
+        - name: scoreboard-epita-oidc
+          secret:
+            secretName: scoreboard-epita-oidc
+        - name: scoreboard-django-secrets
+          secret:
+            secretName: scoreboard-django-secrets

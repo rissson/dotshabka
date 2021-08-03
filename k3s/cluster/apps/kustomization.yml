@@ -1,0 +1,11 @@
+---
+
+namespace: argocd
+
+resources:
+  - cert-manager.yml
+  - ingress-nginx.yml
+  - kube-prometheus-stack.yml
+  - kubernetes-reflector.yml
+  - nfs-provisioner.yml
+  - vault-secrets-operator.yml

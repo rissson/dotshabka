@@ -1,0 +1,14 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: netbox-servicemonitor
+spec:
+  selector:
+    matchLabels:
+      app: netbox
+      component: netbox
+  endpoints:
+    - targetPort: http
+      path: /metrics
+      interval: 10s

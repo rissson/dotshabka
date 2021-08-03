@@ -1,0 +1,31 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: thefractalspace-bot
+  labels:
+    component: bot
+spec:
+  schedule: "42 7 * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            component: bot
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: brocoli
+              image: brocoli
+              imagePullPolicy: IfNotPresent
+              args:
+                - bot
+                - twitter
+              workingDir: /
+              envFrom:
+                - secretRef:
+                    name: thefractalspace-twitter-creds

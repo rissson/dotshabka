@@ -1,0 +1,28 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nextcloud-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: nextcloud
+              image: nextcloud
+              imagePullPolicy: IfNotPresent
+              command: [ "curl" ]
+              args:
+                - --fail
+                - -L
+                - https://cloud.lama-corp.space/cron.php
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi

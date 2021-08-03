@@ -1,0 +1,39 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "500m"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://intra.lama-corp.space"
+spec:
+  rules:
+    - host: s3.lama-corp.space
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+    - host: console.s3.lama-corp.space
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  name: console
+  tls:
+    - hosts:
+        - s3.lama-corp.space
+      secretName: minio-tls
+    - hosts:
+        - console.s3.lama-corp.space
+      secretName: minio-console-tls

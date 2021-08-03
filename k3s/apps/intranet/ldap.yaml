@@ -1,0 +1,175 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ldap
+spec:
+  serviceName: openldap-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      component: ldap
+  template:
+    metadata:
+      labels:
+        component: ldap
+    spec:
+      containers:
+        - name: openldap
+          image: registry.cri.epita.fr/cri/docker/ldap/master
+          ports:
+            - name: openldap-ldap
+              containerPort: 389
+            - name: openldap-ldaps
+              containerPort: 636
+          envFrom:
+            - configMapRef:
+                name: ldap-common-config
+            - secretRef:
+                name: ldap-admin-password
+            - secretRef:
+                name: ldap-config-password
+            - configMapRef:
+                name: ldap-config
+          volumeMounts:
+            - name: ldap-config
+              mountPath: /etc/ldap/slapd.d
+            - name: ldap-data
+              mountPath: /var/lib/ldap
+            - name: ldap-keytab
+              mountPath: /etc/ldap-keytab
+            - name: sasl
+              mountPath: /var/run/saslauthd
+            - name: ldap-tls
+              mountPath: /container/service/slapd/assets/certs
+          env:
+            - name: KRB5_TRACE
+              value: /dev/stdout
+            - name: KRB5_KTNAME
+              value: /etc/ldap-keytab/keytab
+        - name: sasl
+          image: registry.cri.epita.fr/cri/docker/ldap/master
+          args:
+            - /usr/sbin/saslauthd
+            - -d
+            - -a
+            - kerberos5
+          envFrom:
+            - configMapRef:
+                name: ldap-common-config
+          volumeMounts:
+            - name: ldap-config
+              mountPath: /etc/ldap/slapd.d
+            - name: ldap-keytab
+              mountPath: /etc/ldap-keytab
+            - name: sasl
+              mountPath: /var/run/saslauthd
+          env:
+            - name: KRB5_TRACE
+              value: /dev/stdout
+            - name: KRB5_KTNAME
+              value: /etc/ldap-keytab/keytab
+      volumes:
+        - name: ldap-keytab
+          secret:
+            secretName: ldap-keytab
+        - name: ldap-tls
+          secret:
+            secretName: ldap-tls
+            defaultMode: 0444
+        - name: ldap-data
+          persistentVolumeClaim:
+            claimName: ldap-data
+        - name: ldap-config
+          persistentVolumeClaim:
+            claimName: ldap-config
+        - name: sasl
+          emptyDir: {}
+---
+apiVersion: cert-manager.io/v1beta1
+kind: Certificate
+metadata:
+  name: ldap-tls
+spec:
+  dnsNames:
+    - ldap.lama-corp.space
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: dns-issuer-lama-corp.space
+  secretName: ldap-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    component: ldap
+  ports:
+    - name: openldap-ldap
+      port: 389
+      targetPort: 389
+    - name: openldap-ldaps
+      port: 636
+      targetPort: 636
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+spec:
+  type: ClusterIP
+  selector:
+    component: ldap
+  ports:
+    - name: openldap-ldap
+      port: 389
+      targetPort: 389
+    - name: openldap-ldaps
+      port: 636
+      targetPort: 636
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ldap-lb
+  annotations:
+    metallb.universe.tf/address-pool: "private"
+    metallb.universe.tf/allow-shared-ip: 172.28.8.150
+spec:
+  selector:
+    component: ldap
+  loadBalancerIP: 172.28.8.150
+  ports:
+    - name: openldap-ldap
+      port: 389
+      targetPort: 389
+    - name: openldap-ldaps
+      port: 636
+      targetPort: 636
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ldap-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ldap-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

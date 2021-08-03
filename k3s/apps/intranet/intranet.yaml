@@ -1,0 +1,130 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intranet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: intranet
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        component: intranet
+    spec:
+      containers:
+        - name: intranet
+          image: registry.cri.epita.fr/cri/services/intranet/master
+          ports:
+            - name: http
+              containerPort: 8000
+          startupProbe:
+            httpGet:
+              path: /readiness
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]
+          envFrom:
+            - configMapRef:
+                name: kerberos-config
+            - configMapRef:
+                name: intranet-config
+            - configMapRef:
+                name: intranet-secret-path
+          volumeMounts:
+            - name: spnego-keytab
+              mountPath: /etc/spnego-keytab
+            - name: intranet-keytab
+              mountPath: /etc/intranet-keytab
+            - name: ldap-admin-password
+              mountPath: /etc/ldap-admin-password
+            - name: intranet-postgres-auth
+              mountPath: /etc/intranet-postgres-auth
+            - name: intranet-s3
+              mountPath: /etc/intranet-s3
+            - name: intranet-algolia
+              mountPath: /etc/intranet-algolia
+            - name: intranet-django-secrets
+              mountPath: /etc/intranet-django-secrets
+            - name: file-config
+              mountPath: /etc/file-config
+      imagePullSecrets:
+        - name: intranet-dockerconfig
+      volumes:
+        - name: spnego-keytab
+          secret:
+            secretName: spnego-keytab
+        - name: intranet-keytab
+          secret:
+            secretName: intranet-keytab
+        - name: ldap-admin-password
+          secret:
+            secretName: ldap-admin-password
+        - name: intranet-postgres-auth
+          secret:
+            secretName: intranet.acid-main-cluster.credentials
+        - name: intranet-s3
+          secret:
+            secretName: intranet-s3
+        - name: intranet-algolia
+          secret:
+            secretName: intranet-algolia
+        - name: intranet-django-secrets
+          secret:
+            secretName: intranet-django-secrets
+        - name: file-config
+          configMap:
+            name: intranet-file-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intranet
+spec:
+  type: ClusterIP
+  selector:
+    component: intranet
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: intranet
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: intra.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: intranet
+                port:
+                  name: http
+  tls:
+    - hosts:
+      - intra.lama-corp.space
+      secretName: intranet-tls

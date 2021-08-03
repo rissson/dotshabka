@@ -1,0 +1,36 @@
+---
+
+namespace: gatus
+
+commonLabels:
+  org: devoups
+
+namePrefix: "devoups-"
+
+resources:
+  - ../../base
+  - ingress.yml
+  - secrets.yml
+
+configMapGenerator:
+  - name: gatus-configmap
+    files:
+      - config/config.yaml
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: gatus
+  spec:
+    template:
+      spec:
+        containers:
+          - name: gatus
+            env:
+              - name: SLACK_WEBHOOK_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: devoups-slack-webhook
+                    key: SLACK_WEBHOOK_URL

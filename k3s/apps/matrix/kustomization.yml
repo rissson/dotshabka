@@ -1,0 +1,54 @@
+---
+
+namespace: matrix
+
+commonLabels:
+  app: matrix
+
+resources:
+  - synapse.yml
+  - ingress.yml
+  - namespace.yml
+  - pvc.yml
+  - secrets.yml
+  - slack-bridge.yml
+  - facebook-bridge.yml
+  - maubot.yml
+
+configMapGenerator:
+  - name: matrix-synapse-config
+    literals:
+      - SYNAPSE_CONFIG_PATH=/etc/synapse/homeserver.yaml
+      - UID=1000
+      - GID=1000
+      - TZ=Europe/Paris
+  - name: matrix-synapse-file-config
+    files:
+      - config/homeserver.yaml
+      - config/log.config
+  - name: matrix-slack-bridge-file-config
+    files:
+      - config/slack-bridge.yaml
+  - name: matrix-facebook-bridge-file-config
+    files:
+      - config/facebook-bridge.yaml
+  - name: matrix-maubot-file-config
+    files:
+      - config/maubot.yaml
+
+images:
+  - name: spruce
+    newName: registry.gitlab.com/lama-corp/infra/tools/nix-docker/spruce/master
+    newTag: 419c5d30520a5b20602405fd484b3d2e7c8434a7
+  - name: mautrix-facebook
+    newName: dock.mau.dev/tulir/mautrix-facebook
+    newTag: v0.3.0
+  - name: maubot
+    newName: dock.mau.dev/maubot/maubot
+    newTag: 3a5f2ede910539b8a104f65f50655b8e0c98b079-amd64
+  - name: matrix-appservice-slack
+    newName: matrixdotorg/matrix-appservice-slack
+    newTag: release-1.8.0
+  - name: synapse
+    newName: matrixdotorg/synapse
+    newTag: v1.38.1

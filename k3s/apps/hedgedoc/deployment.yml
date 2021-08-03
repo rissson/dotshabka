@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hedgedoc
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: hedgedoc
+  template:
+    metadata:
+      labels:
+        app: hedgedoc
+    spec:
+      containers:
+        - name: hedgedoc
+          image: hedgedoc
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: http
+            initialDelaySeconds: 120
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: http
+            initialDelaySeconds: 30
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+          envFrom:
+            - configMapRef:
+                name: hedgedoc-config
+          env:
+            - name: CMD_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc.acid-main-cluster.credentials
+                  key: username
+            - name: CMD_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc.acid-main-cluster.credentials
+                  key: password
+            - name: CMD_DB_URL
+              value: postgres://$(CMD_DB_USER):$(CMD_DB_PASSWORD)@acid-main-cluster.postgres.svc.cluster.local:5432/hedgedoc?ssl=true
+
+            - name: CMD_SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc-session
+                  key: secret
+
+            - name: CMD_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc-s3
+                  key: S3_ACCESS_KEY
+            - name: CMD_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc-s3
+                  key: S3_SECRET_KEY
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP

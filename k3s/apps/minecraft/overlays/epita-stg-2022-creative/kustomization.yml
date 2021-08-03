@@ -1,0 +1,21 @@
+namespace: minecraft
+
+commonLabels:
+  org: epita-stg-2022-creative
+
+namePrefix: "epita-stg-2022-creative-"
+
+bases:
+  - ../../base
+
+configMapGenerator:
+- name: minecraft-configmap
+  behavior: merge
+  literals:
+    - VERSION=1.16.4
+    - SERVER_NAME=epita-stg-2022-creative
+    - OPS=rissson
+    - MODE=creative
+    - MOTD="A creative Minecraft Server for EPITA Strasbourg 2022"
+    - LEVEL=epita-stg-2022-creative
+    - ONLINE_MODE=false

@@ -1,0 +1,7 @@
+---
+
+namespace: nfs-provisioner
+
+resources:
+  - storageclass-readwriteonce.yml
+  - storageclass-readwritemany.yml

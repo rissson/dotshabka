@@ -1,0 +1,73 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: risson-space
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "risson.me,risson.tech,marcerisson.space,www.risson.space,www.risson.me,www.risson.tech,www.marcerisson.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/risson.space/$1"
+spec:
+  ingressClassName: public
+  rules:
+    - host: risson.space
+      http:
+        paths:
+          - path: "/(.*[^/])$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - risson.space
+        - risson.me
+        - risson.tech
+        - marcerisson.space
+        - www.risson.space
+        - www.risson.me
+        - www.risson.tech
+        - www.marcerisson.space
+      secretName: risson-space-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: risson-space-index
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "risson.me,risson.tech,marcerisson.space,www.risson.space,www.risson.me,www.risson.tech,www.marcerisson.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/risson.space/$1/index.html"
+spec:
+  ingressClassName: public
+  rules:
+    - host: risson.space
+      http:
+        paths:
+          - path: "/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+          - path: "/(.*)/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - risson.space
+        - risson.me
+        - risson.tech
+        - marcerisson.space
+        - www.risson.space
+        - www.risson.me
+        - www.risson.tech
+        - www.marcerisson.space
+      secretName: risson-space-tls

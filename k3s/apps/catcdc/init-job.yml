@@ -1,0 +1,51 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: catcdc-init
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: catcdc-init
+          image: registry.cri.epita.fr/marc.schmitt/catcdc/master
+          args: ["/bin/true"]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: catcdc-config
+            - configMapRef:
+                name: catcdc-secret-paths
+          env:
+            - name: INIT_JOB
+              value: "1"
+          volumeMounts:
+            - name: catcdc-postgres-auth
+              mountPath: /etc/catcdc-postgres-auth
+            - name: catcdc-s3
+              mountPath: /etc/catcdc-s3
+            - name: catcdc-epita-oidc
+              mountPath: /etc/catcdc-epita-oidc
+            - name: catcdc-django-secrets
+              mountPath: /etc/catcdc-django-secrets
+      volumes:
+        - name: catcdc-postgres-auth
+          secret:
+            secretName: catcdc.acid-main-cluster.credentials
+        - name: catcdc-s3
+          secret:
+            secretName: catcdc-s3
+        - name: catcdc-epita-oidc
+          secret:
+            secretName: catcdc-epita-oidc
+        - name: catcdc-django-secrets
+          secret:
+            secretName: catcdc-django-secrets

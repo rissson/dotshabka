@@ -1,0 +1,10 @@
+namespace: minecraft
+
+commonLabels:
+  app: minecraft
+
+resources:
+  - namespace.yml
+  - overlays/epita-stg-2022-survival/
+  - overlays/epita-stg-2022-creative/
+  - service-monitor.yml

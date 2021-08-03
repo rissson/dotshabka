@@ -1,0 +1,63 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lama-corp-space
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "www.lama-corp.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/lama-corp.space/$1"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  ingressClassName: public
+  rules:
+    - host: lama-corp.space
+      http:
+        paths:
+          - path: "/(.*[^/])$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - lama-corp.space
+        - www.lama-corp.space
+      secretName: lama-corp-space-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lama-corp-space-index
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "www.lama-corp.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/lama-corp.space/$1/index.html"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  ingressClassName: public
+  rules:
+    - host: lama-corp.space
+      http:
+        paths:
+          - path: "/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+          - path: "/(.*)/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - lama-corp.space
+        - www.lama-corp.space
+      secretName: lama-corp-space-tls

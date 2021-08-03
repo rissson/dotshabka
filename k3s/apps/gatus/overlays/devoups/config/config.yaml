@@ -1,0 +1,300 @@
+metrics: true
+storage:
+  file: /persist/gatus.db
+alerting:
+  slack:
+    webhook-url: ${SLACK_WEBHOOK_URL}
+services:
+  ###
+  # Critical
+  ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Intranet CRI
+    group: critical
+    url: https://cri.epita.fr/healthz
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: DNS
+    group: critical
+    url: tcp://ns.cri.epita.fr:53
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: GitLab
+    group: critical
+    url: https://gitlab.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Vault
+    group: critical
+    url: https://vault.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: S3
+    group: critical
+    url: https://s3.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    interval: 30s
+    name: Console Bocal
+    group: critical
+    url: https://console.bocal.org
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  ###
+  # PIE SM
+  ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: iPXE
+    group: PIE SM
+    url: https://ipxe.pie.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Nix Cache ❄️
+    group: PIE SM
+    url: https://cache.nix.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  ###
+  # Student services
+  ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Moodle (cours)
+    group: Student services
+    url: https://moodle.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Moodle (exams)
+    group: Student services
+    url: https://moodle-exam.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Rocket.Chat
+    group: Student services
+    url: https://rocketchat.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: News
+    group: Student services
+    url: tcp://news.epita.fr:119
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Git
+    group: Student services
+    url: tcp://git.cri.epita.fr:22
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    interval: 30s
+    name: Wiki prog
+    group: Student services
+    url: https://wiki-prog.infoprepa.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  ###
+  # Assistants services
+  ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Intranet Assistants
+    group: Assistants services
+    url: https://intra.assistants.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  ###
+  # Internal services
+  ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: K8s argocd
+    group: Internal services
+    url: https://argocd.k8s.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: K8s grafana
+    group: Internal services
+    url: https://grafana.k8s.cri.epita.fr
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Bookstack
+    group: Internal services
+    url: https://bookstack.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Mail
+    group: Internal services
+    url: tcp://mail.cri.epita.fr:587
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  ###
+  # Kerberos
+  ###
+
+  #- conditions:
+  #  - '[CONNECTED] == true'
+  #  - '[RESPONSE_TIME] <= 1000'
+  #  interval: 30s
+  #  name: Kerberos KDC ticket server
+  #  group: Kerberos
+  #  url: tcp://kerberos.pie.cri.epita.fr:88
+
+  ###
+  # Others
+  ###
+
+  - conditions:
+    - '[STATUS] == 401'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: OIDC redirection
+    group: others
+    url: https://tickets.cri.epita.fr
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Blog
+    group: others
+    url: https://blog.cri.epita.fr
+    alerts:
+      - type: slack
+        enabled: true
+        send-on-resolved: true
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Documentation
+    group: others
+    url: https://doc.cri.epita.fr
+
+  - conditions:
+    - '[STATUS] == 401'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: HTTPS redirection
+    group: others
+    url: https://tickets.cri.epita.fr

@@ -1,0 +1,36 @@
+---
+
+namespace: bitwarden
+
+resources:
+  - namespace.yml
+  - pvc.yml
+  - secrets.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+
+configMapGenerator:
+- name: bitwarden-configmap
+  literals:
+    - ROCKET_PORT=8080
+    - SIGNUPS_ALLOWED=true
+    - SIGNUPS_DOMAINS_WHITELIST="lama-corp.space,risson.space,lewdax.space"
+    - SIGNUPS_VERIFY=true
+    - INVITATIONS_ALLOWED=true
+    - INVITATION_ORG_NAME="Lama Corp."
+    - SHOW_PASSWORD_HINT=true
+    - WEBSOCKET_ENABLED=true
+    - WEB_VAULT_ENABLED=true
+    - ORG_CREATION_USERS=all
+    - DOMAIN=https://warden.lama-corp.space
+    - DISABLE_ADMIN_TOKEN=false
+    - SMTP_HOST=mail-1.vrt.fsn.lama-corp.space
+    - SMTP_FROM="warden@lama-corp.space"
+    - SMTP_FROM_NAME="Bitwarden - Lama Corp."
+    - SMTP_PORT=25
+    - SMTP_SSL=false
+
+images:
+  - name: vaultwarden/server
+    newTag: 1.22.2

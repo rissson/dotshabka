@@ -1,0 +1,9 @@
+resources:
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+
+images:
+  - name: gatus
+    newName: twinproduction/gatus
+    newTag: v2.5.0

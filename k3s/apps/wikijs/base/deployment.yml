@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikijs
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      component: wikijs
+  template:
+    metadata:
+      labels:
+        component: wikijs
+    spec:
+      containers:
+        - name: wikijs
+          image: wikijs
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: wikijs-config
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wikijs-postgres-auth
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: wikijs-postgres-auth
+                  key: password
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /healthz
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /healthz
+          volumeMounts:
+            - name: file-config
+              mountPath: /wiki/config.yml
+              subPath: config.yml
+      volumes:
+        - name: file-config
+          configMap:
+            name: wikijs-file-config

@@ -1,0 +1,65 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jdmi-risson-space
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "jdmi.risson.me,jdmi.risson.tech,jdmi.marcerisson.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/jdmi.risson.space/$1"
+spec:
+  ingressClassName: public
+  rules:
+    - host: jdmi.risson.space
+      http:
+        paths:
+          - path: "/(.*[^/])$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - jdmi.risson.space
+        - jdmi.risson.me
+        - jdmi.risson.tech
+        - jdmi.marcerisson.space
+      secretName: jdmi-risson-space-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jdmi-risson-space-index
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "jdmi.risson.me,jdmi.risson.tech,jdmi.marcerisson.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/jdmi.risson.space/$1/index.html"
+spec:
+  ingressClassName: public
+  rules:
+    - host: jdmi.risson.space
+      http:
+        paths:
+          - path: "/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+          - path: "/(.*)/$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - jdmi.risson.space
+        - jdmi.risson.me
+        - jdmi.risson.tech
+        - jdmi.marcerisson.space
+      secretName: jdmi-risson-space-tls

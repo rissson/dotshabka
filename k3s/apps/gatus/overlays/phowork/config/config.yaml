@@ -1,0 +1,97 @@
+metrics: true
+storage:
+  file: /persist/gatus.db
+
+web_checks: &web_checks
+  - "[STATUS] == 200"
+  - "[RESPONSE_TIME] < 1000"
+  - "[CERTIFICATE_EXPIRATION] > 48h"
+
+services:
+  ###
+  # Internal
+  ###
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: NS (0)
+    group: internal
+    url: ns0.phowork.fr
+    dns:
+      query-name: phowork.fr
+      query-type: A
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: NS (1)
+    group: internal
+    url: ns1.phowork.fr
+    dns:
+      query-name: phowork.fr
+      query-type: A
+
+  - conditions: *web_checks
+    interval: 30s
+    name: GitLab
+    group: internal
+    url: https://gitlab.phowork.fr/
+
+  - conditions: *web_checks
+    interval: 30s
+    name: Weathermap
+    group: internal
+    url: https://weathermap.phowork.fr/
+
+  - conditions: *web_checks
+    interval: 30s
+    name: Observium
+    group: internal
+    url: https://observium.phowork.fr/
+
+  - conditions: *web_checks
+    interval: 30s
+    name: Netbox
+    group: internal
+    url: https://netbox.phowork.fr/
+
+  ###
+  # Servers
+  ###
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: gw-ovh
+    group: Servers
+    url: tcp://gw-ovh.storj.phowork.fr:22
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: node-5.storj
+    group: Servers
+    url: tcp://node-5.storj.phowork.fr:22
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: tonkinois.edge.vlt
+    group: Servers
+    url: tcp://tonkinois.edge.vlt.phowork.fr:22
+
+  ###
+  # Hosted websites
+  ###
+
+  - conditions: *web_checks
+    interval: 30s
+    name: Sèvr'Escalade
+    group: Hosted websites
+    url: https://sevrescalade.fr/

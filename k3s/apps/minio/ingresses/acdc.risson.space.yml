@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: acdc-risson-space
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "acdc.risson.me,acdc.risson.tech,acdc.marcerisson.space"
+    nginx.ingress.kubernetes.io/rewrite-target: "/acdc.risson.space/$1"
+spec:
+  ingressClassName: public
+  rules:
+    - host: acdc.risson.space
+      http:
+        paths:
+          - path: "/(.*)$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minio
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - acdc.risson.space
+        - acdc.risson.me
+        - acdc.risson.tech
+        - acdc.marcerisson.space
+      secretName: acdc-risson-space-tls

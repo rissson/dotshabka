@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acid-main-cluster-metrics-master
+  labels:
+    application: spilo
+    spilo-role: master
+spec:
+  type: ClusterIP
+  ports:
+    - name: exporter
+      port: 9187
+      targetPort: exporter
+  selector:
+    application: spilo
+    cluster-name: acid-main-cluster
+    spilo-role: master
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acid-main-cluster-metrics-replica
+  labels:
+    application: spilo
+    spilo-role: replica
+spec:
+  type: ClusterIP
+  ports:
+    - name: exporter
+      port: 9187
+      targetPort: exporter
+  selector:
+    application: spilo
+    cluster-name: acid-main-cluster
+    spilo-role: replica
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: acid-main-cluster-master
+  labels:
+    application: spilo
+    spilo-role: master
+spec:
+  endpoints:
+    - port: exporter
+      interval: 15s
+      scrapeTimeout: 10s
+  selector:
+    matchLabels:
+      application: spilo
+      spilo-role: master
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: acid-main-cluster-replica
+  labels:
+    application: spilo
+    spilo-role: replica
+spec:
+  endpoints:
+    - port: exporter
+      interval: 15s
+      scrapeTimeout: 10s
+  selector:
+    matchLabels:
+      application: spilo
+      spilo-role: replica

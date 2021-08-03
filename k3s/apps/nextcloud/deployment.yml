@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      component: nextcloud
+  template:
+    metadata:
+      labels:
+        component: nextcloud
+    spec:
+      containers:
+        - name: nextcloud
+          image: nextcloud
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: nextcloud-config
+          env:
+            - name: POSTGRES_HOST
+              value: acid-main-cluster.postgres.svc.cluster.local;sslmode=require
+            - name: POSTGRES_DB
+              value: nextcloud
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud.acid-main-cluster.credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud.acid-main-cluster.credentials
+                  key: password
+
+            - name: NEXTCLOUD_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-admin-user
+                  key: username
+            - name: NEXTCLOUD_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-admin-user
+                  key: password
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: datadir
+              mountPath: /var/www/html
+              subPath: html
+            - name: datadir
+              mountPath: /data
+              subPath: data
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: nextcloud-datadir

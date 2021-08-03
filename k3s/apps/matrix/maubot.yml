@@ -1,0 +1,108 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: maubot-plugins-datadir
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-maubot
+  labels:
+    type: bot
+    component: maubot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: maubot
+      type: bot
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: maubot
+        type: bot
+    spec:
+      initContainers:
+        - name: config
+          image: spruce
+          imagePullPolicy: IfNotPresent
+          command: ["bash"]
+          args:
+            - -c
+            - "spruce merge /file-config/* /secret-files/* > /config/config.yaml"
+          volumeMounts:
+            - name: file-config
+              mountPath: /file-config
+            - name: config
+              mountPath: /config
+            - name: secret-files
+              mountPath: /secret-files
+      containers:
+        - name: bot
+          image: maubot
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 29316
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /data
+            - name: plugins-datadir
+              mountPath: /plugins
+          #readinessProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: appservice
+          #  timeoutSeconds: 5
+          #  periodSeconds: 10
+          #startupProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: appservice
+          #  timeoutSeconds: 5
+          #  periodSeconds: 5
+          #  failureThreshold: 6
+          #livenessProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: appservice
+          #  timeoutSeconds: 5
+          #  periodSeconds: 10
+      volumes:
+        - name: file-config
+          configMap:
+            name: matrix-maubot-file-config
+        - name: config
+          emptyDir: {}
+        - name: secret-files
+          secret:
+            secretName:
+              matrix-maubot-secret-files
+        - name: plugins-datadir
+          persistentVolumeClaim:
+            claimName: maubot-plugins-datadir
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maubot
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+  selector:
+    component: maubot
+    type: bot

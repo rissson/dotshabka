@@ -1,0 +1,9 @@
+---
+
+namespace: postgres
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - postgresql.yml
+  - service-monitor.yml

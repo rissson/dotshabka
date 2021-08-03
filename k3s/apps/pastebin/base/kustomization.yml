@@ -1,0 +1,11 @@
+---
+
+resources:
+  - deployment.yml
+  - pvc.yml
+  - service.yml
+
+configMapGenerator:
+- name: pastebin-configmap
+  literals:
+    - PASTEBIN_URI=http://localhost:8000/

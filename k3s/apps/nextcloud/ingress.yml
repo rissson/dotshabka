@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: "500m"
+spec:
+  ingressClassName: public
+  rules:
+    - host: cloud.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - cloud.lama-corp.space
+      secretName: nextcloud-tls

@@ -1,0 +1,110 @@
+---
+
+namespace: intranet
+
+commonLabels:
+  app: intranet
+
+resources:
+  - django-q-worker.yaml
+  - init-job.yaml
+  - intranet.yaml
+  - kadmin.yaml
+  - kdc.yaml
+  - ldap.yaml
+  - namespace.yaml
+  - redis.yaml
+  - secrets.yaml
+
+configMapGenerator:
+  - name: kerberos-config
+    literals:
+      - LDAP_URI=ldap://openldap.intranet.svc.cluster.local
+      - LDAP_DN=dc=lama-corp,dc=space
+      - KRB5_REALM=LAMA-CORP.SPACE
+      - KRB5_KDC=kdc.intranet.svc.cluster.local
+      - LDAP_ADMIN_DN=cn=adm-service,cn=krbContainer,dc=lama-corp,dc=space
+      - LDAP_KDC_DN=cn=kdc-service,cn=krbContainer,dc=lama-corp,dc=space
+      - KRB5_ADMINSERVER=kadmin.intranet.svc.cluster.local
+  - name: ldap-common-config
+    literals:
+      - LDAP_DOMAIN=lama-corp.space
+      - KRB5_REALM=LAMA-CORP.SPACE
+      - KRB5_KDC=kdc.intranet.svc.cluster.local
+  - name: ldap-config
+    literals:
+      - LDAP_BASE_DN=dc=lama-corp,dc=space
+      - LDAP_ORGANISATION=LAMA_CORP
+      - LDAP_RFC2307BIS_SCHEMA=true
+      - KRB5_REALM=LAMA-CORP.SPACE
+      - LDAP_TLS=true
+      - LDAP_TLS_CRT_FILENAME=tls.crt
+      - LDAP_TLS_KEY_FILENAME=tls.key
+      - DISABLE_CHOWN=true
+      - SSL_HELPER_TOOL=/bin/true
+      - LDAP_TLS_VERIFY_CLIENT=never
+      - LDAP_TLS_DH_PARAM_FILENAME=../../../../../etc/ldap/slapd.d/dhparam.pem
+      - LDAP_TLS_CA_CRT_FILENAME=../../../../../etc/ssl/certs/ca-certificates.crt
+      - LDAP_AUTHZ_REGEXP=uid=(.*),cn=$LDAP_DOMAIN,cn=gssapi,cn=auth ldap:///ou=People,{{ LDAP_BASE_DN }}??subtree?(uid=$1)|access to dn.base="" by * read|access to dn.subtree="cn=Subschema" by * read|access to dn.subtree="cn=schema" by * read
+  - name: intranet-config
+    literals:
+      - DJANGO_LOG_LEVEL=info
+      - DJANGO_LDAP_URI=ldap://openldap.intranet.svc.cluster.local/
+      - DJANGO_LDAP_BASE_DN=dc=lama-corp,dc=space
+      - DJANGO_LDAP_USER=cn=admin,dc=lama-corp,dc=space
+      - KERBEROS_DEFAULT_REALM=LAMA-CORP.SPACE
+      - KERBEROS_REALMS="LAMA-CORP.SPACE"
+      - DJANGO_DB_HOST=acid-main-cluster.postgres.svc.cluster.local
+      - DJANGO_DB_NAME=intranet
+      - S3_ENDPOINT=https://s3.lama-corp.space
+      - S3_CUSTOM_DOMAIN=s3.lama-corp.space/intranet
+      - S3_SECURE_URLS=1
+      - S3_BUCKET=intranet
+      - SPNEGO_HOSTNAME=intra.lama-corp.space
+      - DJANGO_ALGOLIA_INDEX_SUFFIX=PROD
+      - DJANGO_ALLOWED_HOSTS=intra.lama-corp.space
+      - DJANGO_SMTP_HOSTNAME=mail-1.vrt.fsn.lama-corp.space
+      - DJANGO_ADMINS=root@lama-corp.space
+      - DJANGO_CACHE_URL=redis://redis-redis-master.intranet.svc.cluster.local:6379/0
+      - AZUREAD_DOMAINS=invalid
+      - AZUREAD_OAUTH2_KEY=invalid
+      - AZUREAD_OAUTH2_SECRET=invalid
+  - name: intranet-file-config
+    files:
+      - config/krb5.conf
+      - config/cors.json
+  - name: intranet-secret-path
+    literals:
+      - KRB5_KTNAME=/etc/spnego-keytab/keytab
+
+      - KERBEROS_ADMIN_KEYTAB=/etc/intranet-keytab/keytab
+
+      - KRB5_CONFIG=/etc/file-config/krb5.conf
+      - CORS_CONFIG_PATH=/etc/file-config/cors.json
+
+      - DJANGO_LDAP_PASSWORD_FILE=/etc/ldap-admin-password/LDAP_ADMIN_PASSWORD
+
+      - DJANGO_DB_USER_FILE=/etc/intranet-postgres-auth/username
+      - DJANGO_DB_PASSWORD_FILE=/etc/intranet-postgres-auth/password
+
+      - S3_ACCESS_KEY_FILE=/etc/intranet-s3/S3_ACCESS_KEY
+      - S3_SECRET_KEY_FILE=/etc/intranet-s3/S3_SECRET_KEY
+
+      - DJANGO_ALGOLIA_APP_ID_FILE=/etc/intranet-algolia/DJANGO_ALGOLIA_APP_ID
+      - DJANGO_ALGOLIA_API_KEY_FILE=/etc/intranet-algolia/DJANGO_ALGOLIA_API_KEY
+      - DJANGO_ALGOLIA_SEARCH_API_KEY_FILE=/etc/intranet-algolia/DJANGO_ALGOLIA_SEARCH_API_KEY
+
+      - DJANGO_DEFAULT_ADMIN_PASSWORD_FILE=/etc/intranet-django-secrets/DJANGO_DEFAULT_ADMIN_PASSWORD
+      - DJANGO_SECRET_KEY_FILE=/etc/intranet-django-secrets/DJANGO_SECRET_KEY
+
+      - DJANGO_Q_THREADS=2
+
+images:
+  - name: registry.cri.epita.fr/cri/docker/kerberos/master
+    newTag: 6a66dc09-20201024-1126
+  - name: registry.cri.epita.fr/cri/docker/ldap/master
+    newName: registry.cri.epita.fr/cri/docker/ldap/test-sasl
+    newTag: 8a4b10b9-20200914-0147
+  - name: registry.cri.epita.fr/cri/services/intranet/master
+    newName: registry.gitlab.com/lama-corp/infra/services/hub/lama-corp-overlay
+    newTag: fa4b80da7bda64c928248372e28b299df3b38686

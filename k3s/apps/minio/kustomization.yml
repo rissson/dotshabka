@@ -1,0 +1,18 @@
+---
+
+namespace: minio
+
+resources:
+  - namespace.yml
+  - pvc.yml
+  - secrets.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+  - service-monitor.yml
+  - ingresses
+
+images:
+  - name: minio
+    newName: minio/minio
+    newTag: RELEASE.2021-07-30T00-02-00Z

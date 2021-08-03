@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wikijs
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    kubernetes.io/ingress.class: "public"
+spec:
+  rules:
+    - host: wiki.lewdax.space
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: wikijs
+              servicePort: http
+  tls:
+    - hosts:
+        - wiki.lewdax.space
+      secretName: lewdax-wikijs-ingress-tls

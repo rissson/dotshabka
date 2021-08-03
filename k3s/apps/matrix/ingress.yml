@@ -1,0 +1,48 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: matrix
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/permanent-redirect-code: "301"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  ingressClassName: public
+  rules:
+    - host: matrix.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: synapse
+                port:
+                  name: http
+    - host: slack.bridges.matrix.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: slack-bridge
+                port:
+                  name: slack-hook
+    - host: maubot.bots.matrix.lama-corp.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: maubot
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - matrix.lama-corp.space
+        - slack.bridges.matrix.lama-corp.space
+        - maubot.bots.matrix.lama-corp.space
+      secretName: matrix-tls

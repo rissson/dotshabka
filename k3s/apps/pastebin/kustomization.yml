@@ -1,0 +1,10 @@
+---
+
+namespace: pastebin
+
+commonLabels:
+  app: pastebin
+
+resources:
+  - namespace.yml
+  - overlays/lama-corp/

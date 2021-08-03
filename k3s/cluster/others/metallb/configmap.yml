@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  config: |
+    peers:
+      - peer-address: 172.28.7.254
+        peer-asn: 67253
+        my-asn: 67113
+    address-pools:
+      - name: public
+        protocol: bgp
+        addresses:
+          - 148.251.148.236/31
+        auto-assign: false
+      - name: internal
+        protocol: bgp
+        addresses:
+          - 172.28.8.150-172.28.8.160

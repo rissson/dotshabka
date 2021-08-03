@@ -1,0 +1,109 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-slack-bridge
+  labels:
+    type: bridge
+    component: slack-bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: slack-bridge
+      type: bridge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: slack-bridge
+        type: bridge
+    spec:
+      initContainers:
+        - name: config
+          image: spruce
+          imagePullPolicy: IfNotPresent
+          command: ["bash"]
+          args:
+            - -c
+            - "spruce merge /file-config/* /secret-files/* > /config/slack-bridge.yaml"
+          volumeMounts:
+            - name: file-config
+              mountPath: /file-config
+            - name: config
+              mountPath: /config
+            - name: secret-files
+              mountPath: /secret-files
+      containers:
+        - name: bridge
+          image: matrix-appservice-slack
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - /etc/slack-bridge/slack-bridge.yaml
+            - --file
+            - /etc/slack-appservice/slack.yaml
+          ports:
+            - name: appservice
+              containerPort: 5858
+              protocol: TCP
+            - name: slack-hook
+              containerPort: 9898
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/slack-bridge
+            - name: appservice-slack
+              mountPath: /etc/slack-appservice
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: appservice
+            timeoutSeconds: 5
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health
+              port: appservice
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: appservice
+            timeoutSeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: file-config
+          configMap:
+            name: matrix-slack-bridge-file-config
+        - name: config
+          emptyDir: {}
+        - name: secret-files
+          secret:
+            secretName:
+              matrix-slack-bridge-secret-files
+        - name: appservice-slack
+          secret:
+            secretName: matrix-appservice-slack
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: slack-bridge
+spec:
+  type: ClusterIP
+  ports:
+    - name: appservice
+      port: 5858
+      targetPort: appservice
+      protocol: TCP
+    - name: slack-hook
+      port: 9898
+      targetPort: slack-hook
+      protocol: TCP
+  selector:
+    component: slack-bridge
+    type: bridge

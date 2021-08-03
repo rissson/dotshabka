@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      component: mattermost
+  template:
+    metadata:
+      labels:
+        component: mattermost
+    spec:
+      containers:
+        - name: mattermost
+          image: mattermost
+          imagePullPolicy: IfNotPresent
+          args:
+            - -c
+            - $(MMT_DB_URL)
+          ports:
+            - name: http
+              containerPort: 8065
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 15
+            httpGet:
+              path: /api/v4/system/ping
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 15
+            httpGet:
+              path: /api/v4/system/ping
+              port: http
+          env:
+            - name: MMT_DB_NAME
+              value: mattermost
+            - name: MMT_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mattermost.acid-main-cluster.credentials
+                  key: username
+            - name: MMT_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mattermost.acid-main-cluster.credentials
+                  key: password
+            - name: MMT_DB_URL
+              value: "postgres://$(MMT_DB_USER):$(MMT_DB_PASSWORD)@acid-main-cluster.postgres.svc.cluster.local:5432/$(MMT_DB_NAME)?sslmode=require&connect_timeout=10"
+          volumeMounts:
+            - name: pluginsdir
+              mountPath: /mattermost/plugins
+      volumes:
+        - name: pluginsdir
+          persistentVolumeClaim:
+            claimName: mattermost-pluginsdir

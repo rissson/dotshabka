@@ -1,0 +1,7 @@
+---
+
+namespace: gitlab
+
+resources:
+  - namespace.yml
+  - secrets.yml

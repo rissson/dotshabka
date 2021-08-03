@@ -1,0 +1,21 @@
+namespace: minecraft
+
+commonLabels:
+  org: epita-stg-2022-survival
+
+namePrefix: "epita-stg-2022-survival-"
+
+bases:
+  - ../../base
+
+configMapGenerator:
+- name: minecraft-configmap
+  behavior: merge
+  literals:
+    - VERSION=1.16.4
+    - SERVER_NAME=epita-stg-2022-survival
+    - OPS=rissson
+    - MODE=survival
+    - MOTD="A survival Minecraft Server for EPITA Strasbourg 2022"
+    - LEVEL=epita-stg-2022-survival
+    - ONLINE_MODE=false

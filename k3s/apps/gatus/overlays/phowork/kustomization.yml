@@ -1,0 +1,17 @@
+---
+
+namespace: gatus
+
+commonLabels:
+  org: phowork
+
+namePrefix: "phowork-"
+
+resources:
+  - ../../base
+  - ingress.yml
+
+configMapGenerator:
+  - name: gatus-configmap
+    files:
+      - config/config.yaml

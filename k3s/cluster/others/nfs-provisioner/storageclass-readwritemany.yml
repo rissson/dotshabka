@@ -1,0 +1,10 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-k3s.fsn-readwritemany
+provisioner: cluster.local/nfs-provisioner-nfs-subdir-external-provisioner
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+parameters:
+  archiveOnDelete: "true"

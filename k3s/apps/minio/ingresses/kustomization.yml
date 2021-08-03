@@ -1,0 +1,10 @@
+---
+
+namespace: minio
+
+resources:
+  - acdc.risson.space.yml
+  - cache.nix.lama-corp.space.yml
+  - jdmi.risson.space.yml
+  - lama-corp.space.yml
+  - risson.space.yml

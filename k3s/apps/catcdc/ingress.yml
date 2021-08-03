@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: catcdc
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "cats.acdc.epita.fr"
+spec:
+  ingressClassName: public
+  rules:
+    - host: cats.acdc.risson.space
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: catcdc
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - cats.acdc.risson.space
+        - cats.acdc.epita.fr
+      secretName: catcdc-tls

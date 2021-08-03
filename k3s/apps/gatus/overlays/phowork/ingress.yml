@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gatus
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/server-alias: "status.phowork.fr"
+spec:
+  ingressClassName: public
+  rules:
+    - host: oup.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gatus
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - oup.si
+        - status.phowork.fr
+      secretName: phowork-gatus-tls
