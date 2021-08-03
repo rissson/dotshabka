@@ -1,3 +1,21 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    "github>whitesource/merge-confidence:beta"
+  ],
+
+  "argocd": {
+    "fileMatch": [
+      "^k3s/cluster/apps/.+\\.ya?ml$",
+      "^k3s/apps/apps/.+\\.ya?ml$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": ["^k3s/.+\\.ya?ml$"]
+  },
+  "kustomize": {
+    "fileMatch": ["kustomization\\.ya?ml$"]
+  }
 }

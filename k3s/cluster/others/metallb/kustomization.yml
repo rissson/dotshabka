@@ -1,5 +1,5 @@
 ---
-
+kind: Kustomization
 namespace: metallb-system
 
 resources:

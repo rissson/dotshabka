@@ -1,3 +1,6 @@
+---
+kind: Kustomization
+
 resources:
   - pvc.yml
   - deployment.yml

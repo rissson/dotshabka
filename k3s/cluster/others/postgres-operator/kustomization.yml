@@ -1,5 +1,5 @@
 ---
-
+kind: Kustomization
 namespace: postgres-operator
 
 resources:
