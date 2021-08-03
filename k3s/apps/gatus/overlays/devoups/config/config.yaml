@@ -4,6 +4,11 @@ storage:
 alerting:
   slack:
     webhook-url: ${SLACK_WEBHOOK_URL}
+    default-alert:
+      enabled: true
+      failure-threshold: 3
+      success-threshold: 2
+      send-on-resolved: true
 services:
   ###
   # Critical
@@ -19,8 +24,6 @@ services:
     url: https://cri.epita.fr/healthz
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[CONNECTED] == true'
@@ -31,8 +34,6 @@ services:
     url: tcp://ns.cri.epita.fr:53
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -44,8 +45,6 @@ services:
     url: https://gitlab.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -57,8 +56,6 @@ services:
     url: https://vault.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -70,8 +67,6 @@ services:
     url: https://s3.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -81,8 +76,6 @@ services:
     url: https://console.bocal.org
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   ###
   # PIE SM
@@ -98,8 +91,6 @@ services:
     url: https://ipxe.pie.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -111,8 +102,6 @@ services:
     url: https://cache.nix.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   ###
   # Student services
@@ -128,8 +117,6 @@ services:
     url: https://moodle.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -141,8 +128,6 @@ services:
     url: https://moodle-exam.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -154,8 +139,6 @@ services:
     url: https://rocketchat.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[CONNECTED] == true'
@@ -166,8 +149,6 @@ services:
     url: tcp://news.epita.fr:119
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[CONNECTED] == true'
@@ -178,8 +159,6 @@ services:
     url: tcp://git.cri.epita.fr:22
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -190,8 +169,6 @@ services:
     url: https://wiki-prog.infoprepa.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   ###
   # Assistants services
@@ -207,8 +184,6 @@ services:
     url: https://intra.assistants.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   ###
   # Internal services
@@ -224,8 +199,6 @@ services:
     url: https://argocd.k8s.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
@@ -246,8 +219,6 @@ services:
     url: https://bookstack.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[CONNECTED] == true'
@@ -258,8 +229,6 @@ services:
     url: tcp://mail.cri.epita.fr:587
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   ###
   # Kerberos
@@ -296,8 +265,6 @@ services:
     url: https://blog.cri.epita.fr
     alerts:
       - type: slack
-        enabled: true
-        send-on-resolved: true
 
   - conditions:
     - '[STATUS] == 200'
