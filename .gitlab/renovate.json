@@ -3,6 +3,10 @@
   "extends": [
     "config:base",
     ":preserveSemverRanges",
+    ":prHourlyLimitNone",
+    ":assignAndReview(risson)",
+    ":enableVulnerabilityAlerts",
+    ":dependencyDashboard",
     "github>whitesource/merge-confidence:beta"
   ],
 
