@@ -29,6 +29,21 @@ data:
             userAttr: DN
             groupAttr: member
             nameAttr: cn
+      - id: oidc
+        type: oidc
+        name: Lama Corp. OIDC
+        config:
+          issuer: https://intra.lama-corp.space
+          clientID: $oidc.lama-corp.clientID
+          clientSecret: $oidc.lama-corp.clientSecret
+          scopes:
+            - profile
+            - openid
+            - email
+            - roles
+          promptType: none
+          claimMapping:
+            groups: roles
   resource.customizations: |
     apiextensions.k8s.io/CustomResourceDefinition:
       ignoreDifferences: |
