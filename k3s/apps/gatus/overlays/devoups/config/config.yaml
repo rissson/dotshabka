@@ -12,6 +12,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Intranet CRI
     group: critical
@@ -36,6 +37,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: GitLab
     group: critical
@@ -48,6 +50,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Vault
     group: critical
@@ -60,6 +63,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: S3
     group: critical
@@ -87,6 +91,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: iPXE
     group: PIE SM
@@ -99,6 +104,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Nix Cache ❄️
     group: PIE SM
@@ -115,6 +121,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Moodle (cours)
     group: Student services
@@ -127,6 +134,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Moodle (exams)
     group: Student services
@@ -139,6 +147,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Rocket.Chat
     group: Student services
@@ -174,6 +183,7 @@ services:
 
   - conditions:
     - '[STATUS] == 200'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Wiki prog
     group: Student services
@@ -190,6 +200,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Intranet Assistants
     group: Assistants services
@@ -206,6 +217,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: K8s argocd
     group: Internal services
@@ -218,6 +230,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: K8s grafana
     group: Internal services
@@ -226,6 +239,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Bookstack
     group: Internal services
@@ -266,6 +280,7 @@ services:
   - conditions:
     - '[STATUS] == 401'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: OIDC redirection
     group: others
@@ -274,6 +289,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Blog
     group: others
@@ -286,6 +302,7 @@ services:
   - conditions:
     - '[STATUS] == 200'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Documentation
     group: others
@@ -294,6 +311,7 @@ services:
   - conditions:
     - '[STATUS] == 401'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: HTTPS redirection
     group: others
