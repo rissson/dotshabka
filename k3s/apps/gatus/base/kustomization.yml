@@ -9,4 +9,4 @@ resources:
 images:
   - name: gatus
     newName: twinproduction/gatus
-    newTag: v2.5.0
+    newTag: v2.8.1
