@@ -2,7 +2,7 @@
 
 let
   ldap-conf-ext = pkgs.writeText "ldap.conf.ext" ''
-    hosts = ldap.k8s.fsn.lama-corp.space
+    hosts = ldap.lama-corp.space
     ldap_version = 3
     auth_bind = yes
     auth_bind_userdn = uid=%n,ou=users,dc=lama-corp,dc=space

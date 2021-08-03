@@ -2,7 +2,7 @@
 
 let
   ldap-common-settings = ''
-    server_host = ldaps://ldap.k8s.fsn.lama-corp.space
+    server_host = ldaps://ldap.lama-corp.space
     server_port = 636
     version = 3
     bind = no
