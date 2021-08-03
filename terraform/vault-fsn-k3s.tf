@@ -540,6 +540,18 @@ resource "vault_generic_secret" "fsn-k3s_postgres_pod-secrets" {
 }
 
 //
+// Renovate
+//
+resource "vault_generic_secret" "fsn-k3s_renovate_env" {
+  path         = "fsn-k3s/renovate/env"
+  disable_read = true
+  data_json = jsonencode({
+    RENOVATE_TOKEN   = ""
+    GITHUB_COM_TOKEN = ""
+  })
+}
+
+//
 // scoreboard-seedbox-cri
 //
 resource "random_password" "fsn-k3s_scoreboard-seedbox-cri_django-secrets" {

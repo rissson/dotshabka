@@ -1,0 +1,8 @@
+{
+    "platform": "gitlab",
+    "autodiscover": true,
+    "autodiscoverFilter": "+(lama-corp|risson|risson-epita)/**",
+    "gitAuthor": "Renovate bot <renovate@lama-corp.space>",
+    "repositoryCache": "enabled",
+    "optimizeForDisabled": true
+}

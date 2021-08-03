@@ -1,0 +1,42 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: renovate
+spec:
+  schedule: '@hourly'
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: renovate
+              # Update this to the latest available and then enable Renovate on
+              # the manifest
+              image: renovate
+              env:
+                - name: LOG_LEVEL
+                  value: debug
+                - name: RENOVATE_CONFIG_FILE
+                  value: /etc/renovate/config.json
+                - name: RENOVATE_BASE_DIR
+                  value: /renovate
+              envFrom:
+                - configMapRef:
+                    name: renovate-config
+                - secretRef:
+                    name: renovate-env
+              volumeMounts:
+                - name: config
+                  mountPath: /etc/renovate
+                - name: basedir
+                  mountPath: /renovate
+          volumes:
+            - name: config
+              configMap:
+                name: renovate-config
+            - name: basedir
+              persistentVolumeClaim:
+                claimName: renovate-basedir
+          restartPolicy: Never

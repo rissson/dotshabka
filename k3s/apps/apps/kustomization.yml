@@ -16,5 +16,6 @@ resources:
   - nextcloud.yml
   - pastebin.yml
   - postgres.yml
+  - renovate.yml
   - scoreboard-seedbox-cri.yml
   - thefractalspace.yml
