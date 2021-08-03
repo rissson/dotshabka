@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+data:
+  policy.default: role:denied
+  policy.csv: |
+    p, role:denied, applications, get, */*, deny
+
+    g, lama-corp, role:readonly
+    g, wheel, role:admin

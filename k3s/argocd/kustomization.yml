@@ -10,4 +10,5 @@ resources:
 
 patchesStrategicMerge:
   - patch-argocd-cm.yml
+  - patch-argocd-rbac-cm.yml
   - patch-argocd-application-controller.yml
