@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nextcloud
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    type: app
+    app: nextcloud
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: nextcloud
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/apps/nextcloud
+    targetRevision: HEAD

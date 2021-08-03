@@ -1,0 +1,22 @@
+---
+
+namespace: argocd
+
+resources:
+  - bitwarden.yml
+
+  - catcdc.yml
+  - gatus.yml
+  - hedgedoc.yml
+  - intranet.yml
+  - matrix.yml
+  - mattermost.yml
+  - minecraft.yml
+  - minio.yml
+  - netbox.yml
+  - nextcloud.yml
+  - pastebin.yml
+  - postgres.yml
+  - scoreboard-seedbox-cri.yml
+  - thefractalspace.yml
+  - wikijs.yml

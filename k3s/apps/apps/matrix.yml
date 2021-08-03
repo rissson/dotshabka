@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    type: app
+    app: matrix
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: matrix
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/apps/matrix
+    targetRevision: HEAD

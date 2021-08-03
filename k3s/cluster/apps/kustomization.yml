@@ -7,5 +7,6 @@ resources:
   - ingress-nginx.yml
   - kube-prometheus-stack.yml
   - kubernetes-reflector.yml
+  - lama-corp.space.yml
   - nfs-provisioner.yml
   - vault-secrets-operator.yml

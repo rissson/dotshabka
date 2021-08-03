@@ -1,0 +1,91 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lama-corp-argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    app: lama-corp-argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: argocd
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/argocd
+    targetRevision: HEAD
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lama-corp-cluster-apps
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    type: cluster
+    app: lama-corp-cluster-apps
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: argocd
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/cluster/apps
+    targetRevision: HEAD
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lama-corp-cluster-others
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    type: cluster
+    app: lama-corp-cluster-others
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: default
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/cluster/others
+    targetRevision: HEAD
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lama-corp-apps
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    org: lama-corp
+    type: apps
+    app: lama-corp-apps
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: argocd
+  project: default
+  source:
+    repoURL: https://gitlab.com/lama-corp/infra/dotshabka.git
+    path: k3s/apps/apps
+    targetRevision: HEAD
