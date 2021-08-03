@@ -4,7 +4,6 @@ namespace: argocd
 
 resources:
   - bitwarden.yml
-
   - catcdc.yml
   - gatus.yml
   - hedgedoc.yml
@@ -19,4 +18,3 @@ resources:
   - postgres.yml
   - scoreboard-seedbox-cri.yml
   - thefractalspace.yml
-  - wikijs.yml
