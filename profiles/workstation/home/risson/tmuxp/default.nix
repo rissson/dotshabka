@@ -11,7 +11,6 @@
       cri-k8s = import ./cri-k8s.nix;
       cri-myfirewall = import ./cri-myfirewall.nix;
       lama-corp-hub = import ./lama-corp-hub.nix;
-      lama-corp-k8s = import ./lama-corp-k8s.nix;
       soxincfg = import ./soxincfg.nix;
     };
   };
