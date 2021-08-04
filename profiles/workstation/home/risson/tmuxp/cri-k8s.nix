@@ -9,12 +9,12 @@
     }
     {
       panes = [ "\${EDITOR} ." ];
-      start_directory = "cluster/apps";
+      start_directory = "clusters/apps";
       window_name = "cluster apps";
     }
     {
       panes = [ "\${EDITOR} ." ];
-      start_directory = "cluster/others";
+      start_directory = "clusters/others";
       window_name = "cluster others";
     }
     {
