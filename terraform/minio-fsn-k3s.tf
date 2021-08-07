@@ -281,6 +281,30 @@ resource "minio_s3_bucket" "scoreboard-seedbox-cri" {
 //
 // risson.space
 //
+resource "random_password" "minio_risson_space-gitlab-ci" {
+  count   = 1
+  length  = 64
+  special = false
+}
+/*
+resource "minio_iam_user" "risson_space-gitlab-ci" {
+  name = "risson.space-gitlab-ci"
+  secret = random_password.minio_risson_space-gitlab-ci[0].result
+  tags = {
+    app = "risson.space"
+  }
+}
+resource "minio_iam_policy" "risson_space-full" {
+  name = "risson.space-full"
+  policy = templatefile("${path.module}/minio-policies/allow-full-access.tmpl", {
+    RESOURCE_ARN_LIST = toset(["arn:aws:s3:::${minio_s3_bucket.risson_space.bucket}/*"])
+  })
+}
+resource "minio_iam_user_policy_attachment" "risson_space-gitlab-ci_risson_space-full" {
+  user_name   = minio_iam_user.risson_space-gitlab-ci.name
+  policy_name = minio_iam_policy.risson_space-full.name
+}
+*/
 resource "minio_s3_bucket" "risson_space" {
   bucket = "risson.space"
   acl    = "public-read"
