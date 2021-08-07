@@ -15,8 +15,16 @@
         target = "rpool/backups/kvm-2.srv.fsn/persist";
         recursive = true;
       };
+      "root@kvm-2.srv.fsn.lama-corp.space:rpool/vms/k3s-1" = {
+        target = "rpool/backups/kvm-2.srv.fsn/vms/k3s-1";
+        recursive = true;
+      };
       "root@kvm-2.srv.fsn.lama-corp.space:rpool/vms/mail-1" = {
         target = "rpool/backups/kvm-2.srv.fsn/vms/mail-1";
+        recursive = true;
+      };
+      "root@kvm-2.srv.fsn.lama-corp.space:rpool/vms/pine" = {
+        target = "rpool/backups/kvm-2.srv.fsn/vms/pine";
         recursive = true;
       };
     };
