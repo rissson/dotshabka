@@ -9,6 +9,7 @@
     enable = true;
     interval = "hourly";
     sshKey = config.sops.secrets.syncoid_ssh_key.path;
+    user = "root";
 
     commands = {
       "root@kvm-2.srv.fsn.lama-corp.space:rpool/persist" = {
