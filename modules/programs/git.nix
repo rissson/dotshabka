@@ -199,6 +199,11 @@ in {
           { path = "~/.gitconfig.secrets"; }
         ];
       };
+
+      home.packages = with pkgs; [
+        git-extras
+        git-open
+      ];
     })
   ]);
 }
