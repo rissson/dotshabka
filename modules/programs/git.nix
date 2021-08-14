@@ -47,6 +47,18 @@ in {
             pager = true;
             ui    = "auto";
           };
+
+          diff = {
+            colorMoved = "default";
+          };
+        };
+
+        delta = {
+          enable = true;
+          options = {
+            line-numbers = true;
+            syntax-theme = "zenburn";
+          };
         };
 
         ignores = [
