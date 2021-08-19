@@ -86,7 +86,7 @@ spec:
         - name: sasl
           emptyDir: {}
 ---
-apiVersion: cert-manager.io/v1beta1
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ldap-tls
