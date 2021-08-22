@@ -16,4 +16,4 @@ resources:
 images:
   - name: mattermost
     newName: mattermost/mattermost-team-edition
-    newTag: 5.38.0
+    newTag: 5.38.1
