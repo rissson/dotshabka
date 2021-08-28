@@ -26,6 +26,9 @@
           "CRI.EPITA.FR" = {
             admin_server = "kerberos.pie.cri.epita.fr";
           };
+          "UNDERCLOUD.CRI.EPITA.FR" = {
+            admin_server = "kerberos.undercloud.cri.epita.fr";
+          };
         };
       };
     })
