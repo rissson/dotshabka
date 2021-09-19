@@ -16,4 +16,4 @@ configMapGenerator:
 images:
   - name: renovate
     newName: renovate/renovate
-    newTag: 27.8.2
+    newTag: 27.14.0
