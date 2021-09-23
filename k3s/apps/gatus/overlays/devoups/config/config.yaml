@@ -366,10 +366,11 @@ services:
   - conditions:
     - '[CONNECTED] == true'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
     name: Mail
     group: Internal services
-    url: tcp://mail.cri.epita.fr:587
+    url: starttls://mail.cri.epita.fr:587
     alerts:
       - type: slack
 
