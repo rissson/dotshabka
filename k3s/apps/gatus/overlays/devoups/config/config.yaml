@@ -28,6 +28,17 @@ services:
   - conditions:
     - '[CONNECTED] == true'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: LDAP CRI
+    group: critical
+    url: "tls://ldap.pie.cri.epita.fr:636"
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
     interval: 30s
     name: DNS
     group: critical
