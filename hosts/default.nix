@@ -119,6 +119,7 @@ let
     "pvl/edge-1"
     "rsn/goat"
     "rsn/hedgehog"
+    "rsn/labnuc"
     "avh/edge-2"
   ]
     config;
