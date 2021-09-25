@@ -42,7 +42,18 @@ services:
     interval: 30s
     name: GitLab
     group: critical
-    url: https://gitlab.cri.epita.fr
+    url: https://gitlab.cri.epita.fr/-/health
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: GitLab registry
+    group: critical
+    url: https://registry.cri.epita.fr
     alerts:
       - type: slack
 
@@ -86,6 +97,28 @@ services:
     - '[RESPONSE_TIME] <= 1000'
     - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
+    name: Fleet manager
+    group: PIE SM
+    url: https://fleet.pie.cri.epita.fr/healthz
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: Django PXE
+    group: PIE SM
+    url: https://django-pxe.pie.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
     name: iPXE
     group: PIE SM
     url: https://ipxe.pie.cri.epita.fr
@@ -100,6 +133,16 @@ services:
     name: Nix Cache ❄️
     group: PIE SM
     url: https://cache.nix.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Bttrack
+    group: PIE SM
+    url: tcp://torrent.pie.cri.epita.fr:8000
     alerts:
       - type: slack
 
@@ -185,6 +228,71 @@ services:
     alerts:
       - type: slack
 
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: Traces Assistants
+    group: Assistants services
+    url: https://traces.assistants.epita.fr/traces/health/
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Git Assistants
+    group: Assistants services
+    url: tcp://git.assistants.epita.fr:22
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: Discord Web App
+    group: Assistants services
+    url: https://discord.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s assistants-prod-1 ArgoCD
+    url: https://argocd.prod-1.k8s.assistants.epita.fr
+    group: Assistants services
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s assistants-prod-1 Prometheus
+    url: https://prometheus.prod-1.k8s.assistants.epita.fr
+    group: Assistants services
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s assistants-prod-1 Grafana
+    url: https://grafana.prod-1.k8s.assistants.epita.fr
+    group: Assistants services
+    alerts:
+      - type: slack
+
   ###
   # Internal services
   ###
@@ -194,9 +302,9 @@ services:
     - '[RESPONSE_TIME] <= 1000'
     - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
-    name: K8s argocd
+    name: k8s ArgoCD
     group: Internal services
-    url: https://argocd.k8s.cri.epita.fr
+    url: https://argocd.undercloud.cri.epita.fr
     alerts:
       - type: slack
 
@@ -205,9 +313,44 @@ services:
     - '[RESPONSE_TIME] <= 1000'
     - '[CERTIFICATE_EXPIRATION] > 7d'
     interval: 30s
-    name: K8s grafana
+    name: k8s prod-1 Prometheus
     group: Internal services
-    url: https://grafana.k8s.cri.epita.fr
+    url: https://prometheus.prod-1.k8s.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s prod-1 Grafana
+    group: Internal services
+    url: https://grafana.prod-1.k8s.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s ops Prometheus
+    group: Internal services
+    url: https://prometheus.ops.k8s.cri.epita.fr
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: k8s ops Grafana
+    group: Internal services
+    url: https://grafana.ops.k8s.cri.epita.fr
+    alerts:
+      - type: slack
 
   - conditions:
     - '[STATUS] == 200'
@@ -234,17 +377,50 @@ services:
   # Kerberos
   ###
 
-  #- conditions:
-  #  - '[CONNECTED] == true'
-  #  - '[RESPONSE_TIME] <= 1000'
-  #  interval: 30s
-  #  name: Kerberos KDC ticket server
-  #  group: Kerberos
-  #  url: tcp://kerberos.pie.cri.epita.fr:88
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Kerberos KDC ticket server
+    group: Authentication
+    url: tcp://kerberos.pie.cri.epita.fr:88
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: LDAP
+    group: Authentication
+    url: tcp://ldap.pie.cri.epita.fr:389
+    alerts:
+      - type: slack
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: LDAPS
+    group: Authentication
+    url: tcp://ldap.pie.cri.epita.fr:636
+    alerts:
+      - type: slack
 
   ###
   # Others
   ###
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 7d'
+    interval: 30s
+    name: MaaS
+    group: others
+    url: https://maas.cri.epita.fr/health
+    alerts:
+      - type: slack
 
   - conditions:
     - '[STATUS] == 401'
