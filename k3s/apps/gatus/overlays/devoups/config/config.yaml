@@ -256,7 +256,7 @@ services:
     interval: 30s
     name: Discord Web App
     group: Assistants services
-    url: https://discord.cri.epita.fr
+    url: https://discord.cri.epita.fr/healthz
     alerts:
       - type: slack
 
