@@ -20,7 +20,7 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 3.36.0
+    targetRevision: 3.38.0
     helm:
       values: |
         fullnameOverride: ingress-nginx
