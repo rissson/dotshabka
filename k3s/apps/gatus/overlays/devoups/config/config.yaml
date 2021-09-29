@@ -419,7 +419,7 @@ services:
     interval: 30s
     name: MaaS
     group: others
-    url: https://maas.cri.epita.fr/health
+    url: https://maas.cri.epita.fr/q/health
     alerts:
       - type: slack
 
