@@ -235,7 +235,7 @@ services:
     interval: 30s
     name: Traces Assistants
     group: Assistants services
-    url: https://traces.assistants.epita.fr/traces/health/
+    url: https://traces.assistants.epita.fr/healthz
     alerts:
       - type: slack
 
