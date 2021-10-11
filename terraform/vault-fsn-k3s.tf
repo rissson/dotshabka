@@ -80,6 +80,14 @@ resource "vault_generic_secret" "fsn-k3s_gatus_devoups_slack-webhook" {
     SLACK_WEBHOOK_URL = ""
   })
 }
+resource "vault_generic_secret" "fsn-k3s_gatus_devoups_free-mobile-sendmsg-api-key" {
+  path         = "fsn-k3s/gatus/devoups/free-mobile-sendmsg-api-key"
+  disable_read = true
+  data_json = jsonencode({
+    FREE_MOBILE_SENDMSG_USER    = ""
+    FREE_MOBILE_SENDMSG_API_KEY = ""
+  })
+}
 
 //
 // GitLab

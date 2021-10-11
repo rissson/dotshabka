@@ -9,6 +9,22 @@ alerting:
       failure-threshold: 3
       success-threshold: 2
       send-on-resolved: true
+  custom:
+    url: https://smsapi.free-mobile.fr/sendmsg
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "user": "${FREE_MOBILE_SENDMSG_USER}",
+        "pass": "${FREE_MOBILE_SENDMSG_API_KEY}",
+        "msg": "[ALERT_TRIGGERED_OR_RESOLVED]: [SERVICE_NAME] - [ALERT_DESCRIPTION]"
+      }
+    default-alert:
+      enabled: true
+      failure-threshold: 5
+      success-threshold: 3
+      send-on-resolved: false
 services:
   ###
   # Critical
@@ -24,6 +40,7 @@ services:
     url: https://cri.epita.fr/healthz
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -35,6 +52,7 @@ services:
     url: "tls://ldap.pie.cri.epita.fr:636"
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -45,6 +63,7 @@ services:
     url: tcp://ns.cri.epita.fr:53
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -56,6 +75,7 @@ services:
     url: https://gitlab.cri.epita.fr/-/health
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -67,6 +87,7 @@ services:
     url: https://registry.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -78,6 +99,7 @@ services:
     url: https://vault.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -89,6 +111,7 @@ services:
     url: https://s3.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -98,6 +121,7 @@ services:
     url: https://console.bocal.org
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # PIE SM
@@ -113,6 +137,7 @@ services:
     url: https://fleet.pie.cri.epita.fr/healthz
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -124,6 +149,7 @@ services:
     url: https://django-pxe.pie.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -135,6 +161,7 @@ services:
     url: https://ipxe.pie.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -146,6 +173,7 @@ services:
     url: https://cache.nix.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -156,6 +184,7 @@ services:
     url: tcp://torrent.pie.cri.epita.fr:8000
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # Student services
@@ -171,6 +200,7 @@ services:
     url: https://moodle.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -182,6 +212,7 @@ services:
     url: https://moodle-exam.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -193,6 +224,7 @@ services:
     url: https://rocketchat.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -203,6 +235,7 @@ services:
     url: tcp://news.epita.fr:119
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -213,6 +246,7 @@ services:
     url: tcp://git.cri.epita.fr:22
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -223,6 +257,7 @@ services:
     url: https://wiki-prog.infoprepa.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # Assistants services
@@ -238,6 +273,7 @@ services:
     url: https://intra.assistants.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -249,6 +285,7 @@ services:
     url: https://traces.assistants.epita.fr/healthz
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -259,6 +296,7 @@ services:
     url: tcp://git.assistants.epita.fr:22
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -270,6 +308,7 @@ services:
     url: https://discord.cri.epita.fr/healthz
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -281,6 +320,7 @@ services:
     group: Assistants services
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -292,6 +332,7 @@ services:
     group: Assistants services
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -303,6 +344,7 @@ services:
     group: Assistants services
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # Internal services
@@ -318,6 +360,7 @@ services:
     url: https://argocd.undercloud.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -329,6 +372,7 @@ services:
     url: https://prometheus.prod-1.k8s.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -340,6 +384,7 @@ services:
     url: https://grafana.prod-1.k8s.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -351,6 +396,7 @@ services:
     url: https://prometheus.ops.k8s.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -362,6 +408,7 @@ services:
     url: https://grafana.ops.k8s.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
@@ -373,6 +420,7 @@ services:
     url: https://bookstack.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -384,6 +432,7 @@ services:
     url: starttls://mail.cri.epita.fr:587
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # Kerberos
@@ -398,6 +447,7 @@ services:
     url: tcp://kerberos.pie.cri.epita.fr:88
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -408,6 +458,7 @@ services:
     url: tcp://ldap.pie.cri.epita.fr:389
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[CONNECTED] == true'
@@ -418,6 +469,7 @@ services:
     url: tcp://ldap.pie.cri.epita.fr:636
     alerts:
       - type: slack
+      - type: custom
 
   ###
   # Others
@@ -433,6 +485,7 @@ services:
     url: https://maas.cri.epita.fr/q/health
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 401'
@@ -453,6 +506,7 @@ services:
     url: https://blog.cri.epita.fr
     alerts:
       - type: slack
+      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
