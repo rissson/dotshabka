@@ -333,9 +333,6 @@ services:
     name: k8s assistants-prod-1 Prometheus
     url: https://prometheus.prod-1.k8s.assistants.epita.fr
     group: Assistants services
-    alerts:
-      - type: slack
-      - type: custom
 
   - conditions:
     - '[STATUS] == 200'
