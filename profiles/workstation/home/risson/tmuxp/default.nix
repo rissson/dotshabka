@@ -7,6 +7,7 @@
       blog = import ./blog.nix;
       cri = import ./cri.nix;
       cri-blog = import ./cri-blog.nix;
+      cri-fman = import ./cri-fman.nix;
       cri-intranet = import ./cri-intranet.nix;
       cri-k8s = import ./cri-k8s.nix;
       cri-myfirewall = import ./cri-myfirewall.nix;
