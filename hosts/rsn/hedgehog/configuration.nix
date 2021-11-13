@@ -15,6 +15,8 @@
     "net.ipv6.conf.all.forwarding" = true;
   };
 
+  boot.blacklistedKernelModules = [ "dvb_usb_rtl28xxu" ];
+
   services.logind = {
     lidSwitch = "hybrid-sleep";
     lidSwitchDocked = "ignore";
