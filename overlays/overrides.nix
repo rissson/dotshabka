@@ -14,6 +14,7 @@ final: prev: {
     discord
     element-desktop
     ferdi
+    firefox
     mr
     netdata
     nixpkgs-fmt
@@ -29,8 +30,5 @@ final: prev: {
     vault-bin
     vlc
     warsow
-  ;
-  inherit (pkgsMaster)
-    firefox
   ;
 }

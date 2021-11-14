@@ -10,7 +10,7 @@
 
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_5_11;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_5_14;
 
   nix.maxJobs = 7;
 
