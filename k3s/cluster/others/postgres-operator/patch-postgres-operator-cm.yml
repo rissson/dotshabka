@@ -7,6 +7,8 @@ data:
   db_hosted_zone: postgres.k3s.lama-corp.space
   workers: "1"
 
+  secret_name_template: "{username}.{cluster}.credentials"
+
   enable_crd_validation: "true"
   enable_lazy_spilo_upgrade: "false"
   enable_shm_volume: "true"
