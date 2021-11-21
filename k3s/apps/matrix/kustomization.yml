@@ -45,7 +45,7 @@ images:
     newTag: v0.3.0
   - name: maubot
     newName: dock.mau.dev/maubot/maubot
-    newTag: 3a5f2ede910539b8a104f65f50655b8e0c98b079-amd64
+    newTag: 3f46dfdfd92272d77584330a88e751bd318dd887-amd64
   - name: matrix-appservice-slack
     newName: matrixdotorg/matrix-appservice-slack
     newTag: release-1.8.0
