@@ -17,10 +17,6 @@ spec:
       labels:
         component: synapse
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
       containers:
         - name: synapse
           image: synapse
@@ -72,12 +68,6 @@ spec:
               port: http
             timeoutSeconds: 5
             periodSeconds: 10
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
       volumes:
         - name: file-config
           configMap:
