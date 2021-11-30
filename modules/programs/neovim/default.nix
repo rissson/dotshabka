@@ -45,6 +45,7 @@ with lib;
         vim-eunuch
         vim-fugitive
         vim-go
+        vim-jsonnet
         vim-markdown
         vim-nix
         vim-scala
