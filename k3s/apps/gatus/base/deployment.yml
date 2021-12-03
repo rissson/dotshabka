@@ -35,12 +35,7 @@ spec:
           volumeMounts:
             - name: gatus-config
               mountPath: /config
-            - name: gatus-persistence
-              mountPath: /persist
       volumes:
         - name: gatus-config
           configMap:
             name: gatus-configmap
-        - name: gatus-persistence
-          persistentVolumeClaim:
-            claimName: gatus-pvc

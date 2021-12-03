@@ -1,13 +1,17 @@
+---
+
 metrics: true
 storage:
-  file: /persist/gatus.db
+  type: postgres
+  path: "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=require"
+
 
 web_checks: &web_checks
   - "[STATUS] == 200"
   - "[RESPONSE_TIME] < 1000"
   - "[CERTIFICATE_EXPIRATION] > 48h"
 
-services:
+endpoints:
   ###
   # Internal
   ###

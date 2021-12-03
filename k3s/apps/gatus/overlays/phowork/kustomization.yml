@@ -10,8 +10,38 @@ namePrefix: "phowork-"
 resources:
   - ../../base
   - ingress.yml
+  - secrets.yml
 
 configMapGenerator:
   - name: gatus-configmap
     files:
       - config/config.yaml
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: gatus
+  spec:
+    template:
+      spec:
+        containers:
+          - name: gatus
+            env:
+              - name: DB_HOST
+                value: acid-main-cluster.postgres.svc.cluster.local
+              - name: DB_PORT
+                value: "5432"
+              - name: DB_NAME
+                value: gatus_phowork
+              - name: DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: gatus-phowork.acid-main-cluster.credentials
+                    key: username
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: gatus-phowork.acid-main-cluster.credentials
+                    key: password
