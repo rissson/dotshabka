@@ -16,6 +16,8 @@ spec:
     bitwarden: []
     catcdc: []
     intranet: []
+    gatus_devoups: []
+    gatus_phowork: []
     gitlab: []
     hedgedoc: []
     lewdax_wikijs: []
@@ -33,6 +35,8 @@ spec:
     bitwarden: bitwarden
     catcdc: catcdc
     intranet: intranet
+    gatus_devoups: gatus_devoups
+    gatus_phowork: gatus_phowork
     gitlabhq_production: gitlab
     hedgedoc: hedgedoc
     lewdax_wikijs: lewdax_wikijs
