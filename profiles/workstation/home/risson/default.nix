@@ -416,7 +416,6 @@ with lib;
     unzip
     urlview
     vault
-    vcspull
     virt-manager
     vlc
     warsow
