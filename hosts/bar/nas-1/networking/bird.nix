@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, system, pkgs, ... }:
 
 {
   networking = {
@@ -118,7 +118,7 @@
     serviceConfig = {
       Type = "simple";
       Restart = "on-failure";
-      ExecStart = "${pkgs.bird-lg-go-proxy}/bin/proxy";
+      ExecStart = "${inputs.self.packages.${system}.bird-lg-go-proxy}/bin/proxy";
       ProtectSystem = "full";
       ProtectHome = "yes";
       MemoryDenyWriteExecute = "yes";

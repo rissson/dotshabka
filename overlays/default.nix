@@ -1,3 +1,0 @@
-{
-  flannel = import ./flannel.nix;
-}

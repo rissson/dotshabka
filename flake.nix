@@ -5,149 +5,129 @@
 
   inputs = rec {
     nixpkgs.url = "github:NixOS/nixpkgs/release-21.05";
-    nixpkgsUnstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgsMaster.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     home-manager = {
       url = "github:nix-community/home-manager/release-21.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    deploy-rs.url = "github:serokell/deploy-rs";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.1.0";
+    nur.url = "github:nix-community/NUR";
+    sops-nix.url = "github:Mic92/sops-nix";
+
     soxin = {
-      url = "github:SoxinOS/soxin";
+      url = "github:SoxinOS/soxin/custom-dev-shell";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        deploy-rs.follows = "deploy-rs";
+        flake-utils-plus.follows = "flake-utils-plus";
         home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+        nur.follows = "nur";
+        sops-nix.follows = "sops-nix";
       };
     };
+
+    dns.url = "github:kirelagin/dns.nix";
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "nixos-hardware";
-    nur.url = "nur";
-    futils.url = "github:numtide/flake-utils";
-    sops-nix.url = "github:Mic92/sops-nix";
-    deploy-rs.url = "github:serokell/deploy-rs";
-    dns.url = "github:kirelagin/dns.nix";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , nixpkgsUnstable
-    , nixpkgsMaster
-    , home-manager
-    , soxin
-    , impermanence
-    , nixos-hardware
-    , nur
-    , futils
-    , sops-nix
-    , deploy-rs
-    , dns
-    } @ inputs:
+  outputs = { self , nixpkgs , flake-utils-plus , soxin , ...  } @ inputs:
     let
       inherit (nixpkgs) lib;
-      inherit (lib) recursiveUpdate;
-      inherit (futils.lib) eachDefaultSystem;
-
-      pkgImport = pkgs: system: withOverrides:
-        import pkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-          };
-          overlays = (lib.attrValues self.overlays) ++ [
-            nur.overlay
-            soxin.overlay
-          ] ++ (lib.optional withOverrides self.overrides.${system});
-        };
-
-      pkgset = system: {
-        pkgs = pkgImport nixpkgs system true;
-        pkgsUnstable = pkgImport nixpkgsUnstable system false;
-        pkgsMaster = pkgImport nixpkgsMaster system false;
-      };
-
-      anySystemOutputs = {
-        lib = import ./lib { inherit lib; };
-
-        vars = import ./vars;
-
-        overlays = (import ./overlays) // {
-          packages = import ./pkgs;
-        };
-        overlay = self.overlays.packages;
-
-        nixosModules = (import ./modules) // {
-          profiles = import ./profiles;
-          soxin = import ./soxin/soxin.nix;
-          soxincfg = import ./modules/soxincfg.nix;
-        };
-        nixosModule = self.nixosModules.soxincfg;
-
-        nixosConfigurations =
-          let
-            system = "x86_64-linux";
-          in
-          import ./hosts (
-            recursiveUpdate inputs {
-              inherit lib system;
-              pkgset = pkgset system;
-            }
-          );
-
-        deploy = {
-          nodes =
-            builtins.mapAttrs
-            (n: v: {
-              hostname = v.config.networking.fqdn;
-              profiles.system = {
-                sshUser = "root";
-                user = "root";
-                path = deploy-rs.lib.x86_64-linux.activate.nixos v;
-              };
-            })
-            (removeAttrs self.nixosConfigurations [ "rsn/goat" "rsn/hedgehog" ]);
-        };
-
-        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-      };
-
-      multiSystemOutputs = eachDefaultSystem (system:
-      let
-        inherit (pkgset system) pkgs pkgsUnstable pkgsMaster;
-      in
-      {
-        devShell = pkgs.mkShell {
-          name = "soxincfg";
-
-          sopsPGPKeyDirs = [
-            "./vars/sops-keys/hosts"
-            "./vars/sops-keys/users"
-          ];
-
-          nativeBuildInputs = [
-            sops-nix.packages.${system}.sops-pgp-hook
-          ];
-
-          buildInputs = with pkgs; [
-            git
-            sops
-            sops-nix.packages.${system}.ssh-to-pgp
-            nixpkgs-fmt
-            pre-commit
-            deploy-rs.packages.${system}.deploy-rs
-            vault
-            pkgsUnstable.terraform
-          ];
-
-          shellHook = ''
-            eval "$(cat config.sh)"
-          '';
-        };
-
-        overrides = import ./overlays/overrides.nix { inherit pkgsUnstable pkgsMaster; };
-
-        packages = self.lib.overlaysToPkgs self.overlays pkgs;
-      });
-
+      inherit (lib) optionalAttrs recursiveUpdate singleton;
+      inherit (flake-utils-plus.lib) flattenTree exporter;
     in
-    recursiveUpdate multiSystemOutputs anySystemOutputs;
+    soxin.lib.systemFlake rec {
+      inherit inputs;
+
+      withDeploy = true; # deploy-rs support
+      withSops = true; # sops-nix support
+
+      nixosModules = (import ./modules) // {
+        profiles = import ./profiles;
+        soxin = import ./soxin/soxin.nix; # TODO: migrate those over to Soxin
+        soxincfg = import ./modules/soxincfg.nix;
+      };
+
+      nixosModule = self.nixosModules.soxincfg;
+
+      extraGlobalModules = [
+        self.nixosModule
+        self.nixosModules.profiles.core
+        self.nixosModules.soxin
+      ];
+
+      extraNixosModules = [
+        inputs.impermanence.nixosModules.impermanence
+      ];
+
+      globalSpecialArgs = {
+        inherit inputs;
+        userName = "risson";
+      };
+
+      hostDefaults = {
+        channelName = "nixpkgs";
+      };
+      hosts = import ./hosts inputs;
+
+      home-managers = import ./home-managers inputs;
+
+      vars = import ./vars;
+
+      channelsConfig = {
+        allowUnfree = true;
+      };
+
+      channels = {
+        nixpkgs = {
+          overlaysBuilder = channels: [
+            (final: prev: {
+              inherit (channels.nixpkgs-unstable)
+                awscli
+                claws-mail
+                chromium
+                discord
+                element-desktop
+                ferdi
+                firefox
+                mr
+                netdata
+                nixpkgs-fmt
+                nixpkgs-review
+                s3cmd
+                slack
+                spotify
+                steam
+                teams
+                thunderbird
+                tmuxp
+                vault
+                vault-bin
+                vlc
+                warsow
+              ;
+            })
+          ];
+        };
+        nixpkgs-master.input = inputs.nixpkgs-master;
+      };
+
+      devShellBuilder = channels: with channels.nixpkgs; mkShell {
+        buildInputs = [
+          git
+          vault
+          channels.nixpkgs-unstable.terraform
+        ];
+
+        shellHook = ''
+          eval "$(cat config.sh)"
+        '';
+      };
+
+      packagesBuilder = channels: flattenTree (import ./pkgs channels);
+    };
 }
