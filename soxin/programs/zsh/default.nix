@@ -45,11 +45,11 @@ let
         --subst-var-by perl_bin ${getBin perl}/bin/perl
 
       substituteInPlace $out/jsonpp \
-        --subst-var-by python_bin ${getBin python37Full}/bin/python \
-        --subst-var-by pygmentize_bin ${getBin python36Packages.pygments}/bin/pygmentize
+        --subst-var-by python_bin ${getBin python3Full}/bin/python \
+        --subst-var-by pygmentize_bin ${getBin python3Packages.pygments}/bin/pygmentize
 
       substituteInPlace $out/jspp \
-        --subst-var-by js-beautify_bin ${getBin python36Packages.jsbeautifier}/bin/js-beautify
+        --subst-var-by js-beautify_bin ${getBin python3Packages.jsbeautifier}/bin/js-beautify
 
       substituteInPlace $out/kcc \
         --subst-var-by kubectl ${getBin kubectl}/bin/kubectl
@@ -117,10 +117,10 @@ let
     ];
   };
 
-  shellInit = with pkgs; (''
+  shellInit = with pkgs; (/*''
     # source in the LS_COLORS
     source "${nur.repos.kalbasit.ls-colors}/ls-colors/bourne-shell.sh"
-    '' + (builtins.readFile (substituteAll {
+    '' + */ (builtins.readFile (substituteAll {
       src = ./init-extra.zsh;
 
       bat_bin      = "${getBin bat}/bin/bat";

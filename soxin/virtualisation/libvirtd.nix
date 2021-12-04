@@ -20,7 +20,7 @@ in
     (optionalAttrs (mode == "NixOS") {
       virtualisation.libvirtd = {
         enable = true;
-        qemuRunAsRoot = false;
+        qemu.runAsRoot = false;
       };
 
       soxin.users.groups = optional cfg.addAdminUsersToGroup "libvirtd";

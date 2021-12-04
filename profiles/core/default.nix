@@ -1,7 +1,7 @@
 { inputs, mode, pkgs, lib, ... }:
 
 let
-  inherit (lib) mkMerge optionalAttrs;
+  inherit (lib) mkMerge optionalAttrs optionals;
 
   packages = with pkgs; [
     htop
@@ -13,12 +13,13 @@ let
     ncdu
     tcpdump
     telnet
-    traceroute
     tree
     unzip
     wget
     zip
-  ];
+  ] ++ (optionals (mode == "NixOS") [
+    traceroute
+  ]);
 in
 {
   config = mkMerge [
