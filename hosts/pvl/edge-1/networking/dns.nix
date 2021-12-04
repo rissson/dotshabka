@@ -1,6 +1,8 @@
-{ config, dns, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 let
+  inherit (inputs) dns;
+
   lamaTelZoneFile = pkgs.writeTextDir "lama.tel.zone" (dns.lib.toString "lama.tel" lamaTelZone);
   lamaTelZone = with dns.lib.combinators; {
     SOA = {

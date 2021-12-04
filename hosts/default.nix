@@ -1,124 +1,69 @@
-{ lib
-, system
-, pkgset
-, self
-, nixpkgs
-, nixpkgsUnstable
-, nixpkgsMaster
-, home-manager
-, soxin
-, impermanence
-, nixos-hardware
-, nur
-, futils
-, sops-nix
-, deploy-rs
-, dns
-}@inputs:
+{ self, deploy-rs, nixpkgs, ... }@inputs:
 
 let
-  config = path:
-    let
-      hostName = lib.lists.last (lib.splitString "/" path);
-    in
-    soxin.lib.nixosSystem {
-      inherit system;
+  inherit (nixpkgs) lib;
+  inherit (lib) attrValues genAttrs mapAttrs';
+  genAttrs' = func: values: builtins.listToAttrs (map func values);
 
-      globalSpecialArgs = {
-        inherit nixos-hardware dns;
-        inherit inputs;
-        soxincfg = self;
-        userName = "risson"; # TODO: extract this per-host
-      };
+  getHostname = path: lib.lists.last (lib.splitString "/" path);
+  getConfiguration = path: "${toString ./.}/${path}/configuration.nix";
 
-      globalModules = builtins.attrValues (removeAttrs self.nixosModules [ "profiles" "soxincfg" ]);
-
-      nixosModules =
-        let
-          core = self.nixosModules.profiles.core;
-
-          global = {
-            networking.hostName = hostName;
-            nix.nixPath =
-              let
-                path = toString ../.;
-              in
-              [
-                "nixpkgs=${nixpkgs}"
-                "nixpkgs-unstable=${nixpkgsUnstable}"
-                "nixpkgs-master=${nixpkgsMaster}"
-                "soxin=${soxin}"
-                "soxincfg=${self}"
-              ];
-
-            nixpkgs = {
-              inherit (pkgset) pkgs;
-            };
-
-            nix.registry = {
-              nixpkgs.flake = nixpkgs;
-              nixpkgsUnstable.flake = nixpkgsUnstable;
-              nixpkgsMaster.flake = nixpkgsMaster;
-              soxin.flake = soxin;
-              soxincfg.flake = self;
-            };
-
-            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-          };
-
-          sops-fix = { config, pkgs, lib, ... }: {
-            system.activationScripts.setup-secrets =
-              let
-                sops-install-secrets = sops-nix.packages.x86_64-linux.sops-install-secrets;
-                manifest = builtins.toFile "manifest.json" (builtins.toJSON {
-                  secrets = builtins.attrValues config.sops.secrets;
-                  # Does this need to be configurable?
-                  secretsMountPoint = "/run/secrets.d";
-                  symlinkPath = "/run/secrets";
-                  inherit (config.sops) gnupgHome sshKeyPaths;
-                });
-
-                checkedManifest = pkgs.runCommandNoCC "checked-manifest.json" {
-                  nativeBuildInputs = [ sops-install-secrets ];
-                } ''
-                  sops-install-secrets -check-mode=${if config.sops.validateSopsFiles then "sopsfile" else "manifest"} ${manifest}
-                  cp ${manifest} $out
-                '';
-              in
-              lib.mkForce (lib.stringAfter [ "users" "groups" ] ''
-                echo setting up secrets...
-                export PATH=$PATH:${pkgs.gnupg}/bin:${pkgs.gnupg}/sbin
-                SOPS_GPG_EXEC=${pkgs.gnupg}/bin/gpg ${sops-install-secrets}/bin/sops-install-secrets ${checkedManifest}
-              '');
-          };
-
-          local = import "${toString ./.}/${path}/configuration.nix";
-        in
-        [
-          impermanence.nixosModules.impermanence
-          sops-nix.nixosModules.sops
-          sops-fix
-
-          core
-          global
-          local
-        ];
-    };
-
-  hosts = lib.genAttrs [
-    "bar/cuckoo"
-    "bar/nas-1"
-    "fsn/k3s-1"
-    "fsn/kvm-2"
-    "fsn/mail-1"
-    "fsn/pine"
-    "p13/storj-1"
-    "pvl/edge-1"
-    "rsn/goat"
-    "rsn/hedgehog"
-    "rsn/labnuc"
-    "avh/edge-2"
-  ]
-    config;
+  hosts = {
+    x86_64-linux = [
+      "avh/edge-2"
+      "bar/cuckoo"
+      "bar/nas-1"
+      "fsn/k3s-1"
+      "fsn/kvm-2"
+      "fsn/mail-1"
+      "fsn/pine"
+      "p13/storj-1"
+      "pvl/edge-1"
+      "rsn/goat"
+      "rsn/hedgehog"
+      "rsn/labnuc"
+    ];
+    x86_64-darwin = [ ];
+  };
 in
-hosts
+# This currently segfaults. See https://github.com/NixOS/nix/issues/4893
+/* attrValues (
+  mapAttrs'
+    (system: paths:
+      genAttrs'
+        (path: {
+          name = getHostname path;
+          value = {
+            # TODO: add builder for darwin if we are evalutating
+            # `x86_64-darwin` hosts
+            inherit system;
+            channelName = "nixpkgs";
+            modules = [ (getConfiguration path) ];
+          };
+        })
+        paths
+    )
+    hosts
+) */
+
+(genAttrs hosts.x86_64-linux (
+  path: rec {
+    system = "x86_64-linux";
+    specialArgs = { inherit system; };
+    modules = [
+      { networking.hostName = lib.mkForce (getHostname path); }
+      (getConfiguration path)
+    ];
+  }
+)) // (genAttrs hosts.x86_64-darwin (
+  path: rec {
+    system = "x86_64-darwin";
+    builder = args: inputs.darwin.lib.darwinSystem (removeAttrs args [ "system" ]);
+    output = "darwinConfigurations";
+    specialArgs = { inherit system; };
+    modules = [
+      { networking.hostName = lib.mkForce (getHostname path); }
+      (getConfiguration path)
+    ];
+  }
+))
