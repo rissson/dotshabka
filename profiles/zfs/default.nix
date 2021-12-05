@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   boot = {
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "elevator=none" ];
     supportedFilesystems = [ "zfs" ];
     loader.grub.zfsSupport = true;

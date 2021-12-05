@@ -3,6 +3,7 @@
 {
   imports = [
     soxincfg.nixosModules.profiles.workstation
+    soxincfg.nixosModules.profiles.zfs
 
     ./hardware-configuration.nix
     ./networking
