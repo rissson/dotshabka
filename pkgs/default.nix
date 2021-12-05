@@ -24,8 +24,6 @@ let
         })
       ];
     };
-
-    tmuxp = callPackage ./tmuxp { };
   };
 
   hasElement = list: elem: (findSingle (x: x == elem) "none" "multiple" list) != "none";
