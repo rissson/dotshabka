@@ -1,0 +1,73 @@
+---
+
+stages:
+  - generate
+  - trigger
+  - build
+  - docker
+  - qa
+  - misc
+
+
+.default:
+  image: registry.gitlab.com/lama-corp/infra/dotshabka/nix
+  needs: []
+  before_script:
+    - mkdir -p /tmp /var/tmp
+    - mkdir -p ~/.aws
+    - echo "[default]" > ~/.aws/config
+    - source .gitlab/ci/utils.sh
+    # Fix nix errors about dirty tree
+    - git switch -t origin/master
+    - git reset --hard $CI_COMMIT_SHA
+
+.generate:
+  extends: .default
+  stage: generate
+  artifacts:
+    paths:
+      - pipeline.yml
+
+.generate-pipelines:
+  extends: .generate
+  artifacts:
+    paths:
+      - pipeline.yml
+      - diffs
+
+.trigger:
+  stage: trigger
+  trigger:
+    strategy: depend
+    include:
+      - job: generate
+        artifact: pipeline.yml
+
+.build:
+  extends: .default
+  stage: build
+
+.nix-docker:
+  extends: .default
+  stage: docker
+  needs:
+    - build
+  before_script:
+    - !reference [.default, before_script]
+    - nix_run skopeo login registry.gitlab.com --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  script:
+    - export buildExpression=".#${IMAGE}-docker"
+    - nix -L build "$buildExpression"
+    - nix_run skopeo --insecure-policy copy "docker-archive:$(readlink -f ./result)" docker://$CI_REGISTRY_IMAGE/$IMAGE:$CI_COMMIT_SHA
+    - nix_run skopeo --insecure-policy copy "docker-archive:$(readlink -f ./result)" docker://$CI_REGISTRY_IMAGE/$IMAGE:latest
+  allow_failure: true
+  rules:
+    - when: manual
+
+.qa:
+  extends: .default
+  stage: qa
+
+.misc:
+  extends: .default
+  stage: misc

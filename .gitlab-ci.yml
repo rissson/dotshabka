@@ -1,0 +1,62 @@
+---
+
+include:
+  - template: Workflows/MergeRequest-Pipelines.gitlab-ci.yml
+  - local: .gitlab/ci/templates.yml
+
+generate hosts pipelines:
+  extends: .generate-pipelines
+  script:
+    - .gitlab/ci/generate-hosts-pipeline.sh | tee pipeline.yml
+
+generate packages pipelines:
+  extends: .generate-pipelines
+  script:
+    - .gitlab/ci/generate-packages-pipeline.sh | tee pipeline.yml
+
+trigger hosts pipelines:
+  extends: .trigger
+  needs:
+    - generate hosts pipelines
+  trigger:
+    include:
+      - job: generate hosts pipelines
+        artifact: pipeline.yml
+
+trigger packages pipelines:
+  extends: .trigger
+  needs:
+    - generate packages pipelines
+  trigger:
+    include:
+      - job: generate packages pipelines
+        artifact: pipeline.yml
+
+# Lint
+
+nix show:
+  extends: .qa
+  script:
+    - nix flake show
+
+nix fmt:
+  extends: .qa
+  script:
+    - nix run .#nixpkgs-fmt -- --check $(find -name \*.nix)
+  after_script:
+    - nix run .#nixpkgs-fmt -- $(find -name \*.nix)
+    - git diff | tee nixpkgs-fmt.diff
+  allow_failure: true
+  artifacts:
+    when: on_failure
+    expose_as: "nixpkgs-fmt diff"
+    paths:
+      - nixpkgs-fmt.diff
+
+# Docker
+
+nix-docker:
+  extends: .nix-docker
+  needs: []
+  variables:
+    IMAGE: nix

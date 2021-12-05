@@ -13,6 +13,10 @@
     };
 
     deploy-rs.url = "github:serokell/deploy-rs";
+    docker-nixpkgs = {
+      url = "github:nix-community/docker-nixpkgs";
+      flake = false;
+    };
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.1.0";
     nur.url = "github:nix-community/NUR";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -38,7 +42,7 @@
     let
       inherit (nixpkgs) lib;
       inherit (lib) optionalAttrs recursiveUpdate singleton;
-      inherit (flake-utils-plus.lib) flattenTree exporter;
+      inherit (flake-utils-plus.lib) flattenTree exporter mkApp;
     in
     soxin.lib.systemFlake rec {
       inherit inputs;
@@ -81,6 +85,10 @@
       channelsConfig = {
         allowUnfree = true;
       };
+
+      sharedOverlays = [
+        (import "${inputs.docker-nixpkgs}/overlay.nix")
+      ];
 
       channels = {
         nixpkgs = {
@@ -129,5 +137,35 @@
       };
 
       packagesBuilder = channels: flattenTree (import ./pkgs channels);
+
+      appsBuilder = channels:
+        with channels.nixpkgs;
+        let
+          hostList = builtins.attrNames self.nixosConfigurations;
+          pkgList = builtins.attrNames (lib.filterAttrs (name: _: !lib.hasSuffix "-docker" name) self.packages.${system});
+          mkListApp = list: {
+            type = "app";
+            program = toString (writeShellScript "list.sh" (lib.concatMapStringsSep "\n" (el: "echo '${el}'") list));
+          };
+        in
+        {
+          list-hosts = mkListApp hostList;
+          list-pkgs = mkListApp pkgList;
+
+          awscli = mkApp {
+            drv = awscli;
+            exePath = "/bin/aws";
+          };
+          nix-diff = mkApp {
+            drv = channels.nixpkgs-master.nix-diff;
+          };
+          nixpkgs-fmt = mkApp {
+            drv = nixpkgs-fmt;
+          };
+          skopeo = mkApp {
+            drv = skopeo;
+          };
+        };
+
     };
 }
