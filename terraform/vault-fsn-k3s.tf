@@ -489,6 +489,14 @@ resource "vault_generic_secret" "fsn-k3s_minio_admin-creds" {
   })
 }
 
+resource "vault_generic_secret" "fsn-k3s_minio_cache_nix_lama-corp_space" {
+  path = "fsn-k3s/minio/cache_nix_lama-corp_space"
+  data_json = jsonencode({
+    S3_ACCESS_KEY = "cache.nix.lama-corp.space"                               # minio_iam_user.cache_nix_lama-corp_space.name
+    S3_SECRET_KEY = random_password.minio_cache_nix_lama-corp_space[0].result # minio_iam_user.cache_nix_lama-corp_space.secret
+  })
+}
+
 //
 // Monitoring
 //

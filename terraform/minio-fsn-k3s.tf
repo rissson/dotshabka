@@ -9,6 +9,30 @@ resource "minio_s3_bucket" "acdc_risson_space" {
 //
 // cache.nix.lama-corp.space
 //
+resource "random_password" "minio_cache_nix_lama-corp_space" {
+  count   = 1
+  length  = 64
+  special = false
+}
+/*
+resource "minio_iam_user" "cache_nix_lama-corp_space" {
+  name = "cache.nix.lama-corp.space"
+  secret = random_password.minion_cache_nix_lama-corp_space[0].result
+  tags = {
+    app = "cache_nix_lama-corp_space"
+  }
+}
+resource "minio_iam_policy" "cache_nix_lama-corp_space-full" {
+  name = "cache.nix.lama-corp.space-full"
+  policy = templatefile("${path.module}/minio-policies/allow-full-access.tmpl", {
+    RESOURCE_ARN_LIST = toset(["arn:aws:s3:::${minio_s3_bucket.cache_nix_lama-corp_space.bucket}/*"])
+  })
+}
+resource "minio_iam_user_policy_attachment" "cache_nix_lama-corp_space-full" {
+  user_name   = minio_iam_user.cache_nix_lama-corp_space.name
+  policy_name = minio_iam_policy.cache_nix_lama-corp_space-full.name
+}
+*/
 resource "minio_s3_bucket" "cache_nix_lama-corp_space" {
   bucket = "cache.nix.lama-corp.space"
   acl    = "public-read"
