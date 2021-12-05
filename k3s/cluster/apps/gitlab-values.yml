@@ -145,7 +145,7 @@ gitlab:
     ingress:
       tls:
         secretName: gitlab-gitlab-tls
-  task-runner:
+  toolbox:
     replicas: 1
     hpa:
       minReplicas: 1
