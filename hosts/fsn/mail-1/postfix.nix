@@ -72,14 +72,6 @@ let
   };
 in
 {
-  disabledModules = [
-    "services/mail/postfix.nix"
-  ];
-
-  imports = [
-    ./postfix.lib.nix
-  ];
-
   services.ssmtp.enable = lib.mkForce false;
 
   networking.firewall.allowedTCPPorts = [
@@ -132,8 +124,6 @@ in
     sslCert = "${certRsa}/fullchain.pem";
     # main.cf/smtpd_tls_key_file
     sslKey = "${certRsa}/key.pem";
-
-    useDane = true; # see below
 
     enableSmtp = true;
     enableSubmission = true;
