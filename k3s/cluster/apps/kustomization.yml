@@ -5,7 +5,6 @@ namespace: argocd
 resources:
   - cert-manager.yml
   - ingress-nginx.yml
-  - kube-prometheus-stack.yml
   - kubernetes-reflector.yml
   - lama-corp.space.yml
   - nfs-provisioner.yml
