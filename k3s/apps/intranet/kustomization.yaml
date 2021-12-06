@@ -60,12 +60,16 @@ configMapGenerator:
       - S3_CUSTOM_DOMAIN=s3.lama-corp.space/intranet
       - S3_SECURE_URLS=1
       - S3_BUCKET=intranet
+      - SKIP_S3_CONFIGURATION=1
       - SPNEGO_HOSTNAME=intra.lama-corp.space
       - DJANGO_ALGOLIA_INDEX_SUFFIX=PROD
       - DJANGO_ALLOWED_HOSTS=intra.lama-corp.space
       - DJANGO_SMTP_HOSTNAME=mail-1.vrt.fsn.lama-corp.space
       - DJANGO_ADMINS=root@lama-corp.space
       - DJANGO_CACHE_URL=redis://redis-redis-master.intranet.svc.cluster.local:6379/0
+      - PICTURE_BASE_URL=https://photos.cri.epita.fr
+      - DJANGO_Q_THREADS=1
+      - GUNICORN_WORKERS=4
       - AZUREAD_DOMAINS=invalid
       - AZUREAD_OAUTH2_KEY=invalid
       - AZUREAD_OAUTH2_SECRET=invalid
@@ -103,8 +107,7 @@ images:
   - name: registry.cri.epita.fr/cri/docker/kerberos/master
     newTag: 6a66dc09-20201024-1126
   - name: registry.cri.epita.fr/cri/docker/ldap/master
-    newName: registry.cri.epita.fr/cri/docker/ldap/test-sasl
-    newTag: 8a4b10b9-20200914-0147
+    newTag: b8241641-20210905-1333
   - name: registry.cri.epita.fr/cri/services/intranet/master
     newName: registry.gitlab.com/lama-corp/infra/services/hub/lama-corp-overlay
-    newTag: fa4b80da7bda64c928248372e28b299df3b38686
+    newTag: 24346247f4c601bff1b1f1ed2422ee48d770821c
