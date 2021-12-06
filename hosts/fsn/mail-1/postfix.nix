@@ -1,42 +1,50 @@
 { modulesPath, config, pkgs, lib, ... }:
 
 let
+  inherit (lib) concatStringsSep;
+
   ldap-common-settings = ''
     server_host = ldaps://ldap.lama-corp.space
-    server_port = 636
     version = 3
     bind = no
-  '';
-
-  # Domains managed by us
-  ldap-virtual-mailbox-domains = pkgs.writeText "ldap-virtual-mailbox-domains.cf" ''
-    ${ldap-common-settings}
-    search_base = ou=domains,dc=lama-corp,dc=space
-    query_filter = (&(ObjectClass=dNSDomain)(dc=%s))
-    result_attribute = dc
-  '';
-
-  ldap-virtual-sender-maps = pkgs.writeText "ldap-virtual-sender-maps.cf" ''
-    ${ldap-common-settings}
     search_base = dc=lama-corp,dc=space
-    query_filter = (&(objectClass=mailAccount)(|(mailhidden=%s)(mailalias=%s)))
+  '';
+
+  # Sender allowed emails
+  ldap-virtual-sender-maps-user = pkgs.writeText "ldap-virtual-sender-maps-user.cf" ''
+    ${ldap-common-settings}
+    query_filter = (&(objectClass=inetOrgPerson)(|(mailhidden=%s)(mailalias=%s)))
     result_attribute = uid
   '';
+  ldap-virtual-sender-maps-group = pkgs.writeText "ldap-virtual-sender-maps-group.cf" ''
+    ${ldap-common-settings}
+    query_filter = (&(|(objectClass=groupOfMembers)(objectClass=groupOfUniqueMembers))(mailalias=%s))
+    result_attribute = uid
+    leaf_result_attribute = uid
+    special_result_attribute = owner
+  '';
 
+  # LDAP query to find which email addresses we accept mail for
   ldap-virtual-mailbox-maps = pkgs.writeText "ldap-virtual-mailbox-maps.cf" ''
     ${ldap-common-settings}
-    search_base = dc=lama-corp,dc=space
     query_filter = (&(objectClass=mailAccount)(mailhidden=%s))
     result_attribute = mailhidden
   '';
 
-  ldap-virtual-alias-maps = pkgs.writeText "ldap-virtual-alias-maps.cf" ''
+  # LDAP query to find a user's email aliases
+  ldap-virtual-alias-maps-user = pkgs.writeText "ldap-virtual-alias-maps-user.cf" ''
     ${ldap-common-settings}
-    search_base = dc=lama-corp,dc=space
-    query_filter = (|(&(objectClass=mailAccount)(mailalias=%s))(&(objectClass=mailAlias)(mailalias=%s)))
-    result_attribute = maildrop
-    special_result_attribute = mailaliasmember, member
-    terminal_result_attribute = maildrop
+    query_filter = (&(objectClass=inetOrgPerson)(!(mailhidden=%s))(mailalias=%s))
+
+    result_attribute = maildrop, mailhidden
+  '';
+  ldap-virtual-alias-maps-group = pkgs.writeText "ldap-virtual-alias-maps-group.cf" ''
+    ${ldap-common-settings}
+    query_filter = (&(|(objectClass=groupOfMembers)(objectClass=groupOfUniqueMembers))(mailalias=%s))
+
+    result_attribute = maildrop, mailhidden
+    leaf_result_attribute = maildrop, mailhidden
+    special_result_attribute = member, uniqueMember, owner
   '';
 
   certRsa = config.security.acme.certs."${hostname}.rsa".directory;
@@ -362,13 +370,22 @@ in
       # deliver mail for virtual users to Dovecot's LMTP socket
       virtual_transport = "lmtp:unix:/run/dovecot2/dovecot-lmtp";
 
-      # LDAP query to find which domains we accept mail for
-      virtual_mailbox_domains = "ldap:${ldap-virtual-mailbox-domains}";
+      # Domains we accept mail for
+      virtual_mailbox_domains = concatStringsSep " " [
+        "lama-corp.space"
+        "lewdax.space"
+        "marcerisson.space"
+        "risson.me"
+        "risson.rocks"
+        "risson.space"
+        "risson.tech"
+        "thefractal.space"
+      ];
       # LDAP query to find which email addresses we accept mail for
       virtual_mailbox_maps = "ldap:${ldap-virtual-mailbox-maps}";
-      smtpd_sender_login_maps = "ldap:${ldap-virtual-sender-maps}";
+      smtpd_sender_login_maps = "unionmap:{ ldap:${ldap-virtual-sender-maps-group} ldap:${ldap-virtual-sender-maps-user} }";
       # LDAP query to find a user's email aliases
-      virtual_alias_maps = "ldap:${ldap-virtual-alias-maps}";
+      virtual_alias_maps = "unionmap:{ ldap:${ldap-virtual-alias-maps-user} ldap:${ldap-virtual-alias-maps-group} }";
 
       # PostSRSd
       sender_canonical_maps = "tcp:localhost:10001";
