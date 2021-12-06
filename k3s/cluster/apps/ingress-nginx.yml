@@ -25,10 +25,11 @@ spec:
       values: |
         fullnameOverride: ingress-nginx
         controller:
-          ingressClass: "public"
+          watchIngressWithoutClass: true
           ingressClassResource:
             enabled: true
             default: true
+            name: public
           config:
             forwarded-for-header: "true"
             use-http2: "true"
