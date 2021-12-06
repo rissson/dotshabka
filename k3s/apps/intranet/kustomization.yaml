@@ -110,4 +110,4 @@ images:
     newTag: b8241641-20210905-1333
   - name: registry.cri.epita.fr/cri/services/intranet/master
     newName: registry.gitlab.com/lama-corp/infra/services/hub/lama-corp-overlay
-    newTag: 24346247f4c601bff1b1f1ed2422ee48d770821c
+    newTag: 9fa68178acb0d8f35c809de7696f02f69a21a1a7
