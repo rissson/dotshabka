@@ -153,6 +153,26 @@ spec:
   type: LoadBalancer
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: ldap-public-lb
+  annotations:
+    metallb.universe.tf/address-pool: "public"
+    metallb.universe.tf/allow-shared-ip: 148.251.148.237
+spec:
+  selector:
+    component: ldap
+  loadBalancerIP: 148.251.148.237
+  ports:
+    - name: openldap-ldap
+      port: 389
+      targetPort: 389
+    - name: openldap-ldaps
+      port: 636
+      targetPort: 636
+  type: LoadBalancer
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ldap-data
