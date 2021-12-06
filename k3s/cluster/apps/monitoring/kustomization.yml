@@ -1,0 +1,7 @@
+---
+kind: Kustomization
+namespace: argocd
+
+resources:
+  - crd.yml
+  - observer.yml

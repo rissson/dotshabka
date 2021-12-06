@@ -1,0 +1,278 @@
+# yamllint disable rule:line-length
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rancher-monitoring
+  labels:
+    app: monitoring
+    component: rancher-monitoring
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: cattle-monitoring-system
+  source:
+    repoURL: https://charts.rancher.io
+    chart: rancher-monitoring
+    targetRevision: 100.0.0+up16.6.0
+    helm:
+      values: |
+        fullnameOverride: rancher-monitoring
+        prometheus-adapter:
+          fullnameOverride: rancher-monitoring-prometheus-adapter
+        prometheus-node-exporter:
+          fullnameOverride: rancher-monitoring-prometheus-node-exporter
+        kube-state-metrics:
+          fullnameOverride: rancher-monitoring-kube-state-metrics
+
+        rkeControllerManager:
+          enabled: false
+        rkeScheduler:
+          enabled: false
+        rkeProxy:
+          enabled: false
+        rkeEtcd:
+          enabled: false
+        k3sServer:
+          enabled: true
+
+        ingressNginx:
+          enabled: true
+
+        prometheus:
+          enabled: true
+          thanosService:
+            enabled: true
+          thanosServiceMonitor:
+            enabled: true
+          thanosIngress:
+            enabled: true
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+              nginx.ingress.kubernetes.io/backend-protocol: GRPC
+              nginx.ingress.kubernetes.io/protocol: h2c
+              nginx.ingress.kubernetes.io/proxy-read-timeout: "160"
+            hosts:
+              - thanos.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - thanos.k3s.lama-corp.space
+                secretName: thanos-tls
+          prometheusSpec:
+            image:
+              repository: quay.io/prometheus/prometheus
+              tag: v2.31.1
+            replicas: 1
+            externalLabels:
+              cluster: fsn-k3s
+            podAntiAffinity: hard
+            disableCompaction: true # thanos does it for us
+            retention: 1d
+            retentionSize: 10GiB
+            additionalScrapeConfigsSecret:
+              enabled: true
+              name: prometheus-additional-scrape-configs
+              key: prometheus-config.yml
+            thanos:
+              image: quay.io/thanos/thanos:v0.23.1
+              objectStorageConfig:
+                name: thanos-objectstorage
+                key: objstore.yml
+            podMetadata:
+              annotations:
+                backup.velero.io/backup-volumes-excludes: "prometheus-rancher-monitoring-prometheus-db"
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  accessModes:
+                    - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 15Gi
+            resources:
+              requests:
+                cpu: 2000m
+                memory: 10240Mi
+              limits:
+                cpu: 2500m
+                memory: 12288Mi
+          ingress:
+            enabled: true
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+            hosts:
+              - prometheus.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - prometheus.k3s.lama-corp.space
+                secretName: prometheus-tls
+
+        alertmanager:
+          enabled: true
+          alertmanagerSpec:
+            replicas: 1
+
+        grafana:
+          fullnameOverride: rancher-monitoring-grafana
+          enabled: true
+          image:
+            repository: grafana/grafana
+            tag: 8.2.5
+          replicas: 1
+          deploymentStrategy:
+            type: RollingUpdate
+          grafana.ini:
+            auth.ldap:
+              enabled: true
+              allow_sign_up: true
+              config_file: /etc/grafana/ldap.toml
+          ldap:
+            enabled: true
+            config: |
+              [[servers]]
+              host = "ldap.lama-corp.space"
+              port = 636
+              use_ssl = true
+              start_tls = false
+              ssl_skip_verify = false
+              search_base_dns = ["ou=users,dc=lama-corp,dc=space"]
+              search_filter = "(&(uid=%s)(memberof=cn=wheel,ou=groups,dc=lama-corp,dc=space))"
+              group_search_base_dns = ["ou=groups,dc=lama-corp,dc=space"]
+              unmapped_groups_as_roles = false
+              [servers.attributes]
+              name = "sn"
+              surname = "givenName"
+              username = "uid"
+              member_of = "memberOf"
+              email = "mail"
+
+              [[servers.group_mappings]]
+              group_dn = "cn=wheel,ou=groups,dc=lama-corp,dc=space"
+              org_role = "Admin"
+              grafana_admin = true
+          admin:
+            existingSecret: grafana-admin
+            userKey: user
+            passwordKey: password
+          persistence:
+            enabled: true
+            type: statefulset
+            accessModes:
+              - ReadWriteOnce
+            size: 2Gi
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+              folder: /tmp/dashboards
+              folderAnnotation: k8s-sidecar-target-directory
+              searchNamespace: ALL
+              provider:
+                foldersFromFilesStructure: true
+              multicluster: true
+            datasources:
+              enabled: true
+              defaultDatasourceEnabled: false
+              label: grafana_datasource
+              searchNamespace: cattle-monitoring-system
+            notifiers:
+              enabled: true
+              label: grafana_notifier
+              searchNamespace: ALL
+          additionalDataSources:
+            - name: Thanos Frontend
+              type: prometheus
+              access: proxy
+              url: http://thanos-query-frontend.cattle-monitoring-system:9090/
+              editable: false
+              isDefault: true
+          plugins:
+            - grafana-polystat-panel
+          ingress:
+            enabled: true
+            ingressClassName: public
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+              nginx.ingress.kubernetes.io/affinity: cookie
+              nginx.ingress.kubernetes.io/affinity-mode: persistent
+            hosts:
+              - grafana.k3s.lama-corp.space
+            tls:
+              - hosts:
+                  - grafana.k3s.lama-corp.space
+                secretName: grafana-tls
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: thanos
+  labels:
+    app: monitoring
+    component: thanos
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+  destination:
+    name: in-cluster
+    namespace: cattle-monitoring-system
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: thanos
+    targetRevision: 8.1.2
+    helm:
+      values: |
+        fullnameOverride: thanos
+        existingObjstoreSecret: thanos-objectstorage
+        compactor:
+          enabled: true
+          retentionResolutionRaw: 14d
+          retentionResolition5m: 60d
+          retentionResolution1h: 365d
+          extraFlags:
+          - --deduplication.func=penalty
+          - --compact.enable-vertical-compaction
+          - --deduplication.replica-label=prometheus_replica
+        storegateway:
+          enabled: true
+        query:
+          enabled: true
+          dnsDiscovery:
+            enabled: true
+            sidecarsService: rancher-monitoring-prometheus
+            sidecarsNamespace: cattle-monitoring-system
+          replicaLabel:
+            - prometheus_replica
+        queryFrontend:
+          enabled: true
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: default-issuer
+            hostname: thanos-query-frontend.k3s.lama-corp.space
+            tls: true
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true

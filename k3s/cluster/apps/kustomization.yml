@@ -9,3 +9,5 @@ resources:
   - lama-corp.space.yml
   - nfs-provisioner.yml
   - vault-secrets-operator.yml
+
+  - monitoring
