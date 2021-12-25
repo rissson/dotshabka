@@ -4,20 +4,31 @@ let
   inherit (lib) mkMerge optionalAttrs optionals;
 
   packages = with pkgs; [
+    bc
+    file
+    gnumake
     htop
     iftop
     iotop
     jq
     killall
     ldns
+    lsof
+    lshw
+    mbuffer
     ncdu
+    pciutils
+    pv
+    screen
     tcpdump
     telnet
     tree
     unzip
+    usbutils
     wget
     zip
   ] ++ (optionals (mode == "NixOS") [
+    tcptraceroute
     traceroute
   ]);
 in

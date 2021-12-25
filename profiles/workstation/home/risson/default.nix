@@ -374,17 +374,24 @@ with lib;
     adoptopenjdk-icedtea-web
     arandr
     aria2
+    argocd
     awscli
     bitwarden-cli
     claws-mail
     discord
+    docker-compose
     element-desktop
     evince
     feh
     ferdi
+    ffmpeg
     gimp
+    ghorg
     git-crypt
+    glab
+    gnucash
     gnuplot
+    gqrx
     haskellPackages.arbtt
     hledger hledger-web ledger-autosync reckon
     ipcalc
@@ -392,36 +399,49 @@ with lib;
     jetbrains.idea-ultimate
     jdk
     jq
+    inkscape
+    imagemagick
     killall
     kubectl
+    kubernetes-helm
     kustomize
     libreoffice
     maven
     minecraft
     nix-index
     nix-zsh-completions
+    nixpkgs-fmt
     nixpkgs-review
     nmap
     nur.repos.kalbasit.nixify
+    openldap
     parallel
     pcmanfm
+    pipenv
     postgresql
+    xfce.ristretto
+    rtl-sdr
     s3cmd
     signal-desktop
     slack
+    speedtest-cli
     spotify
+    stellarium
+    stern
     teams
     thunderbird
     transmission
     unzip
     urlview
     vault
+    velero
     virt-manager
     vlc
     warsow
     wireshark
     wpa_supplicant_gui
     xsel
+    yq
   ];
 
   home.sessionVariables = {
