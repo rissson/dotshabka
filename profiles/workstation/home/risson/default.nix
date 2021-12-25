@@ -503,4 +503,14 @@ with lib;
 
     Install = { WantedBy = [ "default.target" ]; };
   };
+
+  programs.rbw = {
+    enable = true;
+    settings = {
+      base_url = "https://warden.lama-corp.space/";
+      identity_url = "https://warden.lama-corp.space/identity";
+      email = "risson@lama-corp.space";
+      device_id = "hostname";
+    };
+  };
 }
