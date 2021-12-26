@@ -56,28 +56,10 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config
-              mountPath: /data
+              mountPath: /data/config.yaml
+              subPath: config.yaml
             - name: plugins-datadir
-              mountPath: /plugins
-          #readinessProbe:
-          #  httpGet:
-          #    path: /health
-          #    port: appservice
-          #  timeoutSeconds: 5
-          #  periodSeconds: 10
-          #startupProbe:
-          #  httpGet:
-          #    path: /health
-          #    port: appservice
-          #  timeoutSeconds: 5
-          #  periodSeconds: 5
-          #  failureThreshold: 6
-          #livenessProbe:
-          #  httpGet:
-          #    path: /health
-          #    port: appservice
-          #  timeoutSeconds: 5
-          #  periodSeconds: 10
+              mountPath: /data
       volumes:
         - name: file-config
           configMap:

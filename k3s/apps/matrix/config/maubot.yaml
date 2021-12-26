@@ -19,16 +19,16 @@ crypto_database:
 
 plugin_directories:
     # The directory where uploaded new plugins should be stored.
-    upload: /plugins/plugins
+    upload: /data/plugins
     # The directories from which plugins should be loaded.
     # Duplicate plugin IDs will be moved to the trash.
     load:
-    - /plugins/plugins
+    - /data/plugins
     # The directory where old plugin versions and conflicting plugins should be moved.
     # Set to "delete" to delete files immediately.
-    trash: /plugins/trash
+    trash: /data/trash
     # The directory where plugin databases should be stored.
-    db: /plugins/plugins
+    db: /data/dbs
 
 server:
     # The IP and port to listen to.
