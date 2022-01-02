@@ -91,16 +91,16 @@
         "flake-utils": "flake-utils_2"
       },
       "locked": {
-        "lastModified": 1619358717,
-        "narHash": "sha256-FkEOIW82ClvUBtD8aqPediM8FERldsOyjPIyapVa65I=",
+        "lastModified": 1638172912,
+        "narHash": "sha256-jxhQGNEsZTdop/Br3JPS+xmBf6t9cIWRzVZFxbT76Rw=",
         "owner": "gytis-ivaskevicius",
         "repo": "flake-utils-plus",
-        "rev": "e7ae270a23695b50fbb6b72759a7fb1e3340ca86",
+        "rev": "166d6ebd9f0de03afc98060ac92cba9c71cfe550",
         "type": "github"
       },
       "original": {
         "owner": "gytis-ivaskevicius",
-        "ref": "v1.1.0",
+        "ref": "v1.3.1",
         "repo": "flake-utils-plus",
         "type": "github"
       }
@@ -339,11 +339,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1638689888,
-        "narHash": "sha256-wMbKeH1AKVU3T+pibX2BHnGcu9pyEzHFhfyVqnTZqwM=",
+        "lastModified": 1640865013,
+        "narHash": "sha256-4RFNgKWuwL5u/JgTY6eTC+HRf2rMNzhdjNpqBVcyBHY=",
         "owner": "SoxinOS",
         "repo": "soxin",
-        "rev": "8e770eeb3b22b5f77bc227a9d317231b3767ff3b",
+        "rev": "3a03cbfb16ea8c30db4723686041d2e2b47bb9ee",
         "type": "github"
       },
       "original": {

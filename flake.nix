@@ -17,7 +17,7 @@
       url = "github:nix-community/docker-nixpkgs";
       flake = false;
     };
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.1.0";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.3.1";
     nur.url = "github:nix-community/NUR";
     sops-nix.url = "github:Mic92/sops-nix";
 
@@ -45,7 +45,7 @@
       inherit (lib) optionalAttrs recursiveUpdate singleton;
       inherit (flake-utils-plus.lib) flattenTree exporter mkApp;
     in
-    soxin.lib.systemFlake rec {
+    soxin.lib.mkFlake rec {
       inherit inputs;
 
       withDeploy = true; # deploy-rs support
