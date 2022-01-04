@@ -1,10 +1,6 @@
 { config, ... }:
 
 {
-  imports = [
-    ./borgbackup.nix
-  ];
-
   services.syncoid = {
     enable = true;
     interval = "hourly";
