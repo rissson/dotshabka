@@ -31,7 +31,7 @@ in
   networking = {
     hostName = "nas-1";
     domain = "srv.bar.lama-corp.space";
-    hostId = "3474d85a";
+    hostId = "8425e349";
 
     nameservers = [ "127.0.0.1" "::1" ] ++ soxincfg.vars.externalNameservers;
 
