@@ -284,18 +284,6 @@ endpoints:
       - type: custom
 
   - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: Traces Assistants
-    group: Assistants services
-    url: https://traces.assistants.epita.fr/healthz
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
     - '[CONNECTED] == true'
     - '[RESPONSE_TIME] <= 1000'
     interval: 30s
@@ -339,18 +327,6 @@ endpoints:
     url: https://prometheus.prod-1.k8s.assistants.epita.fr
     group: Assistants services
 
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: k8s assistants-prod-1 Grafana
-    url: https://grafana.prod-1.k8s.assistants.epita.fr
-    group: Assistants services
-    alerts:
-      - type: slack
-      - type: custom
-
   ###
   # Internal services
   ###
@@ -375,18 +351,6 @@ endpoints:
     name: k8s prod-1 Prometheus
     group: Internal services
     url: https://prometheus.prod-1.k8s.cri.epita.fr
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: k8s prod-1 Grafana
-    group: Internal services
-    url: https://grafana.prod-1.k8s.cri.epita.fr
     alerts:
       - type: slack
       - type: custom
