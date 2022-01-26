@@ -301,7 +301,7 @@ endpoints:
     interval: 30s
     name: Discord Web App
     group: Assistants services
-    url: https://discord.cri.epita.fr/healthz
+    url: https://discord.assistants.epita.fr/healthz
     alerts:
       - type: slack
       - type: custom
