@@ -227,6 +227,18 @@ endpoints:
     - '[RESPONSE_TIME] <= 1000'
     - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
     interval: 30s
+    name: Moodle (recrutement)
+    group: Student services
+    url: https://recrutements.cri.epita.fr
+    alerts:
+      - type: slack
+      - type: custom
+
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
+    interval: 30s
     name: Rocket.Chat
     group: Student services
     url: https://rocketchat.cri.epita.fr
