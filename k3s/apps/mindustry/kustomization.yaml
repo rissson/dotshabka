@@ -1,0 +1,16 @@
+---
+kind: Kustomization
+namespace: mindustry
+
+commonLabels:
+  app: mindustry
+
+resources:
+  - pvc.yaml
+  - lb.yaml
+  - mindustry.yaml
+  - namespace.yaml
+
+images:
+  - name: frankbaele/mindustry
+    newTag: v126.2

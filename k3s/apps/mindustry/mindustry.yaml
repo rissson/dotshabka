@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindustry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mindustry
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mindustry
+    spec:
+      containers:
+        - name: mindustry
+          image: frankbaele/mindustry
+          command: ["java"]
+          args:
+            - -jar
+            - /server-release.jar
+          tty: true
+          stdin: true
+          ports:
+            - name: mindustry-tcp
+              protocol: TCP
+              containerPort: 6567
+            - name: mindustry-udp
+              protocol: UDP
+              containerPort: 6567
+          volumeMounts:
+            - name: data
+              mountPath: /config
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mindustry-data
