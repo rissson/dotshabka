@@ -30,6 +30,10 @@
     };
   };
 
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
+
   fileSystems = {
     "/" = {
       device = "rpool/local/root";
