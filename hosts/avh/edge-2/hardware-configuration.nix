@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ modulesPath, lib, ... }:
 
 {
   imports = [
@@ -35,6 +35,10 @@
       device = "/dev/vda";
     };
   };
+
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
 
   fileSystems = {
     "/" = {
