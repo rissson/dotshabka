@@ -437,6 +437,7 @@ with lib;
     velero
     virt-manager
     vlc
+    wally-cli
     warsow
     wireshark
     wpa_supplicant_gui
