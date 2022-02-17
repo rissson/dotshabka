@@ -172,18 +172,6 @@ endpoints:
       - type: custom
 
   - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: Nix Cache ❄️
-    group: PIE SM
-    url: https://cache.nix.cri.epita.fr
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
     - '[CONNECTED] == true'
     - '[RESPONSE_TIME] <= 1000'
     interval: 30s
