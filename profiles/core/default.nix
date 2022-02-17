@@ -84,7 +84,7 @@ in
 
         binaryCaches = [
           "https://s3.lama-corp.space/cache.nix.lama-corp.space"
-          "https://cache.nix.cri.epita.fr"
+          "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr"
         ];
         binaryCachePublicKeys = [
           "cache.nix.lama-corp.space:zXDtep4OcIi2/hkqNmA1UkAoDTGBZE/YvEQdT750L1M="
