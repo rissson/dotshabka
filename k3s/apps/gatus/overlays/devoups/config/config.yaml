@@ -18,15 +18,15 @@ alerting:
       success-threshold: 2
       send-on-resolved: true
   custom:
-    url: https://smsapi.free-mobile.fr/sendmsg
+    url: https://sms.phowork.fr:5001/sms
     method: POST
     headers:
+      Authorization: "Basic ${PHOWORK_SMS_GATEWAY_KEY}"
       Content-Type: application/json
     body: |
       {
-        "user": "${FREE_MOBILE_SENDMSG_USER}",
-        "pass": "${FREE_MOBILE_SENDMSG_API_KEY}",
-        "msg": "[ALERT_TRIGGERED_OR_RESOLVED]: [SERVICE_NAME] - [ALERT_DESCRIPTION]"
+        "dest_contact_name": "charles",
+        "text": "[ALERT_TRIGGERED_OR_RESOLVED]: [SERVICE_NAME] - [ALERT_DESCRIPTION]"
       }
     default-alert:
       enabled: true
