@@ -22,6 +22,7 @@ let
       "rsn/goat"
       "rsn/hedgehog"
       "rsn/labnuc"
+      "rsn/sas"
     ];
     x86_64-darwin = [ ];
   };
