@@ -36,7 +36,7 @@
 
     dns.url = "github:kirelagin/dns.nix";
     impermanence.url = "github:nix-community/impermanence";
-    nixos-hardware.url = "nixos-hardware";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
   outputs = { self , nixpkgs , flake-utils-plus , soxin , ...  } @ inputs:
