@@ -121,8 +121,7 @@ with lib;
         enable = true;
         browsers = {
           "firefox@personal" = {};
-          "firefox@epita" = {};
-          "firefox@lama-corp" = {};
+          "firefox@smart" = {};
           "chromium@discord" = {};
         };
         setMimeList = true;
