@@ -99,7 +99,6 @@
                 awscli
                 claws-mail
                 chromium
-                discord
                 element-desktop
                 ferdi
                 firefox
@@ -117,6 +116,9 @@
                 vault-bin
                 vlc
                 warsow
+              ;
+              inherit (channels.nixpkgs-master)
+                discord
               ;
             })
           ];
