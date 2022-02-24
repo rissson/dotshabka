@@ -235,7 +235,7 @@ with lib;
 
   programs.ssh = {
     extraConfig = ''
-      Include ~/.ssh/config.d/cri
+      Include ~/.ssh/config.d/smart
     '';
     matchBlocks = {
       ### Lama Corp.
