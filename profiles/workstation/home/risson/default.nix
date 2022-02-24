@@ -223,6 +223,14 @@ with lib;
         };
       };
     }
+    {
+      condition = "gitdir:~/smart/";
+      contents = {
+        user = {
+          email = "mschmitt@smartadserver.com";
+        };
+      };
+    }
   ];
 
   programs.ssh = {
