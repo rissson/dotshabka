@@ -426,6 +426,7 @@ with lib;
     pcmanfm
     pipenv
     postgresql
+    rancher
     xfce.ristretto
     rtl-sdr
     s3cmd
