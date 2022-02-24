@@ -56,6 +56,13 @@ in
     };
   };
 
+  services.openvpn.servers = {
+    smart-eqx = { config = ''config /persist/secrets/smart-openvpn/eqx.ovpn''; autoStart = true; };
+    smart-itx4 = { config = ''config /persist/secrets/smart-openvpn/itx4.ovpn''; autoStart = false; };
+    smart-itx5 = { config = ''config /persist/secrets/smart-openvpn/itx5.ovpn''; autoStart = false; };
+    smart-tmk = { config = ''config /persist/secrets/smart-openvpn/tmk.ovpn''; autoStart = false; };
+  };
+
   sops.secrets.wpa_supplicant = {
     sopsFile = ./wpa_supplicant.yml;
     path = "/etc/wpa_supplicant.conf";
