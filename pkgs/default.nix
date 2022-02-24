@@ -9,6 +9,8 @@ let
     bird-lg-go-frontend = callPackage ./bird-lg-go/frontend.nix { };
     bird-lg-go-proxy = callPackage ./bird-lg-go/proxy.nix { };
 
+    konfig = callPackage ./konfig { };
+
     nix-docker = nixpkgs.docker-nixpkgs.nix.override {
       nix = nixpkgs.nixFlakes;
       extraContents = [
