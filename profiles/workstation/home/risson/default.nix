@@ -234,8 +234,13 @@ with lib;
   ];
 
   programs.ssh = {
+    controlMaster = "auto";
+    controlPersist = "1m";
+    includes = [
+      "~/.ssh/config.d/smart"
+    ];
     extraConfig = ''
-      Include ~/.ssh/config.d/smart
+      User mschmitt
     '';
     matchBlocks = {
       ### Lama Corp.
