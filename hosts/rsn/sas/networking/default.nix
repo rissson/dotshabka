@@ -6,7 +6,7 @@ let
 
     src = pkgs.fetchurl {
       url = "http://infra.smartadserver.com/get-hosts.asp";
-      sha256 = "sha256-qnyCsVQJKEzI317imiwl5Sgh/tGVZhhnAYfLwBOlcxc=";
+      sha256 = "sha256-65Rlw7DHh1AkMz+JxCOqj2AIqupHPAbVLhEMoUoA+vA=";
     };
 
     phases = [ "buildPhase" ];
