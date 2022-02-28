@@ -57,10 +57,20 @@ in
   };
 
   services.openvpn.servers = {
-    smart-eqx = { config = ''config /persist/secrets/smart-openvpn/eqx.ovpn''; autoStart = true; };
+    smart-eqx = { config = ''config /persist/secrets/smart-openvpn/eqx.ovpn''; autoStart = false; };
     smart-itx4 = { config = ''config /persist/secrets/smart-openvpn/itx4.ovpn''; autoStart = false; };
     smart-itx5 = { config = ''config /persist/secrets/smart-openvpn/itx5.ovpn''; autoStart = false; };
     smart-tmk = { config = ''config /persist/secrets/smart-openvpn/tmk.ovpn''; autoStart = false; };
+
+    smart-smart = { config = ''config /persist/secrets/smart-openvpn/mschmitt.ovpn''; autoStart = true; };
+  };
+
+  systemd.services.openvpn-smart-smart = {
+    path = [ (pkgs.python3.withPackages (ps: with ps; [ pyotp ])) ];
+    preStart = ''
+      echo mschmitt > /persist/secrets/smart-openvpn/credentials
+      python3 -c "import pyotp; print(pyotp.TOTP('$(cat /persist/secrets/smart-openvpn/mschmitt.google_authenticator.txt | head -n1 )').now())" >> /persist/secrets/smart-openvpn/credentials
+    '';
   };
 
   sops.secrets.wpa_supplicant = {
