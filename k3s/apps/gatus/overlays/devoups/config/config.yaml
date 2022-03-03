@@ -299,18 +299,6 @@ endpoints:
     - '[RESPONSE_TIME] <= 1000'
     - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
     interval: 30s
-    name: Discord Web App
-    group: Assistants services
-    url: https://discord.assistants.epita.fr/healthz
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
     name: k8s assistants-prod-1 ArgoCD
     url: https://argocd.prod-1.k8s.assistants.epita.fr
     group: Assistants services
