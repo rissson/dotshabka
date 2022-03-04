@@ -508,8 +508,22 @@ resource "random_password" "fsn-k3s_monitoring_grafana-admin-creds" {
 resource "vault_generic_secret" "fsn-k3s_monitoring_grafana-admin-creds" {
   path = "fsn-k3s/monitoring/grafana-admin-creds"
   data_json = jsonencode({
-    username = "admin"
+    user     = "admin"
     password = random_password.fsn-k3s_monitoring_grafana-admin-creds[0].result
+  })
+}
+
+resource "vault_generic_secret" "fsn-k3s_monitoring_thanos-objectstorage" {
+  path = "fsn-k3s/monitoring/thanos-objectstorage"
+  data_json = jsonencode({
+    "objstore.yml" = <<-CONFIG
+      type: S3
+      config:
+        bucket: "thanos-fsn-k8s"
+        endpoint: "s3.lama-corp.space"
+        access_key: "thanos-fsn-k8s"
+        secret_key: "${random_password.minio_thanos-fsn-k8s[0].result}"
+    CONFIG
   })
 }
 

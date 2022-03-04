@@ -12,6 +12,11 @@ generatorOptions:
   labels:
     grafana_dashboard: "1"
 
+secretGenerator:
+  - name: prometheus-additional-scrape-configs
+    files:
+      - prometheus-config.yml
+
 configMapGenerator:
   - name: grafana-dashboards-argocd
     files:

@@ -303,6 +303,38 @@ resource "minio_s3_bucket" "scoreboard-seedbox-cri" {
 }
 
 //
+// thanos-fsn-k8s
+//
+resource "random_password" "minio_thanos-fsn-k8s" {
+  count   = 1
+  length  = 64
+  special = false
+}
+/*
+resource "minio_iam_user" "thanos-fsn-k8s" {
+  name = "thanos-fsn-k8s"
+  secret = random_password.minio_thanos-fsn-k8s[0].result
+  tags = {
+    app = "thanos-fsn-k8s"
+  }
+}
+resource "minio_iam_policy" "thanos-fsn-k8s-full" {
+  name = "thanos-fsn-k8s-full"
+  policy = templatefile("${path.module}/minio-policies/allow-full-access.tmpl", {
+    RESOURCE_ARN_LIST = toset(["arn:aws:s3:::${minio_s3_bucket.thanos-fsn-k8s.bucket}/*"])
+  })
+}
+resource "minio_iam_user_policy_attachment" "thanos-fsn-k8s-full" {
+  user_name   = minio_iam_user.thanos-fsn-k8s.name
+  policy_name = minio_iam_policy.thanos-fsn-k8s-full.name
+}
+*/
+resource "minio_s3_bucket" "thanos-fsn-k8s" {
+  bucket = "thanos-fsn-k8s"
+  acl    = "private"
+}
+
+//
 // risson.space
 //
 resource "random_password" "minio_risson_space-gitlab-ci" {
