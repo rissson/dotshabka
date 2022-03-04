@@ -1,6 +1,6 @@
 ---
 kind: Kustomization
-namespace: monitoring
+namespace: cattle-monitoring-system
 
 resources:
   - secrets.yml
