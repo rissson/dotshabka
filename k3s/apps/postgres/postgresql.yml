@@ -28,6 +28,7 @@ spec:
     matrix_slack_bridge: []
     netbox: []
     nextcloud: []
+    paperless: []
     scoreboard_seedbox_cri: []
 
   # databases: name -> owner
@@ -47,6 +48,7 @@ spec:
     matrix_slack_bridge: matrix_slack_bridge
     netbox: netbox
     nextcloud: nextcloud
+    paperless: paperless
     scoreboard_seedbox_cri: scoreboard_seedbox_cri
 
   postgresql:
