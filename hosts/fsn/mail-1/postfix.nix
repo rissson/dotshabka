@@ -403,5 +403,15 @@ in
     };
   };
 
+  systemd.services."postfix-logrotate" = {
+    description = "Rotate postfix logs";
+
+    serviceConfig = {
+      ExecStart = "${pkgs.postfix}/bin/postfix logrotate";
+    };
+
+    startAt = "weekly";
+  };
+
   users.users.postfix.extraGroups = [ "acme" ];
 }
