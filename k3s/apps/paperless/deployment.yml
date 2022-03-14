@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless
+  labels:
+    component: paperless
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: paperless
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        component: paperless
+    spec:
+      containers:
+        - name: paperless
+          image: ghcr.io/paperless-ngx/paperless-ngx
+          imagePullPolicy: IfNotPresent
+          command:
+            - /usr/local/bin/gunicorn
+          args:
+            - -c
+            - /usr/src/paperless/gunicorn.conf.py
+            - paperless.asgi:application
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+          livenessProbe:
+            tcpSocket:
+              port: http
+          startupProbe:
+            tcpSocket:
+              port: http
+          envFrom:
+            - configMapRef:
+                name: paperless-configmap
+          env:
+            - name: PAPERLESS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret-key
+                  key: secret-key
+            - name: PAPERLESS_DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: paperless.acid-main-cluster.credentials
+                  key: username
+            - name: PAPERLESS_DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless.acid-main-cluster.credentials
+                  key: password
+            - name: PAPERLESS_CONSUMPTION_DIR
+              value: /data/consume
+            - name: PAPERLESS_DATA_DIR
+              value: /data/data
+            - name: PAPERLESS_MEDIA_ROOT
+              value: /data/media
+            - name: PAPERLESS_SCRATCH_DIR
+              value: /data/scratch
+          volumeMounts:
+            - name: datadir
+              mountPath: /data
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: paperless-datadir

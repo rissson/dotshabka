@@ -545,6 +545,21 @@ resource "vault_generic_secret" "fsn-k3s_nextcloud_admin-user" {
 }
 
 //
+// paperless
+//
+resource "random_password" "fsn-k3s_paperless_secret-key" {
+  count   = 1
+  length  = 64
+  special = false
+}
+resource "vault_generic_secret" "fsn-k3s_paperless_secret-key" {
+  path = "fsn-k3s/paperless/secret-key"
+  data_json = jsonencode({
+    secret-key = random_password.fsn-k3s_paperless_secret-key[0].result
+  })
+}
+
+//
 // Postgres
 //
 resource "vault_generic_secret" "fsn-k3s_postgres_pod-secrets" {

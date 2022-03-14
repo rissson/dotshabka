@@ -1,0 +1,24 @@
+---
+apiVersion: k8s.amaiz.com/v1alpha1
+kind: Redis
+metadata:
+  name: redis
+spec:
+  replicas: 3
+  redis:
+    image: redis:6-alpine
+    initialDelaySeconds: 10
+    resources:
+      limits:
+        cpu: 100m
+        memory: 200Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - all
+      readOnlyRootFilesystem: true
+      runAsUser: 7777777
+      runAsGroup: 7777777
+      fsGroup: 7777777
+      runAsNonRoot: true

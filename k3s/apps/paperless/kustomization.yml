@@ -1,0 +1,38 @@
+---
+kind: Kustomization
+namespace: paperless
+
+commonLabels:
+  app: paperless
+
+resources:
+  - namespace.yml
+  - pvc.yml
+  - secrets.yml
+  - deployment.yml
+  - django-q-worker.yml
+  - consumer.yml
+  - redis.yml
+  - service.yml
+  - ingress.yml
+
+configMapGenerator:
+- name: paperless-configmap
+  literals:
+    - PAPERLESS_CONSUMER_POLLING=10
+    - PAPERLESS_REDIS=redis://redis-redis-master.paperless.svc.cluster.local:6379
+    - PAPERLESS_DBHOST=acid-main-cluster.postgres.svc.cluster.local
+    - PAPERLESS_DBNAME=paperless
+    - PAPERLESS_ALLOWED_HOSTS=paper.risson.space
+    - PAPERLESS_CORS_ALLOWED_HOSTS=https://paper.risson.space
+    - PAPERLESS_OCR_LANGUAGE=fra+eng
+    - PAPERLESS_TIKA_ENABLED=true
+    - PAPERLESS_TIKA_ENDPOINT=http://tika.paperless.svc.cluster.local:9998
+    - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg.paperless.svc.cluster.local:3000
+    - PAPERLESS_TASK_WORKERS=1
+    - PAPERLESS_THREADS_PER_WORKER=2
+    - PAPERLESS_WEBSERVER_WORKERS=2
+
+images:
+  - name: ghcr.io/paperless-ngx/paperless-ngx
+    newTag: 1.5.0
