@@ -41,7 +41,7 @@ with lib;
           "--clock"
           "--show-failed-attempts"
           "--bar-indicator"
-          "--datestr='%A %Y-%m-%d'"
+          "--date-str='%A %Y-%m-%d'"
           "-i $(${pkgs.coreutils}/bin/shuf -n1 -e /home/risson/.lock-images/*.jpg)"
         ];
       };
