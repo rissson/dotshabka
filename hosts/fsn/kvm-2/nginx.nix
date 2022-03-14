@@ -61,39 +61,5 @@
       enableACME = true;
       locations."/".proxyPass = "http://localhost:5000";
     };
-
-    virtualHosts."netdata.lama-corp.space" = {
-      listen = [
-        { addr = "168.119.71.47"; port = 80; }
-        { addr = "168.119.71.47"; port = 443; ssl = true; }
-        { addr = "172.28.254.6"; port = 80; }
-        { addr = "172.28.254.6"; port = 443; ssl = true; }
-        { addr = "172.28.6.254"; port = 80; }
-        { addr = "172.28.6.254"; port = 443; ssl = true; }
-      ];
-      forceSSL = true;
-      enableACME = true;
-      locations."/".proxyPass = "http://localhost:19999";
-      locations."~ /(netdata|host)/(?<behost>[^/\\s]+)/(?<ndpath>.*)" = {
-        proxyPass = "http://$behost:19999/$ndpath$is_args$args";
-      };
-    };
   };
-
-  nixpkgs.overlays = [
-    (final: prev: {
-      gixy = prev.pkgs.stdenv.mkDerivation {
-        name = "gixy-wrapped";
-        buildInputs = [ prev.makeWrapper prev.gixy ];
-
-        phases = [ "installPhase" ];
-
-        installPhase = ''
-          mkdir -p $out/bin
-          makeWrapper ${prev.gixy}/bin/gixy $out/bin/gixy \
-            --add-flags "--skips ssrf"
-        '';
-      };
-    })
-  ];
 }
