@@ -245,16 +245,24 @@ with lib;
     matchBlocks = {
       ### Lama Corp.
       "nas-1" = {
+        user = "root";
         hostname = "nas-1.srv.bar.lama-corp.space";
       };
       "rogue" = {
+        user = "root";
         hostname = "rogue.srv.p13.lama-corp.space";
       };
       "edge-1" = {
+        user = "root";
         hostname = "edge-1.srv.par.lama-corp.space";
       };
       "kvm-2" = {
+        user = "root";
         hostname = "kvm-2.srv.fsn.lama-corp.space";
+      };
+      "*.fsn.lama.tel" = {
+        user = "root";
+        proxyJump = "kvm-2";
       };
       "*.bar" = {
         user = "root";

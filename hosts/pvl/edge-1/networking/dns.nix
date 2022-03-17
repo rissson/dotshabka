@@ -47,7 +47,8 @@ let
       };
 
       fsn.subdomains = {
-        apiserver = (host "168.119.71.47" null);
+        apiserver = host "168.119.71.47" null;
+        k3s-1 = host "172.28.7.1" null;
       };
     };
   };
