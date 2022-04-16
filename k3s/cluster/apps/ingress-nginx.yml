@@ -26,6 +26,7 @@ spec:
         fullnameOverride: ingress-nginx
         controller:
           watchIngressWithoutClass: true
+          ingressClass: public
           ingressClassResource:
             enabled: true
             default: true
