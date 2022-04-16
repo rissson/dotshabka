@@ -46,6 +46,8 @@ spec:
             - configMapRef:
                 name: paperless-configmap
           env:
+            - name: PAPERLESS_PORT
+              value: "8000"
             - name: PAPERLESS_SECRET_KEY
               valueFrom:
                 secretKeyRef:
