@@ -19,6 +19,7 @@ resources:
 configMapGenerator:
 - name: paperless-configmap
   literals:
+    - PAPERLESS_URL=https://paper.risson.space
     - PAPERLESS_CONSUMER_POLLING=10
     - PAPERLESS_REDIS=redis://redis-redis-master.paperless.svc.cluster.local:6379
     - PAPERLESS_DBHOST=acid-main-cluster.postgres.svc.cluster.local
