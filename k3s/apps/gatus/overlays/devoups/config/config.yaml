@@ -278,7 +278,7 @@ endpoints:
     interval: 30s
     name: Intranet Assistants
     group: Assistants services
-    url: https://intra.assistants.epita.fr
+    url: https://intra.assistants.epita.fr/q/health
     alerts:
       - type: slack
       - type: custom
