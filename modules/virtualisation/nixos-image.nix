@@ -71,6 +71,8 @@ let
             ${pkgs.parted}/bin/partprobe
           '';
         };
+
+        system.stateVersion = "22.05";
       }
     ];
   }).config;

@@ -80,7 +80,7 @@ let
   };
 in
 {
-  services.ssmtp.enable = lib.mkForce false;
+  programs.msmtp.enable = lib.mkForce false;
 
   networking.firewall.allowedTCPPorts = [
     25
