@@ -54,6 +54,14 @@ spec:
   postgresql:
     version: "13"
 
+  resources:
+    requests:
+      cpu: "1"
+      memory: "1G"
+    limits:
+      cpu: "4"
+      memory: "2G"
+
   enableLogicalBackup: true
   logicalBackupSchedule: "17 * * * *"
 
