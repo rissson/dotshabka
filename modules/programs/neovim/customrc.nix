@@ -1,6 +1,6 @@
-{ ag
-, gocode
+{ gocode
 , lib
+, silver-searcher
 , xsel
 }:
 
@@ -118,7 +118,7 @@ in
   " }}}
   "" Ack{{{
 
-  let g:ackprg = '${getBin ag}/bin/ag --vimgrep --smart-case'
+  let g:ackprg = '${getBin silver-searcher}/bin/ag --vimgrep --smart-case'
   cnoreabbrev ag Ack
   cnoreabbrev aG Ack
   cnoreabbrev Ag Ack

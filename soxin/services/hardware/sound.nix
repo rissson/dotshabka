@@ -28,6 +28,8 @@ in
         pavucontrol
         pa_applet
       ];
+
+      users.groups.pulse-access = {};
     })
   ]);
 }

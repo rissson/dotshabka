@@ -51,10 +51,6 @@
 
   boot.supportedFilesystems = [ "nfs" ];
 
-  virtualisation.docker = {
-    extraOptions = "--live-restore";
-  };
-
   services.k3s = {
     enable = true;
     docker = true;

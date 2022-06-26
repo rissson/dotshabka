@@ -138,35 +138,36 @@
         '';
       };
 
-      packagesBuilder = channels: flattenTree (import ./pkgs channels);
+      outputsBuilder = channels: {
+        apps = with channels.nixpkgs;
+          let
+            hostList = builtins.attrNames self.nixosConfigurations;
+            pkgList = builtins.attrNames (lib.filterAttrs (name: _: !lib.hasSuffix "-docker" name) self.packages.${system});
+            mkListApp = list: {
+              type = "app";
+              program = toString (writeShellScript "list.sh" (lib.concatMapStringsSep "\n" (el: "echo '${el}'") list));
+            };
+          in
+          {
+            list-hosts = mkListApp hostList;
+            list-pkgs = mkListApp pkgList;
 
-      appsBuilder = channels:
-        with channels.nixpkgs;
-        let
-          hostList = builtins.attrNames self.nixosConfigurations;
-          pkgList = builtins.attrNames (lib.filterAttrs (name: _: !lib.hasSuffix "-docker" name) self.packages.${system});
-          mkListApp = list: {
-            type = "app";
-            program = toString (writeShellScript "list.sh" (lib.concatMapStringsSep "\n" (el: "echo '${el}'") list));
+            awscli = mkApp {
+              drv = awscli;
+              exePath = "/bin/aws";
+            };
+            nix-diff = mkApp {
+              drv = channels.nixpkgs-master.nix-diff;
+            };
+            nixpkgs-fmt = mkApp {
+              drv = nixpkgs-fmt;
+            };
+            skopeo = mkApp {
+              drv = skopeo;
+            };
           };
-        in
-        {
-          list-hosts = mkListApp hostList;
-          list-pkgs = mkListApp pkgList;
 
-          awscli = mkApp {
-            drv = awscli;
-            exePath = "/bin/aws";
-          };
-          nix-diff = mkApp {
-            drv = channels.nixpkgs-master.nix-diff;
-          };
-          nixpkgs-fmt = mkApp {
-            drv = nixpkgs-fmt;
-          };
-          skopeo = mkApp {
-            drv = skopeo;
-          };
-        };
+        packages = flattenTree (import ./pkgs channels);
+      };
     };
 }

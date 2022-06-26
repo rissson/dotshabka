@@ -9,6 +9,7 @@ let
     gnumake
     htop
     iftop
+    inetutils
     iotop
     jq
     killall
@@ -21,7 +22,6 @@ let
     pv
     screen
     tcpdump
-    telnet
     tree
     unzip
     usbutils

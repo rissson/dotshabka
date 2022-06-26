@@ -17,6 +17,7 @@ let
         "pulse"
         "users"
         "video"
+        "pulse-access"
       ]
       ++ config.soxin.users.groups
       ++ (optionals isAdmin ["wheel"]);

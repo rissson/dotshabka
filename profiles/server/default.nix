@@ -1,11 +1,15 @@
 { soxincfg, config, lib, ... }:
 
 {
-  services.ssmtp = {
+  programs.msmtp = {
     enable = true;
-    domain = "lama-corp.space";
-    hostName = "mail-1.vrt.fsn.lama-corp.space";
-    root = "root@lama-corp.space";
+    accounts = {
+      default = {
+        host = "mail-1.vrt.fsn.lama-corp.space";
+        domain = "lama-corp.space";
+        auth = false;
+      };
+    };
   };
 
   soxin = {
