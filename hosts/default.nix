@@ -17,6 +17,7 @@ let
       "fsn/kvm-2"
       "fsn/mail-1"
       "fsn/pine"
+      "p13/horse"
       "p13/storj-1"
       "pvl/edge-1"
       "rsn/goat"
