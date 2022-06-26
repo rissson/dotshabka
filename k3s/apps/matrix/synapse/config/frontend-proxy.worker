@@ -1,0 +1,28 @@
+---
+worker_app: synapse.app.frontend_proxy
+
+worker_main_http_uri: http://synapse:8008
+worker_replication_host: synapse
+worker_replication_http_port: 9093
+
+worker_listeners:
+  - bind_addresses: ['::']
+    port: 8083
+    tls: false
+    type: http
+    x_forwarded: true
+
+    resources:
+      - names: [client]
+        compress: false
+
+  - bind_addresses: ['::']
+    port: 9090
+    tls: false
+    type: http
+
+    resources:
+      - names: [metrics]
+        compress: false
+
+worker_log_config: /synapse/config/conf.d/log.yaml

@@ -1,0 +1,34 @@
+---
+apiVersion: k8s.amaiz.com/v1alpha1
+kind: Redis
+metadata:
+  name: synapse
+spec:
+  replicas: 3
+  redis:
+    image: redis:6-alpine
+    initialDelaySeconds: 10
+    resources:
+      limits:
+        cpu: 100m
+        memory: 200Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - all
+      readOnlyRootFilesystem: true
+  dataVolumeClaimTemplate:
+    metadata:
+      name: redis-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+  securityContext:
+    runAsUser: 7777777
+    runAsGroup: 7777777
+    fsGroup: 7777777
+    runAsNonRoot: true

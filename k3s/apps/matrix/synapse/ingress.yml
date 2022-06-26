@@ -1,0 +1,645 @@
+# yamllint disable rule:line-length
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: synapse-generic-worker
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+spec:
+  ingressClassName: public
+  rules:
+    - host: matrix.lama-corp.space
+      http:
+        paths:
+          # Federation requests
+          - path: "^/_matrix/federation/v1/event/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/state/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/state_ids/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/backfill/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/get_missing_events/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/publicRooms"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/query/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/make_join/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/make_leave/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/(v1|v2)/send_join/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/(v1|v2)/send_leave/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/(v1|v2)/invite/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/event_auth/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/exchange_third_party_invite/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/user/devices/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/v1/get_groups_publicised$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/key/v2/query"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/federation/(v1|unstable/org.matrix.msc2946)/hierarchy/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Client API requests
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/createRoom$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/publicRooms$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/joined_members$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/context/.*$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/members$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/state$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(v1|unstable/org.matrix.msc2946)/rooms/.*/hierarchy$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/unstable/im.nheko.summary/rooms/.*/summary$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/account/3pid$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/devices$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/versions$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/voip/turnServer$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/joined_groups$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/publicised_groups$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/publicised_groups/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/event/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/joined_rooms$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/search$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Encryption requests
+          - path: "^/_matrix/client/(r0|v3|unstable)/keys/query$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/keys/changes$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/keys/claim$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/room_keys/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Registration/login requests
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/login$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/register$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/v1/register/m.login.registration_token/validity$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Event sending requests
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/redact"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/send"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/state/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/(join|invite|leave|ban|unban|kick)$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/join/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/profile/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Device requests
+          - path: "^/_matrix/client/(r0|v3|unstable)/sendToDevice/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Account data requests
+          - path: "^/_matrix/client/(r0|v3|unstable)/.*/tags"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/.*/account_data"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Receipts requests
+          - path: "^/_matrix/client/(r0|v3|unstable)/rooms/.*/receipt"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_matrix/client/(r0|v3|unstable)/rooms/.*/read_markers"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Presence requests
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/presence/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # Pagination requests
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/rooms/.*/messages$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # SSO
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/login/sso/redirect"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_synapse/client/pick_idp$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_synapse/client/pick_username"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_synapse/client/new_user_consent$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          - path: "^/_synapse/client/sso_register$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          # OIDC
+          - path: "^/_synapse/client/oidc/callback$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          # SAML
+          - path: "^/_synapse/client/saml2/authn_response$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+          # CAS
+          - path: "^/_matrix/client/(api/v1|r0|v3|unstable)/login/cas/ticket$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+
+          # User dir
+          - path: "^/_matrix/client/(r0|v3|unstable)/user_directory/search$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-generic-worker
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - matrix.lama-corp.space
+      secretName: matrix-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: synapse-synchrotron
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+spec:
+  ingressClassName: public
+  rules:
+    - host: matrix.lama-corp.space
+      http:
+        paths:
+          - path: "^/_matrix/client/(r0|v3)/sync$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-synchrotron
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3)/events$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-synchrotron
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3)/initialSync$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-synchrotron
+                port:
+                  name: http
+          - path: "^/_matrix/client/(api/v1|r0|v3)/rooms/[^/]+/initialSync$"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-synchrotron
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - matrix.lama-corp.space
+      secretName: matrix-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: synapse-federation-reader
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+spec:
+  ingressClassName: public
+  rules:
+    - host: matrix.lama-corp.space
+      http:
+        paths:
+          - path: "^/_matrix/federation/v1/send/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-federation-reader
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - matrix.lama-corp.space
+      secretName: matrix-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: synapse-frontend-proxy
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+spec:
+  ingressClassName: public
+  rules:
+    - host: matrix.lama-corp.space
+      http:
+        paths:
+          - path: "^/_matrix/client/(r0|v3|unstable)/keys/upload"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: synapse-frontend-proxy
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - matrix.lama-corp.space
+      secretName: matrix-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: matrix-wellknown
+  labels:
+    app: matrix
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: lama-corp.space
+      http:
+        paths:
+          - path: /.well-known/matrix/client
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: matrix-wellknown
+                port:
+                  name: http
+          - path: /.well-known/matrix/server
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: matrix-wellknown
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - lama-corp.space
+      secretName: matrix-wellknown-tls
