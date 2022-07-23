@@ -63,7 +63,7 @@ spec:
       memory: "2G"
 
   enableLogicalBackup: true
-  logicalBackupSchedule: "17 * * * *"
+  logicalBackupSchedule: "17 5 * * *"
 
   sidecars:
     - name: "exporter"
