@@ -21,9 +21,6 @@ spec:
         - name: mattermost
           image: mattermost
           imagePullPolicy: IfNotPresent
-          args:
-            - -c
-            - $(MMT_DB_URL)
           ports:
             - name: http
               containerPort: 8065
@@ -43,20 +40,20 @@ spec:
               path: /api/v4/system/ping
               port: http
           env:
-            - name: MMT_DB_NAME
+            - name: MM_DB_NAME
               value: mattermost
-            - name: MMT_DB_USER
+            - name: MM_DB_USER
               valueFrom:
                 secretKeyRef:
                   name: mattermost.acid-main-cluster.credentials
                   key: username
-            - name: MMT_DB_PASSWORD
+            - name: MM_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mattermost.acid-main-cluster.credentials
                   key: password
-            - name: MMT_DB_URL
-              value: "postgres://$(MMT_DB_USER):$(MMT_DB_PASSWORD)@acid-main-cluster.postgres.svc.cluster.local:5432/$(MMT_DB_NAME)?sslmode=require&connect_timeout=10"
+            - name: MM_CONFIG
+              value: "postgres://$(MM_DB_USER):$(MM_DB_PASSWORD)@acid-main-cluster.postgres.svc.cluster.local:5432/$(MM_DB_NAME)?sslmode=require&connect_timeout=10"
           volumeMounts:
             - name: pluginsdir
               mountPath: /mattermost/plugins
