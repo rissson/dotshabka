@@ -60,7 +60,7 @@ spec:
       memory: "1G"
     limits:
       cpu: "4"
-      memory: "2G"
+      memory: "4G"
 
   enableLogicalBackup: true
   logicalBackupSchedule: "17 5 * * *"
