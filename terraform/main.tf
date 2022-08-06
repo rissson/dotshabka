@@ -18,7 +18,7 @@ terraform {
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.1.3"
+      version = "3.3.2"
     }
     vault = {
       source  = "hashicorp/vault"
