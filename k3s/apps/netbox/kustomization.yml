@@ -62,4 +62,4 @@ configMapGenerator:
 images:
   - name: netbox
     newName: netboxcommunity/netbox
-    newTag: v2.11.10-ldap
+    newTag: v3.2.5-ldap
