@@ -51,4 +51,4 @@ images:
     newTag: release-1.11.0
   - name: synapse
     newName: matrixdotorg/synapse
-    newTag: v1.67.0
+    newTag: v1.68.0
