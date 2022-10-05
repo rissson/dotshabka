@@ -88,6 +88,13 @@ resource "vault_generic_secret" "fsn-k3s_gatus_devoups_free-mobile-sendmsg-api-k
     FREE_MOBILE_SENDMSG_API_KEY = ""
   })
 }
+resource "vault_generic_secret" "fsn-k3s_gatus_prologin_discord-webhook" {
+  path         = "fsn-k3s/gatus/prologin/discord-webhook"
+  disable_read = true
+  data_json = jsonencode({
+    DISCORD_WEBHOOK_URL = ""
+  })
+}
 
 //
 // GitLab

@@ -9,4 +9,5 @@ resources:
   - namespace.yml
   - overlays/devoups
   - overlays/phowork
+  - overlays/prologin
   - service-monitor.yml

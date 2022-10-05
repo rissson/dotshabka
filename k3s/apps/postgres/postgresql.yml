@@ -18,6 +18,7 @@ spec:
     intranet: []
     gatus_devoups: []
     gatus_phowork: []
+    gatus_prologin: []
     gitlab: []
     hedgedoc: []
     lewdax_wikijs: []
@@ -38,6 +39,7 @@ spec:
     intranet: intranet
     gatus_devoups: gatus_devoups
     gatus_phowork: gatus_phowork
+    gatus_prologin: gatus_prologin
     gitlabhq_production: gitlab
     hedgedoc: hedgedoc
     lewdax_wikijs: lewdax_wikijs

@@ -1,0 +1,32 @@
+metrics: true
+storage:
+  type: postgres
+  path: "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=require"
+ui:
+  title: Prologin status
+  header: Prologin external infrastructure monitoring
+  logo: https://prologin.org/static/img/logo_cube.png
+  link: https://prologin.org
+alerting:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL}
+    default-alert:
+      enabled: true
+      failure-threshold: 3
+      success-threshold: 2
+      send-on-resolved: true
+endpoints:
+  ###
+  # Critical
+  ###
+
+  - conditions:
+      - '[STATUS] == 200'
+      - '[RESPONSE_TIME] <= 1000'
+      - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
+    interval: 30s
+    name: Prologin.org
+    group: critical
+    url: https://prologin.org
+    alerts:
+      - type: discord

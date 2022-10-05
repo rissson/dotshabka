@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gatus
+  annotations:
+    cert-manager.io/cluster-issuer: default-issuer
+spec:
+  ingressClassName: public
+  rules:
+    - host: status.prologin.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prologin-gatus
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - status.prologin.org
+      secretName: prologin-gatus-tls
