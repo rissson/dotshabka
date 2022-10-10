@@ -266,6 +266,29 @@ endpoints:
       - type: slack
       - type: custom
 
+  - conditions:
+    - '[STATUS] == 200'
+    - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 168h'  # 7 days
+    interval: 30s
+    name: Intranet Forge
+    group: Student services
+    url: https://intra.forge.epita.fr/q/health
+    alerts:
+      - type: slack
+      - type: custom
+
+  - conditions:
+    - '[CONNECTED] == true'
+    - '[RESPONSE_TIME] <= 1000'
+    interval: 30s
+    name: Git Forge
+    group: Student services
+    url: tcp://git.forge.epita.fr:22
+    alerts:
+      - type: slack
+      - type: custom
+
   ###
   # Assistants services
   ###
