@@ -235,10 +235,11 @@ endpoints:
   - conditions:
     - '[CONNECTED] == true'
     - '[RESPONSE_TIME] <= 1000'
+    - '[CERTIFICATE_EXPIRATION] > 168h'  # 7 days
     interval: 30s
     name: News
     group: Student services
-    url: tcp://news.epita.fr:119
+    url: tls://news.cri.epita.fr:563
     alerts:
       - type: slack
       - type: custom
