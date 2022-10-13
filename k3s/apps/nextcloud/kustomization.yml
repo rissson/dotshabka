@@ -29,4 +29,4 @@ configMapGenerator:
 
 images:
   - name: nextcloud
-    newTag: 24.0.5-apache
+    newTag: 24.0.6-apache
