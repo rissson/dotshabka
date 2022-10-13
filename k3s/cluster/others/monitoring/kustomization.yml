@@ -31,13 +31,6 @@ configMapGenerator:
     options:
       annotations:
         k8s-sidecar-target-directory: "/tmp/dashboards/gatus"
-  - name: grafana-dashboards-ingress-nginx
-    files:
-      - dashboards/ingress-nginx/nginx.json
-      - dashboards/ingress-nginx/request-handling-performance.json
-    options:
-      annotations:
-        k8s-sidecar-target-directory: "/tmp/dashboards/ingress-nginx"
   - name: grafana-dashboards-minio
     files:
       - dashboards/minio/minio-overview.json
