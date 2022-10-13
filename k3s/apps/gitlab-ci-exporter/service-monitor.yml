@@ -11,4 +11,4 @@ spec:
       app: gitlab-ci-exporter
   endpoints:
     - port: http
-      interval: 10s
+      interval: 30s
