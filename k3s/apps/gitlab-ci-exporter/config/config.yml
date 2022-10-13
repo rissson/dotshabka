@@ -1,0 +1,19 @@
+---
+
+log:
+  format: json
+gitlab:
+  url: https://gitlab.com
+  enable_health_check: true
+  enable_tls_verify: true
+  maximum_requests_per_second: 1
+project_defaults:
+  pull:
+    refs:
+      branches:
+        regexp: "^main|master$"
+wildcards:
+  - owner:
+      name: prologin
+      kind: group
+      include_subgroups: true

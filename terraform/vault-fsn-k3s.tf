@@ -578,6 +578,17 @@ resource "vault_generic_secret" "fsn-k3s_postgres_pod-secrets" {
 }
 
 //
+// GitLab CI pipeline exporter
+//
+resource "vault_generic_secret" "fsn-k3s_gitlab-ci-pipeline-exporter_gitlab-token" {
+  path         = "fsn-k3s/gitlab-ci-pipeline-exporter/gitlab-token"
+  disable_read = true
+  data_json = jsonencode({
+    token = ""
+  })
+}
+
+//
 // Renovate
 //
 resource "vault_generic_secret" "fsn-k3s_renovate_env" {

@@ -1,0 +1,19 @@
+---
+kind: Kustomization
+namespace: gitlab-ci-exporter
+
+resources:
+  - namespace.yml
+  - deployment.yml
+  - secrets.yml
+  - service.yml
+  - service-monitor.yml
+
+configMapGenerator:
+  - name: gitlab-ci-exporter-config
+    files:
+      - config/config.yml
+
+images:
+  - name: mvisonneau/gitlab-ci-pipelines-exporter
+    newTag: v0.5.4

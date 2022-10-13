@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-ci-exporter
+  labels:
+    app: gitlab-ci-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab-ci-exporter
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: gitlab-ci-exporter
+    spec:
+      containers:
+        - name: gitlab-ci-exporter
+          image: mvisonneau/gitlab-ci-pipelines-exporter
+          imagePullPolicy: IfNotPresent
+          command:
+            - gitlab-ci-pipelines-exporter
+            - run
+          args:
+            - --config
+            - /etc/config.yml
+          env:
+            - name: GCPE_INTERNAL_MONITORING_LISTENER_ADDRESS
+              value: tcp://127.0.0.1:8082
+            - name: GCPE_GITLAB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-token
+                  key: token
+          volumeMounts:
+            - name: config
+              mountPath: /etc/config.yml
+              subPath: config.yml
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: gitlab-ci-exporter-config

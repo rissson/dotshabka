@@ -31,6 +31,14 @@ configMapGenerator:
     options:
       annotations:
         k8s-sidecar-target-directory: "/tmp/dashboards/gatus"
+  - name: grafana-dashboards-gitlab-ci
+    files:
+      - dashboards/gitlab-ci/gitlab-ci-pipelines.json
+      - dashboards/gitlab-ci/gitlab-ci-jobs.json
+      - dashboards/gitlab-ci/gitlab-ci-environments-deployments.json
+    options:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/gitlab-ci"
   - name: grafana-dashboards-minio
     files:
       - dashboards/minio/minio-overview.json
