@@ -5,7 +5,6 @@ metadata:
   name: gatus
   annotations:
     cert-manager.io/cluster-issuer: default-issuer
-    nginx.ingress.kubernetes.io/server-alias: "devoups.online"
 spec:
   ingressClassName: public
   rules:
@@ -22,5 +21,4 @@ spec:
   tls:
     - hosts:
         - devou.ps
-        - devoups.online
       secretName: devoups-gatus-tls
