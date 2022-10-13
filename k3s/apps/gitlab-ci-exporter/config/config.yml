@@ -12,6 +12,14 @@ project_defaults:
     refs:
       branches:
         regexp: "^main|master$"
+      merge_requests:
+        enabled: true
+        most_recent: 5
+    pipeline:
+      jobs:
+        enabled: true
+      runner_description:
+        enabled: false
 wildcards:
   - owner:
       name: prologin
