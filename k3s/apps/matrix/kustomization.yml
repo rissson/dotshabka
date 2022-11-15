@@ -42,7 +42,7 @@ images:
     newTag: 419c5d30520a5b20602405fd484b3d2e7c8434a7
   - name: mautrix-facebook
     newName: dock.mau.dev/mautrix/facebook
-    newTag: v0.4.0
+    newTag: v0.4.1
   - name: maubot
     newName: dock.mau.dev/maubot/maubot
     newTag: v0.3.1
