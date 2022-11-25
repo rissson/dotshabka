@@ -290,54 +290,6 @@ endpoints:
       - type: custom
 
   ###
-  # Assistants services
-  ###
-
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: Intranet Assistants
-    group: Assistants services
-    url: https://intra.assistants.epita.fr/q/health
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
-    - '[CONNECTED] == true'
-    - '[RESPONSE_TIME] <= 1000'
-    interval: 30s
-    name: Git Assistants
-    group: Assistants services
-    url: tcp://git.assistants.epita.fr:22
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: k8s assistants-prod-1 ArgoCD
-    url: https://argocd.prod-1.k8s.assistants.epita.fr
-    group: Assistants services
-    alerts:
-      - type: slack
-      - type: custom
-
-  - conditions:
-    - '[STATUS] == 200'
-    - '[RESPONSE_TIME] <= 1000'
-    - '[CERTIFICATE_EXPIRATION] > 168h' # 7 days
-    interval: 30s
-    name: k8s assistants-prod-1 Prometheus
-    url: https://prometheus.prod-1.k8s.assistants.epita.fr
-    group: Assistants services
-
-  ###
   # Internal services
   ###
 
