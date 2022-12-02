@@ -36,4 +36,4 @@ configMapGenerator:
 
 images:
   - name: ghcr.io/paperless-ngx/paperless-ngx
-    newTag: 1.10.0
+    newTag: 1.10.1
