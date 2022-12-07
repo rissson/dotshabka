@@ -26,7 +26,7 @@ in
             history = 1000000;
           };
           font = {
-            size = 9.5;
+            size = 7;
           };
           cursor = {
             style = {
