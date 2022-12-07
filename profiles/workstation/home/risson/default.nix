@@ -585,4 +585,6 @@ with lib;
     settings = { };
     languages = [ ];
   };
+
+  home.stateVersion = "22.11";
 }
