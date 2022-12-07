@@ -113,6 +113,7 @@
                 spotify
                 steam
                 teams
+                terraform
                 thunderbird
                 tmuxp
                 vault
@@ -127,18 +128,6 @@
           ];
         };
         nixpkgs-master.input = inputs.nixpkgs-master;
-      };
-
-      devShellBuilder = channels: with channels.nixpkgs; mkShell {
-        buildInputs = [
-          git
-          vault
-          channels.nixpkgs-unstable.terraform
-        ];
-
-        shellHook = ''
-          eval "$(cat config.sh)"
-        '';
       };
 
       outputsBuilder = channels: {
@@ -169,6 +158,18 @@
               drv = skopeo;
             };
           };
+
+        devShell = with channels.nixpkgs; mkShell {
+          buildInputs = [
+            git
+            vault
+            terraform
+          ];
+
+          shellHook = ''
+            eval "$(cat config.sh)"
+          '';
+        };
 
         packages = flattenTree (import ./pkgs channels);
       };
