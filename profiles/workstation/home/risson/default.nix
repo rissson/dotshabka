@@ -464,6 +464,17 @@ with lib;
     wpa_supplicant_gui
     xsel
     yq
+
+    # helix
+    clang
+    cmake-language-server
+    gopls
+    nodePackages.bash-language-server
+    nodePackages.typescript-language-server
+    python3Packages.python-lsp-server
+    rnix-lsp
+    rust-analyzer
+    terraform-ls
   ];
 
   home.sessionVariables = {
@@ -534,5 +545,44 @@ with lib;
       email = "risson@lama-corp.space";
       device_id = "hostname";
     };
+  };
+
+  programs.helix = {
+    enable = true;
+    package = pkgs.rustPlatform.buildRustPackage rec {
+      pname = "helix";
+      version = "22.08.1";
+
+      src = pkgs.fetchzip {
+        url = "https://github.com/helix-editor/helix/releases/download/${version}/helix-${version}-source.tar.xz";
+        sha256 = "sha256-pqAhUxKeFN7eebVdNN3Ge38sA30SUSu4Xn4HDZAjjyY=";
+        stripRoot = false;
+      };
+
+      cargoSha256 = "sha256-idItRkymr+cxk3zv2mPBR/frCGvzEUdSAhY7gghfR3M=";
+
+      nativeBuildInputs = [ pkgs.installShellFiles pkgs.makeWrapper ];
+
+      postInstall = ''
+        # not needed at runtime
+        rm -r runtime/grammars/sources
+        mkdir -p $out/lib
+        cp -r runtime $out/lib
+        installShellCompletion contrib/completion/hx.{bash,fish,zsh}
+      '';
+      postFixup = ''
+        wrapProgram $out/bin/hx --set HELIX_RUNTIME $out/lib/runtime
+      '';
+
+      meta = with pkgs.lib; {
+        description = "A post-modern modal text editor";
+        homepage = "https://helix-editor.com";
+        license = licenses.mpl20;
+        mainProgram = "hx";
+        maintainers = with maintainers; [ danth yusdacra ];
+      };
+    };
+    settings = { };
+    languages = [ ];
   };
 }
