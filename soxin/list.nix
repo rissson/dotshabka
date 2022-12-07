@@ -6,6 +6,7 @@
   users = ./settings/users.nix;
 
   # programs
+  alacritty = ./programs/alacritty.nix;
   fzf = ./programs/fzf.nix;
   htop = ./programs/htop.nix;
   mosh = ./programs/mosh.nix;

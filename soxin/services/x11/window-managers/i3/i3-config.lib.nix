@@ -108,7 +108,7 @@ in {
       "${defaultModifier}+d" = "border none";
       "${defaultModifier}+g" = "border normal";
       # start a terminal
-      "${defaultModifier}+Return" = "exec i3-sensible-terminal";
+      "${defaultModifier}+Return" = "exec TERMINAL=alacritty i3-sensible-terminal";
       # kill focused window
       "${defaultModifier}+${secondModifier}+B" = "kill";
       # start dmenu (a program launcher), which is actually rofi
