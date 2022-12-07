@@ -14,9 +14,9 @@
 
     useDHCP = true;
 
-    /*dhcpcd.extraConfig = ''
+    dhcpcd.extraConfig = ''
       nohook resolv.conf
-    '';*/
+    '';
 
     wireless = {
       enable = true;
