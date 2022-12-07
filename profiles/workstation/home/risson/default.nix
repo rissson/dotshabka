@@ -551,15 +551,15 @@ with lib;
     enable = true;
     package = pkgs.rustPlatform.buildRustPackage rec {
       pname = "helix";
-      version = "22.08.1";
+      version = "22.12";
 
       src = pkgs.fetchzip {
         url = "https://github.com/helix-editor/helix/releases/download/${version}/helix-${version}-source.tar.xz";
-        sha256 = "sha256-pqAhUxKeFN7eebVdNN3Ge38sA30SUSu4Xn4HDZAjjyY=";
+        sha256 = "sha256-En6SOyAPNPPzDGdm2XTjbGG0NQFGBVzjjoyCbdnHFao=";
         stripRoot = false;
       };
 
-      cargoSha256 = "sha256-idItRkymr+cxk3zv2mPBR/frCGvzEUdSAhY7gghfR3M=";
+      cargoSha256 = "sha256-oSS0LkLg2JSRLYoF0+FVQzFUJtFuVKtU2MWYenmFC0s=";
 
       nativeBuildInputs = [ pkgs.installShellFiles pkgs.makeWrapper ];
 
