@@ -20,7 +20,7 @@ in
         enable = true;
         settings = {
           window = {
-            opacity = if cfg.transparency then 0.3 else 1;
+            opacity = if cfg.transparency then 0.9 else 1;
           };
           scolling = {
             history = 1000000;
