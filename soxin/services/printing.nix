@@ -39,7 +39,7 @@ in
     {
       soxin.services.printing = {
         brandsPackages = {
-          hp = mkDefault [ pkgs.hplip ];
+          hp = mkDefault [ pkgs.hplipWithPlugin ];
           epson = mkDefault [ pkgs.epson-escpr ];
         };
       };
@@ -60,6 +60,7 @@ in
       services.avahi = mkIf cfg.autoDiscovery {
         enable = true;
         nssmdns = true;
+        openFirewall = true;
       };
     })
   ]);
