@@ -591,7 +591,18 @@ with lib;
         maintainers = with maintainers; [ danth yusdacra ];
       };
     };
-    settings = { };
+    settings = {
+      editor = {
+        mouse = false;
+        bufferline = "multiple";
+      };
+      editor.cursor-shape = {
+        insert = "bar";
+      };
+      editor.whitespace = {
+        render = "all";
+      };
+    };
     languages = [ ];
   };
 
