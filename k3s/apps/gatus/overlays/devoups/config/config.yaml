@@ -125,9 +125,6 @@ endpoints:
     name: Console Bocal
     group: critical
     url: https://console.bocal.org
-    alerts:
-      - type: slack
-      - type: custom
 
   ###
   # PIE SM
