@@ -3807,7 +3807,7 @@ spec:
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
         - name: flexvol-driver
-          image: docker.io/calico/pod2daemon-flexvol:v3.20.2
+          image: docker.io/calico/pod2daemon-flexvol:v3.25.0
           volumeMounts:
           - name: flexvol-driver-host
             mountPath: /host/driver
