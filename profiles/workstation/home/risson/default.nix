@@ -244,45 +244,21 @@ with lib;
     '';
     matchBlocks = {
       ### Lama Corp.
-      "nas-1" = {
-        user = "root";
-        hostname = "nas-1.srv.bar.lama-corp.space";
-      };
-      "rogue" = {
-        user = "root";
-        hostname = "rogue.srv.p13.lama-corp.space";
-      };
-      "edge-1" = {
-        user = "root";
-        hostname = "edge-1.srv.par.lama-corp.space";
-      };
       "kvm-2" = {
         user = "root";
         hostname = "kvm-2.srv.fsn.lama-corp.space";
       };
+      "*.lama.tel" = {
+        user = "root";
+        proxyJump = "nucleus";
+      };
       "*.fsn.lama.tel" = {
         user = "root";
-        proxyJump = "kvm-2";
+        proxyJump = "nucleus";
       };
-      "*.bar" = {
+      "nucleus" = {
         user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "nas-1";
-      };
-      "*.p13" = {
-        user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "rogue";
-      };
-      "*.par" = {
-        user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "edge-1";
-      };
-      "*.fsn" = {
-        user = "root";
-        hostname = "%h.lama-corp.space";
-        proxyJump = "kvm-2";
+        hostname = "nucleus.fsn.lama.tel";
       };
 
       # Git hosting
@@ -464,6 +440,16 @@ with lib;
     wpa_supplicant_gui
     xsel
     yq
+
+    (vscode-with-extensions.override {
+      vscode = vscodium;
+      vscodeExtensions = with vscode-extensions; [
+        bbenoist.nix
+        ms-python.python
+        # rust-lang.rust-analyzer
+        vscodevim.vim
+      ];
+    })
   ];
 
   home.sessionVariables = {
